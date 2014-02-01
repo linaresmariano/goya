@@ -1,0 +1,128 @@
+{
+    "materias": [
+        {
+            "name": "Organización de Computadoras",
+            "code": "ORGA"
+        },
+        {
+            "name": "Matemática I",
+            "code": "MATE1"
+        },
+        {
+            "name": "Matemática II",
+            "code": "MATE2"
+        }
+    ],
+    
+    "profesores": [
+        {
+            "legajo": "MARA",
+            "name": "Mara Dalponte"
+        },
+        {
+            "legajo": "HORTENSIA",
+            "name": "Maria Hortensia Arriola"
+        }
+    ],
+    
+    "profesores_cursos": [
+        {
+            "legajo": "MARA",
+            "code": "ORGA",
+            "comision": 1
+        },
+        {
+            "legajo": "HORTENSIA",
+            "code": "MATE1",
+            "comision": 1
+        },
+        {
+            "legajo": "HORTENSIA",
+            "code": "MATE2",
+            "comision": 1
+        }
+    ],
+    
+    "clases": [
+        {
+            "code": "ORGA",
+            "duration": 4,
+            "description": "Práctica"
+        },
+        {
+            "code": "ORGA",
+            "duration": 4,
+            "description": "Teoría"
+        },
+        {
+            "code": "MATE1",
+            "duration": 4,
+            "description": "Teoría"
+        },
+        {
+            "code": "MATE1",
+            "duration": 4,
+            "description": "Práctica"
+        },
+        {
+            "code": "MATE2",
+            "duration": 2,
+            "description": "Teoría"
+        },
+        {
+            "code": "MATE2",
+            "duration": 2,
+            "description": "Práctica"
+        }
+    ],
+    
+    "cursos": [
+        {
+            "code": "ORGA",
+            "comision": 1,
+            "turno": "MORNING"
+        },
+        {
+            "code": "ORGA",
+            "comision": 2,
+            "turno": "NIGHT"
+        },
+        {
+            "code": "MATE1",
+            "comision": 1,
+            "turno": "NIGHT"
+        },
+        {
+            "code": "MATE1",
+            "comision": 2,
+            "turno": "AFTERNOON"
+        },
+        {
+            "code": "MATE1",
+            "comision": 3,
+            "turno": "MORNING"
+        },
+        {
+            "code": "MATE2",
+            "comision": 1,
+            "turno": "MORNING"
+        }
+    ],
+    
+    "horarios": [
+        {
+            "id": 1,
+            "wday": 1,
+            "from_hs": 14,
+            "to_hs": 18
+        }
+    ],
+    
+    "horarios_cursos" : [
+        {
+            "code": "MATE2",
+            "comision": 1,
+            "horario_id": 1
+        }
+    ]
+}
