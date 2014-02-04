@@ -1,6 +1,8 @@
 TIP Sistema GOYA
 ====
 
+![Build Status](https://api.travis-ci.org/linaresmariano/goya.png?branch=master)
+
 Después de clonarlo, ejecutar
 
       npm install
