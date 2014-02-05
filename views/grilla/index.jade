@@ -88,30 +88,7 @@ block content
                         calEvent.title='BD';
                         $('#calendar').fullCalendar( 'renderEvent', calEvent )
                     },
-                    events: [
-                    {
-                          id: 1,
-                          title: 'EPERS',
-                          start: new Date(y, m, d+2, 14, 0),
-                          end: new Date(y, m, d+2, 16, 0),
-                          allDay: false,
-                          backgroundColor: 'red',
-                    },
-                    {
-                          id: 2,
-                          title: 'ORGA',
-                          start: new Date(y, m, d+4, 19, 0),
-                          allDay: false,
-                          backgroundColor: 'green'
-                    },
-                    {
-                          id: 3,
-                          title: 'INTRO',
-                          start: new Date(y, m, d, 16, 0),
-                          allDay: false,
-                          backgroundColor: 'yellow'
-                    },
-                ]
+                    events: events
                 }).fullCalendar( 'changeView', 'agendaWeek' );      
             });            
     });
