@@ -12,6 +12,6 @@ block content
      div#events
       h4 Cursos
       each curso in datos.cursos
-        a(href=("cursos/" + curso.code))
-          div.external-event #{curso.code}
+        a(href=("cursos/" + curso.code + "/" + curso.comision))
+          div.external-event #{curso.code} comision #{curso.comision}
 

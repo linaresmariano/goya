@@ -28,3 +28,23 @@ exports.curso = function(req, res) {
 };
 
 
+/*
+ * GET cursos/:code_curso/:comision.
+ */
+
+exports.comision = function(req, res) {
+
+  code = req.params.id
+  comision = req.params.comision
+  curso = ''
+
+  datos.cursos.forEach(function(entry) {
+    if(entry.code == code && entry.comision == comision) {
+      curso = entry;
+    }
+  });
+  
+  res.render('cursos/curso', { title: 'Curso '+ code, curso: curso})
+};
+
+
