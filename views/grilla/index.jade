@@ -11,7 +11,7 @@ block content
     $(document).ready(function() {
      /* inicializar evetos de los cursos sin horaio definido
      -----------------------------------------------------------------*/
-     $('#external-events div.external-event').each(function() {
+     $('#events div.external-event').each(function() {
         // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
         // it doesn't need to have a start or end
         var eventObject = {
@@ -29,7 +29,7 @@ block content
     /* inicializar el calendario
     -----------------------------------------------------------------*/      
     $(document).ready(function() {
-        var date = new Date();
+        var date = new Date(1000,0,26);
         var d = date.getDate();
         var m = date.getMonth();
         var y = date.getFullYear();
@@ -38,6 +38,8 @@ block content
                         week: 'Semana',
                         day:  'Dia'
                     },
+                    year:1000,
+                    month:1,
                     eventMouseover: function( event, jsEvent, view ) { },
                     eventDragStop:function( event, jsEvent, ui, view ) { },
                     hiddenDays: [ 6],
@@ -47,7 +49,7 @@ block content
                     allDaySlot:false,
                     slotMinutes: 30,
                     snapMinutes:60,
-                    slotEventOverlap:true,
+                    slotEventOverlap:false,
                     dayNames:['Lunes', 'Martes', 'Miercoles', 'Jueves',
                     'Viernes', 'Sabado', 'Domingo'],
                     dayNamesShort:['Lun', 'Mar', 'Mie', 'Jue',
@@ -90,21 +92,21 @@ block content
                     {
                           id: 1,
                           title: 'EPERS',
-                          start: new Date(y, m, d-3, 16, 0),
+                          start: new Date(y, m, d+2, 14, 0),
                           allDay: false,
                           backgroundColor: 'red',
                     },
                     {
                           id: 2,
                           title: 'ORGA',
-                          start: new Date(y, m, d-3, 16, 0),
+                          start: new Date(y, m, d+4, 19, 0),
                           allDay: false,
                           backgroundColor: 'green'
                     },
                     {
                           id: 3,
                           title: 'INTRO',
-                          start: new Date(y, m, d-2, 16, 0),
+                          start: new Date(y, m, d, 16, 0),
                           allDay: false,
                           backgroundColor: 'yellow'
                     },
@@ -113,9 +115,15 @@ block content
             });            
     });
   div#wrap
-   div#external-events
-    h4 Cursos
-    each curso in datos.cursos
-     div.external-event #{curso.code}
+   div#left-options
+    div.external-events
+     div#events
+      h4 Cursos no asignados
+      each curso in datos.cursos
+       div.external-event #{curso.code}
+    div.external-events
+     h4 Profesores no asignados
+     each profesor in datos.profesores
+      div #{profesor.legajo}
    div#calendar
    div(style="clear:both")
