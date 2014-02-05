@@ -12,3 +12,11 @@ Después de clonarlo, ejecutar
 Para levantar el server
 
       node app.js
+
+
+
+O levantarlo con foreman
+
+      foreman start
+
+
