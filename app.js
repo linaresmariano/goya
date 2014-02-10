@@ -52,7 +52,7 @@ var mongodb = require('mongodb');
 var server = new mongodb.Server("127.0.0.1", 27017, {});
  
 // obtenemos la base de datos de prueba que creamos
-var dbTest = new mongodb.Db('unTestDB', server, {})
+var dbTest = new mongodb.Db('unTestDB', server, {safe:false});
  
 // abrimos la base pasando el callback para cuando esté lista para usar
 /* dbTest.open(function (error, client) {

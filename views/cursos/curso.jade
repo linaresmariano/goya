@@ -4,17 +4,35 @@ block content
   link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.css')
   link(rel='stylesheet', href='/stylesheets/fullcalendar.print.css')
   link(rel='stylesheet', href='/stylesheets/grilla.css')
+  link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
+  link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css')
   script(src='/js/lib/jquery.min.js')
   script(src='/js/lib/jquery-ui.custom.min.js')
   script(src='/js/fullcalendar/fullcalendar.min.js')
+  script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
   
-  div#wrap
-   div#left-options
-    div.external-events
-     div#events
-      h4 Curso: #{curso.code}
 
-      div.external-event Comision: #{curso.comision}
-      div.external-event Turno: #{curso.turno}
+  h1 Curso: #{curso.code}
 
-      a(href='/cursos') Volver
+  h2 Comision: #{curso.comision}
+
+  h3 Profesor: 
+    select
+      option Seleccionar
+      each profe in datos.profesores
+        option #{profe.name}
+
+  h3 Aula: 
+    select
+      option Seleccionar
+      each aula in datos.aulas
+        option #{aula}
+
+  h3 Horarios: 
+    each horario in curso.horarios
+      #{horario.dia}, de #{horario.hora}hs a #{horario.hora + horario.duracion}hs
+      br
+  
+  button.btn.btn-primary(type='button') Guardar
+  a(href='/cursos')
+    button.btn.btn-default(type='button') Volver

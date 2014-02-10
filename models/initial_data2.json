@@ -141,20 +141,25 @@
                 {
                     "dia": 1,
                     "hora": 14,
-                    "minutos": 00,
+                    "minutos": 0,
                     "duracion": 3
                 },
                 {
                     "dia": 3,
                     "hora": 18,
-                    "minutos": 00,
+                    "minutos": 0,
                     "duracion": 4
                 }
-            ],
-
-            ""
+            ]
         }
 
 
+    ],
+
+    "aulas": [
+        "37B",
+        "38B",
+        "40",
+        "54"
     ]
 }

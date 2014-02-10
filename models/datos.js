@@ -1,4 +1,4 @@
-var datos = require('./initial_data.json');
+var datos = require('./initial_data2.json');
 
  
 //de esta forma exportamos el objeto

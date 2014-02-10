@@ -24,7 +24,7 @@ exports.curso = function(req, res) {
     }
   });
   
-  res.render('cursos/curso', { title: 'Curso '+ code, curso: curso})
+  res.render('cursos/curso', { title: 'Curso '+ code, curso: curso, datos: datos })
 };
 
 
@@ -38,13 +38,13 @@ exports.comision = function(req, res) {
   comision = req.params.comision
   curso = ''
 
-  datos.cursos.forEach(function(entry) {
+  datos.cursos_cuatrimestrales.forEach(function(entry) {
     if(entry.code == code && entry.comision == comision) {
       curso = entry;
     }
   });
   
-  res.render('cursos/curso', { title: 'Curso '+ code, curso: curso})
+  res.render('cursos/curso', { title: 'Curso '+ code, curso: curso, datos: datos })
 };
 
 
