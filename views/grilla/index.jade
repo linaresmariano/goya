@@ -9,92 +9,32 @@ block content
   script(src='/js/lib/jquery.min.js')
   script(src='/js/lib/jquery-ui.custom.min.js')
   script(src='/js/fullcalendar/fullcalendar.min.js')
+  script(src='/js/calendarioAcademico/calendarioAcademico.js')
   script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
   script.
     $(document).ready(function() {
-     /* inicializar evetos de los cursos sin horaio definido
-     -----------------------------------------------------------------*/
-     $('#events div.external-event').each(function() {
-        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-        // it doesn't need to have a start or end
-        var eventObject = {
-             title: $.trim($(this).text()) // use the element's text as the event title
-             };
-            // store the Event Object in the DOM element so we can get to it later
-        $(this).data('eventObject', eventObject);
-        // make the event draggable using jQuery UI
-        $(this).draggable({
-           zIndex: 999,
-           revert: true,      // will cause the event to go back to its
-           revertDuration: 0  //  original position after the drag
-        });            
-    });
-    /* inicializar el calendario
-    -----------------------------------------------------------------*/      
-    $(document).ready(function() {
-        var date = new Date(1000,0,26);
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
-            $('#calendar').fullCalendar({
-                        buttonText:{
-                        week: 'Semana',
-                        day:  'Dia'
-                    },
-                    year:1000,
-                    month:1,
-                    eventMouseover: function( event, jsEvent, view ) { },
-                    eventDragStop:function( event, jsEvent, ui, view ) { },
-                    hiddenDays: [ 6],
-                    axisFormat: 'H',
-                    minTime: 8,
-                    maxTime: 22,
-                    allDaySlot:false,
-                    slotMinutes: 30,
-                    snapMinutes:60,
-                    slotEventOverlap:false,
-                    dayNames:['Lunes', 'Martes', 'Miercoles', 'Jueves',
-                    'Viernes', 'Sabado', 'Domingo'],
-                    dayNamesShort:['Lun', 'Mar', 'Mie', 'Jue',
-                    'Vie', 'Sab', 'Dom'],
-                    columnFormat: {
-                        month: 'ddd',    // Mon
-                        week: 'ddd ', // Mon 9/7
-                        day: 'dddd '  // Monday 9/7
-                    },
-                    header: {
-                        left:   '',
-                        right: 'agendaWeek'
-                    },
-                    editable: true,
-                    droppable: true, // this allows things to be dropped onto the calendar !!!
-                    drop: function(date, allDay) { // this function is called when something is dropped
-                        // retrieve the dropped element's stored Event Object
-                        var originalEventObject = $(this).data('eventObject');
-                        // we need to copy it, so that multiple events don't have a reference to the same object
-                        var copiedEventObject = $.extend({}, originalEventObject);
-                        // assign it the date that was reported
-                        copiedEventObject.start = date;
-                        copiedEventObject.allDay = allDay;
-                        // render the event on the calendar
-                       // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                       $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-                       $(this).remove();
-                    },
-                    eventClick: function(calEvent, jsEvent, view) {
-                        //alert('Event: ' + calEvent.title);
-                        //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-                        //alert('View: ' + view.name);
-                        // change the border color just for fun
-                        //$(this).css('border-color', 'red');
-                        //cambiando de nombre al curso
-                        calEvent.title='BD';
-                        $('#calendar').fullCalendar( 'renderEvent', calEvent )
-                    },
-                    events: events
-                }).fullCalendar( 'changeView', 'agendaWeek' );      
+         /* inicializar evetos de los cursos sin horaio definido-----------------------------------------------------------------*/
+         $('#events div.external-event').each(function() {
+            // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+            // it doesn't need to have a start or end
+            var eventObject = {
+                 title: $.trim($(this).text()) // use the element's text as the event title
+                 };
+                // store the Event Object in the DOM element so we can get to it later
+            $(this).data('eventObject', eventObject);
+            // make the event draggable using jQuery UI
+            $(this).draggable({
+               zIndex: 999,
+               revert: true,      // will cause the event to go back to its
+               revertDuration: 0  //  original position after the drag
             });            
+         });
+        /* inicializar el calendario -----------------------------------------------------------------*/      
+         var calendario=new CalendarioAcademico('#calendar');
+         calendario.agregarCurso(1,'EPERS',Dia.MIERCOLES,14,2,'red');
+         calendario.agregarCurso(2,'INRO',Dia.SABADO,16,3,'green');
     });
+
     function actualizarDatorProfesor(legajo,nombre){
              $('#nombre-profesor').text(nombre);
              $('#legajo-profesor').text(legajo);
