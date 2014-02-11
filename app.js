@@ -46,13 +46,30 @@ http.createServer(app).listen(app.get('port'), function(){
 
 // hacemos referencia a la dependencia
 var mongodb = require('mongodb');
+
+
+// TO CONFIG, correr:
+// heroku config:set MONGOLAB_URI="mongodb://goya:goya@ds027829.mongolab.com:27829/goya"
+var mongoUri = process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL ||
+  'mongodb://localhost:27017/unTestDB';
+
+mongodb.Db.connect(mongoUri, function (err, db) {
+  err ? console.log("MongoDB FAIL!") : console.log("MongoDB OK");
+
+  /* db.collection('mydocs', function(er, collection) {
+    collection.insert({'mykey': 'myvalue'}, {safe: true}, function(er,rs) {
+    });
+  });*/
+});
+
  
 // obtenemos el server MongoDB que dejamos corriendo
 // *** el puerto 27017 es el default de MongoDB
-var server = new mongodb.Server("127.0.0.1", 27017, {});
+//var server = new mongodb.Server("127.0.0.1", 27017, {});
  
 // obtenemos la base de datos de prueba que creamos
-var dbTest = new mongodb.Db('unTestDB', server, {safe:false});
+//var dbTest = new mongodb.Db('unTestDB', server, {safe:false});
  
 // abrimos la base pasando el callback para cuando esté lista para usar
 /* dbTest.open(function (error, client) {
