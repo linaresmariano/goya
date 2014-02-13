@@ -48,7 +48,7 @@ exports.index = function(req, res){
       }
   ]
 
-  res.render('grilla/index', { title: 'Grilla', datos: datos, cursosAsignados: cursos });
+  res.render('grilla/index', { title: 'Grilla', datos: datos, , cursosAsignados: JSON.stringify(cursos) });
 };
 
 
