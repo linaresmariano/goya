@@ -30,9 +30,11 @@ block content
             });            
          });
         /* inicializar el calendario -----------------------------------------------------------------*/      
+         var cursos = JSON.parse( !{JSON.stringify(cursosAsignados)} );
          var calendario=new CalendarioAcademico('#calendar');
-         calendario.agregarCurso(1,'EPERS',Dia.MIERCOLES,14,2,'red');
-         calendario.agregarCurso(2,'INRO',Dia.SABADO,16,3,'green');
+         for(i=0;i<cursos.length;i++){
+          calendario.agregarCurso(cursos[i].id,cursos[i].titulo,cursos[i].dia,cursos[i].hora,cursos[i].duracion,cursos[i].color);
+         }
     });
 
     function actualizarDatorProfesor(legajo,nombre){

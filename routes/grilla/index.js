@@ -5,37 +5,50 @@ var datos = require('../../models/datos');
 
 exports.index = function(req, res){
 
-  var date = new Date(1000,0,26);
-  var d = date.getDate();
-  var m = date.getMonth();
-  var y = date.getFullYear();
-  
-  events = [
+   cursos = [
       {
             id: 1,
-            title: 'EPERS',
-            start: new Date(y, m, d+2, 14, 0),
-            end: new Date(y, m, d+2, 16, 0),
-            allDay: false,
-            backgroundColor: 'red',
+            titulo: 'PCONC',
+            dia: 2,
+            hora: 14,
+            duracion: 3,
+            color: 'red'
       },
       {
             id: 2,
-            title: 'ORGA',
-            start: new Date(y, m, d+4, 19, 0),
-            allDay: false,
-            backgroundColor: 'green'
+            titulo: 'INTRO',
+            dia: 4,
+            hora: 14,
+           duracion: 3,
+            color: 'yellow'
       },
       {
             id: 3,
-            title: 'INTRO',
-            start: new Date(y, m, d, 16, 0),
-            allDay: false,
-            backgroundColor: 'yellow'
+            titulo: 'EPERS',
+            dia: 2,
+            hora: 19,
+            duracion: 3,
+            color: 'blue'
       },
+	  {
+            id: 4,
+            titulo: 'MATE2',
+            dia: 5,
+            hora: 15,
+            duracion: 3,
+            color: 'pink'
+      },
+	  {
+            id: 5,
+            titulo: 'LAB',
+            dia: 5,
+            hora: 15,
+            duracion: 3,
+            color: 'white'
+      }
   ]
 
-  res.render('grilla/index', { title: 'Grilla', datos: datos, events: events });
+  res.render('grilla/index', { title: 'Grilla', datos: datos, cursosAsignados: cursos });
 };
 
 
