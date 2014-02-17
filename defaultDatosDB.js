@@ -26,12 +26,27 @@ curso= new CursoCuatrimestral();
 	  curso.configVista.color='pink';
 	  curso.requisitos.computadoras =true;
 	  curso.horarios=[{
-						dia : 2,
+						dia : 1,
 						hora: 9,
 						minutos: 0,
 						duracion: 3,
 						tipo: 'Teorica'
-				 }]
+				 },
+				 {
+						dia : 3,
+						hora: 9,
+						minutos: 0,
+						duracion: 3,
+						tipo: 'Practica'
+				 },
+				 {
+						dia : 4,
+						hora: 9,
+						minutos: 0,
+						duracion: 3,
+						tipo: 'Practica'
+				 }
+				 ]
 curso.save();
 
 
