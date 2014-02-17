@@ -30,7 +30,7 @@ block content
 
   h3 Horarios: 
     each horario in curso.horarios
-      #{horario.dia}, de #{horario.hora}hs a #{horario.hora + horario.duracion}hs
+      * #{weekday[horario.dia]}, de #{horario.hora}hs a #{horario.hora + horario.duracion}hs
       br
   
   button.btn.btn-primary(type='button') Guardar

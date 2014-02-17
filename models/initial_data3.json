@@ -65,44 +65,16 @@
 				}
         }
     ],
-    
-    "cursos": [
-        {
-            "code": "ORGA",
-            "comision": 1
-        },
-        {
-            "code": "ORGA",
-            "comision": 2
-        },
-        {
-            "code": "MATE1",
-            "comision": 1
-        },
-        {
-            "code": "MATE1",
-            "comision": 2
-        },
-        {
-            "code": "MATE1",
-            "comision": 3
-        },
-        {
-            "code": "MATE2",
-            "comision": 1
-        }
-    ],
 
-    "cursos_cuatrimestrales": [
+    "cursos": [
         {
             "code": "ORGA",
             "comision": 1,
             "cuatrimestre": 22014,
             "inscriptos": 20,
-			"requisitos":
-				{
-					"computadoras": true
-				},
+			"requisitos": [
+                "COMPUS", "PROYECTOR"
+            ],
             "horarios": [
                 {
                     "dia": 1,
@@ -128,6 +100,7 @@
 				{
 					"capacidad": 30,
 					"recursos":
+                        ["PROYECTOR", {"COMPUTADORAS": 25}, "PIZARRA"]
 						{
 							"proyector": true,
 							"computadoras": 25,

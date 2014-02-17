@@ -40,7 +40,7 @@ block content
             var curso = cursosAsignados[i];
             var horario = curso.horarios[j];
 
-            calendario.agregarCurso(curso._id + j,
+            calendario.agregarCurso(horario._id,
               curso.code,
               horario.dia,
               horario.hora,
@@ -107,7 +107,8 @@ block content
           div
            span(style="float:left;margin-right:4px") Asignar Curso
            select
-            option curso1
+            each curso in datos.cursos
+              option #{curso.code} comision #{curso.comision} del día #{curso.horarios} #{datos.weekdays[1]}
           div
            span(style="float:left;margin-right:4px") Cursos asignados: 
          .modal-footer

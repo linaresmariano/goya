@@ -161,5 +161,15 @@
         "38B",
         "40",
         "54"
+    ],
+
+    "weekdays": [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado"
     ]
 }

@@ -34,6 +34,7 @@ exports.curso = function(req, res) {
 
 exports.comision = function(req, res) {
 
+  weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
   code = req.params.id
   comision = req.params.comision
   curso = ''
@@ -44,7 +45,12 @@ exports.comision = function(req, res) {
     }
   });
   
-  res.render('cursos/curso', { title: 'Curso '+ code, curso: curso, datos: datos })
+  res.render('cursos/curso', {
+    title: 'Curso '+ code,
+    curso: curso,
+    datos: datos,
+    weekday: weekday
+  })
 };
 
 
