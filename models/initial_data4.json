@@ -1,0 +1,141 @@
+{
+    "materias": [
+        {
+            "name": "Organización de Computadoras",
+            "code": "ORGA"
+        },
+        {
+            "name": "Matemática I",
+            "code": "MATE1"
+        },
+        {
+            "name": "Matemática II",
+            "code": "MATE2"
+        }
+    ],
+    
+    "profesores": [
+        {
+            "legajo": "MARA",
+            "name": "Mara Dalponte"
+        },
+        {
+            "legajo": "HORTENSIA",
+            "name": "Maria Hortensia Arriola"
+        }
+    ],
+    
+    "profesores_cursos": [
+        {
+            "legajo": "MARA",
+            "code": "ORGA",
+      "cuatrimestre": 22014,   
+            "comision": 1,
+      "requisitos":
+        {
+          "proyector": true,
+          "computadoras": true,
+          "pizarronTiza": false,
+          "pedidoEspecial": "Se requiere baño cerca"
+        }
+        },
+        {
+            "legajo": "HORTENSIA",
+            "code": "MATE1",
+      "cuatrimestre": 22014,
+            "comision": 1,
+      "requisitos":
+        {
+          "proyector": true,
+          "computadoras": true,
+          "pizarronTiza": false,
+          "pedidoEspecial": "se requiere más de 2 pizarrones"
+        }
+        },
+        {
+            "legajo": "HORTENSIA",
+            "code": "MATE2",
+      "cuatrimestre": 22014,
+            "comision": 1,
+      "requisitos":
+        {
+          "proyector": true,
+          "computadoras": true,
+          "pizarronTiza": false
+        }
+        }
+    ],
+
+    "cursos": [
+        {
+            "code": "ORGA",
+            "comision": 1,
+            "cuatrimestre": 22014,
+            "inscriptos": 20,
+      "requisitos": [
+                "COMPUS", "PROYECTOR"
+            ],
+            "horarios": [
+                {
+                    "dia": 1,
+                    "hora": 14,
+                    "minutos": 0,
+                    "duracion": 3,
+          "tipo": "Práctica"
+                },
+                {
+                    "dia": 3,
+                    "hora": 18,
+                    "minutos": 0,
+                    "duracion": 4,
+          "tipo": "Teoria"
+                }
+            ]
+        }
+    ],
+
+    "aulas": [
+        {
+      "37B":
+        {
+          "capacidad": 30,
+          "recursos": [
+            "PROYECTOR",
+            {"COMPUTADORAS": 25},
+            {"PIZARRA": 2}
+          ]
+        }
+    },
+        {
+      "38B": {
+          "capacidad": 30,
+          "recursos": [
+            "PROYECTOR",
+            {"COMPUTADORAS": 25},
+            {"PIZARRA": 2}
+          ]
+        }},
+        {
+      "40":
+        {
+          "capacidad": 25,
+          "recursos": [
+            "PROYECTOR",
+            {"COMPUTADORAS": 0},
+            {"PIZARRA": 1}
+          ]
+        }
+    },
+        {
+      "54":
+        {
+          "capacidad": 30,
+          "recursos": [
+            "PROYECTOR",
+            {"COMPUTADORAS": 0},
+            {"PIZARRON": 1}
+          ]
+        }
+    }
+    ]
+}

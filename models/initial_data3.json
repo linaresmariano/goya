@@ -66,15 +66,16 @@
         }
     ],
 
-    "cursos": [
+    "cursos_cuatrimestrales": [
         {
             "code": "ORGA",
             "comision": 1,
             "cuatrimestre": 22014,
             "inscriptos": 20,
-			"requisitos": [
-                "COMPUS", "PROYECTOR"
-            ],
+			"requisitos":
+				{
+					"computadoras": true
+				},
             "horarios": [
                 {
                     "dia": 1,
@@ -100,7 +101,6 @@
 				{
 					"capacidad": 30,
 					"recursos":
-                        ["PROYECTOR", {"COMPUTADORAS": 25}, "PIZARRA"]
 						{
 							"proyector": true,
 							"computadoras": 25,
