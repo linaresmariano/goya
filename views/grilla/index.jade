@@ -13,6 +13,30 @@ block content
   script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
   script.
     $(document).ready(function() {
+
+        /* inicializar el calendario -----------------------------------------------------------------*/
+        events=$('#events');
+        
+        var cursos = !{JSON.stringify(cursos)} ;
+        var calendario = new CalendarioAcademico('#calendar');
+
+        for(i=0; i<cursos.length; i++) {
+          for(j=0; j<cursos[i].horarios.length; j++) {
+
+            var curso = cursos[i];
+            var horario = curso.horarios[j];
+            if(!(horario.dia  || horario.hora )){
+             events.append('<div class="external-event">'+curso.code+'<div>')
+            }else{
+                calendario.agregarCurso(horario._id,
+                  curso.code,
+                  horario.dia,
+                  horario.hora,
+                  horario.duracion,
+                  curso.configVista.color);
+            }
+          }
+        }
          /* inicializar evetos de los cursos sin horario definido-----------------------------------------------------------------*/
          $('#events div.external-event').each(function() {
             // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
@@ -29,25 +53,6 @@ block content
                revertDuration: 0  //  original position after the drag
             });            
          });
-        /* inicializar el calendario -----------------------------------------------------------------*/
-
-        var cursosAsignados = !{JSON.stringify(cursosAsignados)} ;
-        var calendario = new CalendarioAcademico('#calendar');
-
-        for(i=0; i<cursosAsignados.length; i++) {
-          for(j=0; j<cursosAsignados[i].horarios.length; j++) {
-
-            var curso = cursosAsignados[i];
-            var horario = curso.horarios[j];
-
-            calendario.agregarCurso(horario._id,
-              curso.code,
-              horario.dia,
-              horario.hora,
-              horario.duracion,
-              curso.configVista.color);
-          }
-        }
     });
 
     function actualizarDatosProfesor(legajo,nombre){
@@ -76,8 +81,6 @@ block content
         div.external-events
          div#events
           h4 Cursos no asignados
-          each curso in datos.cursos
-           div.external-event #{curso.code}
 
 
     #tab2.tab-pane

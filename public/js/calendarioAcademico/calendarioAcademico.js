@@ -87,9 +87,15 @@ function CalendarioAcademico(idTag){
 		                 esHorarioInvalido(event.end.getHours())){		 
 				revertFunc();				
 			}else{
-			  $.ajax({url:"/grilla", success:function(result){
-                       //alert(result);
-              }});
+			  $.ajax({url:"/actualizarCurso",
+						method:'post',
+						data: { id:event.id, hora:event.start.getHours(),dia:event.start.getDay()} ,success:function(result){
+                        //Por ahora nada
+						},error:function(err){
+							revertFunc();
+							alert('Error al actualizad dato,es posible que no este conectado a internet.');
+						}
+					});
 			}
 		},
 		firstHour: 8

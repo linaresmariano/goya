@@ -1,8 +1,8 @@
-var CursoCuatrimestral = require('./models/curso_cuatrimestral');
+var Curso = require('./models/curso');
 
-CursoCuatrimestral.remove(function(err){})
+Curso.remove(function(err){})
 
-curso= new CursoCuatrimestral();
+curso= new Curso();
 	  curso.code= 'EPERS';
 	  curso.comision = 1;
 	  curso.cuatrimestre = 12014;
@@ -18,7 +18,7 @@ curso= new CursoCuatrimestral();
 				 }]
 curso.save();
 
-curso= new CursoCuatrimestral();
+curso= new Curso();
 	  curso.code= 'INTRO';
 	  curso.comision = 2;
 	  curso.cuatrimestre = 12014;
@@ -40,8 +40,8 @@ curso= new CursoCuatrimestral();
 						tipo: 'Practica'
 				 },
 				 {
-						dia : 4,
-						hora: 9,
+						dia : undefined,
+						hora: undefined,
 						minutos: 0,
 						duracion: 3,
 						tipo: 'Practica'
@@ -50,7 +50,7 @@ curso= new CursoCuatrimestral();
 curso.save();
 
 
-curso= new CursoCuatrimestral();
+curso= new Curso();
 	  curso.code= 'ORGA';
 	  curso.comision = 4;
 	  curso.cuatrimestre = 12014;

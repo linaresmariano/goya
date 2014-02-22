@@ -1,5 +1,5 @@
 var datos = require('../../models/datos');
-
+var Curso = require('../../models/curso')
 /*
  * GET cursos.
  */
@@ -52,5 +52,23 @@ exports.comision = function(req, res) {
     weekday: weekday
   })
 };
+
+
+
+exports.actualizar = function(req, res) {
+  //Actualiza el horario con el id correspondiente
+  Curso.findOneAndUpdate({'horarios._id':req.param('id')}, 
+						{'$set': {'horarios.$.dia':req.param('dia'),'horarios.$.hora':req.param('hora')}}
+						,function(err,curso){
+							if(err){
+								res.send('error');
+							}else{
+								res.send('ok');
+							}
+
+						})
+  
+};
+
 
 
