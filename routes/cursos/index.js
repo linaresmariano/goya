@@ -58,15 +58,30 @@ exports.comision = function(req, res) {
 exports.actualizar = function(req, res) {
   //Actualiza el horario con el id correspondiente
   Curso.findOneAndUpdate({'horarios._id':req.param('id')}, 
-						{'$set': {'horarios.$.dia':req.param('dia'),'horarios.$.hora':req.param('hora')}}
-						,function(err,curso){
-							if(err){
-								res.send('error');
-							}else{
-								res.send('ok');
-							}
+			{'$set': {'horarios.$.dia':req.param('dia'),'horarios.$.hora':req.param('hora')}}
+			,function(err,curso){
+				if(err){
+					res.send('error');
+				}else{
+					res.send('ok');
+				}
 
-						})
+			});
+  
+};
+
+exports.actualizarFin = function(req, res) {
+  //Actualiza el horario con el id correspondiente
+  Curso.findOneAndUpdate({'horarios._id':req.param('id')}, 
+			{'$set': {'horarios.$.duracion':req.param('duracion')}}
+			,function(err,curso){
+				if(err){
+					res.send('error');
+				}else{
+					res.send('ok');
+				}
+
+			});
   
 };
 

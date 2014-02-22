@@ -57,19 +57,49 @@ function CalendarioAcademico(idTag){
 		editable: true,
 		droppable: true, // this allows things to be dropped onto the calendar !!!
 		drop: function(date, allDay) { // this function is called when something is dropped
-		
+
 				// retrieve the dropped element's stored Event Object
 				var originalEventObject = $(this).data('eventObject');
 				// we need to copy it, so that multiple events don't have a reference to the same object
 				var copiedEventObject = $.extend({}, originalEventObject);
 				// assign it the date that was reported
 				copiedEventObject.start = date;
+				copiedEventObject.end = new Date(date.getYear(),date.getDay(),date.getHours()+2,0);
 				copiedEventObject.allDay = allDay;
-				// render the event on the calendar
-			   // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-			   $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-			   $(this).remove();
+				
+				
+				 $.ajax({url:"/actualizarCurso",
+						method:'post',
+						data: { id:copiedEventObject.id, hora:date.getHours(),dia:date.getDay()} ,success:function(result){
+							
+							//Si pudo guardar el horario del curso por ajax,entonces lo dibuja
+							$('#calendar').fullCalendar('addEventSource', [{ id: copiedEventObject.id,
+																title: copiedEventObject.title,
+																start: new Date(y, m, date.getDay()+d,date.getHours(), 0),
+																end: new Date(y, m, date.getDay()+d, (date.getHours()+copiedEventObject.duracion), 0),
+																allDay: false,
+																backgroundColor: copiedEventObject.color}]);
+							
+						
+						},error:function(err){
+							alert('Error al actualizad dato,es posible que no este conectado a internet.');
+						}
+					});
+				
+			    $(this).remove();
+
 			
+		},
+		eventResize :function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){ 
+		  $.ajax({url:"/actualizarFinCurso",
+						method:'post',
+						data: { id:event.id,duracion:Math.abs(event.start.getHours()- event.end.getHours())} ,success:function(result){
+                        //Por ahora nada
+						},error:function(err){
+							revertFunc();
+							alert('Error al actualizad dato,es posible que no este conectado a internet.');
+						}
+					});
 		},
 		eventClick: function(calEvent, jsEvent, view) {
 			//alert('Event: ' + calEvent.title);

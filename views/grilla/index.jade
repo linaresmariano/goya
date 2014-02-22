@@ -25,8 +25,9 @@ block content
 
             var curso = cursos[i];
             var horario = curso.horarios[j];
+            //Si no esta asignada a un horario o dia			
             if(!(horario.dia  || horario.hora )){
-             events.append('<div class="external-event">'+curso.code+'<div>')
+             events.append('<div class="external-event horario"><div class="titulo">'+curso.code+'</div><div hidden class="id">'+horario._id+'</div><div hidden class="duracion">'+horario.duracion+'</div><div hidden class="color">'+curso.configVista.color+'</div><div>')
             }else{
                 calendario.agregarCurso(horario._id,
                   curso.code,
@@ -42,7 +43,10 @@ block content
             // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
             // it doesn't need to have a start or end
             var eventObject = {
-                 title: $.trim($(this).text()) // use the element's text as the event title
+                 title: $.trim($(this).children('.titulo').text()), // use the element's text as the event title
+                 id: $.trim($(this).children('.id').text()),
+                 duracion: parseInt($(this).children('.duracion').text()),
+                 color: $.trim($(this).children('.color').text())
                  };
                 // store the Event Object in the DOM element so we can get to it later
             $(this).data('eventObject', eventObject);
