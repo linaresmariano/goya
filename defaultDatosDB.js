@@ -40,8 +40,8 @@ curso= new Curso();
 				tipo: 'Practica'
 			},
 			{
-				dia : undefined,
-				hora: undefined,
+				dia : -1,
+				hora: -1,
 				minutos: 0,
 				duracion: 3,
 				tipo: 'Practica'
@@ -75,8 +75,8 @@ curso= new Curso();
 	  curso.configVista.color='yellow';
 	  curso.requisitos.computadoras =true;
 	  curso.horarios=[{
-				dia : undefined,
-				hora: undefined,
+				dia : -1,
+				hora: -1,
 				minutos: 0,
 				duracion: 4,
 				tipo: 'Teorica/Practica'

@@ -29,6 +29,7 @@ function CalendarioAcademico(idTag){
 		week: 'Semana',
 		day:  'Dia'
 		},
+		handleWindowResize :false,
 		year:1000,
 		month:1,
 		eventMouseover: function( event, jsEvent, view ) { },
@@ -142,6 +143,11 @@ function CalendarioAcademico(idTag){
             allDay: false,
             backgroundColor: color
         }] )
+	}
+	
+	//Elimina un curso al calendario semanal
+	this.eliminarCurso=function(id){
+		calendario.fullCalendar( 'removeEvents' , id );
 	}
 	
 	
