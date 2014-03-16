@@ -107,7 +107,6 @@ html .fc,
 	
 .fc-view {
 	width: 100%;
-	overflow: hidden;
 	}
 	
 	
@@ -285,6 +284,7 @@ a.fc-event,
 .fc-event-inner {
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 	}
 	
 .fc-event-time,
