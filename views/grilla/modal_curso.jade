@@ -1,0 +1,12 @@
+div(style="clear:both")
+  #myModalCurso.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content(style='text-align:left')
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4#myModalLabel.modal-title Curso
+        .modal-body
+           #curso_html
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+          button.btn.btn-primary(type='button') Guardar

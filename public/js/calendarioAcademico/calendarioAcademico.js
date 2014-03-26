@@ -110,6 +110,18 @@ function CalendarioAcademico(idTag){
 			//$(this).css('border-color', 'red');
 			//cambiando de nombre al curso
 			$('#calendar').fullCalendar( 'renderEvent', calEvent )
+			
+			$.ajax({url:"cursos/"+calEvent.title+"/"+calEvent.comision,
+				method:'get',
+				data: {},
+					success:function(result){
+            
+            $("#curso_html").html(result);
+            
+            $('#myModalCurso').modal('show');
+        
+				},error:function(err){}
+			});
 		},
 		eventDrop :function( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ){
 		
@@ -133,11 +145,12 @@ function CalendarioAcademico(idTag){
     }).fullCalendar( 'changeView', 'agendaWeek' );          
 
 	//Agrega un curso al calendario semanal
-	this.agregarCurso=function(id,titulo,dia,hora,duracionHS,color){
+	this.agregarCurso=function(id,titulo,comision,dia,hora,duracionHS,color){
 		calendario.fullCalendar( 'addEventSource', [
         {
             id: id,
             title: titulo,
+            comision: comision,
             start: new Date(y, m, d+dia, hora, 0),
             end: new Date(y, m, d+dia, hora+duracionHS, 0),
             allDay: false,

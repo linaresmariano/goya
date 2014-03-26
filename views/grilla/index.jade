@@ -32,10 +32,12 @@ block content
             }else{
                 calendario.agregarCurso(horario._id,
                   curso.code,
+                  curso.comision,
                   horario.dia,
                   horario.hora,
                   horario.duracion,
-                  curso.configVista.color);
+                  curso.configVista.color
+                );
             }
           }
         }
@@ -142,3 +144,5 @@ block content
               h4 Aulas disponibles
               each aula in datos.aulas
                 div(style="cursor:pointer") #{aula}
+
+  include modal_curso

@@ -6,7 +6,6 @@ block content
   link(rel='stylesheet', href='/stylesheets/grilla.css')
   link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
   link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css')
-  script(src='/js/lib/jquery.min.js')
   script(src='/js/lib/jquery-ui.custom.min.js')
   script(src='/js/fullcalendar/fullcalendar.min.js')
   script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
@@ -28,10 +27,11 @@ block content
       each aula in datos.aulas
         option #{aula}
 
-  h3 Horarios: 
-    each horario in curso.horarios
-      * #{weekday[horario.dia]}, de #{horario.hora}hs a #{horario.hora + horario.duracion}hs
-      br
+  h3 Horarios:
+    if curso.horarios != undefined
+      each horario in curso.horarios
+        * #{weekday[horario.dia]}, de #{horario.hora}hs a #{horario.hora + horario.duracion}hs
+        br
   
   button.btn.btn-primary(type='button') Guardar
   a(href='/cursos')
