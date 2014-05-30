@@ -37,6 +37,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/grilla', grilla.index);
+app.get('/grilla/:cuatrimestre', grilla.cuatrimestre);
 app.get('/cursos', cursos.index);
 app.get('/cursos/:id', cursos.curso);
 app.get('/cursos/:id/:comision', cursos.comision);
@@ -60,7 +61,7 @@ var mongoUri = process.env.MONGOLAB_URI ||
   'mongodb://localhost:27017/unTestDB';
 
 mongodb.Db.connect(mongoUri, function (err, db) {
-  err ? console.log("MongoDB FAIL!") : console.log("MongoDB OK");
+  console.log(err ? "MongoDB FAIL!" : "MongoDB OK");
 
   /* db.collection('mydocs', function(er, collection) {
     collection.insert({'mykey': 'myvalue'}, {safe: true}, function(er,rs) {

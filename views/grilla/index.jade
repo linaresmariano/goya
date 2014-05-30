@@ -4,7 +4,7 @@ block content
   link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
   link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css')
   link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.css')
-  link(rel='stylesheet', href='/stylesheets/fullcalendar.print.css')
+  // link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.print.css')
   link(rel='stylesheet', href='/stylesheets/grilla.css')
   script(src='/js/lib/jquery.min.js')
   script(src='/js/lib/jquery-ui.custom.min.js')
@@ -28,7 +28,7 @@ block content
             var horario = curso.horarios[j];
             //Si no esta asignada a un horario o dia			
             if(horario.dia == -1  || horario.hora == -1 ){
-             events.append('<div class="external-event horario" style="background:'+curso.configVista.color+'"><div class="titulo">'+curso.code+'</div><div hidden class="id">'+horario._id+'</div><div hidden class="duracion">'+horario.duracion+'</div><div hidden class="color">'+curso.configVista.color+'</div><div>')
+             events.append('<div class="external-event horario" style="background:'+curso.configVista.color+'"><div class="titulo">'+curso.code+'</div><div hidden class="id">'+horario._id+'</div><div hidden class="duracion">'+horario.duracion+'</div><div hidden class="color">'+curso.configVista.color+'</div><div hidden class="comision">'+curso.comision+'</div>')
             }else{
                 calendario.agregarCurso(horario._id,
                   curso.code,
@@ -48,6 +48,7 @@ block content
             var eventObject = {
                  title: $.trim($(this).children('.titulo').text()), // use the element's text as the event title
                  id: $.trim($(this).children('.id').text()),
+                 comision: $.trim($(this).children('.comision').text()),
                  duracion: parseInt($(this).children('.duracion').text()),
                  color: $.trim($(this).children('.color').text())
                  };
@@ -130,7 +131,11 @@ block content
             div#events
               h4 Profesores no asignados
               each profesor in datos.profesores
-                div.profesores(style="cursor:pointer",onclick="actualizarDatosProfesor('#{profesor.legajo}','#{profesor.name}')",data-toggle='modal', data-target='#myModal') #{profesor.legajo}
+                div.external-event.profesor(style="cursor:pointer",onclick="actualizarDatosProfesor('#{profesor.legajo}','#{profesor.name}')",data-toggle='modal', data-target='#myModal')
+                  .titulo #{profesor.legajo}
+                  .id(hidden='hidden') PROFE
+
+                
        
       include profe
 
@@ -146,3 +151,4 @@ block content
                 div(style="cursor:pointer") #{aula}
 
   include modal_curso
+

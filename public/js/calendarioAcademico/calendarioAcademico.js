@@ -61,15 +61,24 @@ function CalendarioAcademico(idTag){
 
 				// retrieve the dropped element's stored Event Object
 				var originalEventObject = $(this).data('eventObject');
-				// we need to copy it, so that multiple events don't have a reference to the same object
-				var copiedEventObject = $.extend({}, originalEventObject);
-				// assign it the date that was reported
-				copiedEventObject.start = date;
-				copiedEventObject.end = new Date(date.getYear(),date.getDay(),date.getHours()+2,0);
-				copiedEventObject.allDay = allDay;
+
+				console.log(originalEventObject);
+
+				if(originalEventObject.id == 'PROFE') {
+
+					console.log("buscar sobre que curso me soltaron y asignarme a el");
+
+				} else {
 				
-				
-				 $.ajax({url:"/actualizarCurso",
+					// we need to copy it, so that multiple events don't have a reference to the same object
+					var copiedEventObject = $.extend({}, originalEventObject);
+					// assign it the date that was reported
+					copiedEventObject.start = date;
+					copiedEventObject.end = new Date(date.getYear(),date.getDay(),date.getHours()+2,0);
+					copiedEventObject.allDay = allDay;
+					
+					
+					$.ajax({url:"/actualizarCurso",
 						method:'post',
 						data: { id:copiedEventObject.id, hora:date.getHours(),dia:date.getDay()} ,success:function(result){
 							
@@ -88,6 +97,30 @@ function CalendarioAcademico(idTag){
 					});
 				
 			    $(this).remove();
+
+			    console.log($('div.fc-event-inner'));
+			    $('div.fc-event-inner').each(function() {
+           	
+            // store the Event Object in the DOM element so we can get to it later
+            //$(this).data('eventObject', eventObject);
+            // make the event draggable using jQuery UI
+            //$(this).draggable({
+              //zIndex: 999,
+              //revert: true,      // will cause the event to go back to its
+              //revertDuration: 0  //  original position after the drag
+            //});
+         		$(this).droppable({drop:function( event, ui ){
+              id=ui.draggable.find('.id').text();
+              //thisTag=$(this);
+
+              console.log(id);
+              
+              },accept:'.profesor',tolerance: "touch" 
+         		});
+
+            console.log("aca deberia settear al element como area dropable para profes");
+         });
+				}
 
 			
 		},

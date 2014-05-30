@@ -100,3 +100,12 @@ exports.actualizarFin = function(req, res) {
 
 
 
+exports.update_profe = function(req, res) {
+  Curso.findOneAndUpdate(
+    {'code': req.param('code'), 'comision': req.param('comision')},
+    {'horarios.$.duracion':req.param('duracion')},
+    function(err,curso) {
+      res.send(err ? 'error' : 'ok');
+  });
+}
+
