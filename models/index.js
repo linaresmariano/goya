@@ -1,7 +1,6 @@
 var fs        = require('fs')
   , path      = require('path')
   , Sequelize = require('sequelize')
-  , lodash    = require('lodash')
   , sequelize = new Sequelize('goya', 'root', 'root')
   , db        = {}
  
@@ -21,7 +20,7 @@ Object.keys(db).forEach(function(modelName) {
   }
 })
  
-module.exports = lodash.extend({
+module.exports = Sequelize.Utils._.extend({
   sequelize: sequelize,
   Sequelize: Sequelize
 }, db)
