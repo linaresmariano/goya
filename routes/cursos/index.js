@@ -16,14 +16,6 @@ exports.index = function(req, res){
     })
   })
 
-  // Curso.find(function(err, cursos) {
-  //   if (err) {
-  //     console.log(err);
-  //     return next()
-  //   }
-
-  //   res.render('cursos/index', { title: 'Cursos', datos: datos, cursos: cursos });
-  // });
 };
 
 
@@ -57,14 +49,10 @@ exports.comision = function(req, res) {
   comision = req.params.comision
   curso = ''
 
-  Curso.find(function(err, cursos) {
-    if (err) {
-      console.log(err);
-      return next()
-    }
 
-    cursos.forEach(function(entry) {
-      if(entry.code == code && entry.comision == comision) {
+  db.Course.findAll().success(function(courses) {
+    courses.forEach(function(entry) {
+      if(entry.code == code && entry.commission == comision) {
         res.render('cursos/curso', {
           title: 'Curso '+ code,
           curso: entry,
@@ -73,7 +61,25 @@ exports.comision = function(req, res) {
         });
       }
     });
-  });
+  })
+
+  // Curso.find(function(err, cursos) {
+  //   if (err) {
+  //     console.log(err);
+  //     return next()
+  //   }
+
+  //   cursos.forEach(function(entry) {
+  //     if(entry.code == code && entry.comision == comision) {
+  //       res.render('cursos/curso', {
+  //         title: 'Curso '+ code,
+  //         curso: entry,
+  //         datos: datos,
+  //         weekday: weekday
+  //       });
+  //     }
+  //   });
+  // });
 };
 
 

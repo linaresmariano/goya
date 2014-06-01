@@ -8,7 +8,16 @@ db.Course.destroy().success(function() {
 		commission: 1,
 		semester: 12014,
 		enrolled: 25
-	})
+	}).success(function(user) {
+	 
+	  db.CourseSchedule.create({
+	  	type: 'Teorica/Practica',
+			day: 1,
+			hour: 16,
+			minutes: 0,
+			duration: 6
+		})
+  })
 
 	db.Course.create({
 		code: 'INTRO',
