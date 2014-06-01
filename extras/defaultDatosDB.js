@@ -8,9 +8,10 @@ db.Course.destroy().success(function() {
 		commission: 1,
 		semester: 12014,
 		enrolled: 25
-	}).success(function(user) {
+	}).success(function(course) {
 	 
 	  db.CourseSchedule.create({
+	  	CourseId: course.id,
 	  	type: 'Teorica/Practica',
 			day: 1,
 			hour: 16,

@@ -30,8 +30,8 @@ block content
         option #{aula}
 
   h3 Horarios:
-    if curso.horarios != undefined
-      each horario in curso.horarios
+    if curso.Schedules != undefined
+      each horario in curso.Schedules
         * #{weekday[horario.dia]}, de #{horario.hora}hs a #{horario.hora + horario.duracion}hs
         br
   
