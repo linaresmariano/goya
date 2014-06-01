@@ -49,7 +49,7 @@ exports.comision = function(req, res) {
   comision = req.params.comision
   curso = ''
 
-  db.Course.findAll({include: [ db.CourseSchedule ]}).success(function(courses) {
+  db.Course.findAll({include: [ {model: db.CourseSchedule, as: 'Schedules'} ]}).success(function(courses) {
     courses.forEach(function(entry) {
       if(entry.code == code && entry.commission == comision) {
 
