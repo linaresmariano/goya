@@ -4,13 +4,13 @@
  */
 
 //Para cargar datos de pruebas
-//require('./defaultDatosDB');
+require('./extras/defaultDatosDB');
 
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
 //var grilla = require('./routes/grilla/index');
-//var cursos = require('./routes/cursos/index');
+var cursos = require('./routes/cursos/index');
 var http = require('http');
 var path = require('path');
 var Sequelize = require('sequelize');
@@ -41,7 +41,7 @@ app.get('/', routes.index);
 //app.get('/users', user.list);
 //app.get('/grilla', grilla.index);
 //app.get('/grilla/:cuatrimestre', grilla.cuatrimestre);
-//app.get('/cursos', cursos.index);
+app.get('/cursos', cursos.index);
 //app.get('/cursos/:id', cursos.curso);
 //app.get('/cursos/:id/:comision', cursos.comision);
 //app.post('/actualizarCurso', cursos.actualizar);

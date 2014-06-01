@@ -1,19 +1,29 @@
-var datos = require('../../models/datos');
-var Curso = require('../../models/curso')
+var datos = require('../../extras/datos'),
+    db = require('../../models')
+
+
 /*
  * GET cursos.
  */
 
 exports.index = function(req, res){
 
-  Curso.find(function(err, cursos) {
-    if (err) {
-      console.log(err);
-      return next()
-    }
+  db.Course.findAll().success(function(courses) {
+    res.render('cursos/index', {
+      title: 'Cursos',
+      datos: datos,
+      cursos: courses
+    })
+  })
 
-    res.render('cursos/index', { title: 'Cursos', datos: datos, cursos: cursos });
-  });
+  // Curso.find(function(err, cursos) {
+  //   if (err) {
+  //     console.log(err);
+  //     return next()
+  //   }
+
+  //   res.render('cursos/index', { title: 'Cursos', datos: datos, cursos: cursos });
+  // });
 };
 
 
