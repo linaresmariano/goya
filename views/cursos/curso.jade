@@ -31,7 +31,8 @@ block content
 
   h3 Horarios:
     if curso.Schedules != undefined
-      each horario in curso.Schedules
+      each horario in curso.getSchedules
+        * ffdsfsd
         * #{weekday[horario.dia]}, de #{horario.hora}hs a #{horario.hora + horario.duracion}hs
         br
   
