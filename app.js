@@ -6,7 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
-//var grilla = require('./routes/grilla/index');
+var grilla = require('./routes/grilla/index');
 var cursos = require('./routes/cursos/index');
 var http = require('http');
 var path = require('path');
@@ -36,7 +36,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 //app.get('/users', user.list);
-//app.get('/grilla', grilla.index);
+app.get('/grilla', grilla.index);
 //app.get('/grilla/:cuatrimestre', grilla.cuatrimestre);
 app.get('/cursos', cursos.index);
 //app.get('/cursos/:id', cursos.curso);

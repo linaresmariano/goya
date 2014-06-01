@@ -1,21 +1,29 @@
-var datos = require('../../models/datos');
-var Curso = require('../../models/curso')
+var datos = require('../../extras/datos'),
+    db = require('../../models')
 
 /*
  * GET grilla.
  */
 
-exports.index = function(req, res){
+exports.index = function(req, res) {
 
-   Curso.find(/*{'horarios.dia':1},*/gotCursos);
-   function gotCursos (err, cursos) {
-		if (err) {
-		  console.log(err)
-		  return next()
-		}
-		res.render('grilla/index', { title: 'Grilla', datos: datos, cursos: cursos });
+  db.Course.findAll().success(function(courses) {
+    res.render('grilla/index', {
+      title: 'Grilla',
+      datos: datos,
+      cursos: courses
+    })
+  })
+
+ //   Curso.find(/*{'horarios.dia':1},*/gotCursos);
+ //   function gotCursos (err, cursos) {
+	// 	if (err) {
+	// 	  console.log(err)
+	// 	  return next()
+	// 	}
+	// 	res.render('grilla/index', { title: 'Grilla', datos: datos, cursos: cursos });
 		
-	}
+	// }
 
 };
 
