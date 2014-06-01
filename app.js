@@ -3,9 +3,6 @@
  * Module dependencies.
  */
 
-//Para cargar datos de pruebas
-require('./extras/defaultDatosDB');
-
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
@@ -63,7 +60,13 @@ db
         console.log('Express server listening on port ' + app.get('port'))
       })
     }
+}).success(function() {
+
+  // Para cargar datos de pruebas
+  require('./extras/defaultDatosDB');
+
 })
+
 
 
 

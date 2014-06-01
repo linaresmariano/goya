@@ -1,12 +1,15 @@
 var db = require('../models')
 
-db.Course.drop()
 
-db.Course.create({
-	code: 'EPERS',
-	commission: 1,
-	semester: 12014,
-	enrolled: 23
+db.Course.destroy().success(function() {
+
+	db.Course.create({
+		code: 'EPERS',
+		commission: 1,
+		semester: 12014,
+		enrolled: 23
+	})
+
 })
 
 // curso = new Curso();
