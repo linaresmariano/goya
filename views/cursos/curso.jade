@@ -30,10 +30,9 @@ block content
         option #{aula}
 
   h3 Horarios:
-    if curso.Schedules != undefined
-      each horario in curso.getSchedules
-        * ffdsfsd
-        * #{weekday[horario.dia]}, de #{horario.hora}hs a #{horario.hora + horario.duracion}hs
+    if curso.schedules != undefined
+      each horario in curso.schedules
+        * #{weekday[horario.day]}, de #{horario.hour}hs a #{horario.hour + horario.duration}hs
         br
   
   button.btn.btn-primary(type='button') Guardar
