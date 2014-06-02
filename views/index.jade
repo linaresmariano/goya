@@ -12,5 +12,7 @@ block content
     li
       a(href='/cursos') Cursos
 
-  div(ng-app)
-    p(ng-init=" name='Angular' ") Hello {{name}}!
+  div(ng-app="indexApp", ng-controller="SemestralGrids")
+    ul
+      li(ng-repeat='semester in semesters')
+        a(ng-href='/grilla/{{semester.code}}') Grilla {{semester.code}}
