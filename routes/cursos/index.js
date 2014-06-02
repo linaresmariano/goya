@@ -62,24 +62,6 @@ exports.comision = function(req, res) {
       }
     });
   })
-
-  // Curso.find(function(err, cursos) {
-  //   if (err) {
-  //     console.log(err);
-  //     return next()
-  //   }
-
-  //   cursos.forEach(function(entry) {
-  //     if(entry.code == code && entry.comision == comision) {
-  //       res.render('cursos/curso', {
-  //         title: 'Curso '+ code,
-  //         curso: entry,
-  //         datos: datos,
-  //         weekday: weekday
-  //       });
-  //     }
-  //   });
-  // });
 };
 
 
