@@ -81,23 +81,25 @@ exports.actualizar = function(req, res) {
         res.send('error')
       })
   })
-  
+
 }
 
 exports.actualizarFin = function(req, res) {
   //Actualiza el horario con el id correspondiente
-  Curso.findOneAndUpdate({'horarios._id':req.param('id')}, 
-			{'$set': {'horarios.$.duracion':req.param('duracion')}}
-			,function(err,curso){
-				if(err){
-					res.send('error');
-				}else{
-					res.send('ok');
-				}
+  db.CourseSchedule.find(req.param('id')).success(function(schedule) {
 
-			});
-  
-};
+    schedule.updateAttributes({
+      duration: req.param('duration')
+    }, ['duration'])
+      .success(function() {
+        res.send('ok')
+      })
+      .error(function(err) {
+        res.send('error')
+      })
+  })
+
+}
 
 
 

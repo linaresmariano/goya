@@ -124,16 +124,21 @@ function CalendarioAcademico(idTag){
 
 			
 		},
-		eventResize :function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){ 
-		  $.ajax({url:"/actualizarFinCurso",
-						method:'post',
-						data: { id:event.id,duracion:Math.abs(event.start.getHours()- event.end.getHours())} ,success:function(result){
-                        //Por ahora nada
-						},error:function(err){
-							revertFunc();
-							alert('Error al actualizad dato,es posible que no este conectado a internet.');
-						}
-					});
+		eventResize :function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) {
+			$.ajax({url:"/actualizarFinCurso",
+				method: 'post',
+				data: {
+					id: event.id,
+					duration: Math.abs(event.start.getHours() - event.end.getHours())
+				},
+				success:function(result) {
+	            	//Por ahora nada
+				},
+				error:function(err) {
+					revertFunc();
+					alert('Error al actualizad dato,es posible que no este conectado a internet.');
+				}
+			});
 		},
 		eventClick: function(calEvent, jsEvent, view) {
 			//alert('Event: ' + calEvent.title);
