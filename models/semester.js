@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     }, {
       instanceMethods: {
-        getCode: function() {
+        code: function() {
           return semester +" "+ year
         }
       }
