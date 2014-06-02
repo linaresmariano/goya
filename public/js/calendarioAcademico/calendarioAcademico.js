@@ -80,13 +80,13 @@ function CalendarioAcademico(idTag){
 					
 					$.ajax({url:"/actualizarCurso",
 						method:'post',
-						data: { id:copiedEventObject.id, hora:date.getHours(),dia:date.getDay()} ,success:function(result){
+						data: { id:copiedEventObject.id, hour:date.getHours(),day:date.getDay()}, success:function(result){
 							
 							//Si pudo guardar el horario del curso por ajax,entonces lo dibuja
 							$('#calendar').fullCalendar('addEventSource', [{ id: copiedEventObject.id,
 																title: copiedEventObject.title,
 																start: new Date(y, m, date.getDay()+d,date.getHours(), 0),
-																end: new Date(y, m, date.getDay()+d, (date.getHours()+copiedEventObject.duracion), 0),
+																end: new Date(y, m, date.getDay()+d, (date.getHours()+copiedEventObject.duration), 0),
 																allDay: false,
 																backgroundColor: copiedEventObject.color}]);
 							
@@ -165,9 +165,13 @@ function CalendarioAcademico(idTag){
 			}else{
 			  $.ajax({url:"/actualizarCurso",
 						method:'post',
-						data: { id:event.id, hora:event.start.getHours(),dia:event.start.getDay()} ,success:function(result){
-                        //Por ahora nada
-						},error:function(err){
+						data: {
+							id:event.id, hour:event.start.getHours(), day:event.start.getDay()
+						},
+						success:function(result){
+                        	//Por ahora nada
+						},
+						error:function(err){
 							revertFunc();
 							alert('Error al actualizad dato,es posible que no este conectado a internet.');
 						}

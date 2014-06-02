@@ -41,7 +41,7 @@ app.get('/grilla', grilla.index);
 app.get('/cursos', cursos.index);
 app.get('/cursos/:id', cursos.curso);
 app.get('/cursos/:id/:comision', cursos.comision);
-//app.post('/actualizarCurso', cursos.actualizar);
+app.post('/actualizarCurso', cursos.actualizar);
 //app.post('/actualizarFinCurso', cursos.actualizarFin);
 
 //http.createServer(app).listen(app.get('port'), function(){

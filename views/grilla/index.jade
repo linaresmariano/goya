@@ -29,9 +29,10 @@ block content
 
             //Si no esta asignada a un horario o dia			
             if(horario.day == -1  || horario.hour == -1 ){
-             events.append('<div class="external-event horario" style="background:'+curso.color+'"><div class="titulo">'+curso.code+'</div><div hidden class="id">'+horario._id+'</div><div hidden class="duracion">'+horario.duration+'</div><div hidden class="color">'+curso.color+'</div><div hidden class="comision">'+curso.commission+'</div>')
+             events.append('<div class="external-event horario" style="background:'+curso.color+'"><div class="titulo">'+curso.code+'</div><div hidden class="id">'+horario.id+'</div><div hidden class="duration">'+horario.duration+'</div><div hidden class="color">'+curso.color+'</div><div hidden class="comision">'+curso.commission+'</div>')
             }else{
-                calendario.agregarCurso(horario._id,
+                calendario.agregarCurso(
+                  horario.id,
                   curso.code,
                   curso.commission,
                   horario.day,
