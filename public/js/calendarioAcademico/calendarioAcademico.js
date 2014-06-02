@@ -182,14 +182,14 @@ function CalendarioAcademico(idTag){
     }).fullCalendar( 'changeView', 'agendaWeek' );          
 
 	//Agrega un curso al calendario semanal
-	this.agregarCurso=function(id,titulo,comision,dia,hora,duracionHS,color){
+	this.agregarCurso=function(id,titulo,commission,day,hour,durationHS,color){
 		calendario.fullCalendar( 'addEventSource', [
         {
             id: id,
             title: titulo,
-            comision: comision,
-            start: new Date(y, m, d+dia, hora, 0),
-            end: new Date(y, m, d+dia, hora+duracionHS, 0),
+            commission: commission,
+            start: new Date(y, m, d+day, hour, 0),
+            end: new Date(y, m, d+day, hour+durationHS, 0),
             allDay: false,
             backgroundColor: color
         }] )

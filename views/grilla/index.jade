@@ -29,7 +29,7 @@ block content
 
             //Si no esta asignada a un horario o dia			
             if(horario.day == -1  || horario.hour == -1 ){
-             events.append('<div class="external-event horario" style="background:'+curso.color+'"><div class="titulo">'+curso.code+'</div><div hidden class="id">'+horario.id+'</div><div hidden class="duration">'+horario.duration+'</div><div hidden class="color">'+curso.color+'</div><div hidden class="comision">'+curso.commission+'</div>')
+             events.append('<div class="external-event horario" style="background:'+curso.color+'"><div class="titulo">'+curso.code+'</div><div hidden class="id">'+horario.id+'</div><div hidden class="duration">'+horario.duration+'</div><div hidden class="color">'+curso.color+'</div><div hidden class="commission">'+curso.commission+'</div>')
             }else{
                 calendario.agregarCurso(
                   horario.id,
@@ -50,8 +50,8 @@ block content
             var eventObject = {
                  title: $.trim($(this).children('.titulo').text()), // use the element's text as the event title
                  id: $.trim($(this).children('.id').text()),
-                 comision: $.trim($(this).children('.comision').text()),
-                 duracion: parseInt($(this).children('.duracion').text()),
+                 commission: $.trim($(this).children('.commission').text()),
+                 duration: parseInt($(this).children('.duration').text()),
                  color: $.trim($(this).children('.color').text())
                  };
                 // store the Event Object in the DOM element so we can get to it later
@@ -71,14 +71,14 @@ block content
                   method:'post',
                   data: { id: id, hora:-1,dia:-1} ,success:function(result){
 
-                   duracion=ui.draggable.find('.duracion').text();
+                   duration=ui.draggable.find('.duration').text();
                    code=ui.draggable.find('.fc-event-title').text();
                    color=ui.draggable.find('.color').text();
-                   tag=$('<div class="external-event horario" style="background:'+color+'"><div class="titulo">'+code+'</div><div hidden class="id">'+id+'</div><div hidden class="duracion">'+duracion+'</div><div hidden class="color">'+color+'</div></div>');
+                   tag=$('<div class="external-event horario" style="background:'+color+'"><div class="titulo">'+code+'</div><div hidden class="id">'+id+'</div><div hidden class="duration">'+duration+'</div><div hidden class="color">'+color+'</div></div>');
                    var eventObject = {
                          title: code,
                          id: id,
-                         duracion: parseInt(duracion),
+                         duration: parseInt(duration),
                          color: color
                    };
                   tag.data('eventObject', eventObject);
