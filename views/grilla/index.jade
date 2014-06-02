@@ -22,21 +22,22 @@ block content
         var calendario = new CalendarioAcademico('#calendar');
 
         for(i=0; i<cursos.length; i++) {
-          for(j=0; j<cursos[i].horarios.length; j++) {
+          for(j=0; j<cursos[i].schedules.length; j++) {
 
             var curso = cursos[i];
-            var horario = curso.horarios[j];
+            var horario = curso.schedules[j];
+
             //Si no esta asignada a un horario o dia			
-            if(horario.dia == -1  || horario.hora == -1 ){
-             events.append('<div class="external-event horario" style="background:'+curso.configVista.color+'"><div class="titulo">'+curso.code+'</div><div hidden class="id">'+horario._id+'</div><div hidden class="duracion">'+horario.duracion+'</div><div hidden class="color">'+curso.configVista.color+'</div><div hidden class="comision">'+curso.comision+'</div>')
+            if(horario.day == -1  || horario.hour == -1 ){
+             events.append('<div class="external-event horario" style="background:'+curso.color+'"><div class="titulo">'+curso.code+'</div><div hidden class="id">'+horario._id+'</div><div hidden class="duracion">'+horario.duration+'</div><div hidden class="color">'+curso.color+'</div><div hidden class="comision">'+curso.commission+'</div>')
             }else{
                 calendario.agregarCurso(horario._id,
                   curso.code,
-                  curso.comision,
-                  horario.dia,
-                  horario.hora,
-                  horario.duracion,
-                  curso.configVista.color
+                  curso.commission,
+                  horario.day,
+                  horario.hour,
+                  horario.duration,
+                  curso.color
                 );
             }
           }

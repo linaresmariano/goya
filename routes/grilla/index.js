@@ -7,7 +7,7 @@ var datos = require('../../extras/datos'),
 
 exports.index = function(req, res) {
 
-  db.Course.findAll().success(function(courses) {
+  db.Course.findAll({include: [ {model: db.CourseSchedule, as: 'Schedules'} ]}).success(function(courses) {
     res.render('grilla/index', {
       title: 'Grilla',
       datos: datos,
