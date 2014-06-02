@@ -37,10 +37,10 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 //app.get('/users', user.list);
 app.get('/grilla', grilla.index);
-//app.get('/grilla/:cuatrimestre', grilla.cuatrimestre);
+app.get('/grilla/:semester', grilla.semester);
 app.get('/cursos', cursos.index);
 app.get('/cursos/:id', cursos.curso);
-app.get('/cursos/:id/:comision', cursos.comision);
+app.get('/cursos/:id/:commission', cursos.commission);
 app.post('/actualizarCurso', cursos.actualizar);
 app.post('/actualizarFinCurso', cursos.actualizarFin);
 

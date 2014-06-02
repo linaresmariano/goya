@@ -42,16 +42,16 @@ exports.curso = function(req, res) {
  * GET cursos/:code_curso/:comision.
  */
 
-exports.comision = function(req, res) {
+exports.commission = function(req, res) {
 
   weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
   code = req.params.id
-  comision = req.params.comision
+  commission = req.params.commission
   curso = ''
 
   db.Course.findAll({include: [ {model: db.CourseSchedule, as: 'Schedules'} ]}).success(function(courses) {
     courses.forEach(function(entry) {
-      if(entry.code == code && entry.commission == comision) {
+      if(entry.code == code && entry.commission == commission) {
 
         res.render('cursos/curso', {
           title: 'Curso '+ code,

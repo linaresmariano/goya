@@ -14,28 +14,30 @@ exports.index = function(req, res) {
       cursos: courses
     })
   })
+
 }
 
 
 /*
- * GET grilla/:cuatrimestre
+ * GET grilla/:semester
  */
 
-exports.cuatrimestre = function(req, res) {
+exports.semester = function(req, res) {
 
-  var cuatrimestre = req.params.cuatrimestre
+  var semester = parseInt(req.params.semester)
 
-  // buscar los del "cuatrimestre"
-  Curso.find(/*{'horarios.dia':1},*/gotCursos);
+  // buscar los del "semester"
+  db.Course.findAll({
+    where: { semester: semester },
+    include: [ {model: db.CourseSchedule, as: 'Schedules'} ]
+  })
+    .success(function(courses) {
 
-  function gotCursos (err, cursos) {
-    if (err) {
-      console.log(err)
-      return next()
-    }
-  
-    res.render('grilla/index', { title: 'Grilla', datos: datos, cursos: cursos });
-  }
+      res.render('grilla/index', {
+        title: 'Grilla',
+        datos: datos,
+        cursos: courses
+      })
+  })
 
-};
-
+}
