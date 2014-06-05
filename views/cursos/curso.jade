@@ -16,8 +16,8 @@ block content
   h2 Comision: #{curso.commission}
 
   h3 Profesor:
-    //    each profe in curso.profesores
-    //      * #{profe.name}
+      each profe in curso.mainTeacher
+        * #{profe.name}
     select
       option Seleccionar
       each profe in datos.profesores

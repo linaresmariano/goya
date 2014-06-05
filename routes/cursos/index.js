@@ -49,7 +49,10 @@ exports.commission = function(req, res) {
   commission = req.params.commission
   curso = ''
 
-  db.Course.findAll({include: [ {model: db.CourseSchedule, as: 'Schedules'} ]}).success(function(courses) {
+  db.Course.findAll({include: [
+    {model: db.CourseSchedule, as: 'Schedules'},
+    {model: db.Teacher, as: 'MainTeacher'}
+  ]}).success(function(courses) {
     courses.forEach(function(entry) {
       if(entry.code == code && entry.commission == commission) {
 
@@ -104,6 +107,20 @@ exports.actualizarFin = function(req, res) {
 
 
 exports.update_profe = function(req, res) {
+  //Actualiza el horario con el id correspondiente
+  db.CourseSchedule.find(req.param('id')).success(function(schedule) {
+
+    schedule.updateAttributes({
+      duration: req.param('duration')
+    }, ['duration'])
+      .success(function() {
+        res.send('ok')
+      })
+      .error(function(err) {
+        res.send('error')
+      })
+  })
+
   Curso.findOneAndUpdate(
     {'code': req.param('code'), 'comision': req.param('comision')},
     {'horarios.$.duracion':req.param('duracion')},

@@ -1,0 +1,60 @@
+div(style="clear:both")
+  #myModalCurso.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content(style='text-align:left')
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4#myModalLabel.modal-title Curso
+        .modal-body
+
+          h1 Curso: {{course.code}}
+
+          h2 Comision: {{course.commission}}
+
+          h3 Profesor:
+            //    each profe in curso.profesores
+            //      * #{profe.name}
+            select
+              option Seleccionar
+              each profe in datos.profesores
+                option #{profe.name}
+
+          h3 Aula: 
+            select
+              option Seleccionar
+              each aula in datos.aulas
+                option #{aula}
+
+          h3 Horarios:
+            if curso.schedules != undefined
+              each horario in curso.schedules
+                * #{weekday[horario.day]}, de #{horario.hour}hs a #{horario.hour + horario.duration}hs
+                br
+
+
+
+
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+          #save-curso.button.btn.btn-primary(type='button') Guardar
+
+
+
+  script.
+    $('#save-curso').click(function(e){
+
+      e.preventDefault();
+      var text = $('#mytext').val();
+      var url = 'your url' //we were using Link/addlink in the other example
+
+      $.ajax({
+       type: "POST",
+       url: url,
+       data: { mytext: text },
+       success: function(){
+            //Probably add the code to close your modal box here if successful
+            $('#myModalCurso').hide();
+            alert("Datos guardados con éxito");
+       },
+      });
+    });
