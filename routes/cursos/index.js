@@ -51,7 +51,7 @@ exports.commission = function(req, res) {
 
   db.Course.findAll({include: [
     {model: db.CourseSchedule, as: 'Schedules'},
-    {model: db.Teacher, as: 'MainTeacher'}
+    {model: db.Teacher, as: 'Teachers'}
   ]}).success(function(courses) {
     courses.forEach(function(entry) {
       if(entry.code == code && entry.commission == commission) {

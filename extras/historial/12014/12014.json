@@ -1,0 +1,33 @@
+{
+
+  "semester": {
+    "ID": "12014",
+    "semester": 1,
+    "year": 2014
+  },
+
+  "courses": [
+    {
+      "ID": "ORGA120141",
+      "code": "ORGA",
+      "commission": 1,
+      "SemesterId": "12014",
+      "enrolled": 20,
+      "capacity": 30,
+      "color": "green",
+      "TeachersId": ["MARA"]
+    }
+  ],
+
+  "schedules": [
+    {
+      "CourseId": "ORGA120141",
+      "type": "Teorica",
+      "day": 5,
+      "hour": 14,
+      "minutes": 0,
+      "duration": 4
+    }
+  ]
+
+}

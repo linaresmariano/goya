@@ -22,8 +22,14 @@ db.Course.destroy().success(function() {
 
 		db.Teacher.create({
 			CourseId: course.id,
-			code: 'MARA',
-			name: 'Mara Dalponte'
+			code: 'PABLOT',
+			name: 'Pablo Tesone'
+		})
+
+		db.Teacher.create({
+			CourseId: course.id,
+			code: 'RONY',
+			name: 'Rony De Jesus'
 		})
   })
 

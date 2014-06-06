@@ -1,0 +1,20 @@
+{
+  "classrooms": [
+
+    {
+      "code": "37B",
+      "capacity": 30
+    },
+
+    {
+      "code": "38B",
+      "capacity": 30
+    },
+
+    {
+      "code": "40",
+      "capacity": 25
+    }
+    
+  ]
+}
