@@ -29,7 +29,7 @@ function CalendarioAcademico(idTag){
 		week: 'Semana',
 		day:  'Dia'
 		},
-		handleWindowResize :false,
+		handleWindowResize :true,
 		year:1000,
 		month:1,
 		eventMouseover: function( event, jsEvent, view ) { },
