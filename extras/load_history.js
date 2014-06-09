@@ -48,31 +48,34 @@ fs
         // Create courses
         info.courses
           .forEach(function(course) {
+            db.Teacher.find({where: { code: course.TeacherCode }}).success(function(teacher) {
+              db.Course.create({
+                SemesterId: semes.id,
+                TeacherId: teacher.id,
+                code: course.code,
+                commission: course.commission,
+                semester: course.semester,
+                enrolled: course.enrolled,
+                capacity: course.capacity,
+                color: course.color
 
-            db.Course.create({
-              SemesterId: semes.id,
-              code: course.code,
-              commission: course.commission,
-              semester: course.semester,
-              enrolled: course.enrolled,
-              capacity: course.capacity,
-              color: course.color
+              }).success(function(cour) {
 
-            }).success(function(cour) {
+                
+                course.schedules
+                  .forEach(function(schedule) {
 
-              
-              course.schedules
-                .forEach(function(schedule) {
+                    db.CourseSchedule.create({
+                      CourseId: cour.id,
+                      type: schedule.type,
+                      day: schedule.day,
+                      hour: schedule.hour,
+                      minutes: schedule.minutes,
+                      duration: schedule.duration
+                    })
 
-                  db.CourseSchedule.create({
-                    type: schedule.type,
-                    day: schedule.day,
-                    hour: schedule.hour,
-                    minutes: schedule.minutes,
-                    duration: schedule.duration
                   })
-
-                })
+              })
             })
           })
       })
