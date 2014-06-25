@@ -28,7 +28,7 @@ exports.semester = function(req, res) {
 
   // buscar los del "semester"
   db.Course.findAll({
-    where: { semester: semester },
+    where: { SemesterId: semester },
     include: [ {model: db.CourseSchedule, as: 'Schedules'} ]
   })
     .success(function(courses) {

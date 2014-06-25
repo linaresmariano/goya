@@ -19,6 +19,18 @@ db.Course.destroy().success(function() {
 			minutes: 0,
 			duration: 6
 		})
+
+		db.Teacher.create({
+			CourseId: course.id,
+			code: 'PABLOT',
+			name: 'Pablo Tesone'
+		})
+
+		db.Teacher.create({
+			CourseId: course.id,
+			code: 'RONY',
+			name: 'Rony De Jesus'
+		})
   })
 
 	db.Course.create({

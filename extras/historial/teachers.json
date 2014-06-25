@@ -1,0 +1,16 @@
+{
+  "teachers": [
+    {
+      "code": "MARA",
+      "name": "Mara Dalponte"
+    },
+    {
+      "code": "HORTENSIA",
+      "name": "Maria Hortensia Arriola"
+    },
+    {
+      "code": "EDUB",
+      "name": "Eduardo Bonelli"
+    }
+  ]
+}

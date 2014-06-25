@@ -1,0 +1,59 @@
+{
+
+  "semester": {
+    "ID": "12014",
+    "semester": 1,
+    "year": 2014
+  },
+
+  "courses": [
+    {
+      "code": "ORGA",
+      "commission": 1,
+      "SemesterId": "12014",
+      "enrolled": 20,
+      "capacity": 30,
+      "color": "green",
+      "TeacherCode": "MARA",
+      "schedules": [
+
+        {
+          "type": "Teorica",
+          "day": 5,
+          "hour": 14,
+          "minutes": 0,
+          "duration": 4
+        },
+
+        {
+          "type": "Practica",
+          "day": 3,
+          "hour": 18,
+          "minutes": 0,
+          "duration": 4
+        }
+
+      ]
+    },
+
+    {
+      "code": "INTRO",
+      "commission": 1,
+      "SemesterId": "12014",
+      "enrolled": 30,
+      "capacity": 30,
+      "color": "pink",
+      "TeacherCode": "EDUB",
+      "schedules": [
+        {
+          "type": "Practica",
+          "day": 3,
+          "hour": -1,
+          "minutes": -1,
+          "duration": 4
+        }
+      ]
+    }
+  ]
+
+}

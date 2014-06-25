@@ -7,21 +7,30 @@ block content
   link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
   link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css')
   script(src='/js/lib/jquery-ui.custom.min.js')
+  script(src='/js/lib/jquery.min.js')
   script(src='/js/fullcalendar/fullcalendar.min.js')
   script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
-  
+  script.
+    function addTeacher() {
+      var profe = $('#selectedTeacher')[0].value;
+      console.log(profe);
+    }
 
   h1 Curso: #{curso.code}
 
   h2 Comision: #{curso.commission}
 
-  h3 Profesor:
-    //    each profe in curso.profesores
-    //      * #{profe.name}
-    select
+  h3 Profesor/es:
+    ul
+      each profe in curso.teachers
+        li #{profe.name}
+
+    select#selectedTeacher
       option Seleccionar
       each profe in datos.profesores
         option #{profe.name}
+
+    button.btn(type='button', onclick="addTeacher()") Agregar
 
   h3 Aula: 
     select
