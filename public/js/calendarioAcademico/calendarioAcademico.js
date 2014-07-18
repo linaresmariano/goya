@@ -41,6 +41,7 @@ function CalendarioAcademico(idTag){
 		allDaySlot:false,
 		slotMinutes: 30,
 		snapMinutes:60,
+		dropAccept:".dragg-course",
 		slotEventOverlap:false,
 		dayNames:['Lunes', 'Martes', 'Miercoles', 'Jueves',
 		'Viernes', 'Sabado', 'Domingo'],
@@ -62,14 +63,6 @@ function CalendarioAcademico(idTag){
 				// retrieve the dropped element's stored Event Object
 				var originalEventObject = $(this).data('eventObject');
 
-				console.log(originalEventObject);
-
-				if(originalEventObject.id == 'PROFE') {
-
-					console.log("buscar sobre que curso me soltaron y asignarme a el");
-
-				} else {
-				
 					// we need to copy it, so that multiple events don't have a reference to the same object
 					var copiedEventObject = $.extend({}, originalEventObject);
 					// assign it the date that was reported
@@ -98,29 +91,7 @@ function CalendarioAcademico(idTag){
 				
 			    $(this).remove();
 
-			    console.log($('div.fc-event-inner'));
-			    $('div.fc-event-inner').each(function() {
-           	
-            // store the Event Object in the DOM element so we can get to it later
-            //$(this).data('eventObject', eventObject);
-            // make the event draggable using jQuery UI
-            //$(this).draggable({
-              //zIndex: 999,
-              //revert: true,      // will cause the event to go back to its
-              //revertDuration: 0  //  original position after the drag
-            //});
-         		$(this).droppable({drop:function( event, ui ){
-              id=ui.draggable.find('.id').text();
-              //thisTag=$(this);
-
-              console.log(id);
-              
-              },accept:'.profesor',tolerance: "touch" 
-         		});
-
-            console.log("aca deberia settear al element como area dropable para profes");
-         });
-				}
+				
 
 			
 		},
@@ -163,7 +134,6 @@ function CalendarioAcademico(idTag){
 		},
 		eventDrop :function( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ){
 		
-		 
 		  if(esHorarioInvalido(event.start.getHours()) ||
 		                 esHorarioInvalido(event.end.getHours())){		 
 				revertFunc();				
@@ -183,6 +153,28 @@ function CalendarioAcademico(idTag){
 					});
 			}
 		},
+		eventRender: function (event, element) {
+            element.attr('onclick',"alert('"+event.id+"')");
+			var eventVar=event;
+			element.droppable({
+							  drop: function( event, ui ) {
+									event.title=ui.draggable.text();
+									calendario.fullCalendar( 'removeEvents' , eventVar.id );
+
+									calendario.fullCalendar( 'addEventSource', [
+											{
+												id: eventVar.id,
+												title: eventVar.title+" -> "+ui.draggable.text(),
+												start: eventVar.start,
+												end: eventVar.end,
+												allDay: false,
+												backgroundColor: eventVar.backgroundColor
+											}] )
+									
+									alert($(this).text()+" -> "+ui.draggable.text());},
+							  accept: ".dragg-teacher"
+							});
+        },
 		firstHour: 8
     }).fullCalendar( 'changeView', 'agendaWeek' );          
 

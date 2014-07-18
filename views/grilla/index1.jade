@@ -1,0 +1,156 @@
+extends layout
+
+block content
+  link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
+  link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css')
+  link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.css')
+  // link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.print.css')
+  link(rel='stylesheet', href='/stylesheets/grilla.css')
+  script(src='/js/lib/jquery.min.js')
+  script(src='/js/lib/jquery-ui.custom.min.js')
+  script(src='/js/lib/jquery.ui.droppable.js')
+  script(src='/js/fullcalendar/fullcalendar.min.js')
+  script(src='/js/calendarioAcademico/calendarioAcademico.js')
+  script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
+  script.
+    $(document).ready(function() {
+
+        /* inicializar el calendario -----------------------------------------------------------------*/
+        events=$('#events');
+        
+        var cursos = !{JSON.stringify(cursos)} ;
+        var calendario = new CalendarioAcademico('#calendar');
+
+        for(i=0; i<cursos.length; i++) {
+          for(j=0; j<cursos[i].schedules.length; j++) {
+
+            var curso = cursos[i];
+            var horario = curso.schedules[j];
+
+            //Si no esta asignada a un horario o dia			
+            if(horario.day == -1  || horario.hour == -1 ){
+             events.append('<div class="external-event horario" style="background:'+curso.color+'"><div class="titulo">'+curso.code+'</div><div hidden class="id">'+horario.id+'</div><div hidden class="duration">'+horario.duration+'</div><div hidden class="color">'+curso.color+'</div><div hidden class="commission">'+curso.commission+'</div>')
+            }else{
+                calendario.agregarCurso(
+                  horario.id,
+                  curso.code,
+                  curso.commission,
+                  horario.day,
+                  horario.hour,
+                  horario.duration,
+                  curso.color
+                );
+            }
+          }
+        }
+         /* inicializar evetos de los cursos sin horario definido-----------------------------------------------------------------*/
+         $('#events div.external-event').each(function() {
+            // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+            // it doesn't need to have a start or end
+            var eventObject = {
+                 title: $.trim($(this).children('.titulo').text()), // use the element's text as the event title
+                 id: $.trim($(this).children('.id').text()),
+                 commission: $.trim($(this).children('.commission').text()),
+                 duration: parseInt($(this).children('.duration').text()),
+                 color: $.trim($(this).children('.color').text())
+                 };
+                // store the Event Object in the DOM element so we can get to it later
+            $(this).data('eventObject', eventObject);
+            // make the event draggable using jQuery UI
+            $(this).draggable({
+               zIndex: 999,
+               revert: true,      // will cause the event to go back to its
+               revertDuration: 0  //  original position after the drag
+            });            
+         });
+         //Eliminando un horario de la grilla
+         $('.external-events').droppable({drop:function( event, ui ){
+                  id=ui.draggable.find('.id').text();
+                  thisTag=$(this);
+                  $.ajax({url:"/actualizarCurso",
+                  method:'post',
+                  data: { id: id, hora:-1,dia:-1} ,success:function(result){
+
+                   duration=ui.draggable.find('.duration').text();
+                   code=ui.draggable.find('.fc-event-title').text();
+                   color=ui.draggable.find('.color').text();
+                   tag=$('<div class="external-event horario" style="background:'+color+'"><div class="titulo">'+code+'</div><div hidden class="id">'+id+'</div><div hidden class="duration">'+duration+'</div><div hidden class="color">'+color+'</div></div>');
+                   var eventObject = {
+                         title: code,
+                         id: id,
+                         duration: parseInt(duration),
+                         color: color
+                   };
+                  tag.data('eventObject', eventObject);
+                  tag.draggable({
+                     zIndex: 999,
+                     revert: true,      // will cause the event to go back to its
+                     revertDuration: 0  //  original position after the drag
+                  });
+                  thisTag.append(tag);
+                  calendario.eliminarCurso(id);
+                  ui.draggable.css('display','none');
+                  },error:function(err){
+
+                       alert('Error al actualizadr dato,es posible que no este conectado a internet.');
+                     }
+                  });
+                  },accept:'.fc-event',tolerance: "touch" 
+         });
+    });
+
+    function actualizarDatosProfesor(legajo,nombre){
+             $('#nombre-profesor').text(nombre);
+             $('#legajo-profesor').text(legajo);
+    }
+
+  ul.nav.nav-tabs(style="background:black;-webkit-box-shadow: 2px 2px 2px 0px rgba(50, 50, 50, 0.75);-moz-box-shadow:    2px 2px 2px 0px rgba(50, 50, 50, 0.75);box-shadow:2px 2px 2px 0px rgba(50, 50, 50, 0.75);")
+    li.active
+      a(href='#tab1', data-toggle='tab') Asignar horarios a los cursos
+    li
+      a(href='#tab2', data-toggle='tab') Asignar profesores a los cursos
+    li
+      a(href='#tab3', data-toggle='tab') Asignar aulas a los cursos
+
+
+  div#calendar
+
+  .tab-content
+    #tab1.tab-pane.active
+    
+      div#wrap
+       div#left-options
+        div(class="external-events")
+         div#events
+           h4 Cursos no asignados
+
+
+    #tab2.tab-pane
+
+      div.wrap
+        div#left-options
+          div(class="external-events")
+            div#events
+              h4 Profesores no asignados
+              each profesor in datos.profesores
+                div.external-event.profesor(style="cursor:pointer",onclick="actualizarDatosProfesor('#{profesor.legajo}','#{profesor.name}')",data-toggle='modal', data-target='#myModal')
+                  .titulo #{profesor.legajo}
+                  .id(hidden='hidden') PROFE
+
+                
+       
+      include profe
+
+
+    #tab3.tab-pane
+
+      div.wrap
+        div#left-options
+          div(class="external-events")
+            div#events
+              h4 Aulas disponibles
+              each aula in datos.aulas
+                div(style="cursor:pointer") #{aula}
+
+  include modal_curso
+
