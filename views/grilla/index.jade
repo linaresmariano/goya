@@ -69,10 +69,14 @@ block content
 				restrict: 'A',
 				link: function(scope, elm, attrs) {
 					//Necesita de position absolute,para droppear a los eventos del calendar
-					elm.css('position','absolute');
+					//elm.css('position','absolute');
 
 					elm.draggable({
-					start: function( event, ui ) {},
+					start: function( event, ui ) {
+					},
+					drag: function( event, ui ) {
+
+						},
 					zIndex: 999,
 					revert: true,      
 					revertDuration: 0 ,
@@ -82,16 +86,17 @@ block content
 			};
 		});
 		
-		//Creando estilo menuTeachers,para solucionar el problema d ela posicion absoluta
+		//Creando estilo menuTeachers,para solucionar el problema de la posicion absoluta que se requiere para dropear
 		app.directive('menuTeachers', function() {
 			return {
 				restrict: 'C',
 				link: function(scope, elm, attrs) {
-					var margin=0;
-					$(".menu-teachers div").each(function (index) {
-						$(this).css("margin-top",margin+"px");
-						margin+=20;
-					})
+					elm.css("position","relative");
+					$(".menu-teachers div").each(function() {
+						var top = $(this).position().top +'px';
+						var left = $(this).position().left + 'px';
+						$(this).css({top: top, left: left});
+					}).css({position: 'absolute'});
 				}
 			};
 		});
@@ -141,11 +146,13 @@ block content
 		}
 	div(ng-controller="AppController")
 		div
+			div#calendar
+			b Cursos
 			div(ng-repeat="course in infoCoursesNotAssigned track by $index")
 				div(class="dragg-course",draggable-course dragg-model="course"){{course.code}}
-			div#calendar
-		div(class="menu-teachers")
-			div(class="dragg-teacher",dragg-teacher) teacher
-			div(class="dragg-teacher",dragg-teacher) teacher1
-			div(class="dragg-teacher",dragg-teacher) teacher2
-			div(class="dragg-teacher",dragg-teacher) teacher3
+			b Teachers
+			div(class="menu-teachers")
+				div(class="dragg-teacher",dragg-teacher) teacher
+				div(class="dragg-teacher",dragg-teacher) teacher1
+				div(class="dragg-teacher",dragg-teacher) teacher2
+				div(class="dragg-teacher",dragg-teacher) teacher3
