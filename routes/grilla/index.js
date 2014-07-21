@@ -37,11 +37,18 @@ exports.semester = function(req, res) {
 						include:[{model: db.CourseSchedule, as: 'Schedules'}] }]
   })
     .success(function(semester) {
-      res.render('grilla/index', {
-        title: 'Grilla',
-        datos: datos,
-        cursos: semester == null ? [] : semester.courses 
-      })
+		
+		db.Teacher.findAll({
+		}).success(function(teachers) {
+			res.render('grilla/index', {
+				title: 'Grilla',
+				datos: datos,
+				semester: { courses :(semester == null ? [] : semester.courses),
+							teachers: teachers} 
+			  })
+		});
+	
+      
   })
 
 }

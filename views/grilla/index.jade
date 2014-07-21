@@ -91,12 +91,15 @@ block content
 			return {
 				restrict: 'C',
 				link: function(scope, elm, attrs) {
-					elm.css("position","relative");
-					$(".menu-teachers div").each(function() {
-						var top = $(this).position().top +'px';
-						var left = $(this).position().left + 'px';
-						$(this).css({top: top, left: left});
-					}).css({position: 'absolute'});
+					var space = attrs.space;
+					
+					elm.css("margin-top",space);
+					elm.css("position","absolute");
+					//$(".menu-teachers div").each(function() {
+					//	var top = $(this).position().top +'px';
+					//	var left = $(this).position().left + 'px';
+					//	$(this).css({top: top, left: left});
+					//}).css({position: 'absolute'});
 				}
 			};
 		});
@@ -110,7 +113,9 @@ block content
 		function AppController($scope){
 			
 				//Modelos
-				$scope.courses = !{JSON.stringify(cursos)} ;
+				$scope.courses = !{JSON.stringify(semester.courses)} ;
+				
+				$scope.teachers = !{JSON.stringify(semester.teachers)} ;
 				
 				//Informacion de los cursos no asignados
 				$scope.infoCoursesNotAssigned=[ ];
@@ -151,8 +156,6 @@ block content
 			div(ng-repeat="course in infoCoursesNotAssigned track by $index")
 				div(class="dragg-course",draggable-course dragg-model="course"){{course.code}}
 			b Teachers
-			div(class="menu-teachers")
-				div(class="dragg-teacher",dragg-teacher) teacher
-				div(class="dragg-teacher",dragg-teacher) teacher1
-				div(class="dragg-teacher",dragg-teacher) teacher2
-				div(class="dragg-teacher",dragg-teacher) teacher3
+			div(ng-repeat="teacher in teachers track by $index")
+				div(class="menu-teachers",space="{{$index*20}}px",class="dragg-teacher",dragg-teacher){{teacher.name}}
+				
