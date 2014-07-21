@@ -24,19 +24,23 @@ exports.index = function(req, res) {
 
 exports.semester = function(req, res) {
 
-  var semester = parseInt(req.params.semester)
+  var semester = req.params.semester;
+  var year = req.params.year;
 
   // buscar los del "semester"
-  db.Course.findAll({
-    where: { SemesterId: semester },
-    include: [ {model: db.CourseSchedule, as: 'Schedules'} ]
+  db.Semester.find({
+     where: {
+              'year': semester ,
+			  'semester':year
+            },
+	include: [ {model: db.Course, as: 'Courses' , 
+						include:[{model: db.CourseSchedule, as: 'Schedules'}] }]
   })
-    .success(function(courses) {
-
+    .success(function(semester) {
       res.render('grilla/index', {
         title: 'Grilla',
         datos: datos,
-        cursos: courses
+        cursos: semester == null ? [] : semester.courses 
       })
   })
 

@@ -15,4 +15,4 @@ block content
   div(ng-app="indexApp", ng-controller="SemestralGrids")
     ul
       li(ng-repeat='semester in semesters')
-        a(ng-href='/grilla/{{semester.code}}') Ir a la grilla del semestre {{semester.semester}} del año {{semester.year}}
+        a(ng-href='/grilla/{{semester.year}}/{{semester.semester}}') Ir a la grilla del semestre {{semester.semester}} del año {{semester.year}}

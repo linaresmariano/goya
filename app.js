@@ -37,7 +37,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 //app.get('/users', user.list);
 app.get('/grilla', grilla.index);
-app.get('/grilla/:semester', grilla.semester);
+app.get('/grilla/:semester/:year', grilla.semester);
 app.get('/cursos', cursos.index);
 app.get('/cursos/:id', cursos.curso);
 app.get('/cursos/:id/:commission', cursos.commission);

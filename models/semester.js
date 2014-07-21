@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
       instanceMethods: {
         code: function() {
-          return semester +" "+ year
+          return parseInt(semester +""+ year);
         }
       }
     }
