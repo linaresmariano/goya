@@ -1,5 +1,85 @@
 var db = require('../models')
 
+//Semesters
+var semester = db.Semester.build({
+									semester: 1,
+									year: 2014
+								});
+//Courses							
+var courseEPERS = db.Course.build({
+									commission: 1,
+									code: 'EPERS',
+									enrolled: 25,
+									color: 'red'
+								});
+								
+var courseORGA = db.Course.build({
+									code: 'ORGA',
+									enrolled: 45,
+									commission: 1,
+									color: 'green'
+								});
+						
+//Schedules								
+var courseSchedule1 = db.CourseSchedule.build({
+									type: 'Teorica/Practica',
+									day: 5,
+									hour: 9,
+									minutes: 0,
+									duration: 6
+								});
+								
+var courseSchedule2 = db.CourseSchedule.build({
+									type: 'Teorica',
+									day: -1,
+									hour: -1,
+									minutes: 0,
+									duration: 3
+								});
+
+//Teachers								
+var teacherPABLOT= db.Teacher.build({
+						code: 'PABLOT',
+						name: 'Pablo Tesone'
+					});
+					
+var teacherRONY= db.Teacher.build({
+						code: 'RONY',
+						name: 'Rony De Jesus'
+					});
+
+//Save models
+chainer = new db.Sequelize.Utils.QueryChainer
+
+//save courses
+chainer.add(courseORGA.save());
+chainer.add(courseEPERS.save());
+
+//save models
+chainer.add(semester.save());
+
+//save teachers
+chainer.add(teacherPABLOT.save());
+chainer.add(teacherRONY.save());
+
+//save schedules
+chainer.add(courseSchedule1.save());
+chainer.add(courseSchedule2.save())
+
+//save relations
+chainer.run().complete( function(err, result) {
+        semester.setCourses([courseEPERS]);
+		semester.setCourses([courseORGA]);
+		
+		courseEPERS.setCourseTeacher(teacherPABLOT);
+		courseEPERS.setCourseInstructor(teacherRONY);
+		
+		courseEPERS.setSchedules([courseSchedule1]);
+		courseORGA.setSchedules([courseSchedule2]);
+});
+
+
+/*
 db.Semester.destroy().success(function() {
 
 	db.Course.destroy().success(function() {
@@ -11,6 +91,7 @@ db.Semester.destroy().success(function() {
 
 			db.Course.create({
 				SemesterId: semester.id,
+				commission: 1,
 				code: 'EPERS',
 				enrolled: 25,
 				color: 'red'
@@ -19,7 +100,6 @@ db.Semester.destroy().success(function() {
 			  db.CourseSchedule.create({
 				CourseId: course.id,
 				type: 'Teorica/Practica',
-					commission: 1,
 					day: 1,
 					hour: 16,
 					minutes: 0,
@@ -43,13 +123,13 @@ db.Semester.destroy().success(function() {
 				SemesterId: semester.id,
 				code: 'INTRO',
 				enrolled: 30,
+				commission: 1,
 				color: 'pink'
 			}).success(function(course) {
 
 			  db.CourseSchedule.create({
 				CourseId: course.id,
 				type: 'Teorica',
-					commission: 3,
 					day: 1,
 					hour: 9,
 					minutes: 0,
@@ -59,7 +139,6 @@ db.Semester.destroy().success(function() {
 				db.CourseSchedule.create({
 				CourseId: course.id,
 				type: 'Practica',
-					commission: 1,
 					day: 3,
 					hour: 9,
 					minutes: 0,
@@ -69,7 +148,6 @@ db.Semester.destroy().success(function() {
 			  db.CourseSchedule.create({
 				CourseId: course.id,
 				type: 'Practica',
-					commission: 2,
 					day: -1,
 					hour: -1,
 					minutes: 0,
@@ -81,13 +159,13 @@ db.Semester.destroy().success(function() {
 				SemesterId: semester.id,
 				code: 'ORGA',
 				enrolled: 45,
+				commission: 1,
 				color: 'green'
 			}).success(function(course) {
 			 
 			  db.CourseSchedule.create({
 				CourseId: course.id,
 				type: 'Teorica',
-					commission: 1,
 					day: 5,
 					hour: 14,
 					minutes: 0,
@@ -99,15 +177,33 @@ db.Semester.destroy().success(function() {
 				SemesterId: semester.id,
 				code: 'SEGI',
 				enrolled: 20,
+				commission: 1,
 				color: 'yellow'
 			}).success(function(course) {
 			 
 			  db.CourseSchedule.create({
 				CourseId: course.id,
 				type: 'Teorica/Practica',
-					commission: 1,
 					day: -1,
 					hour: -1,
+					minutes: 0,
+					duration: 4
+				})
+		  })
+		  
+			db.Course.create({
+				SemesterId: semester.id,
+				commission: 1,
+				code: 'TVDIG',
+				enrolled: 25,
+				color: 'blue'
+			}).success(function(course) {
+			 
+			  db.CourseSchedule.create({
+				CourseId: course.id,
+				type: 'Teorica/Practica',
+					day: 5,
+					hour: 18,
 					minutes: 0,
 					duration: 4
 				})
@@ -118,3 +214,4 @@ db.Semester.destroy().success(function() {
 	});
 
 });
+*/

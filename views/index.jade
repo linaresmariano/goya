@@ -7,11 +7,8 @@ block content
 
   ul
     li
-      a(href='/grilla') Grilla (deshabilitar path /grilla, usar /grilla/:semester)
-
-    li
       a(href='/cursos') Cursos
-
+  b Semestres
   div(ng-app="indexApp", ng-controller="SemestralGrids")
     ul
       li(ng-repeat='semester in semesters')

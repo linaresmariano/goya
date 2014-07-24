@@ -1,5 +1,4 @@
-var datos = require('../../extras/datos'),
-    db = require('../../models')
+var db = require('../../models')
 
 /*
  * GET grilla.
@@ -33,22 +32,22 @@ exports.semester = function(req, res) {
               'year': semester ,
 			  'semester':year
             },
-	include: [ {model: db.Course, as: 'Courses' , 
-						include:[{model: db.CourseSchedule, as: 'Schedules'}] }]
+	include: [ {	model: db.Course, as: 'Courses' ,require:false,
+						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false},
+									{model: db.Teacher, as: 'CourseInstructor',require:false},
+									{model: db.Teacher, as: 'CourseTeacher',require:false}]
+						}]
   })
     .success(function(semester) {
-		
 		db.Teacher.findAll({
 		}).success(function(teachers) {
 			res.render('grilla/index', {
 				title: 'Grilla',
-				datos: datos,
 				semester: { courses :(semester == null ? [] : semester.courses),
 							teachers: teachers} 
 			  })
 		});
-	
-      
   })
 
 }
+

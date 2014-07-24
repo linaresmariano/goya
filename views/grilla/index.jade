@@ -2,160 +2,25 @@ extends layout
 
 block content
 	link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
-	link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css')
 	link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.css')
-	// link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.print.css')
-	//link(rel='stylesheet', href='/stylesheets/grilla.css')
 	script(src='/js/lib/jquery.min.js')
 	script(src='/js/lib/jquery-ui.custom.min.js')
 	script(src='/js/lib/jquery.ui.droppable.js')
-	script(src='/js/fullcalendar/fullcalendar.min.js')
-	script(src='/js/calendarioAcademico/calendarioAcademico.js')
-	script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
 	script(src='/js/angular/angular.min.js')
+	script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
+	script(src='http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js')
+	script(src='/js/fullcalendar/fullcalendar.js')
+	script(src='/js/fullcalendar/calendar.js')
 	script.
-
-		var app = angular.module('APP', []);
-		
-		//Creando directive draggable con jquery ui
-		app.directive('draggableCourse', function() {
-			return {
-				restrict: 'A',
-				link: function(scope, elm, attrs) {
-				
-				//Obteniendo valor del atributo model
-				var model = scope.$eval(attrs.draggModel);
-				
-				var eventObject = {
-						title: model.code, 
-						id: model.id,
-						commission: model.commission,
-						duration: 2,
-						color: model.color
-				};
-
-				elm.data('eventObject', eventObject);
-
-				elm.draggable({
-					zIndex: 999,
-					revert: true,      
-					revertDuration: 0 ,
-					stop: function( event, ui ) {}
-				});         
-
-				}
-			};
-		});
-		
-		
-		//Creando directive droppable con jquery ui
-		app.directive('droppable', function() {
-			return {
-				restrict: 'A',
-				link: function(scope, elm, attrs) {
-				//Obteniendo valor del atributo model
-				elm.droppable({
-					drop: function( event, ui ) {  
-						alert(getModel(ui.draggable,'dragg-model').color);
-					}
-				});
-				}
-			};
-		});
-		
-		//Creando directive droppable con jquery ui
-		app.directive('draggTeacher', function() {
-			return {
-				restrict: 'A',
-				link: function(scope, elm, attrs) {
-					//Necesita de position absolute,para droppear a los eventos del calendar
-					//elm.css('position','absolute');
-
-					elm.draggable({
-					start: function( event, ui ) {
-					},
-					drag: function( event, ui ) {
-
-						},
-					zIndex: 999,
-					revert: true,      
-					revertDuration: 0 ,
-					stop: function( event, ui ) {}
-				}); 
-				}
-			};
-		});
-		
-		//Creando estilo menuTeachers,para solucionar el problema de la posicion absoluta que se requiere para dropear
-		app.directive('menuTeachers', function() {
-			return {
-				restrict: 'C',
-				link: function(scope, elm, attrs) {
-					var space = attrs.space;
-					
-					elm.css("margin-top",space);
-					elm.css("position","absolute");
-					//$(".menu-teachers div").each(function() {
-					//	var top = $(this).position().top +'px';
-					//	var left = $(this).position().left + 'px';
-					//	$(this).css({top: top, left: left});
-					//}).css({position: 'absolute'});
-				}
-			};
-		});
-		
-		//function para obtener el modelo de angular de un element
-		function getModel(elm,modelName){
-			return angular.element(elm).scope().$eval($(elm).attr(modelName));
-		}
-		
-		//Controller principal
-		function AppController($scope){
-			
-				//Modelos
-				$scope.courses = !{JSON.stringify(semester.courses)} ;
-				
-				$scope.teachers = !{JSON.stringify(semester.teachers)} ;
-				
-				//Informacion de los cursos no asignados
-				$scope.infoCoursesNotAssigned=[ ];
-				
-
-				//Creando en calendario
-				var calendar = new CalendarioAcademico('#calendar');
-				
-				//Agregando cursos al calendario
-				for(i=0; i<$scope.courses.length; i++) {
-					for(j=0; j<$scope.courses[i].schedules.length; j++) {
-
-						var curso = $scope.courses[i];
-						var horario = curso.schedules[j];
-
-						//Si no esta asignada a un horario o dia			
-						if(horario.day == -1  || horario.hour == -1 ){
-							$scope.infoCoursesNotAssigned.push({code:curso.code,duration:curso.duration,id:horario.id,color:curso.color,commission:curso.commission});
-						}else{
-							calendar.agregarCurso(
-											horario.id,
-											curso.code,
-											curso.commission,
-											horario.day,
-											horario.hour,
-											horario.duration,
-											curso.color
-										);
-						}
-					}
-				}
-			//alert($('#calendar').fullCalendar('clientEvents')[1].title);
-		}
-	div(ng-controller="AppController")
-		div
-			div#calendar
-			b Cursos
-			div(ng-repeat="course in infoCoursesNotAssigned track by $index")
-				div(class="dragg-course",draggable-course dragg-model="course"){{course.code}}
-			b Teachers
-			div(ng-repeat="teacher in teachers track by $index")
-				div(class="menu-teachers",space="{{$index*20}}px",class="dragg-teacher",dragg-teacher){{teacher.name}}
+		var semesterJSON=!{JSON.stringify(semester)};
+	script(src='/js/calendarioAcademico/academicCalendar.js')
+	
+	div(ng-controller='CalendarCtrl')
+		.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar')
+		b Cursos
+		div(ng-repeat="course in infoCoursesNotAssigned track by $index")
+			div(class="dragg-course",draggable-course dragg-model="course"){{course.code}}
+		b Teachers
+		div(style="position:relative",ng-repeat="teacher in teachers track by $index")
+			div(class="menu-teachers",space="{{$index*20}}px",class="dragg-teacher",dragg-teacher){{teacher.name}}
 				

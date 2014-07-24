@@ -9,10 +9,10 @@ module.exports = function(sequelize, DataTypes) {
 	},{
       classMethods: {
         associate: function(models) {
-          this.hasMany(models.Teacher, { as: 'Teachers'});
+          this.hasOne(models.Teacher, { as: 'Teacher'});
 		  this.hasOne(models.ClassRoom, { as: 'ClassRoom'});
         }
-      }
+      },
   })
 
 }
