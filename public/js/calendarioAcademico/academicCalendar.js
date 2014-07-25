@@ -12,13 +12,7 @@ app.directive('draggableCourse', function() {
 				//Obteniendo valor del atributo model
 				var model = scope.$eval(attrs.draggModel);
 
-				var eventObject = {
-						title: model.code, 
-						id: model.id,
-						commission: model.commission,
-						duration: model.duration,
-						color: model.color
-				};
+				var eventObject = model;
 
 				elm.data('eventObject', eventObject);
 
@@ -118,23 +112,21 @@ function CalendarCtrl($scope, $http, $q){
 					$http({
 							url:"/actualizarCurso",
 							method:'post',
-							data: { id:copiedEventObject.id, hour:date.getHours(),day:date.getDay()}
+							data: { id:copiedEventObject.schedule.id, hour:date.getHours(),day:date.getDay()}
 					}).success(function(data) {
-						$scope.events.push({	id: copiedEventObject.id,
-												title: copiedEventObject.title,
-												start: new Date(y, m-1, date.getDay()+d,date.getHours(),0),
-												end: new Date(y, m-1, date.getDay()+d, date.getHours()+copiedEventObject.duration, 0),
-												allDay: false,
-												backgroundColor: copiedEventObject.color,
-												borderColor: 'black'
-											});
-						
+					
+						//Actualizando el schedule con el nuevo horario
+						copiedEventObject.schedule.day=date.getDay();
+						copiedEventObject.schedule.hour=date.getHours();
+						//Agragando el horario a la grilla
+						$scope.addSchedule(copiedEventObject.course,copiedEventObject.schedule);
+						$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
 						
 					}).error(function(err){
 						alert('Error al actualizar dato,es posible que no este conectado a internet.');
 					});
-
-			$(this).remove();
+				
+			
 	};
 	
     $scope.eventResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
@@ -154,31 +146,55 @@ function CalendarCtrl($scope, $http, $q){
 			});
     };
 	
+	//Cuando se dibuja los eventos
 	$scope.eventRender =function (event, element) {
-            //element.attr('onclick',"alert('"+event.id+"')");
 			var eventVar=event;
 			element.droppable({
 							  drop: function( event, ui ) {
 									event.title=ui.draggable.text();
-									
-									
 									alert($(this).text()+" -> "+ui.draggable.text());},
 							  accept: ".dragg-teacher"
 							});
         }
 
-    /* add custom event*/
-    $scope.addEvent = function() {
-      $scope.events.push({
-        title: 'Open Sesame',
-        start: new Date(y, m-1, d+2,9),
-        end: new Date(y, m-1, d+2,12),
-        className: ['openSesame']
-      });
+    //Agrega un schedule al calendario
+    $scope.addSchedule = function(course,schedule) {
+      	$scope.events.push({
+								id: schedule.id,
+								title: course.code+ " \n c"+course.commission ,
+								start: new Date(y, m-1, d+schedule.day, schedule.hour, 0),
+								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.duration, 0),
+								allDay: false,
+								backgroundColor: course.color,
+								borderColor: 'black',
+								//Datos necesarios del modelo
+								schedule:schedule,
+								course:course,
+							});
+    };
+	
+	//Agruega un schedule como no asignado
+    $scope.addScheduleNotAssigned = function(course,schedule) {
+      	$scope.infoCoursesNotAssigned.push({
+								//Datos necesarios del modelo
+								schedule:schedule,
+								course:course,
+							});
     };
     /* remove event */
     $scope.remove = function(index) {
       $scope.events.splice(index,1);
+    };
+	
+	//Elimina de la lista a un schedule no asigando
+	$scope.removeScheduleNotAssigned = function(schedule) {
+		for(i=0;i< $scope.infoCoursesNotAssigned.length;i++){
+			if($scope.infoCoursesNotAssigned[i].schedule.id == schedule.id){
+				$scope.infoCoursesNotAssigned.splice(i,1);
+				return;
+			}
+		}
+      
     };
 
     /* config object */
@@ -241,18 +257,9 @@ function CalendarCtrl($scope, $http, $q){
 
 			//Si no esta asignada a un horario o dia			
 			if(horario.day == -1  || horario.hour == -1 ){
-				$scope.infoCoursesNotAssigned.push({code:curso.code,duration:horario.duration,id:horario.id,color:curso.color,commission:curso.commission});
+				$scope.addScheduleNotAssigned(curso,horario);
 			}else{
-				$scope.events.push({
-									id: horario.id,
-									title: curso.code+ " \n c"+curso.commission ,
-									commission: curso.commission,
-									start: new Date(y, m-1, d+horario.day, horario.hour, 0),
-									end: new Date(y, m-1, d+horario.day, horario.hour+horario.duration, 0),
-									allDay: false,
-									backgroundColor: curso.color,
-									borderColor: 'black'
-								});
+				$scope.addSchedule(curso,horario);
 				}
 			}
 	}

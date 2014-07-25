@@ -18,8 +18,8 @@ block content
 	div(ng-controller='CalendarCtrl')
 		.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar')
 		b Cursos
-		div(ng-repeat="course in infoCoursesNotAssigned track by $index")
-			div(class="dragg-course",draggable-course dragg-model="course"){{course.code}}
+		div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
+			div(class="dragg-course",draggable-course dragg-model="courseNotAssigned"){{courseNotAssigned.course.code}}
 		b Teachers
 		div(style="position:relative",ng-repeat="teacher in teachers track by $index")
 			div(class="menu-teachers",space="{{$index*20}}px",class="dragg-teacher",dragg-teacher){{teacher.name}}
