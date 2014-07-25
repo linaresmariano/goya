@@ -75,7 +75,8 @@ function CalendarCtrl($scope, $http, $q){
     ];
 
     $scope.eventClick = function( event, allDay, jsEvent, view ){
-        alert(event.title + ' was clicked ');
+       //Curso a mostrar
+	   $scope.courseShow=event;
     };
 
      $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
@@ -149,10 +150,16 @@ function CalendarCtrl($scope, $http, $q){
 	//Cuando se dibuja los eventos
 	$scope.eventRender =function (event, element) {
 			var eventVar=event;
+			
+			//Para abrir un dialogo
+			element.attr('data-toggle','modal');
+			element.attr('data-target','#myModal');
+			//Para dropear un profesor o aula
 			element.droppable({
 							  drop: function( event, ui ) {
-									event.title=ui.draggable.text();
-									alert($(this).text()+" -> "+ui.draggable.text());},
+										//event.title=ui.draggable.text();
+										alert($(this).text()+" -> "+ui.draggable.text());
+									},
 							  accept: ".dragg-teacher"
 							});
         }
@@ -185,6 +192,8 @@ function CalendarCtrl($scope, $http, $q){
     $scope.remove = function(index) {
       $scope.events.splice(index,1);
     };
+	
+
 	
 	//Elimina de la lista a un schedule no asigando
 	$scope.removeScheduleNotAssigned = function(schedule) {
@@ -240,6 +249,8 @@ function CalendarCtrl($scope, $http, $q){
 
 	
 	//Modelos
+	$scope.courseShow;
+	
 	$scope.courses = semesterJSON.courses ;
 				
 	$scope.teachers = semesterJSON.teachers ;
