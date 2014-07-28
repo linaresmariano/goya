@@ -36,9 +36,11 @@ block content
 					.modal-body 
 						div 
 							b Profesores a cargo
-							ul
-								li	{{courseShow.course.courseTeacher.name}}
-								li	{{courseShow.course.courseInstructor.name}}	
+							ul(ng-repeat="teacher in courseShow.course.courseTeacher track by $index")
+								li	{{teacher.name}}
+							b Profesores no a cargo
+							ul(ng-repeat="teacher in courseShow.course.courseInstructor track by $index")
+								li	{{teacher.name}}
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Close
 						button.btn.btn-primary(type='button') Save changes

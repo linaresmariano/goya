@@ -71,8 +71,8 @@ chainer.run().complete( function(err, result) {
         semester.setCourses([courseEPERS]);
 		semester.setCourses([courseORGA]);
 		
-		courseEPERS.setCourseTeacher(teacherPABLOT);
-		courseEPERS.setCourseInstructor(teacherRONY);
+		courseEPERS.setCourseTeacher([teacherPABLOT]);
+		courseEPERS.setCourseInstructor([teacherRONY]);
 		
 		courseEPERS.setSchedules([courseSchedule1]);
 		courseORGA.setSchedules([courseSchedule2]);

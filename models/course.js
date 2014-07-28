@@ -11,8 +11,9 @@ module.exports = function(sequelize, DataTypes) {
       classMethods: {
         associate: function(models) {
 			Course.hasMany(models.CourseSchedule, { as: 'Schedules', foreignKey : 'ScheduleId'});
-			Course.hasOne(models.Teacher,{ as: 'CourseTeacher', foreignKey: 'CourseTeacherId'});
-			Course.hasOne(models.Teacher,{ as: 'CourseInstructor', foreignKey: 'CourseInstructorId'});
+			Course.hasMany(models.Teacher,{ as: 'CourseTeacher', foreignKey: 'CourseTeacherId'});
+			Course.hasMany(models.Teacher,{ as: 'CourseInstructor', foreignKey: 'CourseInstructorId'});
+			Course.hasOne(models.CourseRequirements, { as: 'Requirements'});
         }
       }
     }

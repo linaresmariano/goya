@@ -169,8 +169,8 @@ function CalendarCtrl($scope, $http, $q){
       	$scope.events.push({
 								id: schedule.id,
 								title: course.code+ " \n c"+course.commission +"-" +  schedule.type
-									+ " \n " + (!course.courseTeacher  ? '??' : course.courseTeacher.name)
-									+ " \n " + (!course.courseInstructor  ? '??' : course.courseInstructor.name),
+									+ getNamesTeachers(course.courseTeacher)
+									+ getNamesTeachers(course.courseInstructor),
 								start: new Date(y, m-1, d+schedule.day, schedule.hour, 0),
 								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.duration, 0),
 								allDay: false,
@@ -181,6 +181,14 @@ function CalendarCtrl($scope, $http, $q){
 								course:course,
 							});
     };
+	
+	function getNamesTeachers(teachers){
+		names="";
+		teachers.forEach(function(teacher) {
+			names+= " \n " + teacher.name;
+		});
+		return names;
+	}
 	
 	//Agruega un schedule como no asignado
     $scope.addScheduleNotAssigned = function(course,schedule) {
