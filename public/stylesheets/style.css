@@ -1,7 +1,11 @@
+.size-lenght-menu{
+	width:220px;
+}
+
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-a {
-  color: #00b7ff;
+
+.table-principal{
+	width:100%;
 }

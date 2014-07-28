@@ -16,17 +16,25 @@ block content
 	script(src='/js/calendarioAcademico/academicCalendar.js')
 	
 	div(ng-controller='CalendarCtrl')
-		.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar')
-		b Cursos
-		div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
-			div(class="dragg-course",draggable-course dragg-model="courseNotAssigned"){{courseNotAssigned.course.code}}
-		b Aulas
-		div(ng-repeat="classRoom in classRooms track by $index")
-			div {{classRoom.number}}
-		b Profesores
-		div(style="position:relative",ng-repeat="teacher in teachers track by $index")
-			div(class="menu-teachers",space="{{$index*20}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
-			
+		table.table-principal
+			tr
+				td.size-lenght-menu(valign="top")
+					div
+						div(class="panel panel-default size-lenght-menu")
+							div.panel-heading Cursos
+							ul.list-group(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
+								li(class="dragg-course list-group-item",draggable-course dragg-model="courseNotAssigned"){{courseNotAssigned.course.code}}
+						div(class="panel panel-default size-lenght-menu")
+							div.panel-heading Aulas
+							div(ng-repeat="classRoom in classRooms track by $index")
+								div.list-group-item {{classRoom.number}}
+						div(class="panel panel-default size-lenght-menu")
+							div.panel-heading Profesores
+							div(style="position:relative",ng-repeat="teacher in teachers track by $index")
+								div(class="menu-teachers list-group-item size-lenght-menu",space="{{$index*41}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
+				td
+					div
+						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar')
 		//Modal de cursos 
 		#myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
 			.modal-dialog
@@ -51,5 +59,3 @@ block content
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Close
 						button.btn.btn-primary(type='button') Save changes
-
-				
