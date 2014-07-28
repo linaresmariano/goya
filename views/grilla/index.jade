@@ -25,7 +25,7 @@ block content
 			div {{classRoom.number}}
 		b Profesores
 		div(style="position:relative",ng-repeat="teacher in teachers track by $index")
-			div(class="menu-teachers",space="{{$index*20}}px",class="dragg-teacher",dragg-teacher){{teacher.name}}
+			div(class="menu-teachers",space="{{$index*20}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
 			
 		//Modal de cursos 
 		#myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')

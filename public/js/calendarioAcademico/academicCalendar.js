@@ -149,19 +149,29 @@ function CalendarCtrl($scope, $http, $q){
 	
 	//Cuando se dibuja los eventos
 	$scope.eventRender =function (event, element) {
-			var eventVar=event;
+			//var eventVar=event;
 			
 			//Para abrir un dialogo
 			element.attr('data-toggle','modal');
 			element.attr('data-target','#myModal');
 			//Para dropear un profesor o aula
+			var deferred = $q.defer();
 			element.droppable({
-							  drop: function( event, ui ) {
+							  drop: function( eventUI, ui ) {
 										//event.title=ui.draggable.text();
-										alert($(this).text()+" -> "+ui.draggable.text());
+										//alert($(this).text()+" -> "+ui.draggable.text());
+										teacher=getModel(ui.draggable,"ng-model");
+										event.course.courseTeacher.push(teacher);
+										deferred.resolve(event);
 									},
 							  accept: ".dragg-teacher"
 							});
+			var promise=deferred.promise;
+			promise.then(function(event) {
+							//Update
+							$scope.removeSchedule(event.schedule);
+							$scope.addSchedule(event.course,event.schedule);
+						});
         }
 
     //Agrega un schedule al calendario
@@ -181,6 +191,10 @@ function CalendarCtrl($scope, $http, $q){
 								course:course,
 							});
     };
+	
+	function getModel(elm,modelName){
+			return angular.element(elm).scope().$eval($(elm).attr(modelName));
+	}
 	
 	function getNamesTeachers(teachers){
 		names="";
@@ -213,7 +227,17 @@ function CalendarCtrl($scope, $http, $q){
 				return;
 			}
 		}
-      
+    };
+	
+	//Elimina de la lista a un schedule asignado
+	$scope.removeSchedule = function(schedule) {
+		for(i=0;i< $scope.events.length;i++){
+			if($scope.events[i].schedule.id == schedule.id){
+				$scope.events.splice(i,1);
+				return;
+			}
+		}
+		
     };
 
     /* config object */
