@@ -47,6 +47,17 @@ var teacherRONY= db.Teacher.build({
 						code: 'RONY',
 						name: 'Rony De Jesus'
 					});
+					
+//ClassRooms
+
+var classRoom37B= db.ClassRoom.build({
+						name: "Fidel",
+						number: "37b",
+						description: "Un aula con pcs",
+						capacity: 30,
+						numberOfComputers: 30,
+						hasProyector: true
+					});
 
 //Save models
 chainer = new db.Sequelize.Utils.QueryChainer
@@ -64,12 +75,19 @@ chainer.add(teacherRONY.save());
 
 //save schedules
 chainer.add(courseSchedule1.save());
-chainer.add(courseSchedule2.save())
+chainer.add(courseSchedule2.save());
+
+//save class rooms
+chainer.add(classRoom37B.save());
 
 //save relations
 chainer.run().complete( function(err, result) {
         semester.setCourses([courseEPERS]);
 		semester.setCourses([courseORGA]);
+		
+		semester.setTeachers([teacherPABLOT,teacherRONY]);
+		
+		semester.setClassRooms([classRoom37B]);
 		
 		courseEPERS.setCourseTeacher([teacherPABLOT]);
 		courseEPERS.setCourseInstructor([teacherRONY]);

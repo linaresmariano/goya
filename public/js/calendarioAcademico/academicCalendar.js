@@ -264,6 +264,8 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.courses = semesterJSON.courses ;
 				
 	$scope.teachers = semesterJSON.teachers ;
+	
+	$scope.classRooms = semesterJSON.classRooms ;
 		 	
 	//Informacion de los cursos no asignados
 	$scope.infoCoursesNotAssigned=[ ];
