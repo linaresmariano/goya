@@ -90,7 +90,8 @@ function CalendarCtrl($scope, $http, $q){
 							id:event.id, hour:event.start.getHours(), day:event.start.getDay()
 						},
 						success:function(result){
-                        	//Por ahora nada
+                        	event.schedule.day=event.start.getDay();
+							event.schedule.hour=event.start.getHours();
 						},
 						error:function(err){
 							revertFunc();
