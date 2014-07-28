@@ -35,12 +35,16 @@ block content
 						button.close(type='button', data-dismiss='modal')
 							span(aria-hidden='true') ×
 							span.sr-only Close
-						h4#myModalLabel.modal-title Curso {{courseShow.course.code}} {{courseShow.schedule.type}}
+						h4#myModalLabel.modal-title Curso {{courseShow.course.code}} {{courseShow.schedule.type}} - Comision {{courseShow.course.commission}}
 					.modal-body 
-						div 
+						div
+							b Aula
+							&nbsp; {{courseShow.schedule.classRoom.number}}
+							br
 							b Profesores a cargo
 							ul(ng-repeat="teacher in courseShow.course.courseTeacher track by $index")
 								li	{{teacher.name}}
+							br
 							b Profesores no a cargo
 							ul(ng-repeat="teacher in courseShow.course.courseInstructor track by $index")
 								li	{{teacher.name}}

@@ -33,20 +33,21 @@ exports.semester = function(req, res) {
 			  'semester':year
             },
 	include: [ {	model: db.Course, as: 'Courses' ,require:false,
-						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false},
+						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false,
+										include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]},
 									{model: db.Teacher, as: 'CourseInstructor',require:false},
 									{model: db.Teacher, as: 'CourseTeacher',require:false}]
-						}]
+						},
+				{	model: db.Teacher, as: 'Teachers' ,require:false},
+				{	model: db.ClassRoom, as: 'ClassRooms' ,require:false }]
   })
     .success(function(semester) {
-		db.Teacher.findAll({
-		}).success(function(teachers) {
+			console.log(semester);
 			res.render('grilla/index', {
 				title: 'Grilla',
-				semester: { courses :(semester == null ? [] : semester.courses),
-							teachers: teachers} 
+				semester: semester 
 			  })
-		});
+		
   })
 
 }
