@@ -109,7 +109,7 @@ function CalendarCtrl($scope, $http, $q){
 				var originalEventObject = $(this).data('eventObject');
 
 					// we need to copy it, so that multiple events don't have a reference to the same object
-					var copiedEventObject = $.extend({}, originalEventObject);
+					var copiedEventObject = getModel($(this),"dragg-model");
 
 					$http({
 							url:"/actualizarCurso",

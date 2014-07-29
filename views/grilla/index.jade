@@ -23,7 +23,7 @@ block content
 						div(class="panel panel-default size-lenght-menu")
 							div.panel-heading Cursos
 							ul.list-group(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
-								li(class="dragg-course list-group-item",draggable-course dragg-model="courseNotAssigned"){{courseNotAssigned.course.code}}
+								li(class="dragg-course list-group-item",draggable-course dragg-model="courseNotAssigned"){{courseNotAssigned.course.code}} {{courseNotAssigned.schedule.type}}
 						div(class="panel panel-default size-lenght-menu")
 							div.panel-heading Aulas
 							div(ng-repeat="classRoom in classRooms track by $index")

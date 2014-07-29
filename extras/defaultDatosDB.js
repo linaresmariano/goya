@@ -36,6 +36,22 @@ var courseSchedule2 = db.CourseSchedule.build({
 									minutes: 0,
 									duration: 3
 								});
+								
+var courseSchedule3 = db.CourseSchedule.build({
+									type: 'Practica',
+									day: -1,
+									hour: -1,
+									minutes: 0,
+									duration: 3
+								});
+								
+var courseSchedule4 = db.CourseSchedule.build({
+									type: 'Teorica/Practica',
+									day: -1,
+									hour: -1,
+									minutes: 0,
+									duration: 3
+								});
 
 //Teachers								
 var teacherPABLOT= db.Teacher.build({
@@ -76,6 +92,8 @@ chainer.add(teacherRONY.save());
 //save schedules
 chainer.add(courseSchedule1.save());
 chainer.add(courseSchedule2.save());
+chainer.add(courseSchedule3.save());
+chainer.add(courseSchedule4.save());
 
 //save class rooms
 chainer.add(classRoom37B.save());
@@ -93,7 +111,7 @@ chainer.run().complete( function(err, result) {
 		courseEPERS.setCourseInstructor([teacherRONY]);
 		
 		courseEPERS.setSchedules([courseSchedule1]);
-		courseORGA.setSchedules([courseSchedule2]);
+		courseORGA.setSchedules([courseSchedule2,courseSchedule3,courseSchedule4]);
 		
 		courseSchedule1.setClassRoom(classRoom37B);
 });
