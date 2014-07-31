@@ -13,6 +13,7 @@ var http = require('http');
 var path = require('path');
 var Sequelize = require('sequelize');
 var db = require('./models');
+var bodyParser = require('body-parser');
 
 
 var app = express();
@@ -29,6 +30,7 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser());
 
 // development only
 if ('development' == app.get('env')) {
@@ -68,6 +70,10 @@ db
   require('./extras/defaultDatosDB');
 
 })
+
+app.get('/rest', function(req, res) {
+	res.json({ message: 'hooray! welcome to our api!' });	
+});
 
 
 
