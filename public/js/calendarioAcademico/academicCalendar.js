@@ -84,7 +84,7 @@ function CalendarCtrl($scope, $http, $q){
 		                 esHorarioInvalido(event.end.getHours())){		 
 				revertFunc();				
 			}else{
-			  $.ajax({url:"/updateEndCourse",
+			  $.ajax({url:"/updateCourse",
 						method:'post',
 						data: {
 							id:event.id, hour:event.start.getHours(), day:event.start.getDay()
