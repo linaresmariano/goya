@@ -10,6 +10,10 @@ block content
 	script(src='/js/fullcalendar/calendar.js')
 	script.
 		var semesterJSON=!{JSON.stringify(semester)};
+		$(window).resize(function () {
+			$("#grid").css("width", "100%");
+			$("#grid").width($("#grid").width());
+		});
 	script(src='/js/calendarioAcademico/academicCalendar.js')
 	div(ng-controller='CalendarCtrl')
 		.row
