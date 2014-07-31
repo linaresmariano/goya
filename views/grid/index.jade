@@ -2,6 +2,7 @@ extends ../layout
 
 block content
 	link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.css')
+	link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.print.css',media='print')
 	script(src='/js/lib/jquery.ui.droppable.js')
 	script(src='/js/angular/angular.min.js')
 	script(src='http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js')
@@ -97,6 +98,6 @@ block content
 	script(src='/js/lib/jquery.printArea.js')
 	script(src='/js/lib/jquery.printElement.js')
 	button(onclick="$.print('#grid')") Imprimir (print)
-	button(onclick="$('#grid').printThis()") Imprimir (printThis, el mejor)
+	button(onclick="$('#grid').css('width', '100%');$('#grid').width($('#grid').width());$('#grid').printThis()") Imprimir (printThis, el mejor)
 	button(onclick="$('#grid').printArea()") Imprimir (printArea, no anda)
 	button(onclick="$('#grid').printElement()") Imprimir (printElement)
