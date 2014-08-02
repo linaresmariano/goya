@@ -17,8 +17,16 @@ html(ng-app="APP")
 					ul.nav.navbar-nav
 						li.active
 							a(href='#') Home
-						li
-							a(href='#about') About
+						li.dropdown
+							a.dropdown-toggle(href='#', data-toggle='dropdown') Altas
+								span.caret
+							ul.dropdown-menu(role='menu')
+								li
+									a(href='#') Curso
+								li
+									a(href='#') Aula
+								li
+									a(href='#') Profesor
 						li
 							a(href='#contact') Contact
 		block content
