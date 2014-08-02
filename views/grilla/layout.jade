@@ -13,6 +13,7 @@ html(ng-app="APP")
 						span.icon-bar
 						span.icon-bar
 					a.navbar-brand(href='#') Goya
+						span.glyphicon.glyphicon-book.icon-main
 				.collapse.navbar-collapse
 					ul.nav.navbar-nav
 						li.active
@@ -27,6 +28,26 @@ html(ng-app="APP")
 									a(href='#') Aula
 								li
 									a(href='#') Profesor
+								li
+									a(href='#') Materia
+								li
+									a(href='#') Carrera
+						li.dropdown
+							a.dropdown-toggle(href='#', data-toggle='dropdown') Vistas
+								span.caret
+							ul.dropdown-menu(role='menu')
+								li
+									a(href='#') Cursos
+								li
+									a(href='#') Aulas
+						li.dropdown
+							a.dropdown-toggle(href='#', data-toggle='dropdown') Reportes
+								span.caret
+							ul.dropdown-menu(role='menu')
+								li
+									a(href='#') Reporte 1
+								li
+									a(href='#') Reporte 2
 						li
 							a(href='#contact') Contact
 		block content
