@@ -1,7 +1,6 @@
 extends layout
 
 block content
-	link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
 	link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.css')
 	script(src='/js/lib/jquery.min.js')
 	script(src='/js/lib/jquery-ui.custom.min.js')
@@ -14,11 +13,9 @@ block content
 	script.
 		var semesterJSON=!{JSON.stringify(semester)};
 	script(src='/js/calendarioAcademico/academicCalendar.js')
-	
 	div(ng-controller='CalendarCtrl')
-		table.table-principal
-			tr
-				td.size-lenght-menu(valign="top")
+		.row
+			.col-md-2.col-md-2
 					div
 						div(class="panel panel-default size-lenght-menu")
 							div.panel-heading Cursos
@@ -44,7 +41,7 @@ block content
 									span.glyphicon.glyphicon-search
 							div(style="position:relative",ng-repeat="teacher in teachers track by $index")
 								div(class="menu-teachers list-group-item size-lenght-menu",space="{{$index*41}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
-				td
+			.col-md-10.col-md-10
 					div
 						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')
 		//Modal de cursos 
