@@ -2,7 +2,6 @@
 module.exports = function(sequelize, DataTypes) {
 
   var Course = sequelize.define('Course', {
-    code: DataTypes.STRING,	
     enrolled: DataTypes.INTEGER,
     capacity: DataTypes.INTEGER,
 	commission: DataTypes.INTEGER,
@@ -14,6 +13,7 @@ module.exports = function(sequelize, DataTypes) {
 			Course.hasMany(models.Teacher,{ as: 'CourseTeacher', foreignKey: 'CourseTeacherId'});
 			Course.hasMany(models.Teacher,{ as: 'CourseInstructor', foreignKey: 'CourseInstructorId'});
 			Course.hasOne(models.CourseRequirements, { as: 'Requirements'});
+			Course.hasOne(models.Subject, { as: 'Subject'});
         }
       }
     }

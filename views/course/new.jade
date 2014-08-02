@@ -13,9 +13,10 @@ block content
 			legend Nuevo Curso
 			div.col-md-4
 				.form-group
-					label(for='code') Materia
-					select#code(class="form-control",name='idSubject',ng-repeat="subject in subjects track by $index")
-						option(value="{{subject.id}}"){{subject.name}}
+					label(for='selectSubject') Materia
+					select#selectSubject(class="form-control",ng-model="subject",ng-options="subject.name for subject in subjects",required)
+						option(value="") Seleccione una materia
+					input(name="idSubject",value="{{subject.id}}",hidden)
 				legend Requisitos
 				.form-group
 					label(for='numberOfComputers') Computadoras

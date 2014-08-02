@@ -13,13 +13,11 @@ var semester1 = db.Semester.build({
 //Courses							
 var courseEPERS = db.Course.build({
 									commission: 1,
-									code: 'EPERS',
 									enrolled: 25,
 									color: 'red'
 								});
 								
 var courseORGA = db.Course.build({
-									code: 'ORGA',
 									enrolled: 45,
 									commission: 1,
 									color: 'green'
@@ -79,6 +77,18 @@ var classRoom37B= db.ClassRoom.build({
 						numberOfComputers: 30,
 						hasProyector: true
 					});
+					
+//Subject
+
+var subjectEPERS= db.Subject.build({
+						code: 'EPERS',
+						name: 'Estrategias de persistencia'
+					});
+					
+var subjectORGA= db.Subject.build({
+						code: 'ORGA',
+						name: 'Organizacion de las computadoras'
+					});
 
 //Save models
 chainer = new db.Sequelize.Utils.QueryChainer
@@ -104,10 +114,18 @@ chainer.add(courseSchedule4.save());
 //save class rooms
 chainer.add(classRoom37B.save());
 
+
+//save subjects
+chainer.add(subjectEPERS.save());
+chainer.add(subjectORGA.save());
+
 //save relations
 chainer.run().complete( function(err, result) {
         semester.setCourses([courseEPERS]);
 		semester.setCourses([courseORGA]);
+		
+		courseEPERS.setSubject(subjectEPERS);
+		courseORGA.setSubject(subjectORGA);
 		
 		semester.setTeachers([teacherPABLOT,teacherRONY]);
 		
