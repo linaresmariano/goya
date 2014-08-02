@@ -43,7 +43,7 @@ exports.semester = function(req, res) {
 				{	model: db.ClassRoom, as: 'ClassRooms' ,require:false }]
   })
     .success(function(semester) {
-			console.log(semester);
+			console.log(semester.courses[0]);
 			res.render('grid/index', {
 				title: 'Grilla',
 				semester: semester 

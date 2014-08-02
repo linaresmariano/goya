@@ -9,11 +9,11 @@ module.exports = function(sequelize, DataTypes) {
     }, {
       classMethods: {
         associate: function(models) {
-			Course.hasMany(models.CourseSchedule, { as: 'Schedules', foreignKey : 'ScheduleId'});
-			Course.hasMany(models.Teacher,{ as: 'CourseTeacher', foreignKey: 'CourseTeacherId'});
+			Course.hasMany(models.CourseSchedule, { as: 'Schedules'});
+			Course.hasMany(models.Teacher,{ as: 'CourseTeacher',foreignKey: 'CourseTeacherId'});
 			Course.hasMany(models.Teacher,{ as: 'CourseInstructor', foreignKey: 'CourseInstructorId'});
 			Course.hasOne(models.CourseRequirements, { as: 'Requirements'});
-			Course.hasOne(models.Subject, { as: 'Subject'});
+			Course.belongsTo(models.Subject, { as: 'Subject'});
         }
       }
     }

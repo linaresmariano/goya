@@ -7,7 +7,11 @@ module.exports = function(sequelize, DataTypes) {
     capacity: DataTypes.INTEGER,
 	numberOfComputers: DataTypes.INTEGER,
 	hasProyector: DataTypes.BOOLEAN
-  }, {
-  })
+  },{classMethods: {
+			associate: function(models) {
+			  this.hasMany(models.CourseSchedule, { as: 'CourseSchedule'});
+			}
+		}
+    })
   
 }

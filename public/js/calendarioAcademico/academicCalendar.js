@@ -179,7 +179,7 @@ function CalendarCtrl($scope, $http, $q){
     $scope.addSchedule = function(course,schedule) {
       	$scope.events.push({
 								id: schedule.id,
-								title: course.code+ " \n c"+course.commission +"-" +  schedule.type
+								title: course.subject.code+ " \n c"+course.commission +"-" +  schedule.type
 									+ getNamesTeachers(course.courseTeacher)
 									+ getNamesTeachers(course.courseInstructor),
 								start: new Date(y, m-1, d+schedule.day, schedule.hour, 0),

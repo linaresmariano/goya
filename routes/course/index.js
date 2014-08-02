@@ -15,10 +15,19 @@ exports.new = function(req, res) {
 
 
 exports.create = function(req, res) {
-	var idSubject = req.body.code;
-
-	exports.new(req, res);
-
+	//Para probar
+	var idSubject = req.body.idSubject;
+	console.log(idSubject);
+	var course = db.Course.create({
+									SubjectId: idSubject,
+									SemesterId: 1,
+									enrolled: 45,
+									commission: 1,
+									color: 'blue' // color default
+		}).success(function(course1) {
+				exports.new(req, res);	
+	});
+								
 }
 
 /*
