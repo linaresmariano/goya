@@ -14,18 +14,18 @@ exports.create = function(req, res) {
 	var code = req.body.code;
 	var name = req.body.name;
 	
-	db.Semester.find({
-		where: {
-				  'year': 2014 ,
-				  'semester':1
-				},
-		include: [ {	model: db.Teacher, as: 'Teachers' ,require:false}]
+	//Agragando un profesor al ultimo semestre
+	db.Semester.findAll({
+		include: [ {	model: db.Teacher, as: 'Teachers' ,require:false}],
+		order:'year ASC , semester ASC',
+		limit: 1
 	}).success(function(semester) {
+					console.log(semester);
 					db.Teacher.create({
 										code: code,
 										name: name
 									}).success(function(teacher) {
-												semester.addTeacher(teacher);
+												semester[0].addTeacher(teacher);
 												res.render('teacher/new', {
 													title: 'Crear Profesor'
 												})
