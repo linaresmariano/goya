@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+	script(src='/js/angular/angular.min.js')
+	script.
+		var app=angular.module('APP', []);
+		
+		app.controller('createCourseCtrl', function ($scope) {
+			$scope.subjects=!{JSON.stringify(subjects)};
+		})
+	.container(ng-controller='createCourseCtrl')
+		form(action="../course/create",method="post")
+			legend Nuevo Curso
+			div.col-md-4
+				.form-group
+					label(for='code') Materia
+					select#code(class="form-control",name='idSubject',ng-repeat="subject in subjects track by $index")
+						option(value="{{subject.id}}"){{subject.name}}
+				legend Requisitos
+				.form-group
+					label(for='numberOfComputers') Computadoras
+					input#numberOfComputers.form-control(type="number",min="0", placeholder='Cantidad de computadoras',name='numberOfComputers',required,maxlength='12')
+				button.btn.btn-success(type="submit") Crear
+
+

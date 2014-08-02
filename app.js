@@ -40,16 +40,24 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-//app.get('/users', user.list);
+
+//grid
 app.get('/grid', grilla.index);
 app.get('/grid/:semester/:year', grilla.semester);
+
+//courses
 app.get('/courses', cursos.index);
-app.get('/course/:id', cursos.curso);
 app.get('/course/:id/:commission', cursos.commission);
+app.get('/course/new', cursos.new);
+app.post('/course/create', cursos.create);
 app.post('/updateCourse', cursos.actualizar);
 app.post('/updateEndCourse', cursos.actualizarFin);
+
+//subjects
 app.get('/subject/new', subject.new);
 app.post('/subject/create', subject.create);
+
+//teachers
 app.get('/teacher/new', teacher.new);
 app.post('/teacher/create', teacher.create);
 

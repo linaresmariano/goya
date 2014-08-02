@@ -1,6 +1,25 @@
 var datos = require('../../extras/datos'),
     db = require('../../models')
 
+	
+
+exports.new = function(req, res) {
+	db.Subject.findAll().success(function(subjects) {
+		console.log(subjects);
+		res.render('course/new', {
+		  title: 'Crear Curso',
+		  subjects: subjects
+		})
+	})
+}
+
+
+exports.create = function(req, res) {
+	var idSubject = req.body.code;
+
+	exports.new(req, res);
+
+}
 
 /*
  * GET cursos.
@@ -19,23 +38,6 @@ exports.index = function(req, res){
 };
 
 
-/*
- * GET cursos/:code_curso.
- */
-
-exports.curso = function(req, res) {
-
-  code = req.params.id
-  curso = ''
-
-  datos.cursos.forEach(function(entry) {
-    if(entry.code == code) {
-      curso = entry;
-    }
-  });
-  
-  res.render('cursos/curso', { title: 'Curso '+ code, curso: curso, datos: datos })
-};
 
 
 /*
