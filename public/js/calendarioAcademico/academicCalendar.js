@@ -84,7 +84,7 @@ function CalendarCtrl($scope, $http, $q){
 		                 esHorarioInvalido(event.end.getHours())){		 
 				revertFunc();				
 			}else{
-			  $.ajax({url:"/actualizarCurso",
+			  $.ajax({url:"/updateEndCourse",
 						method:'post',
 						data: {
 							id:event.id, hour:event.start.getHours(), day:event.start.getDay()
@@ -112,7 +112,7 @@ function CalendarCtrl($scope, $http, $q){
 					var copiedEventObject = getModel($(this),"dragg-model");
 
 					$http({
-							url:"/actualizarCurso",
+							url:"/updateCourse",
 							method:'post',
 							data: { id:copiedEventObject.schedule.id, hour:date.getHours(),day:date.getDay()}
 					}).success(function(data) {
@@ -132,7 +132,7 @@ function CalendarCtrl($scope, $http, $q){
 	};
 	
     $scope.eventResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-       $.ajax({url:"/actualizarFinCurso",
+       $.ajax({url:"/updateEndCourse",
 				method: 'post',
 				data: {
 					id: event.id,

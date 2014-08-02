@@ -1,0 +1,94 @@
+extends layout
+
+block content
+	link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
+	link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css')
+	link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.css')
+	// link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.print.css')
+	//link(rel='stylesheet', href='/stylesheets/grilla.css')
+	script(src='/js/lib/jquery.min.js')
+	script(src='/js/lib/jquery-ui.custom.min.js')
+	script(src='/js/lib/jquery.ui.droppable.js')
+	script(src='/js/fullcalendar/fullcalendar.min.js')
+	script(src='/js/calendarioAcademico/calendarioAcademico.js')
+	script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
+	script(src='/js/angular/angular.min.js')
+	script.
+
+		var app = angular.module('APP', []);
+		
+		//Creando directive draggable con jquery ui
+		app.directive('draggable', function() {
+			return {
+				restrict: 'A',
+				link: function(scope, elm, attrs) {
+				
+				//Obteniendo valor del atributo model
+				var model = scope.$eval(attrs.draggModel);
+			
+				var eventObject = {
+						title: model.code, 
+						id: model.id,
+						commission: model.commission,
+						duration: 3,
+						color: model.color
+				};
+
+				elm.data('eventObject', eventObject);
+
+				elm.draggable({
+					zIndex: 999,
+					revert: true,      
+					revertDuration: 0 
+				});         
+
+				}
+			};
+		});
+
+		//Controller principal
+		function AppController($scope){
+			
+				//Modelos
+				$scope.courses = !{JSON.stringify(cursos)} ;
+				
+				//Informacion de los cursos no asignados
+				$scope.infoCoursesNotAssigned=[ ];
+				
+
+				//Creando en calendario
+				var calendar = new CalendarioAcademico('#calendar');
+				
+				//Agregando cursos al calendario
+				for(i=0; i<$scope.courses.length; i++) {
+					for(j=0; j<$scope.courses[i].schedules.length; j++) {
+
+						var curso = $scope.courses[i];
+						var horario = curso.schedules[j];
+
+						//Si no esta asignada a un horario o dia			
+						if(horario.day == -1  || horario.hour == -1 ){
+							$scope.infoCoursesNotAssigned.push({code:curso.code,duration:curso.duration,id:horario.id,color:curso.color,commission:curso.commission});
+						}else{
+							calendar.agregarCurso(
+											horario.id,
+											curso.code,
+											curso.commission,
+											horario.day,
+											horario.hour,
+											horario.duration,
+											curso.color
+										);
+						}
+					}
+				}
+				
+
+
+		}
+	div(ng-controller="AppController")
+		div
+			div(ng-repeat="course in infoCoursesNotAssigned track by $index")
+				div(draggable dragg-model="course"){{course.code}}
+			div#calendar
+

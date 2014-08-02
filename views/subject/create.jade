@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+	.container
+		div
+			legend Nueva Materia
+			div.col-md-4
+				.form-group
+					label(for='name') Nombre 
+					input#name.form-control( placeholder='Nombre',name='name',required,maxlength='20')
+				.form-group
+					label(for='code') Codigo
+					input#code.form-control( placeholder='Codigo',name='password',required,maxlength='12')
+				button.btn.btn-success(type="button") Crear
+
+

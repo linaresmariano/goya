@@ -1,15 +1,13 @@
 extends layout
 
 block content
-  h1 Goya
-
-  h3 Work In progress
-
-  ul
-    li
-      a(href='/cursos') Cursos
-  b Semestres
-  div(ng-app="indexApp", ng-controller="SemestralGrids")
-    ul
-      li(ng-repeat='semester in semesters')
-        a(ng-href='/grilla/{{semester.year}}/{{semester.semester}}') Ir a la grilla del semestre {{semester.semester}} del año {{semester.year}}
+	script.
+		var semestersJSON=!{JSON.stringify(semesters)};
+	script(src='/js/angular/angular.min.js')
+	script(src='/js/angular/controllers.js')
+	.container
+		legend Semestres
+		div(ng-app="indexApp", ng-controller="SemestralGrids")
+			ul
+				li(ng-repeat='semester in semesters')
+					a(ng-href='/grid/{{semester.year}}/{{semester.semester}}') Ir a la grilla del semestre {{semester.semester}} del año {{semester.year}}

@@ -1,8 +1,5 @@
-var indexApp = angular.module('indexApp', [])
+var indexApp = angular.module('APP', [])
 
 indexApp.controller('SemestralGrids', function ($scope) {
-  $scope.semesters = [
-    { 'semester': 1, 'year': 2014, 'code': '12014' },
-    { 'semester': 2, 'year': 2014, 'code': '22014' }
-  ]
+  $scope.semesters = semestersJSON;
 })

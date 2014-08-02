@@ -6,8 +6,9 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
-var grilla = require('./routes/grilla/index');
-var cursos = require('./routes/cursos/index');
+var grilla = require('./routes/grid/index');
+var cursos = require('./routes/course/index');
+var subject = require('./routes/subject/index');
 var http = require('http');
 var path = require('path');
 var Sequelize = require('sequelize');
@@ -36,13 +37,14 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 //app.get('/users', user.list);
-app.get('/grilla', grilla.index);
-app.get('/grilla/:semester/:year', grilla.semester);
-app.get('/cursos', cursos.index);
-app.get('/cursos/:id', cursos.curso);
-app.get('/cursos/:id/:commission', cursos.commission);
-app.post('/actualizarCurso', cursos.actualizar);
-app.post('/actualizarFinCurso', cursos.actualizarFin);
+app.get('/grid', grilla.index);
+app.get('/grid/:semester/:year', grilla.semester);
+app.get('/courses', cursos.index);
+app.get('/course/:id', cursos.curso);
+app.get('/course/:id/:commission', cursos.commission);
+app.post('/updateCourse', cursos.actualizar);
+app.post('/updateEndCourse', cursos.actualizarFin);
+app.get('/subject/create', subject.create);
 
 //http.createServer(app).listen(app.get('port'), function(){
 //  console.log('Express server listening on port ' + app.get('port'));

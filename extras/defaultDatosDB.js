@@ -5,6 +5,11 @@ var semester = db.Semester.build({
 									semester: 1,
 									year: 2014
 								});
+								
+var semester1 = db.Semester.build({
+									semester: 2,
+									year: 2013
+								});
 //Courses							
 var courseEPERS = db.Course.build({
 									commission: 1,
@@ -84,6 +89,7 @@ chainer.add(courseEPERS.save());
 
 //save models
 chainer.add(semester.save());
+chainer.add(semester1.save());
 
 //save teachers
 chainer.add(teacherPABLOT.save());

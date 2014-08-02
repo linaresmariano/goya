@@ -1,0 +1,102 @@
+extends ../layout
+
+block content
+	link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.css')
+	script(src='/js/lib/jquery.ui.droppable.js')
+	script(src='/js/angular/angular.min.js')
+	script(src='http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js')
+	script(src='/js/fullcalendar/fullcalendar.js')
+	script(src='/js/fullcalendar/calendar.js')
+	script.
+		var semesterJSON=!{JSON.stringify(semester)};
+	script(src='/js/calendarioAcademico/academicCalendar.js')
+	div(ng-controller='CalendarCtrl')
+		.row
+			.col-md-2.col-md-2
+					div
+						div(class="panel panel-default size-lenght-menu")
+							div.panel-heading Cursos
+								button.btn.btn-default.btn-xs.pull-right(data-toggle="modal",data-target='#createCourseModal')
+									span.glyphicon.glyphicon-plus
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-search
+							ul.list-group(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
+								li(class="dragg-course list-group-item",draggable-course dragg-model="courseNotAssigned"){{courseNotAssigned.course.code}} {{courseNotAssigned.schedule.type}}
+						div(class="panel panel-default size-lenght-menu")
+							div.panel-heading Aulas
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-plus
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-search
+							div(ng-repeat="classRoom in classRooms track by $index")
+								div.list-group-item {{classRoom.number}}
+						div(class="panel panel-default size-lenght-menu")
+							div.panel-heading Profesores
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-plus
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-search
+							div(style="position:relative",ng-repeat="teacher in teachers track by $index")
+								div(class="menu-teachers list-group-item size-lenght-menu",space="{{$index*41}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
+			.col-md-10.col-md-10
+					div
+						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')
+		//Modal de cursos 
+		#myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button.close(type='button', data-dismiss='modal')
+							span(aria-hidden='true') ×
+							span.sr-only Close
+						h4#myModalLabel.modal-title Curso {{courseShow.course.code}} {{courseShow.schedule.type}} - Comision {{courseShow.course.commission}}
+					.modal-body 
+						div
+							b Aula
+							&nbsp; {{courseShow.schedule.classRoom.number}}
+							br
+							b Profesores a cargo
+							ul(ng-repeat="teacher in courseShow.course.courseTeacher track by $index")
+								li	{{teacher.name}}
+							br
+							b Profesores no a cargo
+							ul(ng-repeat="teacher in courseShow.course.courseInstructor track by $index")
+								li	{{teacher.name}}
+					.modal-footer
+						button.btn.btn-default(type='button', data-dismiss='modal') Close
+						button.btn.btn-primary(type='button') Save changes
+						
+						
+		//Modal para crear un curso
+		#createCourseModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button.close(type='button', data-dismiss='modal')
+							span(aria-hidden='true') ×
+							span.sr-only Close
+						h4#myModalLabel.modal-title Crear cursos
+					.modal-body 
+						div.form-horizontal
+							form-group.form-group
+								.input-group.input-group-sm
+										b Codigo
+										input.form-control(type='text', placeholder='Codigo')
+										b Tipo
+										select.form-control
+											option Practica
+											option Teorica
+											option Teorica/practica
+					.modal-footer
+						button.btn.btn-default(type='button', data-dismiss='modal') Close
+						button.btn.btn-primary(type='button',ng-click="createCourse()") Save
+
+
+	script(src='/js/lib/jquery.print.js')
+	script(src='/js/lib/jquery.printThis.js')
+	script(src='/js/lib/jquery.printArea.js')
+	script(src='/js/lib/jquery.printElement.js')
+	button(onclick="$.print('#grid')") Imprimir (print)
+	button(onclick="$('#grid').printThis()") Imprimir (printThis, el mejor)
+	button(onclick="$('#grid').printArea()") Imprimir (printArea, no anda)
+	button(onclick="$('#grid').printElement()") Imprimir (printElement)

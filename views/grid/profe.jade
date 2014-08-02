@@ -1,0 +1,24 @@
+div(style="clear:both")
+      #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+       .modal-dialog
+        .modal-content(style='text-align:left')
+         .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4#myModalLabel.modal-title Profesor
+         .modal-body
+          div
+           span(style="float:left;margin-right:4px") Nombre:
+           #nombre-profesor
+          div
+           span(style="float:left;margin-right:4px") Legajo: 
+           #legajo-profesor
+          div
+           span(style="float:left;margin-right:4px") Asignar Curso
+           select
+            each curso in datos.cursos
+              option #{curso.code} comision #{curso.comision} del día #{curso.horarios} #{datos.weekdays[1]}
+          div
+           span(style="float:left;margin-right:4px") Cursos asignados: 
+         .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+          button.btn.btn-primary(type='button') Guardar
