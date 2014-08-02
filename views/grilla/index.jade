@@ -22,7 +22,7 @@ block content
 					div
 						div(class="panel panel-default size-lenght-menu")
 							div.panel-heading Cursos
-								button.btn.btn-default.btn-xs.pull-right
+								button.btn.btn-default.btn-xs.pull-right(data-toggle="modal",data-target='#createCourseModal')
 									span.glyphicon.glyphicon-plus
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
@@ -71,6 +71,31 @@ block content
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Close
 						button.btn.btn-primary(type='button') Save changes
+						
+						
+		//Modal para crear un curso
+		#createCourseModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button.close(type='button', data-dismiss='modal')
+							span(aria-hidden='true') ×
+							span.sr-only Close
+						h4#myModalLabel.modal-title Crear cursos
+					.modal-body 
+						div.form-horizontal
+							form-group.form-group
+								.input-group.input-group-sm
+										b Codigo
+										input.form-control(type='text', placeholder='Codigo')
+										b Tipo
+										select.form-control
+											option Practica
+											option Teorica
+											option Teorica/practica
+					.modal-footer
+						button.btn.btn-default(type='button', data-dismiss='modal') Close
+						button.btn.btn-primary(type='button',ng-click="createCourse()") Save
 
 
 	script(src='/js/lib/jquery.print.js')

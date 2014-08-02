@@ -205,6 +205,10 @@ function CalendarCtrl($scope, $http, $q){
 		return names;
 	}
 	
+	$scope.createCourse=function(){
+		$scope.infoCoursesNotAssigned.push($scope.events[0]);
+	}
+	
 	//Agruega un schedule como no asignado
     $scope.addScheduleNotAssigned = function(course,schedule) {
       	$scope.infoCoursesNotAssigned.push({
