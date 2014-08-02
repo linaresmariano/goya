@@ -34,7 +34,7 @@ block content
 								div(class="menu-teachers list-group-item size-lenght-menu",space="{{$index*41}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
 				td
 					div
-						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar')
+						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')
 		//Modal de cursos 
 		#myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
 			.modal-dialog
@@ -59,3 +59,13 @@ block content
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Close
 						button.btn.btn-primary(type='button') Save changes
+
+
+	script(src='/js/lib/jquery.print.js')
+	script(src='/js/lib/jquery.printThis.js')
+	script(src='/js/lib/jquery.printArea.js')
+	script(src='/js/lib/jquery.printElement.js')
+	button(onclick="$.print('#grid')") Imprimir (print)
+	button(onclick="$('#grid').printThis()") Imprimir (printThis, el mejor)
+	button(onclick="$('#grid').printArea()") Imprimir (printArea, no anda)
+	button(onclick="$('#grid').printElement()") Imprimir (printElement)
