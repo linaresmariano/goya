@@ -22,14 +22,26 @@ block content
 					div
 						div(class="panel panel-default size-lenght-menu")
 							div.panel-heading Cursos
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-plus
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-search
 							ul.list-group(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
 								li(class="dragg-course list-group-item",draggable-course dragg-model="courseNotAssigned"){{courseNotAssigned.course.code}} {{courseNotAssigned.schedule.type}}
 						div(class="panel panel-default size-lenght-menu")
 							div.panel-heading Aulas
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-plus
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-search
 							div(ng-repeat="classRoom in classRooms track by $index")
 								div.list-group-item {{classRoom.number}}
 						div(class="panel panel-default size-lenght-menu")
 							div.panel-heading Profesores
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-plus
+								button.btn.btn-default.btn-xs.pull-right
+									span.glyphicon.glyphicon-search
 							div(style="position:relative",ng-repeat="teacher in teachers track by $index")
 								div(class="menu-teachers list-group-item size-lenght-menu",space="{{$index*41}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
 				td
