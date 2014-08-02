@@ -9,6 +9,7 @@ var user = require('./routes/user');
 var grilla = require('./routes/grid/index');
 var cursos = require('./routes/course/index');
 var subject = require('./routes/subject/index');
+var teacher = require('./routes/teacher/index');
 var http = require('http');
 var path = require('path');
 var Sequelize = require('sequelize');
@@ -27,10 +28,11 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(bodyParser());
 app.use(app.router);
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser());
+
 
 // development only
 if ('development' == app.get('env')) {
@@ -46,7 +48,10 @@ app.get('/course/:id', cursos.curso);
 app.get('/course/:id/:commission', cursos.commission);
 app.post('/updateCourse', cursos.actualizar);
 app.post('/updateEndCourse', cursos.actualizarFin);
-app.get('/subject/create', subject.create);
+app.get('/subject/new', subject.new);
+app.post('/subject/create', subject.create);
+app.get('/teacher/new', teacher.new);
+app.post('/teacher/create', teacher.create);
 
 //http.createServer(app).listen(app.get('port'), function(){
 //  console.log('Express server listening on port ' + app.get('port'));
