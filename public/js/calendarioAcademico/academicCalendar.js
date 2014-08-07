@@ -57,7 +57,7 @@ app.directive('menuTeachers', function() {
 			link: function(scope, elm, attrs) {
 				var space = attrs.space;
 					
-				elm.css("margin-top",space);
+				elm.css("top",space);
 				elm.css("position","absolute");
 			}
 		};
@@ -139,7 +139,7 @@ function CalendarCtrl($scope, $http, $q){
 					duration: Math.abs(event.start.getHours() - event.end.getHours())
 				},
 				success:function(result) {
-	            	//Por ahora nada
+	            	event.schedule.duration=Math.abs(event.start.getHours() - event.end.getHours());
 				},
 				error:function(err) {
 					revertFunc();
