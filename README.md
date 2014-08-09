@@ -3,7 +3,11 @@ TIP Sistema GOYA
 
 ![Build Status](https://api.travis-ci.org/linaresmariano/goya.png?branch=master)
 
-Después de clonarlo, ejecutar
+
+Instalar base da datos MYSQL
+
+
+Luego clonar el proyecto, y ejecutar
 
       npm install
 
