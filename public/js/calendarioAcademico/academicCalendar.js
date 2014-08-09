@@ -221,6 +221,11 @@ function CalendarCtrl($scope, $http, $q){
     $scope.remove = function(index) {
       $scope.events.splice(index,1);
     };
+	//Elimina el cursos seleccionado
+	 $scope.remove = function(index) {
+      $scope.removeSchedule($scope.courseShow.schedule);
+	  $scope.addScheduleNotAssigned($scope.courseShow.course,$scope.courseShow.schedule);
+    };
 	
 
 	
