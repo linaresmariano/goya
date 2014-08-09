@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "goya",
   "version": "0.0.1",
   "private": true,
   "engines": {
@@ -12,11 +12,29 @@
   },
   "dependencies": {
     "express": "3.4.8",
-	"body-parser": "~1.0.1",
+    "body-parser": "~1.0.1",
     "jade": "*",
     "mysql": "*",
     "sequelize": "*",
     "stylus": "*",
     "bower": "^1.3.1"
-  }
+  },
+  "devDependencies": {
+    "nodeunit": "~0.8.6",
+    "grunt": "~0.4.2",
+    "sqlite3": "~2.2.0",
+    "grunt-contrib-nodeunit": "~0.3.2"
+  },
+  "description": "TIP Sistema GOYA\r ====",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linaresmariano/goya.git"
+  },
+  "author": "Jose Di Meglio , Mariano Linares",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/linaresmariano/goya/issues"
+  },
+  "homepage": "https://github.com/linaresmariano/goya"
 }

@@ -18,5 +18,13 @@ Para levantar el server
 O levantarlo con foreman
 
       foreman start
+	  
+	  
+Para correr los tests
+
+      npm -g install grunt-cli
+      grunt runtests
+
+
 
 

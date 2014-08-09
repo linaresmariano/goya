@@ -80,7 +80,7 @@ db
 }).success(function() {
 
   // Para cargar datos de pruebas
-  require('./extras/defaultDatosDB');
+  require('./extras/initialDataDB');
 
 })
 
