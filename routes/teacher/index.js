@@ -17,8 +17,7 @@ exports.create = function(req, res) {
 	//Agragando un profesor al ultimo semestre
 	db.Semester.findAll({
 		include: [ {	model: db.Teacher, as: 'Teachers' ,require:false}],
-		order:'year ASC , semester ASC',
-		limit: 1
+		order:' year DESC ,semester DESC'
 	}).success(function(semester) {
 					console.log(semester);
 					db.Teacher.create({
