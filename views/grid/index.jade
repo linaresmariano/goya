@@ -56,20 +56,23 @@ block content
 							span.sr-only Close
 						h4#myModalLabel.modal-title Curso {{courseShow.course.code}} {{courseShow.schedule.type}} - Comision {{courseShow.course.commission}}
 					.modal-body 
-						.row
-							b Aula
-							&nbsp; {{courseShow.schedule.classRoom.number}}
+						.row.list-group
+							div.list-group-item 
+								b Aula
+								&nbsp; {{courseShow.schedule.classRoom.number}}
+								button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher()")
+										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores a cargo
-							div.list-group-item(ng-repeat="teacher in courseShow.course.courseTeacher track by $index")
+							div.list-group-item(ng-repeat="teacher in courseShow.course.courseTeacher track by $indexTeacher")
 								div{{teacher.name}} 
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="removeCourseTeacher(indexTeacher)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(indexTeacher)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores no a cargo
-							div.list-group-item(ng-repeat="teacher in courseShow.course.courseInstructor track by $index")
+							div.list-group-item(ng-repeat="teacher in courseShow.course.courseInstructor track by $indexTeacher")
 								div	{{teacher.name}}
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="removeCourseTeacher(indexTeacher)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(indexTeacher)")
 										span.glyphicon.glyphicon-remove
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Close
