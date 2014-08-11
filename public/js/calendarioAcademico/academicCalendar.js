@@ -26,18 +26,18 @@ app.directive('draggableCourse', function() {
 					$('body').append(clone);
 					$('body').css('cursor','pointer');
 					elm.css('display','none');
-
 					},
 					zIndex: 999,
 					revert: true,      
 					revertDuration: 0 ,
 					drag: function( event, ui ) {
-						clone.css('left',(event.pageX-50)+"px");
+						clone.css('left',elm.css('left'));
 						clone.css('top',(event.pageY-15)+"px");
 					},
 					stop: function( event, ui ) {	
 						clone.remove();
 						elm.css('display','block');
+						elm.draggable( 'enable' );
 						$('body').css('cursor','auto');}
 				});         
 
@@ -63,7 +63,7 @@ app.directive('draggTeacher', function() {
 
 				},
 				drag: function( event, ui ) {
-					clone.css('left',(event.pageX-50)+"px");
+					clone.css('left',elm.css('left'));
 					clone.css('top',(event.pageY-15)+"px");
 					//clone.css('top',150+"px");
 				},
@@ -97,9 +97,8 @@ app.directive('draggClassRoom', function() {
 					elm.css('display','none');
 				},
 				drag: function( event, ui ) {
-					clone.css('left',(event.pageX-50)+"px");
+					clone.css('left',elm.css('left'));
 					clone.css('top',(event.pageY-15)+"px");
-					//clone.css('top',150+"px");
 				},
 				zIndex: 999,
 				revert: true,      
