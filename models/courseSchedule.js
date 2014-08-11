@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
 	},{
       classMethods: {
         associate: function(models) {
-          this.hasMany(models.Teacher, { as: 'Teacher'});
+          this.hasMany(models.Teacher, { as: 'Teachers'});
 		  this.belongsTo(models.ClassRoom, { as: 'ClassRoom'});
         }
       }

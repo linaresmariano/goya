@@ -76,6 +76,7 @@ function CalendarCtrl($scope, $http, $q){
 
     $scope.eventClick = function( event, allDay, jsEvent, view ){
        //Curso a mostrar
+	   				
 	   $scope.courseShow=event;
     };
 
@@ -164,6 +165,7 @@ function CalendarCtrl($scope, $http, $q){
 										teacher=getModel(ui.draggable,"ng-model");
 										event.course.courseTeacher.push(teacher);
 										deferred.resolve(event);
+										$('#assingTeacherCourse').modal('toggle');
 									},
 							  accept: ".dragg-teacher"
 							});

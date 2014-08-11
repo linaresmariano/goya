@@ -54,7 +54,7 @@ block content
 						button.close(type='button', data-dismiss='modal')
 							span(aria-hidden='true') ×
 							span.sr-only Close
-						h4#myModalLabel.modal-title Curso {{courseShow.course.code}} {{courseShow.schedule.type}} - Comision {{courseShow.course.commission}}
+						h4#myModalLabel.modal-title {{courseShow.course.subject.name}} - {{courseShow.schedule.type}} - Comision {{courseShow.course.commission}}
 					.modal-body 
 						.row.list-group
 							div.list-group-item 
@@ -63,21 +63,51 @@ block content
 								button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher()")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
-							.panel-heading Profesores a cargo
+							.panel-heading Profesores a cargo del curso
 							div.list-group-item(ng-repeat="teacher in courseShow.course.courseTeacher track by $indexTeacher")
 								div{{teacher.name}} 
 									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(indexTeacher)")
 										span.glyphicon.glyphicon-remove
+									button.btn.btn-default.btn-xs.pull-right(title="Asignar a este horario")
+										span.glyphicon.glyphicon-plus
 						.row.panel.panel-default
-							.panel-heading Profesores no a cargo
+							.panel-heading Profesores no a cargo del curso
 							div.list-group-item(ng-repeat="teacher in courseShow.course.courseInstructor track by $indexTeacher")
 								div	{{teacher.name}}
 									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(indexTeacher)")
 										span.glyphicon.glyphicon-remove
+									button.btn.btn-default.btn-xs.pull-right(title="Asignar a este horario")
+										span.glyphicon.glyphicon-plus
+						.row.panel.panel-default
+							.panel-heading Profesores asignados a este horario
+							div.list-group-item(ng-repeat="teacher in courseShow.schedule.teachers track by $index")
+								div	{{teacher.name}}
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseSchedule(index)")
+										span.glyphicon.glyphicon-remove
 					.modal-footer
-						button.btn.btn-default(type='button', data-dismiss='modal') Close
+						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar
 						button.btn.btn-danger(type='button',ng-click="remove()") Eliminar
 						
+		//Modal para asignar un profesor a un curso
+		#assingTeacherCourse.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-dialog
+				.modal-content
+					.modal-header.header-color-blue
+						button.close(type='button', data-dismiss='modal')
+							span(aria-hidden='true') ×
+							span.sr-only Close
+						h4#myModalLabel.modal-title ¿Como deseas asignar a este profesor?
+					.modal-body 
+						row.form-control
+							.col-lg-4
+								div Profesor a cargo
+									input(name="type-charge-teacher").pull-right(type="radio")
+							.col-lg-4
+								div Profesor no a cargo
+									input(name="type-charge-teacher",checked).pull-right(type="radio")
+					.modal-footer
+						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar
+						button.btn.btn-primary(type='button',ng-click="") Aceptar
 						
 		//Modal para crear un curso
 		#createCourseModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')

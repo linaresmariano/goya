@@ -137,6 +137,8 @@ chainer.run().complete( function(err, result) {
 		courseEPERS.setSchedules([courseSchedule1]);
 		courseORGA.setSchedules([courseSchedule2,courseSchedule3,courseSchedule4]);
 		
+		courseSchedule1.setTeachers([teacherRONY,teacherPABLOT]);
+		
 		courseSchedule1.setClassRoom(classRoom37B);
 });
 
