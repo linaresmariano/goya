@@ -37,6 +37,7 @@ app.directive('draggTeacher', function() {
 
 				elm.draggable({
 				start: function( event, ui ) {
+
 				},
 				drag: function( event, ui ) {
 
@@ -49,9 +50,35 @@ app.directive('draggTeacher', function() {
 			}
 		};
 });
+
+
+//Creando directive droppable con jquery ui
+app.directive('draggClassRoom', function() {
+	return {
+			restrict: 'A',
+			link: function(scope, elm, attrs) {
+				//Necesita de position absolute,para droppear a los eventos del calendar
+				//elm.css('position','absolute');
+
+				elm.draggable({
+				start: function( event, ui ) {
+					
+				},
+				drag: function( event, ui ) {
+
+				},
+				zIndex: 999,
+				revert: true,      
+				revertDuration: 0 ,
+				stop: function( event, ui ) {}
+			}); 
+			}
+		};
+});
+	
 		
 //Creando estilo menuTeachers,para solucionar el problema de la posicion absoluta que se requiere para dropear
-app.directive('menuTeachers', function() {
+app.directive('menuDraggable', function() {
 	return {
 			restrict: 'C',
 			link: function(scope, elm, attrs) {
