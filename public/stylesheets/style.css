@@ -15,3 +15,8 @@ body {
 .icon-main{
 	padding-left:5px;
 }
+.header-color-blue{
+	background:#5bc0de;
+	color:white;
+	border-radius:5px 5px 0px 0px
+}
