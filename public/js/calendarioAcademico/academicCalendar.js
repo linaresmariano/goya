@@ -15,12 +15,30 @@ app.directive('draggableCourse', function() {
 				var eventObject = model;
 
 				elm.data('eventObject', eventObject);
-
+				var clone;
 				elm.draggable({
+					start: function( event, ui ) {
+					
+					//Creando un clon del tag teacher para draggearlo afuera del scroll
+					clone=elm.clone();
+					clone.css('width',elm.css('width'));
+					clone.css('position','absolute');
+					$('body').append(clone);
+					$('body').css('cursor','pointer');
+					elm.css('display','none');
+
+					},
 					zIndex: 999,
 					revert: true,      
 					revertDuration: 0 ,
-					stop: function( event, ui ) {}
+					drag: function( event, ui ) {
+						clone.css('left',(event.pageX-50)+"px");
+						clone.css('top',(event.pageY-15)+"px");
+					},
+					stop: function( event, ui ) {	
+						clone.remove();
+						elm.css('display','block');
+						$('body').css('cursor','auto');}
 				});         
 
 				}
@@ -32,20 +50,30 @@ app.directive('draggTeacher', function() {
 	return {
 			restrict: 'A',
 			link: function(scope, elm, attrs) {
-				//Necesita de position absolute,para droppear a los eventos del calendar
-				//elm.css('position','absolute');
-
+				var clone;
 				elm.draggable({
 				start: function( event, ui ) {
+					
+					//Creando un clon del tag teacher para draggearlo afuera del scroll
+					clone=elm.clone();
+					clone.css('width',elm.css('width'));
+					$('body').append(clone);
+					$('body').css('cursor','pointer');
+					elm.css('display','none');
 
 				},
 				drag: function( event, ui ) {
-
+					clone.css('left',(event.pageX-50)+"px");
+					clone.css('top',(event.pageY-15)+"px");
+					//clone.css('top',150+"px");
 				},
 				zIndex: 999,
 				revert: true,      
 				revertDuration: 0 ,
-				stop: function( event, ui ) {}
+				stop: function( event, ui ) {	
+					clone.remove();
+					elm.css('display','block');
+					$('body').css('cursor','auto');}
 			}); 
 			}
 		};
@@ -59,18 +87,27 @@ app.directive('draggClassRoom', function() {
 			link: function(scope, elm, attrs) {
 				//Necesita de position absolute,para droppear a los eventos del calendar
 				//elm.css('position','absolute');
-
+				var clone;
 				elm.draggable({
 				start: function( event, ui ) {
-					
+					clone=elm.clone();
+					clone.css('width',elm.css('width'));
+					$('body').append(clone);
+					$('body').css('cursor','pointer');
+					elm.css('display','none');
 				},
 				drag: function( event, ui ) {
-
+					clone.css('left',(event.pageX-50)+"px");
+					clone.css('top',(event.pageY-15)+"px");
+					//clone.css('top',150+"px");
 				},
 				zIndex: 999,
 				revert: true,      
 				revertDuration: 0 ,
-				stop: function( event, ui ) {}
+				stop: function( event, ui ) {	
+					clone.remove();
+					elm.css('display','block');
+					$('body').css('cursor','auto');}
 			}); 
 			}
 		};

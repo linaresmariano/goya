@@ -19,24 +19,27 @@ block content
 		.row
 			.col-md-2.col-md-2
 					div
-						div(class="panel panel-default size-menu size-menu-height")
+						div(class="panel panel-default size-menu ")
 							div.panel-heading Horarios de cursos
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
-							div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
-								div(class="dragg-course list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.course.subject.code}} {{courseNotAssigned.schedule.type}}
-						div(class="panel panel-default size-menu size-menu-height")
+							.size-menu-height
+								div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
+									div(class="dragg-course list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.course.subject.code}} {{courseNotAssigned.schedule.type}}
+						div(class="panel panel-default size-menu ")
 							div.panel-heading Aulas
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
-							div(style="position:relative",ng-model="index",ng-repeat="classRoom in classRooms track by $index")
-								div.dragg-class-room.menu-draggable.size-menu(dragg-class-room,space="{{$index*42}}px").list-group-item {{classRoom.number}}
-						div(class="panel panel-default size-menu size-menu-height")
+							.size-menu-height
+								div(style="position:relative",ng-model="index",ng-repeat="classRoom in classRooms track by $index")
+									div.dragg-class-room.menu-draggable.size-menu(dragg-class-room,space="{{$index*42}}px").list-group-item {{classRoom.number}}
+						div(class="panel panel-default size-menu ")
 							div.panel-heading Profesores
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
-							div(style="position:relative",ng-repeat="teacher in teachers track by $index")
-								div(class="menu-draggable list-group-item size-menu",space="{{$index*42}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
+							.size-menu-height
+								div.scroll-menu(style="position:relative",ng-repeat="teacher in teachers track by $index")
+									div(class="menu-draggable list-group-item size-menu",space="{{$index*42}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
 			.col-md-10.col-md-10
 					div
 						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')

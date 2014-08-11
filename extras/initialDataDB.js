@@ -95,6 +95,15 @@ var classRoomcyt= db.ClassRoom.build({
 						numberOfComputers: 30,
 						hasProyector: true
 					});
+					
+var classRoom45= db.ClassRoom.build({
+						name: "45",
+						number: "45",
+						description: "Un aula sin pcs nueva",
+						capacity: 30,
+						numberOfComputers: 0,
+						hasProyector: true
+					});
 //Subject
 
 var subjectEPERS= db.Subject.build({
@@ -132,6 +141,7 @@ chainer.add(courseSchedule4.save());
 chainer.add(classRoom37B.save());
 chainer.add(classRoom60.save());
 chainer.add(classRoomcyt.save());
+chainer.add(classRoom45.save());
 
 //save subjects
 chainer.add(subjectEPERS.save());
@@ -147,7 +157,7 @@ chainer.run().complete( function(err, result) {
 		
 		semester.setTeachers([teacherPABLOT,teacherRONY]);
 		
-		semester.setClassRooms([classRoom37B,classRoom60,classRoomcyt]);
+		semester.setClassRooms([classRoom37B,classRoom60,classRoomcyt,classRoom45]);
 		
 		courseEPERS.setCourseTeacher([teacherPABLOT]);
 		courseEPERS.setCourseInstructor([teacherRONY]);

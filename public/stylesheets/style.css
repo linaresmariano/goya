@@ -4,9 +4,9 @@
 }
 
 .size-menu-height{
-	height:191px;
-
+	height:148px;overflow-y:auto;
 }
+
 
 
 body {
