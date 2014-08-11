@@ -30,13 +30,13 @@ block content
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
 							div(style="position:relative",ng-model="index",ng-repeat="classRoom in classRooms track by $index")
-								div.dragg-class-room.menu-draggable.size-menu(dragg-class-room,space="{{$index*41}}px").list-group-item {{classRoom.number}}
+								div.dragg-class-room.menu-draggable.size-menu(dragg-class-room,space="{{$index*42}}px").list-group-item {{classRoom.number}}
 						div(class="panel panel-default size-menu size-menu-height")
 							div.panel-heading Profesores
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
 							div(style="position:relative",ng-repeat="teacher in teachers track by $index")
-								div(class="menu-draggable list-group-item size-menu",space="{{$index*41}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
+								div(class="menu-draggable list-group-item size-menu",space="{{$index*42}}px",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
 			.col-md-10.col-md-10
 					div
 						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')
@@ -58,17 +58,17 @@ block content
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores a cargo del curso
-							div.list-group-item(ng-repeat="teacher in courseShow.course.courseTeacher track by $indexTeacher")
+							div.list-group-item(ng-repeat="teacher in courseShow.course.courseTeacher track by $index")
 								div{{teacher.name}} 
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(indexTeacher)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(index)")
 										span.glyphicon.glyphicon-remove
 									button.btn.btn-default.btn-xs.pull-right(title="Asignar a este horario")
 										span.glyphicon.glyphicon-plus
 						.row.panel.panel-default
 							.panel-heading Profesores no a cargo del curso
-							div.list-group-item(ng-repeat="teacher in courseShow.course.courseInstructor track by $indexTeacher")
+							div.list-group-item(ng-repeat="teacher in courseShow.course.courseInstructor track by $index")
 								div	{{teacher.name}}
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(indexTeacher)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(index)")
 										span.glyphicon.glyphicon-remove
 									button.btn.btn-default.btn-xs.pull-right(title="Asignar a este horario")
 										span.glyphicon.glyphicon-plus
