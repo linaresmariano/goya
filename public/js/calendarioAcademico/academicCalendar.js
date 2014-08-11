@@ -223,14 +223,21 @@ function CalendarCtrl($scope, $http, $q){
 			var deferred = $q.defer();
 			element.droppable({
 							  drop: function( eventUI, ui ) {
-										//event.title=ui.draggable.text();
-										//alert($(this).text()+" -> "+ui.draggable.text());
-										teacher=getModel(ui.draggable,"ng-model");
-										event.course.courseTeacher.push(teacher);
-										deferred.resolve(event);
-										$('#assingTeacherCourse').modal('toggle');
+										//chequeo para ver si es un aula o un profesor que se dropea con
+										//el curso
+										if(ui.draggable.attr('class').indexOf("dragg-class-room") !=-1){
+											classroom=getModel(ui.draggable,"ng-model");
+
+											event.schedule.classRoom=classroom;
+											deferred.resolve(event);
+										}else{
+											teacher=getModel(ui.draggable,"ng-model");
+											event.course.courseTeacher.push(teacher);
+											deferred.resolve(event);
+											$('#assingTeacherCourse').modal('toggle');
+										}
 									},
-							  accept: ".dragg-teacher"
+							  accept: ".dragg-teacher , .dragg-class-room"
 							});
 			var promise=deferred.promise;
 			promise.then(function(event) {
@@ -245,6 +252,7 @@ function CalendarCtrl($scope, $http, $q){
       	$scope.events.push({
 								id: schedule.id,
 								title: course.subject.code+ " \n c"+course.commission +"-" +  schedule.type
+									+ (schedule.classRoom == undefined ? '' : '\n Aula '+schedule.classRoom.number)
 									+ getNamesTeachers(course.courseTeacher)
 									+ getNamesTeachers(course.courseInstructor),
 								start: new Date(y, m-1, d+schedule.day, schedule.hour, 0),

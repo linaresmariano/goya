@@ -31,8 +31,8 @@ block content
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
 							.size-menu-height
-								div(style="position:relative",ng-model="index",ng-repeat="classRoom in classRooms track by $index")
-									div.dragg-class-room.menu-draggable.size-menu(dragg-class-room,space="{{$index*42.2}}px").list-group-item {{classRoom.number}}
+								div(style="position:relative",ng-repeat="classRoom in classRooms track by $index")
+									div.dragg-class-room.menu-draggable.size-menu(ng-model="classRoom",dragg-class-room,space="{{$index*42.2}}px").list-group-item {{classRoom.number}}
 						div(class="panel panel-default size-menu ")
 							div.panel-heading Profesores
 								button.btn.btn-default.btn-xs.pull-right
