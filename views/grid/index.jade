@@ -56,17 +56,21 @@ block content
 							span.sr-only Close
 						h4#myModalLabel.modal-title Curso {{courseShow.course.code}} {{courseShow.schedule.type}} - Comision {{courseShow.course.commission}}
 					.modal-body 
-						div
+						.row
 							b Aula
 							&nbsp; {{courseShow.schedule.classRoom.number}}
-							br
-							b Profesores a cargo
-							ul(ng-repeat="teacher in courseShow.course.courseTeacher track by $index")
-								li	{{teacher.name}}
-							br
-							b Profesores no a cargo
-							ul(ng-repeat="teacher in courseShow.course.courseInstructor track by $index")
-								li	{{teacher.name}}
+						.row.panel.panel-default
+							.panel-heading Profesores a cargo
+							div.list-group-item(ng-repeat="teacher in courseShow.course.courseTeacher track by $index")
+								div{{teacher.name}} 
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="removeCourseTeacher(indexTeacher)")
+										span.glyphicon.glyphicon-remove
+						.row.panel.panel-default
+							.panel-heading Profesores no a cargo
+							div.list-group-item(ng-repeat="teacher in courseShow.course.courseInstructor track by $index")
+								div	{{teacher.name}}
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="removeCourseTeacher(indexTeacher)")
+										span.glyphicon.glyphicon-remove
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Close
 						button.btn.btn-danger(type='button',ng-click="remove()") Eliminar
