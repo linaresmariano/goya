@@ -167,6 +167,21 @@ exports.actualizarFin = function(req, res) {
 }
 
 
+exports.assignedClassRoom = function(req, res) {
+
+ 	
+	var idClassRoom = req.body.idClassRoom;
+    var idCourseSchedule = req.body.idCourseSchedule;
+  db.CourseSchedule.find(idCourseSchedule).success(function(schedule) {
+
+		db.ClassRoom.find(idClassRoom).success(function(classRoom) {
+			schedule.setClassRoom(classRoom);
+			res.send('ok')
+		})
+  })
+}
+
+
 
 exports.update_profe = function(req, res) {
   //Actualiza el horario con el id correspondiente

@@ -226,11 +226,23 @@ function CalendarCtrl($scope, $http, $q){
 							  drop: function( eventUI, ui ) {
 										//chequeo para ver si es un aula o un profesor que se dropea con
 										//el curso
-										if(ui.draggable.attr('class').indexOf("dragg-class-room") !=-1){
-											classroom=getModel(ui.draggable,"ng-model");
+										classroom=getModel(ui.draggable,"ng-model");
 
-											event.schedule.classRoom=classroom;
-											deferred.resolve(event);
+										
+										if(ui.draggable.attr('class').indexOf("dragg-class-room") !=-1){
+											
+											$http({
+													url:"/assignedClassRoom",
+													method:'post',
+													data: { idClassRoom:classroom.id,idCourseSchedule:event.schedule.id}
+											}).success(function(data) {
+												event.schedule.classRoom=classroom;
+												deferred.resolve(event);
+												
+											}).error(function(err){
+												alert("Error al asignar aula a un horario");
+											});
+											
 										}else{
 											teacher=getModel(ui.draggable,"ng-model");
 											event.course.courseTeacher.push(teacher);
