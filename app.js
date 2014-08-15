@@ -6,6 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
+var schedule = require('./routes/schedule/index');
 var grilla = require('./routes/grid/index');
 var cursos = require('./routes/course/index');
 var subject = require('./routes/subject/index');
@@ -64,6 +65,9 @@ app.post('/subject/create', subject.create);
 //teachers
 app.get('/teacher/new', teacher.new);
 app.post('/teacher/create', teacher.create);
+
+//schedules
+app.post('/assignedTeacher', schedule.assignedTeacher);
 
 //http.createServer(app).listen(app.get('port'), function(){
 //  console.log('Express server listening on port ' + app.get('port'));

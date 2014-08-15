@@ -84,7 +84,7 @@ block content
 						
 		//Modal para asignar un profesor a un curso
 		#assingTeacherCourse.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-			.modal-dialog
+			.modal-dialog(ng-init="isInCharge=1")
 				.modal-content
 					.modal-header.header-color-blue
 						button.close(type='button', data-dismiss='modal')
@@ -95,13 +95,13 @@ block content
 						row.form-control
 							.col-lg-4
 								div Profesor a cargo
-									input(name="type-charge-teacher").pull-right(type="radio")
+									input.pull-right(ng-model="isInCharge",type="radio",value="0")
 							.col-lg-4
 								div Profesor no a cargo
-									input(name="type-charge-teacher",checked).pull-right(type="radio")
+									input.pull-right(ng-model="isInCharge",type="radio",value="1")
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar
-						button.btn.btn-primary(type='button',ng-click="") Aceptar
+						button.btn.btn-primary(type='button',ng-click="assignedTeacherToCourse(isInCharge)") Aceptar
 						
 		//Modal para crear un curso
 		#createCourseModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')

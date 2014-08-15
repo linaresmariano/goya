@@ -245,9 +245,28 @@ function CalendarCtrl($scope, $http, $q){
 											
 										}else{
 											teacher=getModel(ui.draggable,"ng-model");
-											event.course.courseTeacher.push(teacher);
-											deferred.resolve(event);
-											$('#assingTeacherCourse').modal('toggle');
+											$scope.courseTeacher.teacher=teacher;
+											$scope.courseTeacher.event=event;
+											
+											if(!isTeacher(event.course,teacher)){
+													$('#assingTeacherCourse').modal('toggle');
+											}else{
+												$http({
+														url:"/assignedTeacher",
+														method:'post',
+														data: { idTeacher:teacher.id,idCourseSchedule:event.schedule.id}
+												}).success(function(data) {
+													
+													event.schedule.teachers.push(teacher);
+													deferred.resolve(event);
+
+												}).error(function(err){
+													alert("Error al asignar un profesor a un horario");
+												});
+											}
+											
+											
+											
 										}
 									},
 							  accept: ".dragg-teacher , .dragg-class-room"
@@ -259,6 +278,20 @@ function CalendarCtrl($scope, $http, $q){
 							$scope.addSchedule(event.course,event.schedule);
 						});
         }
+		
+	function existTeacher(teachers,teacher){
+		for(i=0;i < teachers.length;i++){
+			if(teachers[i].id == teacher.id ){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	function isTeacher(course,teacher){
+		return existTeacher(course.courseTeacher,teacher) || existTeacher(course.courseInstructor,teacher);
+	}
+	
 
     //Agrega un schedule al calendario
     $scope.addSchedule = function(course,schedule) {
@@ -335,6 +368,11 @@ function CalendarCtrl($scope, $http, $q){
 		}
 		
     };
+	
+		//Elimina de la lista a un schedule asignado
+	$scope.assignedTeacherToCourse = function(isInCharge ) {
+		alert("Se debe asignar como profesor"+(isInCharge == 1 ? ' no ' : '')+ ' a cargo a este curso, y al horario');
+    };
 
     /* config object */
     $scope.uiConfig = {
@@ -377,8 +415,11 @@ function CalendarCtrl($scope, $http, $q){
       }
     };
 
+
 	
 	//Modelos
+	$scope.courseTeacher={};
+	
 	$scope.courseShow;
 	
 	$scope.courses = semesterJSON.courses ;
