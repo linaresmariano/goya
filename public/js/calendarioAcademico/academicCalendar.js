@@ -348,8 +348,29 @@ function CalendarCtrl($scope, $http, $q){
     };
 	//Elimina el cursos seleccionado
 	 $scope.remove = function(index) {
-      $scope.removeSchedule($scope.courseShow.schedule);
-	  $scope.addScheduleNotAssigned($scope.courseShow.course,$scope.courseShow.schedule);
+	 
+		var deferred = $q.defer();
+		
+		$http({
+			url:"/schedule/deallocateSchedule",
+			method:'post',
+			data: { idCourseSchedule:$scope.courseShow.schedule.id,}
+		}).success(function(data) {
+
+			
+			deferred.resolve($scope.courseShow);
+		}).error(function(err){
+			alert("Error al desasignar un profesor");
+		});	
+		//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function(event) {
+						//Update
+						$scope.removeSchedule(event.schedule);
+						$scope.addScheduleNotAssigned(event.course,event.schedule);
+				});
+	 
+
     };
 	
 
