@@ -100,6 +100,32 @@ exports.index = function(req, res){
 
 };
 
+exports.deallocateTeacher = function(req, res){
+	var idCourse = req.body.idCourse;
+	var idTeacher= req.body.idTeacher;
+	
+	  db.Course.find(idCourse).success(function(course) {
+		 db.Teacher.find(idTeacher).success(function(teacher) {
+			course.removeCourseTeacher(teacher);
+			res.send('ok')
+		 });
+		
+	  })
+};
+
+exports.deallocateInstructor = function(req, res){
+	var idCourse = req.body.idCourse;
+	var idTeacher= req.body.idTeacher;
+	
+	  db.Course.find(idCourse).success(function(course) {
+		 db.Teacher.find(idTeacher).success(function(teacher) {
+			course.removeCourseInstructor(teacher);
+			res.send('ok')
+		 });
+		
+	  })
+};
+
 
 /*
  * GET cursos/:code_curso/:comision.

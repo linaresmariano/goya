@@ -464,6 +464,73 @@ function CalendarCtrl($scope, $http, $q){
 				});
 	}
 	
+	$scope.deallocateCourseTeacher=function(idTeacher,index){
+		var deferred = $q.defer();
+		
+		if(existTeacherInSchedules($scope.courseShow.course.schedules,
+					$scope.courseShow.course.courseTeacher[index])){
+					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
+					return;
+		}
+		
+		$http({
+			url:"/course/deallocateTeacher",
+			method:'post',
+			data: { idCourse:$scope.courseShow.course.id,idTeacher:idTeacher}
+		}).success(function(data) {
+
+			$scope.courseShow.course.courseTeacher.splice(index, 1);
+			deferred.resolve($scope.courseShow);
+		}).error(function(err){
+			alert("Error al desasignar un profesor");
+		});	
+		//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function(event) {
+						//Update
+						$scope.removeSchedule(event.schedule);
+						$scope.addSchedule(event.course,event.schedule);
+				});
+	}
+	
+	$scope.deallocateCourseInstructor=function(idTeacher,index){
+		var deferred = $q.defer();
+		
+		if(existTeacherInSchedules($scope.courseShow.course.schedules,
+					$scope.courseShow.course.courseInstructor[index])){
+					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
+					return;
+		}
+		
+		$http({
+			url:"/course/deallocateInstructor",
+			method:'post',
+			data: { idCourse:$scope.courseShow.course.id,idTeacher:idTeacher}
+		}).success(function(data) {
+
+			$scope.courseShow.course.courseInstructor.splice(index, 1);
+			deferred.resolve($scope.courseShow);
+		}).error(function(err){
+			alert("Error al desasignar un profesor");
+		});	
+		//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function(event) {
+						//Update
+						$scope.removeSchedule(event.schedule);
+						$scope.addSchedule(event.course,event.schedule);
+				});
+	}
+	
+	function existTeacherInSchedules(schedules,teacher){
+		for(i=0;i<schedules.length;i++){
+			if(existTeacher(schedules[i].teachers,teacher)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
     /* config object */
     $scope.uiConfig = {

@@ -29,7 +29,7 @@ exports.deallocateTeacher = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
 	var idTeacher= req.body.idTeacher;
 	  db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		 db.CourseSchedule.find(idTeacher).success(function(teacher) {
+		 db.Teacher.find(idTeacher).success(function(teacher) {
 			courseSchedule.removeTeacher(teacher);
 			res.send('ok')
 		 });

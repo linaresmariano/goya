@@ -60,8 +60,8 @@ app.post('/updateEndCourse', cursos.actualizarFin);
 app.post('/assignedClassRoom', cursos.assignedClassRoom);
 app.post('/course/assignedTeacher', cursos.assignedTeacher);
 app.post('/course/assignedInstructor', cursos.assignedInstructor);
-
-
+app.post('/course/deallocateTeacher', cursos.deallocateTeacher);
+app.post('/course/deallocateInstructor', cursos.deallocateInstructor);
 
 //classRooms
 app.get('/classroom/new', classroom.new);
