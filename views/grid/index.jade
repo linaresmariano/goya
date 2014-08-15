@@ -60,23 +60,19 @@ block content
 							.panel-heading Profesores a cargo del curso
 							div.list-group-item(ng-repeat="teacher in courseShow.course.courseTeacher track by $index")
 								div{{teacher.name}} 
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(index)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher($index)")
 										span.glyphicon.glyphicon-remove
-									button.btn.btn-default.btn-xs.pull-right(title="Asignar a este horario")
-										span.glyphicon.glyphicon-plus
 						.row.panel.panel-default
 							.panel-heading Profesores no a cargo del curso
 							div.list-group-item(ng-repeat="teacher in courseShow.course.courseInstructor track by $index")
 								div	{{teacher.name}}
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(index)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher($index)")
 										span.glyphicon.glyphicon-remove
-									button.btn.btn-default.btn-xs.pull-right(title="Asignar a este horario")
-										span.glyphicon.glyphicon-plus
 						.row.panel.panel-default
 							.panel-heading Profesores asignados a este horario
 							div.list-group-item(ng-repeat="teacher in courseShow.schedule.teachers track by $index")
 								div	{{teacher.name}}
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseSchedule(index)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateScheduleTeacher(teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar

@@ -441,6 +441,29 @@ function CalendarCtrl($scope, $http, $q){
 						$scope.addSchedule(event.course,event.schedule);
 				});
 	}
+	
+	$scope.deallocateScheduleTeacher=function(idTeacher,index){
+		var deferred = $q.defer();
+		$http({
+			url:"/schedule/deallocateTeacher",
+			method:'post',
+			data: { idCourseSchedule:$scope.courseShow.schedule.id,idTeacher:idTeacher}
+		}).success(function(data) {
+
+			$scope.courseShow.schedule.teachers.splice(index, 1);
+			deferred.resolve($scope.courseShow);
+		}).error(function(err){
+			alert("Error al desasignar un aula");
+		});	
+		//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function(event) {
+						//Update
+						$scope.removeSchedule(event.schedule);
+						$scope.addSchedule(event.course,event.schedule);
+				});
+	}
+	
 
     /* config object */
     $scope.uiConfig = {
