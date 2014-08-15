@@ -47,8 +47,8 @@ exports.create = function(req, res) {
 											exports.new(req, res);	
 									});
 		});
-	//si hay varios horarios
-	}else if(req.body.day != undefined){
+	//si hay varios horarios y sin horario
+	}else{
 	
 	
 		db.Semester.find({
@@ -62,16 +62,19 @@ exports.create = function(req, res) {
 										color: 'blue' // color default
 			}).success(function(course) {
 					semester.addCourse(course);
-					for(i=0;i < req.body.day.length;i++){
-						var schedule = db.CourseSchedule.build({
-												type: 'Teorica/Practica',
-												day: req.body.day[i] ,
-												hour: req.body.hour[i] ,
-												minutes: 0,
-												duration: req.body.duration[i] 
-											});
-						course.addSchedule(schedule);
-										
+					//Si no hay horarios para el curso
+					if(req.body.day != undefined){
+						for(i=0;i < req.body.day.length;i++){
+							var schedule = db.CourseSchedule.build({
+													type: 'Teorica/Practica',
+													day: req.body.day[i] ,
+													hour: req.body.hour[i] ,
+													minutes: 0,
+													duration: req.body.duration[i] 
+												});
+							course.addSchedule(schedule);
+											
+						}
 					}
 					exports.new(req, res);	
 			});
