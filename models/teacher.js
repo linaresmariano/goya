@@ -6,6 +6,9 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
+		this.hasMany(models.CourseSchedule, { through:'schedule_has_teachers'});
+		this.hasMany(models.Course,{through:'course_has_teachers'});
+		this.hasMany(models.Course,{through:'course_has_instructors'});
 		this.hasOne(models.TeacherRequirements, { as: 'Requirements'});
       }
     }

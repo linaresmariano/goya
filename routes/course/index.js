@@ -182,6 +182,35 @@ exports.assignedClassRoom = function(req, res) {
 }
 
 
+exports.assignedTeacher = function(req, res) {
+
+ 	
+	var idTeacher= req.body.idTeacher;
+    var idCourse = req.body.idCourse;
+  db.Course.find(idCourse).success(function(course) {
+
+		db.Teacher.find(idTeacher).success(function(teacher) {
+			course.addCourseTeacher(teacher);
+			res.send('ok')
+		})
+  })
+}
+
+exports.assignedInstructor = function(req, res) {
+
+ 	
+	var idTeacher= req.body.idTeacher;
+    var idCourse = req.body.idCourse;
+  db.Course.find(idCourse).success(function(course) {
+
+		db.Teacher.find(idTeacher).success(function(teacher) {
+			course.addCourseInstructor(teacher);
+			res.send('ok')
+		})
+  })
+}
+
+
 
 exports.update_profe = function(req, res) {
   //Actualiza el horario con el id correspondiente

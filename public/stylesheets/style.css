@@ -6,6 +6,7 @@
 .size-menu-height{
 	height:148px;
 	overflow-y:auto;
+	overflow-x:hidden;
 }
 
 

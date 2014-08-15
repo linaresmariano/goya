@@ -305,8 +305,7 @@ function CalendarCtrl($scope, $http, $q){
 								id: schedule.id,
 								title: course.subject.code+ " \n c"+course.commission +"-" +  schedule.type
 									+ (schedule.classRoom == undefined ? '' : '\n Aula '+schedule.classRoom.number)
-									+ getNamesTeachers(course.courseTeacher)
-									+ getNamesTeachers(course.courseInstructor),
+									+ getNamesTeachers(schedule.teachers),
 								start: new Date(y, m-1, d+schedule.day, schedule.hour, 0),
 								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.duration, 0),
 								allDay: false,
@@ -377,7 +376,42 @@ function CalendarCtrl($scope, $http, $q){
 	
 		//Elimina de la lista a un schedule asignado
 	$scope.assignedTeacherToCourse = function(isInCharge ) {
-		alert("Se debe asignar como profesor"+(isInCharge == 1 ? ' no ' : '')+ ' a cargo a este curso, y al horario');
+		var deferred = $q.defer();
+		if(isInCharge == 0){
+				$http({
+					url:"/course/assignedTeacher",
+					method:'post',
+					data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.course.id}
+				}).success(function(data) {
+														
+					$scope.courseTeacher.event.course.courseTeacher.push($scope.courseTeacher.teacher);
+					deferred.resolve($scope.courseTeacher.event);
+				}).error(function(err){
+					alert("Error al asignar un profesor a un horario");
+				});					
+		}else{
+				$http({
+					url:"/course/assignedInstructor",
+					method:'post',
+					data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.course.id}
+				}).success(function(data) {
+													
+					$scope.courseTeacher.event.course.courseInstructor.push($scope.courseTeacher.teacher);
+					
+					deferred.resolve($scope.courseTeacher.event);
+				}).error(function(err){
+					alert("Error al asignar un profesor a un horario");
+				});	
+		}
+		//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function(event) {
+						//Update
+						$scope.removeSchedule(event.schedule);
+						$scope.addSchedule(event.course,event.schedule);
+				});
+	
+		//alert("Se debe asignar como profesor"+(isInCharge == 1 ? ' no ' : '')+ ' a cargo a este curso, y al horario');
     };
 
     /* config object */

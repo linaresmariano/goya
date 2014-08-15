@@ -57,6 +57,9 @@ app.post('/course/create', cursos.create);
 app.post('/updateCourse', cursos.actualizar);
 app.post('/updateEndCourse', cursos.actualizarFin);
 app.post('/assignedClassRoom', cursos.assignedClassRoom);
+app.post('/course/assignedTeacher', cursos.assignedTeacher);
+app.post('/course/assignedInstructor', cursos.assignedInstructor);
+
 
 //subjects
 app.get('/subject/new', subject.new);
