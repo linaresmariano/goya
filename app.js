@@ -6,6 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
+var classroom = require('./routes/classroom/index');
 var schedule = require('./routes/schedule/index');
 var grilla = require('./routes/grid/index');
 var cursos = require('./routes/course/index');
@@ -60,6 +61,10 @@ app.post('/assignedClassRoom', cursos.assignedClassRoom);
 app.post('/course/assignedTeacher', cursos.assignedTeacher);
 app.post('/course/assignedInstructor', cursos.assignedInstructor);
 
+
+//classRooms
+app.get('/classroom/new', classroom.new);
+app.post('/classroom/create', classroom.create);
 
 //subjects
 app.get('/subject/new', subject.new);
