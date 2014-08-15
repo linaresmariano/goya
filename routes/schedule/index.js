@@ -16,3 +16,12 @@ exports.assignedTeacher = function(req, res) {
   })
 }
 
+exports.deallocateClassroom = function(req, res){
+	var idCourseSchedule = req.body.idCourseSchedule;
+	  db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
+		courseSchedule.setClassRoom(undefined);
+		res.send('ok')
+	  })
+
+};
+

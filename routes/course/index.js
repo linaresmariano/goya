@@ -101,8 +101,6 @@ exports.index = function(req, res){
 };
 
 
-
-
 /*
  * GET cursos/:code_curso/:comision.
  */

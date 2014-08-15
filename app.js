@@ -62,6 +62,7 @@ app.post('/course/assignedTeacher', cursos.assignedTeacher);
 app.post('/course/assignedInstructor', cursos.assignedInstructor);
 
 
+
 //classRooms
 app.get('/classroom/new', classroom.new);
 app.post('/classroom/create', classroom.create);
@@ -76,6 +77,7 @@ app.post('/teacher/create', teacher.create);
 
 //schedules
 app.post('/assignedTeacher', schedule.assignedTeacher);
+app.post('/schedule/deallocateClassroom', schedule.deallocateClassroom);
 
 //http.createServer(app).listen(app.get('port'), function(){
 //  console.log('Express server listening on port ' + app.get('port'));

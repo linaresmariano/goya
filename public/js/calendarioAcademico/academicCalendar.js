@@ -418,6 +418,29 @@ function CalendarCtrl($scope, $http, $q){
 		$('#assingTeacherCourse').modal('hide')
 		//alert("Se debe asignar como profesor"+(isInCharge == 1 ? ' no ' : '')+ ' a cargo a este curso, y al horario');
     };
+	
+	$scope.deallocateClassroom=function(){
+		var deferred = $q.defer();
+		$http({
+			url:"/schedule/deallocateClassroom",
+			method:'post',
+			data: { idCourseSchedule:$scope.courseShow.schedule.id}
+		}).success(function(data) {
+													
+			$scope.courseShow.schedule.classRoom=undefined;
+
+			deferred.resolve($scope.courseShow);
+		}).error(function(err){
+			alert("Error al desasignar un aula");
+		});	
+		//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function(event) {
+						//Update
+						$scope.removeSchedule(event.schedule);
+						$scope.addSchedule(event.course,event.schedule);
+				});
+	}
 
     /* config object */
     $scope.uiConfig = {
