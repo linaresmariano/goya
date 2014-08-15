@@ -544,6 +544,12 @@ function CalendarCtrl($scope, $http, $q){
 				});
 	}
 	
+	$scope.showCoursesNotAssigned=function(index){
+		$scope.courseShow=$scope.infoCoursesNotAssigned[index];
+		
+	}
+	
+	
 	function existTeacherInSchedules(schedules,teacher){
 		for(i=0;i<schedules.length;i++){
 			if(existTeacher(schedules[i].teachers,teacher)){

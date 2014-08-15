@@ -22,7 +22,7 @@ block content
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
-									div(class="dragg-course list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.course.subject.code}} {{courseNotAssigned.schedule.type}}
+									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.course.subject.code}} {{courseNotAssigned.schedule.type}}
 						div(class="panel panel-default size-menu ")
 							div.panel-heading Aulas
 								button.btn.btn-default.btn-xs.pull-right
