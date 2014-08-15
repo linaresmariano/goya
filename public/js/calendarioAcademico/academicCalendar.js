@@ -286,8 +286,9 @@ function CalendarCtrl($scope, $http, $q){
         }
 		
 	function existTeacher(teachers,teacher){
-		for(i=0;i < teachers.length;i++){
-			if(teachers[i].id == teacher.id ){
+		
+		for(n=0;n < teachers.length;n++){
+			if(teachers[n].id == teacher.id ){
 				return true;
 			}
 		}
