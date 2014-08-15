@@ -251,18 +251,24 @@ function CalendarCtrl($scope, $http, $q){
 											if(!isTeacher(event.course,teacher)){
 													$('#assingTeacherCourse').modal('toggle');
 											}else{
-												$http({
-														url:"/assignedTeacher",
-														method:'post',
-														data: { idTeacher:teacher.id,idCourseSchedule:event.schedule.id}
-												}).success(function(data) {
-													
-													event.schedule.teachers.push(teacher);
-													deferred.resolve(event);
+											
+												if(!existTeacher(event.schedule.teachers,teacher)){
+											
+													$http({
+															url:"/assignedTeacher",
+															method:'post',
+															data: { idTeacher:teacher.id,idCourseSchedule:event.schedule.id}
+													}).success(function(data) {
+														
+														event.schedule.teachers.push(teacher);
+														deferred.resolve(event);
 
-												}).error(function(err){
-													alert("Error al asignar un profesor a un horario");
-												});
+													}).error(function(err){
+														alert("Error al asignar un profesor a un horario");
+													});
+												}else{
+													alert("El profesor ya fue agregado a este horario");
+												}
 											}
 											
 											
