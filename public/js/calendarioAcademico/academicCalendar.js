@@ -275,8 +275,14 @@ function CalendarCtrl($scope, $http, $q){
 											
 										}
 									},
-							  accept: ".dragg-teacher , .dragg-class-room"
-							});
+									over: function(event, ui) {
+										$(this).addClass('schedule-hover');
+									},
+									out: function(event, ui) {
+										$(this).removeClass('schedule-hover');
+									},
+									accept: ".dragg-teacher , .dragg-class-room"
+								});
 			var promise=deferred.promise;
 			promise.then(function(event) {
 							//Update
