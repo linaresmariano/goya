@@ -72,7 +72,7 @@ app.get('/classroom/list/:year/:semester', classroom.list);
 //subjects
 app.get('/subject/new', subject.new);
 app.post('/subject/create', subject.create);
-app.get('/subject/list/:year/:semester', subject.list);
+app.get('/subject/list', subject.list);
 
 //teachers
 app.get('/teacher/new', teacher.new);
