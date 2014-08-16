@@ -2,7 +2,6 @@
  * calendarApp - 0.1.3
  */
 
-var app=angular.module('APP', ['ui.calendar', 'ui.bootstrap']);
 
 
 app.directive('draggableCourse', function() {

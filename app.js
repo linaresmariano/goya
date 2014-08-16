@@ -45,6 +45,9 @@ app.get('/', routes.index);
 app.get('/grid', grilla.index);
 app.get('/grid/:semester/:year', grilla.semester);
 
+//semesters
+app.get('/lastSemester', routes.lastSemester);
+
 //courses
 app.get('/courses', cursos.index);
 app.get('/course/:id/:commission', cursos.commission);

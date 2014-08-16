@@ -3,11 +3,14 @@ extends layout
 block content
 	script.
 		var semestersJSON=!{JSON.stringify(semesters)};
-	script(src='/js/angular/angular.min.js')
 	script(src='/js/angular/controllers.js')
 	.container
-		legend Semestres
-		div(ng-app="indexApp", ng-controller="SemestralGrids")
-			ul
-				li(ng-repeat='semester in semesters')
-					a(ng-href='/grid/{{semester.year}}/{{semester.semester}}') Ir a la grilla del semestre {{semester.semester}} del año {{semester.year}}
+		legend Seleccione un semestre
+		div( ng-controller="SemestralGrids")
+			div(ng-repeat='semester in semesters')
+				div(ng-if="semester.year == year && semester.semester == number ")
+					a.list-group-item(ng-click='currentSemester(semester.year,semester.semester)',ng-href='#',ng-style="{'background-color':'#5bc0de',color:'white'}") Semestre {{semester.semester}} del año {{semester.year}}
+				div(ng-if=" !(semester.year == year && semester.semester == number)")
+					a.list-group-item(ng-click='currentSemester(semester.year,semester.semester)',ng-href='#') Semestre {{semester.semester}} del año {{semester.year}}
+		br
+		button.btn.btn-success(type="button")	Nuevo

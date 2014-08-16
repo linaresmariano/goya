@@ -13,18 +13,20 @@ exports.create = function(req, res) {
 
 	var code = req.body.code;
 	var name = req.body.name;
+	var year = req.body.year;
+	var semester = req.body.semester;
 	
 	//Agragando un profesor al ultimo semestre
-	db.Semester.findAll({
+	db.Semester.find({
 		include: [ {	model: db.Teacher, as: 'Teachers' ,require:false}],
-		order:' year DESC ,semester DESC'
+		where:{ 'year': year,'semester':semester}
 	}).success(function(semester) {
 					console.log(semester);
 					db.Teacher.create({
 										code: code,
 										name: name
 									}).success(function(teacher) {
-												semester[0].addTeacher(teacher);
+												semester.addTeacher(teacher);
 												res.render('teacher/new', {
 													title: 'Crear Profesor'
 												})

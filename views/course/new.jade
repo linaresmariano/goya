@@ -1,11 +1,10 @@
 extends ../layout
 
 block content
-	script(src='/js/angular/angular.min.js')
 	script.
-		var app=angular.module('APP', []);
 		
-		app.controller('createCourseCtrl', function ($scope) {
+		app.controller('createCourseCtrl', function ($scope,localStorageService) {
+
 			$scope.subjects=!{JSON.stringify(subjects)};
 			$scope.hours = [];
 			for(i=8;i<23;i++){

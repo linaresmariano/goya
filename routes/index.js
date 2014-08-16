@@ -16,3 +16,14 @@ exports.index = function(req, res){
   })
 
 };
+
+exports.lastSemester = function(req, res){
+
+  db.Semester.findAll({
+		order:' year DESC ,semester DESC',
+		limit: 1
+	}).success(function(semesters) {
+		res.json({ semester: { year: semesters[0].year , number: semesters[0].semester } });
+  })
+
+};

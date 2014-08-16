@@ -7,14 +7,40 @@ html(ng-app="APP")
 		script(src='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
 		script(src='/js/lib/jquery-ui.custom.min.js')
 		title= title
-	body
+		script(src='/js/angular/angular.min.js')
+		script(src='/js/angular/angular-local-storage.min.js')
+		script(src='/js/fullcalendar/calendar.js')
+		script(src='http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js')
+		script.
+			var app =angular.module('APP', ['LocalStorageModule','ui.calendar', 'ui.bootstrap']);
+
+			app.controller('WebController', function ($scope,localStorageService,$http) {
+				if(localStorageService.get('year') == undefined && localStorageService.get('number') == undefined ){
+					$http({
+							url:"/lastSemester",
+							method:'get',
+							data: {}
+					}).success(function(data) {
+						$scope.year=data.semester.year;
+						$scope.number=data.semester.number;
+						localStorageService.set('year',$scope.year);
+						localStorageService.set('number',$scope.number);
+					}).error(function(err){
+						alert('Error al conectar con el servidor.');
+					});
+				}else{
+					$scope.year=localStorageService.get('year');
+					$scope.number=localStorageService.get('number');
+				}
+			});
+	body(ng-controller='WebController')
 		.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
 				.navbar-header
 					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
 						span.sr-only Toggle navigation
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
+							span.icon-bar
+							span.icon-bar
+							span.icon-bar
 					a.navbar-brand(href='#') Goya
 						span.glyphicon.glyphicon-book.icon-main
 				.collapse.navbar-collapse
@@ -40,7 +66,7 @@ html(ng-app="APP")
 								span.caret
 							ul.dropdown-menu(role='menu')
 								li
-									a(href='../../grid/2014/1') Cursos
+									a(href='../../grid/{{year}}/{{number}}') Cursos
 								li
 									a(href='#') Aulas
 						li.dropdown
@@ -53,4 +79,7 @@ html(ng-app="APP")
 									a(href='#') Reporte 2
 						li
 							a(href='#contact') Contact
+					.pull-right 
+						div(style="margin:15px;margin-right:32px;color:white") Bienvenido al semestre {{number}} del {{year}}
+
 		block content
