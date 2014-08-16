@@ -62,18 +62,22 @@ app.post('/course/assignedTeacher', cursos.assignedTeacher);
 app.post('/course/assignedInstructor', cursos.assignedInstructor);
 app.post('/course/deallocateTeacher', cursos.deallocateTeacher);
 app.post('/course/deallocateInstructor', cursos.deallocateInstructor);
+app.get('/course/list/:year/:semester', cursos.list);
 
 //classRooms
 app.get('/classroom/new', classroom.new);
 app.post('/classroom/create', classroom.create);
+app.get('/classroom/list/:year/:semester', classroom.list);
 
 //subjects
 app.get('/subject/new', subject.new);
 app.post('/subject/create', subject.create);
+app.get('/subject/list/:year/:semester', subject.list);
 
 //teachers
 app.get('/teacher/new', teacher.new);
 app.post('/teacher/create', teacher.create);
+app.get('/teacher/list/:year/:semester', teacher.list);
 
 //schedules
 app.post('/assignedTeacher', schedule.assignedTeacher);

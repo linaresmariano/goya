@@ -35,4 +35,22 @@ exports.create = function(req, res) {
 }
 
 
+exports.list = function(req, res){
+
+	var year = req.params.year;
+	var semester = req.params.semester;
+	
+	db.Semester.find({
+		include: [ {model: db.Teacher, as: 'Teachers' ,require:false}],
+		where:{ 'year': year,'semester':semester}
+	}).success(function(semester) {
+	
+		res.render('teacher/list', {
+          title: 'Profesores',
+          teachers:semester.teachers
+		});
+	});
+};
+
+
 

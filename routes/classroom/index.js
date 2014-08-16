@@ -44,4 +44,23 @@ exports.create = function(req, res) {
 }
 
 
+exports.list = function(req, res){
+
+	
+	var year = req.params.year;
+	var semester = req.params.semester;
+	
+	db.Semester.find({
+		include: [ {model: db.ClassRoom, as: 'ClassRooms' ,require:false}],
+		where:{ 'year': year,'semester':semester}
+	}).success(function(semester) {
+	
+		res.render('classroom/list', {
+          title: 'Aulas',
+          classRooms:semester.classRooms
+		});
+	});
+};
+
+
 

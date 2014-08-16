@@ -26,4 +26,19 @@ exports.create = function(req, res) {
 }
 
 
+exports.list = function(req, res){
+
+	var year = req.params.year;
+	var semester = req.params.semester;
+	
+	db.Subject.findAll().success(function(subjects) {
+	
+		res.render('subject/list', {
+          title: 'Materias',
+          subjects:subjects
+		});
+	});
+};
+
+
 

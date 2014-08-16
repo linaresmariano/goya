@@ -36,7 +36,7 @@ block content
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div.scroll-menu(style="position:relative",ng-repeat="teacher in teachers track by $index")
-									div(class="list-group-item size-menu",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
+									div(data-target='#modal-teacher',data-toggle='modal',class="list-group-item size-menu",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
 			.col-md-10.col-md-10
 					div
 						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')
@@ -122,6 +122,20 @@ block content
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Close
 						button.btn.btn-primary(type='button',ng-click="createCourse()") Save
+						
+		//Modal para crear un curso
+		#modal-teacher.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-dialog
+				.modal-content
+					.modal-header.header-color-blue
+						button.close(type='button', data-dismiss='modal')
+							span(aria-hidden='true') ×
+							span.sr-only Close
+						h4#myModalLabel.modal-title Profesor
+					.modal-body 
+						teacher
+					.modal-footer
+						button.btn.btn-default(type='button', data-dismiss='modal') Close
 
 
 	script(src='/js/lib/jquery.print.js')

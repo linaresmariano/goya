@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+	script.
+		function subjects($scope){
+			
+			$scope.subjects=!{JSON.stringify(subjects)};
+			
+		}
+	.container
+		legend Seleccione una materia
+		div( ng-controller="subjects")
+			div(ng-repeat='subject in subjects')
+				div
+					a.list-group-item {{subject.name}} 
+						button.btn.btn-xs.btn-info.pull-right.button-option
+							span.glyphicon.glyphicon-edit
+						button.btn.btn-xs.btn-danger.pull-right.button-option
+							span.glyphicon.glyphicon-remove
+
+		br
+		a.btn.btn-success(href='../../../subject/new')	Nuevo
+  
+  

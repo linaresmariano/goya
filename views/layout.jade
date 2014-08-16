@@ -46,19 +46,19 @@ html(ng-app="APP")
 				.collapse.navbar-collapse
 					ul.nav.navbar-nav
 						li.active
-							a(href='../../') Home
+							a(href='../../../') Home
 						li.dropdown
-							a.dropdown-toggle(href='#', data-toggle='dropdown') Altas
+							a.dropdown-toggle(href='#', data-toggle='dropdown') Administrar
 								span.caret
 							ul.dropdown-menu(role='menu')
 								li
-									a(href='../../course/new') Curso
+									a(href='../../../course/list/{{year}}/{{number}}') Cursos
 								li
-									a(href='../../classroom/new') Aula
+									a(href='../../../classroom/list/{{year}}/{{number}}') Aulas
 								li
-									a(href='../../teacher/new') Profesor
+									a(href='../../../teacher/list/{{year}}/{{number}}') Profesores
 								li
-									a(href='../../subject/new') Materia
+									a(href='../../../subject/list/{{year}}/{{number}}') Materias
 						li.dropdown
 							a.dropdown-toggle(href='#', data-toggle='dropdown') Vistas
 								span.caret

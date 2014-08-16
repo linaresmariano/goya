@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+	script.
+		function classRooms($scope){
+			
+			$scope.classRooms=!{JSON.stringify(classRooms)};
+			
+		}
+	.container
+		legend Seleccione una materia
+		div( ng-controller="classRooms")
+			div(ng-repeat='classroom in classRooms')
+				div
+					a.list-group-item {{classroom.number}} - {{classroom.name}} 
+						button.btn.btn-xs.btn-info.pull-right.button-option
+							span.glyphicon.glyphicon-edit
+						button.btn.btn-xs.btn-danger.pull-right.button-option
+							span.glyphicon.glyphicon-remove
+
+		br
+		a.btn.btn-success(href='../../../classroom/new')	Nuevo
+  
+  

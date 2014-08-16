@@ -603,11 +603,14 @@ function CalendarCtrl($scope, $http, $q){
 
 
 	
-	//Modelos
+	//Modelos relacionados con la vista
 	$scope.courseTeacher={};
 	
 	$scope.courseShow;
 	
+	$scope.teacherShow;
+	
+	//Modelos
 	$scope.courses = semesterJSON.courses ;
 				
 	$scope.teachers = semesterJSON.teachers ;
