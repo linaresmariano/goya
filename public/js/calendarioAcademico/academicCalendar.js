@@ -150,7 +150,7 @@ function CalendarCtrl($scope, $http, $q){
 				revertFunc();				
 			}else{
 			  $.ajax({url:"/updateCourse",
-						method:'post',
+						method:'put',
 						data: {
 							id:event.id, hour:event.start.getHours(), day:event.start.getDay()
 						},
@@ -178,7 +178,7 @@ function CalendarCtrl($scope, $http, $q){
 
 					$http({
 							url:"/updateCourse",
-							method:'post',
+							method:'put',
 							data: { id:copiedEventObject.schedule.id, hour:date.getHours(),day:date.getDay()}
 					}).success(function(data) {
 					
@@ -198,7 +198,7 @@ function CalendarCtrl($scope, $http, $q){
 	
     $scope.eventResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
        $.ajax({url:"/updateEndCourse",
-				method: 'post',
+				method: 'put',
 				data: {
 					id: event.id,
 					duration: Math.abs(event.start.getHours() - event.end.getHours())
@@ -233,7 +233,7 @@ function CalendarCtrl($scope, $http, $q){
 											
 											$http({
 													url:"/assignedClassRoom",
-													method:'post',
+													method:'put',
 													data: { idClassRoom:classroom.id,idCourseSchedule:event.schedule.id}
 											}).success(function(data) {
 												event.schedule.classRoom=classroom;
@@ -256,7 +256,7 @@ function CalendarCtrl($scope, $http, $q){
 											
 													$http({
 															url:"/assignedTeacher",
-															method:'post',
+															method:'put',
 															data: { idTeacher:teacher.id,idCourseSchedule:event.schedule.id}
 													}).success(function(data) {
 														
@@ -353,7 +353,7 @@ function CalendarCtrl($scope, $http, $q){
 		
 		$http({
 			url:"/schedule/deallocateSchedule",
-			method:'post',
+			method:'put',
 			data: { idCourseSchedule:$scope.courseShow.schedule.id,}
 		}).success(function(data) {
 
@@ -405,7 +405,7 @@ function CalendarCtrl($scope, $http, $q){
 				}else{
 					$http({
 						url:"/course/assignedTeacher",
-						method:'post',
+						method:'put',
 						data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.course.id}
 					}).success(function(data) {
 															
@@ -419,7 +419,7 @@ function CalendarCtrl($scope, $http, $q){
 		}else{
 				$http({
 					url:"/course/assignedInstructor",
-					method:'post',
+					method:'put',
 					data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.course.id}
 				}).success(function(data) {
 													
@@ -445,7 +445,7 @@ function CalendarCtrl($scope, $http, $q){
 		var deferred = $q.defer();
 		$http({
 			url:"/schedule/deallocateClassroom",
-			method:'post',
+			method:'put',
 			data: { idCourseSchedule:$scope.courseShow.schedule.id}
 		}).success(function(data) {
 													
@@ -468,7 +468,7 @@ function CalendarCtrl($scope, $http, $q){
 		var deferred = $q.defer();
 		$http({
 			url:"/schedule/deallocateTeacher",
-			method:'post',
+			method:'put',
 			data: { idCourseSchedule:$scope.courseShow.schedule.id,idTeacher:idTeacher}
 		}).success(function(data) {
 
@@ -497,7 +497,7 @@ function CalendarCtrl($scope, $http, $q){
 		
 		$http({
 			url:"/course/deallocateTeacher",
-			method:'post',
+			method:'put',
 			data: { idCourse:$scope.courseShow.course.id,idTeacher:idTeacher}
 		}).success(function(data) {
 
@@ -526,7 +526,7 @@ function CalendarCtrl($scope, $http, $q){
 		
 		$http({
 			url:"/course/deallocateInstructor",
-			method:'post',
+			method:'put',
 			data: { idCourse:$scope.courseShow.course.id,idTeacher:idTeacher}
 		}).success(function(data) {
 

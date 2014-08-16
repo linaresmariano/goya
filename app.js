@@ -55,13 +55,13 @@ app.get('/courses', cursos.index);
 app.get('/course/:id/:commission', cursos.commission);
 app.get('/course/new', cursos.new);
 app.post('/course/create', cursos.create);
-app.post('/updateCourse', cursos.actualizar);
-app.post('/updateEndCourse', cursos.actualizarFin);
-app.post('/assignedClassRoom', cursos.assignedClassRoom);
-app.post('/course/assignedTeacher', cursos.assignedTeacher);
-app.post('/course/assignedInstructor', cursos.assignedInstructor);
-app.post('/course/deallocateTeacher', cursos.deallocateTeacher);
-app.post('/course/deallocateInstructor', cursos.deallocateInstructor);
+app.put('/updateCourse', cursos.actualizar);
+app.put('/updateEndCourse', cursos.actualizarFin);
+app.put('/assignedClassRoom', cursos.assignedClassRoom);
+app.put('/course/assignedTeacher', cursos.assignedTeacher);
+app.put('/course/assignedInstructor', cursos.assignedInstructor);
+app.put('/course/deallocateTeacher', cursos.deallocateTeacher);
+app.put('/course/deallocateInstructor', cursos.deallocateInstructor);
 app.get('/course/list/:year/:semester', cursos.list);
 
 //classRooms
@@ -78,13 +78,13 @@ app.get('/subject/list', subject.list);
 app.get('/teacher/new', teacher.new);
 app.post('/teacher/create', teacher.create);
 app.get('/teacher/list/:year/:semester', teacher.list);
-app.post('/teacher/remove', teacher.remove);
+app.put('/teacher/remove', teacher.remove);
 
 //schedules
-app.post('/assignedTeacher', schedule.assignedTeacher);
-app.post('/schedule/deallocateClassroom', schedule.deallocateClassroom);
-app.post('/schedule/deallocateTeacher', schedule.deallocateTeacher);
-app.post('/schedule/deallocateSchedule', schedule.deallocateSchedule);
+app.put('/assignedTeacher', schedule.assignedTeacher);
+app.put('/schedule/deallocateClassroom', schedule.deallocateClassroom);
+app.put('/schedule/deallocateTeacher', schedule.deallocateTeacher);
+app.put('/schedule/deallocateSchedule', schedule.deallocateSchedule);
 //http.createServer(app).listen(app.get('port'), function(){
 //  console.log('Express server listening on port ' + app.get('port'));
 //});

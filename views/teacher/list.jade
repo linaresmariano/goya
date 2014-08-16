@@ -10,7 +10,7 @@ block content
 				var deferred = $q.defer();
 					$http({
 							url:"/teacher/remove",
-							method:'post',
+							method:'put',
 							data: { idTeacher:id}
 						}).success(function(data) {
 							
