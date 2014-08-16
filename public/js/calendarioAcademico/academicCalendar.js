@@ -56,6 +56,7 @@ app.directive('draggTeacher', function() {
 					//Creando un clon del tag teacher para draggearlo afuera del scroll
 					clone=elm.clone();
 					clone.css('width',elm.css('width'));
+					clone.css('position','absolute');
 					$('body').append(clone);
 					$('body').css('cursor','pointer');
 					elm.css('display','none');
@@ -91,6 +92,7 @@ app.directive('draggClassRoom', function() {
 				start: function( event, ui ) {
 					clone=elm.clone();
 					clone.css('width',elm.css('width'));
+					clone.css('position','absolute');
 					$('body').append(clone);
 					$('body').css('cursor','pointer');
 					elm.css('display','none');
@@ -119,8 +121,8 @@ app.directive('menuDraggable', function() {
 			link: function(scope, elm, attrs) {
 				var space = attrs.space;
 					
-				elm.css("top",space);
-				elm.css("position","absolute");
+				//elm.css("top",space);
+				//elm.css("position","absolute");
 			}
 		};
 });
