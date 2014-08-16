@@ -78,6 +78,7 @@ app.get('/subject/list', subject.list);
 app.get('/teacher/new', teacher.new);
 app.post('/teacher/create', teacher.create);
 app.get('/teacher/list/:year/:semester', teacher.list);
+app.post('/teacher/remove', teacher.remove);
 
 //schedules
 app.post('/assignedTeacher', schedule.assignedTeacher);

@@ -53,4 +53,17 @@ exports.list = function(req, res){
 };
 
 
+exports.remove = function(req, res){
+
+	var idTeacher = req.body.idTeacher;
+	
+	db.Teacher.find(idTeacher).on('success', function(teacher) {
+		  teacher.destroy().on('success', function(u) {
+				res.send('ok');
+		  })
+	})
+	
+};
+
+
 
