@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+	link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.css')
+	link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.print.css',media='print')
+	script(src='/js/lib/jquery.ui.droppable.js')
+	script(src='/js/fullcalendar/fullcalendar.js')
+	script.
+		var semesterJSON=!{JSON.stringify(semester)};
+		$(window).resize(function () {
+			$("#grid").css("width", "100%");
+			$("#grid").width($("#grid").width());
+		});
+	script(src='/js/calendarioAcademico/classroomsCalendar.js')
+	div(ng-controller='CalendarCtrl')
+		.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')

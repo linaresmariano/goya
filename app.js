@@ -45,6 +45,7 @@ app.get('/', routes.index);
 
 //grid
 app.get('/grid', grilla.index);
+app.get('/grid/classrooms/:semester/:year', grilla.classrooms);
 app.get('/grid/:semester/:year', grilla.semester);
 
 //semesters
