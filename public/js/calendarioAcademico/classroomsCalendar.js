@@ -109,11 +109,9 @@ function CalendarCtrl($scope, $http, $q){
 			var curso = $scope.courses[i];
 			var horario = curso.schedules[j];
 
-			//Si no esta asignada a un horario o dia			
-			if(horario.day == -1  || horario.hour == -1 ){
-				//$scope.addScheduleNotAssigned(curso,horario);
-			}else{
-				$scope.addSchedule(curso,horario);
+				//Si no esta asignada a un horario o dia			
+				if((horario.day != -1  || horario.hour != -1 ) && horario.classRoom != undefined){
+					$scope.addSchedule(curso,horario);
 				}
 			}
 	}
