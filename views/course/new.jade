@@ -7,11 +7,11 @@ block content
 
 			$scope.subjects=!{JSON.stringify(subjects)};
 			$scope.hours = [];
-			for(i=8;i<23;i++){
+			for(i=8;i<21;i++){
 				$scope.hours.push(i);
 			}
 			$scope.durations = [];
-			for(i=0;i<7;i++){
+			for(i=2;i<7;i++){
 				$scope.durations.push(i);
 			}
 			$scope.days = [{name:'Lunes',id:0},
@@ -60,6 +60,9 @@ block content
 						div El dia {{schedule.day}} a las {{schedule.hour}} durante {{schedule.duration}} horas
 							button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="remove(index)")
 								span.glyphicon.glyphicon-remove
+							input.hidden(name="duration",type="number",value="{{schedule.duration}}")
+							input.hidden(name="day",type="number",value="{{schedule.id}}")
+							input.hidden(name="hour",type="number",value="{{schedule.hour}}")
 					br
 					br
 					label Nuevo Horario
@@ -77,6 +80,9 @@ block content
 				.form-group
 					label(for='numberOfComputers') Computadoras
 					input#numberOfComputers.form-control(type="number",min="0", placeholder='Cantidad de computadoras',name='numberOfComputers',required,maxlength='12')
+				.form-group.hidden
+					input.form-control(value='{{ number}}',name='semester',type="number")
+					input.form-control(value='{{ year}}',name='year',type="number")
 				button.btn.btn-success(type="submit") Crear
 
 

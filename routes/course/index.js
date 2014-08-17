@@ -5,7 +5,6 @@ var datos = require('../../extras/datos'),
 
 exports.new = function(req, res) {
 	db.Subject.findAll().success(function(subjects) {
-		console.log(subjects);
 		res.render('course/new', {
 		  title: 'Crear Curso',
 		  subjects: subjects
@@ -17,16 +16,68 @@ exports.new = function(req, res) {
 exports.create = function(req, res) {
 	//Para probar
 	var idSubject = req.body.idSubject;
-	console.log(idSubject);
-	var course = db.Course.create({
-									SubjectId: idSubject,
-									SemesterId: 1,
-									enrolled: 45,
-									commission: 1,
-									color: 'blue' // color default
-		}).success(function(course1) {
-				exports.new(req, res);	
-	});
+	console.log(req.body);
+	
+	var year = req.body.year;
+	var semester = req.body.semester;
+	
+	//Si solo hay un horario
+	if(typeof req.body.day === "string"){
+	
+		db.Semester.find({
+			include: [ {	model: db.Teacher, as: 'Teachers' ,require:false}],
+			where:{ 'year': year,'semester':semester}
+		}).success(function(semester1) {
+			var schedule = db.CourseSchedule.build({
+										type: 'Teorica/Practica',
+										day: req.body.day ,
+										hour: req.body.hour ,
+										minutes: 0,
+										duration: req.body.duration 
+									});
+									console.log('Es unico horario');
+									db.Course.create({
+										SubjectId: idSubject,
+										SemesterId: semester1.id,
+										enrolled: 45,
+										commission: 1,
+										color: 'blue' // color default
+									}).success(function(course) {
+											course.addSchedule(schedule);
+											exports.new(req, res);	
+									});
+		});
+	//si hay varios horarios
+	}else if(req.body.day != undefined){
+	
+	
+		db.Semester.find({
+			include: [ {	model: db.Teacher, as: 'Teachers' ,require:false}],
+			where:{ 'year': year,'semester':semester}
+		}).success(function(semester) {
+			db.Course.create({
+										SubjectId: idSubject,
+										enrolled: 45,
+										commission: 1,
+										color: 'blue' // color default
+			}).success(function(course) {
+					semester.addCourse(course);
+					for(i=0;i < req.body.day.length;i++){
+						var schedule = db.CourseSchedule.build({
+												type: 'Teorica/Practica',
+												day: req.body.day[i] ,
+												hour: req.body.hour[i] ,
+												minutes: 0,
+												duration: req.body.duration[i] 
+											});
+						course.addSchedule(schedule);
+										
+					}
+					exports.new(req, res);	
+			});
+		});
+	}
+	
 								
 }
 
