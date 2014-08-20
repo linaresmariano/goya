@@ -5,8 +5,12 @@ block content
   script(src='/js/lib/jquery.printThis.js')
   script.
     
-    app.controller('offerCtrl', function ($scope,localStorageService) {
-
+    app.controller('offerCtrl', function ($scope, localStorageService) {
+      $scope.courses = [{'teacher': 'Eduardo Bonelli (PO)'},
+        {'teacher': 'Eduardo Bonelli '},
+        {'teacher': 'Pablo Factorovich (PI)'},
+        {'teacher': 'Pablo Factorovich (PI)'},
+      ]
     })
 
   .container(ng-controller='offerCtrl')
@@ -34,19 +38,19 @@ block content
               th Grupo Carreras
               th.col-md-1 Nueva Asignatura Indicar para que Plan de Estudios se oferta
         tbody
-          // each course, i in courses
-          tr: td Programación
-              td Básico Obligatorio
-              td Cuatrimestral
-              td Presencial
-              td 00487
-              td Introducción a la Programación
-              td 18
-              td  Lunes 9:00 a 11:30  Miércoles 10:00 a 13:00  Jueves 9:00 a 11:30
-              td Eduardo Bonelli (PO) 
-              td 30
-              td P
-              td No
+          tr(ng-repeat='course in courses')
+            td Programación
+            td Básico Obligatorio
+            td Cuatrimestral
+            td Presencial
+            td 00487
+            td Introducción a la Programación
+            td 18
+            td  Lunes 9:00 a 11:30  Miércoles 10:00 a 13:00  Jueves 9:00 a 11:30
+            td {{course.teacher}}
+            td 30
+            td P
+            td No
 
     br
     button.btn.btn-success(onclick="$('#report').printThis()") Imprimir
