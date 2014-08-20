@@ -1,0 +1,52 @@
+extends ../layout
+
+block content
+  link(rel='stylesheet', href='/stylesheets/report/offer.css')
+  script(src='/js/lib/jquery.printThis.js')
+  script.
+    
+    app.controller('offerCtrl', function ($scope,localStorageService) {
+
+    })
+
+  .container(ng-controller='offerCtrl')
+
+    legend Generar reporte de Oferta Académica para el semestre {{number}} de {{year}}
+
+    div#report
+
+      p#title Oferta {{number}}º cuatrimestre de {{year}}
+      p#title Departamento: Ciencia y Tecnología
+      p#title Carrera: Tecnicatura en Programación Informática
+
+      table#offer
+        thead
+          tr: th Área
+              th Núcleo
+              th Período
+              th Modalidad
+              th.col-md-1 Código Asignatura
+              th Nombre Asignatura
+              th Créditos
+              th.col-md-2 Días y Horarios {{year}}
+              th.col-md-2 Docente/s (Apellido y nombre completo)
+              th Cupo
+              th Grupo Carreras
+              th.col-md-1 Nueva Asignatura Indicar para que Plan de Estudios se oferta
+        tbody
+          // each course, i in courses
+          tr: td Programación
+              td Básico Obligatorio
+              td Cuatrimestral
+              td Presencial
+              td 00487
+              td Introducción a la Programación
+              td 18
+              td  Lunes 9:00 a 11:30  Miércoles 10:00 a 13:00  Jueves 9:00 a 11:30
+              td Eduardo Bonelli (PO) 
+              td 30
+              td P
+              td No
+
+    br
+    button.btn.btn-success(onclick="$('#report').printThis()") Imprimir

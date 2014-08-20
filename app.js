@@ -12,6 +12,7 @@ var grilla = require('./routes/grid/index');
 var cursos = require('./routes/course/index');
 var subject = require('./routes/subject/index');
 var teacher = require('./routes/teacher/index');
+var report = require('./routes/report/index');
 var http = require('http');
 var path = require('path');
 var Sequelize = require('sequelize');
@@ -86,6 +87,10 @@ app.put('/assignedTeacher', schedule.assignedTeacher);
 app.put('/schedule/deallocateClassroom', schedule.deallocateClassroom);
 app.put('/schedule/deallocateTeacher', schedule.deallocateTeacher);
 app.put('/schedule/deallocateSchedule', schedule.deallocateSchedule);
+
+//reports
+app.get('/report/offer/:year/:semester', report.offer);
+
 //http.createServer(app).listen(app.get('port'), function(){
 //  console.log('Express server listening on port ' + app.get('port'));
 //});

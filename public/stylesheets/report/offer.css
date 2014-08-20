@@ -1,0 +1,18 @@
+#report #title {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+#offer th, td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+#offer thead {
+  background-color: LightSteelBlue;
+  color: black;
+}
+
+#offer table, th, td {
+  border: 2px solid black;
+}
