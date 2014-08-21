@@ -79,7 +79,8 @@ exports.classrooms = function(req, res) {
             },
 	include: [ {	model: db.Course, as: 'Courses' ,require:false,
 						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false,
-										include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]}]
+										include: [ 	{model: db.SemesterClassRoom, as: 'SemesterClassRoom',require:false,
+												include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]}]}]
 						}]
   }).success(function(semester) {
 			res.render('grid/classrooms', {

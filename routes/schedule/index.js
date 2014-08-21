@@ -36,12 +36,9 @@ exports.assignedTeacher = function(req, res) {
 				console.log('el profesor es nulo');
 			}else{
 				console.log('el profesor no es nulo');
-				semesterTeacher.setTeacher(teacher);
-										courseSchedule.addSemesterTeacher(semesterTeacher);	
-										db.Semester.find({where: {'year':year,'semester':semester}}).success(function(semester) {
-											semester.addSemesterTeacher(semesterTeacher);
-											res.send('ok')
-										});
+				courseSchedule.addSemesterTeacher(semesterTeacher);	
+				res.send('ok')
+
 			}
 			
 			
@@ -76,12 +73,21 @@ exports.deallocateSchedule = function(req, res){
 exports.deallocateTeacher = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
 	var idTeacher= req.body.idTeacher;
-	  db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		 db.Teacher.find(idTeacher).success(function(teacher) {
-			courseSchedule.removeTeacher(teacher);
-			res.send('ok')
-		 });
-		
+							
+	db.CourseSchedule.find({
+		where:{id:idCourseSchedule},
+		include: [ {model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
+												include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]
+	}).success(function(courseSchedule) {				
+		for(n=0;n < courseSchedule.semesterTeachers.length;n++){
+			console.log(courseSchedule.semesterTeachers[n]);	
+			if(courseSchedule.semesterTeachers[n].teacher.id == idTeacher){
+				courseSchedule.removeSemesterTeacher(courseSchedule.semesterTeachers[n]);
+				
+				break;
+			}
+		}
+		res.send('ok')
 	  })
 };
 

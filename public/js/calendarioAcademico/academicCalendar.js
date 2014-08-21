@@ -344,7 +344,8 @@ function CalendarCtrl($scope, $http, $q){
 			return {
 						id:teacher.id,
 						teacher:{	name: teacher.name,
-									code: teacher.code 
+									code: teacher.code,
+									id:teacher.id
 									}
 					}
 	}
@@ -499,7 +500,7 @@ function CalendarCtrl($scope, $http, $q){
 			data: { idCourseSchedule:$scope.courseShow.schedule.id,idTeacher:idTeacher}
 		}).success(function(data) {
 
-			$scope.courseShow.schedule.teachers.splice(index, 1);
+			$scope.courseShow.schedule.semesterTeachers.splice(index, 1);
 			deferred.resolve($scope.courseShow);
 		}).error(function(err){
 			alert("Error al desasignar un aula");
@@ -579,7 +580,7 @@ function CalendarCtrl($scope, $http, $q){
 	
 	function existTeacherInSchedules(schedules,teacher){
 		for(i=0;i<schedules.length;i++){
-			if(existTeacher(schedules[i].teachers,teacher)){
+			if(existTeacher(schedules[i].semesterTeachers,teacher)){
 				return true;
 			}
 		}

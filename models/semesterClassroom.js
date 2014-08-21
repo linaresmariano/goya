@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
 			associate: function(models) {
 			  this.hasMany(models.CourseSchedule, { as: 'CourseSchedule'});
 			  this.belongsTo(models.ClassRoom, { as: 'ClassRoom'});
-			  this.hasOne(models.Semester, { as: 'Semester'});
+			  this.belongsTo(models.Semester, { as: 'Semester'});
 			}
 		}
     })

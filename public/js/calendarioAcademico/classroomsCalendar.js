@@ -30,7 +30,7 @@ function CalendarCtrl($scope, $http, $q){
     $scope.addSchedule = function(course,schedule) {
       	$scope.events.push({
 								id: schedule.id,
-								title:  (schedule.classRoom == undefined ? '' : '\n Aula '+schedule.classRoom.number),
+								title:  (schedule.semesterClassRoom == undefined ? '' : '\n Aula '+schedule.semesterClassRoom.classRoom.number),
 								start: new Date(y, m-1, d+schedule.day, schedule.hour, 0),
 								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.duration, 0),
 								allDay: false,
@@ -108,9 +108,9 @@ function CalendarCtrl($scope, $http, $q){
 
 			var curso = $scope.courses[i];
 			var horario = curso.schedules[j];
-
+				
 				//Si no esta asignada a un horario o dia			
-				if((horario.day != -1  || horario.hour != -1 ) && horario.classRoom != undefined){
+				if((horario.day != -1  || horario.hour != -1 ) && horario.semesterClassRoom != undefined){
 					$scope.addSchedule(curso,horario);
 				}
 			}

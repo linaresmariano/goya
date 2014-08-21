@@ -15,14 +15,18 @@ exports.offer = function(req, res) {
   
     include: [ {  model: db.Course, as: 'Courses' ,require:false,
             include: [  {model: db.CourseSchedule, as: 'Schedules',require:false,
-                    include: [  {model: db.ClassRoom, as: 'ClassRoom',require:false},
-                          {model: db.Teacher, as: 'Teachers',require:false}]},
+                    include: [  {model: db.SemesterClassRoom, as: 'SemesterClassRoom',require:false,
+								include: [  {model: db.ClassRoom, as: 'ClassRoom',require:false}]},
+                          {model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
+								include: [  {model: db.Teacher, as: 'Teacher',require:false}]}]},
                   {model: db.Subject, as: 'Subject',require:false},
-                  {model: db.Teacher, as: 'CourseInstructor',require:false},
-                  {model: db.Teacher, as: 'CourseTeacher',require:false}]
+                  {model: db.SemesterTeacher, as: 'SemesterInstructors',require:false,
+						include: [  {model: db.Teacher, as: 'Teacher',require:false}]},
+                  {model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
+						include: [  {model: db.Teacher, as: 'Teacher',require:false}]}]
             },
-        { model: db.Teacher, as: 'Teachers' ,require:false},
-        { model: db.ClassRoom, as: 'ClassRooms' ,require:false }]
+        { model: db.SemesterTeacher, as: 'SemesterTeachers' ,require:false},
+        { model: db.SemesterClassRoom, as: 'SemesterClassRooms' ,require:false }]
   })
   .success(function(semester) {
     res.render('report/offer', {
