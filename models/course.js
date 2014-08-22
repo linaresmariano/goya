@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     credits: DataTypes.INTEGER,
     enrolled: DataTypes.INTEGER,
     capacity: {type:DataTypes.INTEGER ,  validate: {min:0}},
-    commission: DataTypes.INTEGER,
+    commission: {type:DataTypes.INTEGER ,  validate: {min:0}},
     color: DataTypes.STRING
     }, {
       classMethods: {

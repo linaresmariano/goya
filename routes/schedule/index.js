@@ -59,14 +59,9 @@ exports.deallocateClassroom = function(req, res){
 
 exports.deallocateSchedule = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
-	  db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		courseSchedule.updateAttributes({
-				hour: -1
-			}).success(function() {
-				res.send('ok')
-			})
-	  })
-
+	db.CourseSchedule.deallocate(idCourseSchedule,function(){
+		res.send('ok');
+	});
 };
 
 
