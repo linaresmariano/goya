@@ -6,22 +6,35 @@ block content
   script.
     
     app.controller('offerCtrl', function ($scope, localStorageService) {
-      $scope.courses = [{'teacher': 'Eduardo Bonelli (PO)'},
+
+      $scope.semester = !{JSON.stringify(semester)};
+
+      $scope.courses = $scope.semester.courses
+
+      $scope.coursesTEST = [{'teacher': 'Eduardo Bonelli (PO)'},
         {'teacher': 'Eduardo Bonelli '},
         {'teacher': 'Pablo Factorovich (PI)'},
         {'teacher': 'Pablo Factorovich (PI)'},
       ]
+
+      var weekday = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+
+      $scope.scheduleView = function(schedule) {
+        return schedule.hour > 0 ?
+          weekday[schedule.day]+" "+schedule.hour+":00 a "+(schedule.hour+schedule.duration)+":00" :
+          ""
+      }
     })
 
   .container(ng-controller='offerCtrl')
 
-    legend Generar reporte de Oferta Académica para el semestre {{number}} de {{year}}
+    legend Generar reporte de Oferta Académica para el {{number}}º semestre de {{year}}
 
     div#report
 
-      p#title Oferta {{number}}º cuatrimestre de {{year}}
-      p#title Departamento: Ciencia y Tecnología
-      p#title Carrera: Tecnicatura en Programación Informática
+      p#title(contenteditable="true") Oferta {{number}}º cuatrimestre de {{year}}
+      p#title(contenteditable="true") Departamento: Ciencia y Tecnología
+      p#title(contenteditable="true") Carrera: Tecnicatura en Programación Informática
 
       table#offer
         thead
@@ -38,7 +51,7 @@ block content
               th Grupo Carreras
               th.col-md-1 Nueva Asignatura Indicar para que Plan de Estudios se oferta
         tbody
-          tr(ng-repeat='course in courses')
+          tr(ng-repeat='course in coursesTEST')
             td Programación
             td Básico Obligatorio
             td Cuatrimestral
@@ -51,6 +64,22 @@ block content
             td 30
             td P
             td No
+
+          tr(ng-repeat='course in courses')
+            td(contenteditable="true") Programación
+            td(contenteditable="true") Básico Obligatorio
+            td(contenteditable="true") Cuatrimestral
+            td(contenteditable="true") Presencial
+            td(contenteditable="true") 00487
+            td(contenteditable="true") {{course.subject.name}}
+            td(contenteditable="true") 18
+            td(contenteditable="true")
+              div(ng-repeat='schedule in course.schedules')
+                {{scheduleView(schedule)}}
+            td(contenteditable="true") {{course.courseTeacher[0].name || '-'}}
+            td(contenteditable="true") {{course.capacity || '-'}}
+            td(contenteditable="true") P
+            td(contenteditable="true") No
 
     br
     button.btn.btn-success(onclick="$('#report').printThis()") Imprimir
