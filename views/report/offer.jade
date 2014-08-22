@@ -9,7 +9,7 @@ block content
 
       $scope.semester = !{JSON.stringify(semester)};
 
-      $scope.courses = $scope.semester.courses
+      $scope.courses = $scope.semester.courses.filter(shouldDisplayCourse)
 
       $scope.coursesTEST = [{'teacher': 'Eduardo Bonelli (PO)'},
         {'teacher': 'Eduardo Bonelli '},
@@ -23,6 +23,19 @@ block content
         return schedule.hour > 0 ?
           weekday[schedule.day]+" "+schedule.hour+":00 a "+(schedule.hour+schedule.duration)+":00" :
           ""
+      }
+
+      function shouldDisplayCourse(course, index, ar) {
+        if(course.schedules.length == 0) {
+          return false
+        }
+
+        var someHour = false
+        for (var i = course.schedules.length - 1; i >= 0; i--) {
+          someHour = someHour || course.schedules[i].hour > 0
+        }
+
+        return someHour
       }
     })
 
@@ -66,13 +79,13 @@ block content
             td No
 
           tr(ng-repeat='course in courses')
-            td(contenteditable="true") Programación
-            td(contenteditable="true") Básico Obligatorio
-            td(contenteditable="true") Cuatrimestral
-            td(contenteditable="true") Presencial
-            td(contenteditable="true") 00487
+            td(contenteditable="true") {{course.area || '-'}}
+            td(contenteditable="true") {{course.core || '-'}}
+            td(contenteditable="true") {{course.period || '-'}}
+            td(contenteditable="true") {{course.modality || '-'}}
+            td(contenteditable="true") {{course.code || '-'}}
             td(contenteditable="true") {{course.subject.name}}
-            td(contenteditable="true") 18
+            td(contenteditable="true") {{course.credits || '-'}}
             td(contenteditable="true")
               div(ng-repeat='schedule in course.schedules')
                 {{scheduleView(schedule)}}
