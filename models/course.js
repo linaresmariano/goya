@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     code: DataTypes.STRING,
     credits: DataTypes.INTEGER,
     enrolled: DataTypes.INTEGER,
-    capacity: DataTypes.INTEGER,
+    capacity: {type:DataTypes.INTEGER ,  validate: {min:0}},
     commission: DataTypes.INTEGER,
     color: DataTypes.STRING
     }, {

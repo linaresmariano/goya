@@ -4,8 +4,8 @@ module.exports = function(sequelize, DataTypes) {
 	name: DataTypes.STRING,
 	number: DataTypes.STRING,
 	description: DataTypes.STRING,
-    capacity: DataTypes.INTEGER,
-	numberOfComputers: DataTypes.INTEGER,
+    capacity: {type:DataTypes.INTEGER ,  validate: {min:0}},
+	numberOfComputers: {type:DataTypes.INTEGER ,  validate: {min:0}},
 	hasProyector: DataTypes.BOOLEAN
   },{classMethods: {
 			associate: function(models) {

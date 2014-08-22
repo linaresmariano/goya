@@ -2,10 +2,10 @@ module.exports = function(sequelize, DataTypes) {
 
   return sequelize.define('CourseSchedule', {
     type: DataTypes.STRING,
-  	day: DataTypes.INTEGER,
-  	hour: DataTypes.INTEGER,
+  	day: {type:DataTypes.INTEGER ,  validate: {min:0,max:6}},
+  	hour: {type:DataTypes.INTEGER ,  validate: {min:8,max:22}},
   	minutes: DataTypes.INTEGER,
-  	duration: DataTypes.INTEGER
+  	duration: {type:DataTypes.INTEGER ,  validate: {min:0,max:6}}
 	},{
       classMethods: {
         associate: function(models) {
