@@ -12,12 +12,12 @@ module.exports = function(sequelize, DataTypes) {
 		this.belongsTo(models.Teacher, { as: 'Teacher'});
 		this.belongsTo(models.Semester,{ as: 'Semester'});
       },
-		getSemesterTeacherFor:function(idTeacher,year,semester){
+		getSemesterTeacherFor:function(idTeacher,semester){
 			var Teacher=SemesterTeacher.models.Teacher;
 			var Semester=SemesterTeacher.models.Semester;
 			
 			return SemesterTeacher.find({
-			where: {'Teacher.id':idTeacher,'Semester.year':year,'Semester.semester':semester},
+			where: {'Teacher.id':idTeacher,'Semester.year':semester.year,'Semester.semester':semester.semester},
 			include: [ {	model: Teacher, as: 'Teacher' ,require:false },
 					{	model: Semester, as: 'Semester' ,require:false }]
 			});

@@ -22,32 +22,36 @@ module.exports = function(sequelize, DataTypes) {
 		}
       },
 	  instanceMethods:{
-		assignedTeacher:function(idTeacher,semester,year,succes){
+		assignedTeacher:function(idTeacher,semester,success){
 			//import models
 			var Teacher=CourseSchedule.models.Teacher;
-			var Semester=CourseSchedule.models.Semester;
 			var SemesterTeacher=CourseSchedule.models.SemesterTeacher;
-		
 			//para no perder la referencia en los callbacks
 			var schedule=this;
-			
-			SemesterTeacher.getSemesterTeacherFor(idTeacher,year,semester)
-			.success(function(semesterTeacher) {
-		
+				
+			SemesterTeacher.getSemesterTeacherFor(idTeacher,semester)
+			.success(function(semesterTeacher,idTeacher){
+				schedule.checkAndAssignTeacher(semesterTeacher,idTeacher,semester,success);
+			});
+		},
+		checkAndAssignTeacher:function(semesterTeacher,idTeacher,semester,success) {
+				var Semester=CourseSchedule.models.Semester;
+				
+				//para no perder la referencia en los callbacks
+				var schedule=this;
+				
+				//Si no existe el semesterTeacher lo crea y lo asigna
 				if(semesterTeacher == undefined){
 					Teacher.newSemesterTeacher(idTeacher).success(function(newSemesterTeacher) {
 											schedule.addSemesterTeacher(newSemesterTeacher);	
-											Semester.getSemester(year,semester).success(function(semester) {
-												semester.addSemesterTeacher(newSemesterTeacher);
-												succes();
-											});
-																					
+											semester.addSemesterTeacher(newSemesterTeacher);
+											success();											
 									});
 				}else{
-					schedule.addSemesterTeacher(semesterTeacher);	
-					succes();
+					//Si el semesterTeacher existe,simplemente lo asigna
+					this.addSemesterTeacher(semesterTeacher);	
+					success();
 				}
-			})
 		}
 	  }
   })

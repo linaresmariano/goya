@@ -4,16 +4,13 @@ var datos = require('../../extras/datos'),
 	
 exports.assignedTeacher = function(req, res) {
 
- 	
 	var idTeacher= req.body.idTeacher;
     var idCourseSchedule = req.body.idCourseSchedule;
   	var year = req.body.year;
     var semester = req.body.semester;
-	db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		courseSchedule.assignedTeacher(idTeacher,semester,year,function(){
+	db.Semester.teacherAssignedToASchedule(idTeacher,idCourseSchedule,semester,year,function() {
 			res.send('ok');
-		});
-  })
+	});
 }
 
 exports.deallocateClassroom = function(req, res){
