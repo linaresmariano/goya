@@ -24,7 +24,6 @@ module.exports = function(sequelize, DataTypes) {
 	  instanceMethods:{
 		assignedTeacher:function(idTeacher,semester,success){
 			//import models
-			var Teacher=CourseSchedule.models.Teacher;
 			var SemesterTeacher=CourseSchedule.models.SemesterTeacher;
 			//para no perder la referencia en los callbacks
 			var schedule=this;
@@ -35,14 +34,14 @@ module.exports = function(sequelize, DataTypes) {
 			});
 		},
 		checkAndAssignTeacher:function(semesterTeacher,idTeacher,semester,success) {
-				var Semester=CourseSchedule.models.Semester;
+				var Teacher=CourseSchedule.models.Teacher;
 				
 				//para no perder la referencia en los callbacks
 				var schedule=this;
 				
 				//Si no existe el semesterTeacher lo crea y lo asigna
 				if(semesterTeacher == undefined){
-					Teacher.newSemesterTeacher(idTeacher).success(function(newSemesterTeacher) {
+					Teacher.newSemesterTeacher(idTeacher,function(newSemesterTeacher) {
 											schedule.addSemesterTeacher(newSemesterTeacher);	
 											semester.addSemesterTeacher(newSemesterTeacher);
 											success(undefined);											

@@ -284,42 +284,11 @@ exports.assignedTeacher = function(req, res) {
     var idCourse = req.body.idCourse;
  	var year = req.body.year;
     var semester = req.body.semester;
-  db.Course.find(idCourse).success(function(course) {
-
-		db.SemesterTeacher.find({
-			where: {'Teacher.id':idTeacher,'Semester.year':year,'Semester.semester':semester},
-			include: [ {	model: db.Teacher, as: 'Teacher' ,require:false },
-					{	model: db.Semester, as: 'Semester' ,require:false }]
-			}
-		).success(function(semesterTeacher) {
-		
-			if(semesterTeacher == undefined){
-				
-				db.Teacher.find(idTeacher).success(function(teacher) {
-					var newSemesterTeacher= db.SemesterTeacher.create({
-					}).success(function(newSemesterTeacher) {
-										newSemesterTeacher.setTeacher(teacher);
-										course.addSemesterTeacher(newSemesterTeacher);	
-										db.Semester.find({where: {'year':year,'semester':semester}}).success(function(semester) {
-											semester.addSemesterTeacher(newSemesterTeacher);
-											res.send('ok')
-										});
-																				
-								});
-				
-				})
-				console.log('el profesor es nulo');
-			}else{
-				console.log('el profesor no es nulo');
-				course.addSemesterTeacher(semesterTeacher);	
-				res.send('ok');
-			}
-			
-			
-		})
-  
-
-  })
+  	//Asigna un teacher a un horario de un curso para un semestre
+	db.Semester.teacherAssignedToACourse(idTeacher,idCourse,semester,year,function(result) {
+			//La idea de este chequeo es mostrar mensajes de error o otro tipo de mensajes
+			res.send('ok');	
+	});
 }
 
 exports.assignedInstructor = function(req, res) {

@@ -9,12 +9,16 @@ module.exports = function(sequelize, DataTypes) {
 		this.hasMany(models.SemesterTeacher, { as: 'SemesterTeachers'});
       },
 	  //crea un nuevo SemesterTeacher a partir del teacher de id 'idTeacher'
-	  newSemesterTeacher:function(idTeacher){
+	  newSemesterTeacher:function(idTeacher,success){
+		var SemesterTeacher=Teacher.models.SemesterTeacher;
 	  
-		return Teacher.find(idTeacher).success(function(teacher) {
-						var newSemesterTeacher= SemesterTeacher.create({
+		Teacher.find(idTeacher).success(function(teacher) {
+						SemesterTeacher.create({
+						}).success(function(newSemesterTeacher){
+							newSemesterTeacher.setTeacher(teacher);
+							success(newSemesterTeacher);
 						});
-						newSemesterTeacher.setTeacher(teacher);
+
 				});
 		}
     }
