@@ -8,6 +8,7 @@ exports.assignedTeacher = function(req, res) {
     var idCourseSchedule = req.body.idCourseSchedule;
   	var year = req.body.year;
     var semester = req.body.semester;
+	//Asigna un teacher a un horario de un curso para un semestre
 	db.Semester.teacherAssignedToASchedule(idTeacher,idCourseSchedule,semester,year,function() {
 			res.send('ok');
 	});

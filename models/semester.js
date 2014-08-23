@@ -21,6 +21,7 @@ module.exports = function(sequelize, DataTypes) {
 			var CourseSchedule=Semester.models.CourseSchedule;
 			Semester.getSemester(year,semester).success(function(semester){
 				CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
+					//asignando el teacher al horario
 					courseSchedule.assignedTeacher(idTeacher,semester,success);
 				});
 			});

@@ -12,6 +12,7 @@ module.exports = function(sequelize, DataTypes) {
 		this.belongsTo(models.Teacher, { as: 'Teacher'});
 		this.belongsTo(models.Semester,{ as: 'Semester'});
       },
+		//retorna undefined si el teacher no existe para el semestre
 		getSemesterTeacherFor:function(idTeacher,semester){
 			var Teacher=SemesterTeacher.models.Teacher;
 			var Semester=SemesterTeacher.models.Semester;

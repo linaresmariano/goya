@@ -28,9 +28,9 @@ module.exports = function(sequelize, DataTypes) {
 			var SemesterTeacher=CourseSchedule.models.SemesterTeacher;
 			//para no perder la referencia en los callbacks
 			var schedule=this;
-				
+			//obteniendo el SemesterTeacher  del semestre dado	
 			SemesterTeacher.getSemesterTeacherFor(idTeacher,semester)
-			.success(function(semesterTeacher,idTeacher){
+			.success(function(semesterTeacher){
 				schedule.checkAndAssignTeacher(semesterTeacher,idTeacher,semester,success);
 			});
 		},
