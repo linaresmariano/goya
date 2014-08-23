@@ -14,7 +14,10 @@ module.exports = function(sequelize, DataTypes) {
 		  Semester.hasMany(models.SemesterClassRoom,{ as: 'SemesterClassRooms'});
 		  Semester.hasMany(models.SemesterTeacher,{ as: 'SemesterTeachers'});
         }
-      }
+      },
+	  getSemester:function(year,semester){
+		return Semester.find({where: {'year':year,'semester':semester}});
+	  }
     }, {
       instanceMethods: {
         code: function() {

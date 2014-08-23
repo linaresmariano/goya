@@ -31,37 +31,22 @@ module.exports = function(sequelize, DataTypes) {
 			//para no perder la referencia en los callbacks
 			var schedule=this;
 			
-			SemesterTeacher.find({
-			where: {'Teacher.id':idTeacher,'Semester.year':year,'Semester.semester':semester},
-			include: [ {	model: Teacher, as: 'Teacher' ,require:false },
-					{	model: Semester, as: 'Semester' ,require:false }]
-			}
-			).success(function(semesterTeacher) {
+			SemesterTeacher.getSemesterTeacherFor(idTeacher,year,semester)
+			.success(function(semesterTeacher) {
 		
 				if(semesterTeacher == undefined){
-					
-					Teacher.find(idTeacher).success(function(teacher) {
-						var newSemesterTeacher= SemesterTeacher.create({
-						}).success(function(newSemesterTeacher) {
-											newSemesterTeacher.setTeacher(teacher);
+					Teacher.newSemesterTeacher(idTeacher).success(function(newSemesterTeacher) {
 											schedule.addSemesterTeacher(newSemesterTeacher);	
-											Semester.find({where: {'year':year,'semester':semester}}).success(function(semester) {
+											Semester.getSemester(year,semester).success(function(semester) {
 												semester.addSemesterTeacher(newSemesterTeacher);
 												succes();
 											});
 																					
 									});
-					
-					})
-					console.log('el profesor es nulo');
 				}else{
-					console.log('el profesor no es nulo');
 					schedule.addSemesterTeacher(semesterTeacher);	
 					succes();
-
 				}
-			
-			
 			})
 		}
 	  }

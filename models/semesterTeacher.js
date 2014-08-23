@@ -11,8 +11,20 @@ module.exports = function(sequelize, DataTypes) {
 		this.hasOne(models.TeacherRequirements, { as: 'Requirements'});
 		this.belongsTo(models.Teacher, { as: 'Teacher'});
 		this.belongsTo(models.Semester,{ as: 'Semester'});
-      }
-    }
+      },
+		getSemesterTeacherFor:function(idTeacher,year,semester){
+			var Teacher=SemesterTeacher.models.Teacher;
+			var Semester=SemesterTeacher.models.Semester;
+			
+			return SemesterTeacher.find({
+			where: {'Teacher.id':idTeacher,'Semester.year':year,'Semester.semester':semester},
+			include: [ {	model: Teacher, as: 'Teacher' ,require:false },
+					{	model: Semester, as: 'Semester' ,require:false }]
+			});
+		
+		}
+	
+	}
   })
 
   return SemesterTeacher;
