@@ -45,12 +45,12 @@ module.exports = function(sequelize, DataTypes) {
 					Teacher.newSemesterTeacher(idTeacher).success(function(newSemesterTeacher) {
 											schedule.addSemesterTeacher(newSemesterTeacher);	
 											semester.addSemesterTeacher(newSemesterTeacher);
-											success();											
+											success(undefined);											
 									});
 				}else{
 					//Si el semesterTeacher existe,simplemente lo asigna
 					this.addSemesterTeacher(semesterTeacher);	
-					success();
+					success(undefined);
 				}
 		}
 	  }

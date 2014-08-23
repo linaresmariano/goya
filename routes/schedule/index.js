@@ -9,8 +9,18 @@ exports.assignedTeacher = function(req, res) {
   	var year = req.body.year;
     var semester = req.body.semester;
 	//Asigna un teacher a un horario de un curso para un semestre
-	db.Semester.teacherAssignedToASchedule(idTeacher,idCourseSchedule,semester,year,function() {
-			res.send('ok');
+	db.Semester.teacherAssignedToASchedule(idTeacher,idCourseSchedule,semester,year,function(result) {
+			//La idea de este chequeo es mostrar mensajes de error o otro tipo de mensajes
+			if(result == undefined){
+				res.json({succes:true}); // para probar {succes:false,type:'Error Fatal',message:'Un Ejemplo de error'}
+			}else{
+				if(result.success){
+					res.json({succes:true,message:result.message});
+				}else{
+					res.json({succes:false,type:result.type,message:result.message});
+				}
+			}
+			
 	});
 }
 
