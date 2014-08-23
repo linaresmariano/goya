@@ -10,7 +10,7 @@ exports.assignedTeacher = function(req, res) {
   	var year = req.body.year;
     var semester = req.body.semester;
 	db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		courseSchedule.assignedTeacher(db,idTeacher,semester,year,function(){
+		courseSchedule.assignedTeacher(idTeacher,semester,year,function(){
 			res.send('ok');
 		});
   })

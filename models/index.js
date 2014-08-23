@@ -14,12 +14,15 @@ fs
     db[model.name] = model
   })
  
+//creando relaciones
 Object.keys(db).forEach(function(modelName) {
   if ('associate' in db[modelName]) {
     db[modelName].associate(db)
   }
+  db[modelName]['models']=db;
 })
- 
+
+
 module.exports = Sequelize.Utils._.extend({
   sequelize: sequelize,
   Sequelize: Sequelize
