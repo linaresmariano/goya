@@ -26,8 +26,7 @@ exports.assignedTeacher = function(req, res) {
 
 exports.deallocateClassroom = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
-	  db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		courseSchedule.setSemesterClassRoom(undefined);
+	  db.CourseSchedule.deallocateClassRoom(idCourseSchedule,function(courseSchedule) {
 		res.send('ok')
 	  })
 

@@ -19,6 +19,12 @@ module.exports = function(sequelize, DataTypes) {
 							succes();
 						})
 				})
+		},
+		deallocateClassRoom:function(idCourseSchedule,succes){
+				this.find(idCourseSchedule).success(function(courseSchedule) {
+					courseSchedule.setSemesterClassRoom(undefined);
+					succes();
+				})
 		}
       },
 	  instanceMethods:{
