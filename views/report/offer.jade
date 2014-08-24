@@ -5,7 +5,7 @@ block content
   script(src='/js/lib/jquery.printThis.js')
   script.
     
-    app.controller('offerCtrl', function ($scope, localStorageService) {
+    app.controller('offerCtrl', function ($scope, localStorageService, subjectService) {
 
       $scope.semester = !{JSON.stringify(semester)};
 
@@ -23,6 +23,18 @@ block content
         return schedule.hour > 0 ?
           weekday[schedule.day]+" "+schedule.hour+":00 a "+(schedule.hour+schedule.duration)+":00" :
           ""
+      }
+
+      $scope.getArea = function(index) {
+        return subjectService.areas[index].name
+      }
+
+      $scope.getCore = function(index) {
+        return subjectService.cores[index].name
+      }
+
+      $scope.getModality = function(index) {
+        return subjectService.modalities[index].name
       }
 
       function shouldDisplayCourse(course, index, ar) {
@@ -79,17 +91,17 @@ block content
             td No
 
           tr(ng-repeat='course in courses')
-            td(contenteditable="true") {{course.subject.area || '-'}}
-            td(contenteditable="true") {{course.subject.core || '-'}}
+            td(contenteditable="true") {{getArea(course.subject.area) || '-'}}
+            td(contenteditable="true") {{getCore(course.subject.core) || '-'}}
             td(contenteditable="true") {{course.subject.period || '-'}}
-            td(contenteditable="true") {{course.subject.modality || '-'}}
+            td(contenteditable="true") {{getModality(course.subject.modality) || '-'}}
             td(contenteditable="true") {{course.subject.ocode || '-'}}
             td(contenteditable="true") {{course.subject.name}}
             td(contenteditable="true") {{course.subject.credits || '-'}}
             td(contenteditable="true")
               div(ng-repeat='schedule in course.schedules')
                 {{scheduleView(schedule)}}
-            td(contenteditable="true") {{course.semesterTeachers[0].name || '-'}}
+            td(contenteditable="true") {{course.semesterTeachers[0].teacher.name || '-'}}
             td(contenteditable="true") {{course.subject.capacity || '-'}}
             td(contenteditable="true") P
             td(contenteditable="true") No

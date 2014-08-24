@@ -2,33 +2,6 @@ extends ../layout
 
 block content
 
-  script.
-    
-    app.controller('newSubjectCtrl', function ($scope, localStorageService) {
-
-      $scope.areas = [
-        {id:0, name:'Programación'},
-        {id:1, name:'Sistemas Informáticos'},
-        {id:2, name:'Matemática Básica'},
-        {id:3, name:'Matemática Superior'},
-        {id:4, name:'Idioma'}
-      ]
-
-      $scope.cores = [
-        {id:0, name:'Básico Obligatorio'},
-        {id:1, name:'Avanzado Obligatorio'},
-        {id:2, name:'Complementaria'},
-        {id:3, name:'Obligatoria'}
-      ]
-
-      $scope.modalities = [
-        {id:0, name:'Presencial'},
-        {id:1, name:'Presencial con campus virtual'},
-        {id:2, name:'Virtual'}
-      ]
-      
-    })
-
   .container(ng-controller='newSubjectCtrl')
     form(action="../subject/create",method="post")
       legend Nueva Materia para el semestre {{number}} de {{year}}
@@ -44,12 +17,12 @@ block content
 
         .form-group
           label(for='area') Área
-          select.form-control(ng-model="area", ng-options="area.name for area in areas")
+          select.form-control(ng-model='area', ng-options='area.name for area in areas', name='area')
             option(value="") Seleccione un área
 
         .form-group
           label(for='core') Núcleo
-          select.form-control(ng-model="core", ng-options="core.name for core in cores")
+          select.form-control(ng-model='core', ng-options='core.name for core in cores', name='core')
             option(value="") Seleccione un núcleo
 
         .form-group
@@ -58,7 +31,7 @@ block content
 
         .form-group
           label(for='modality') Modalidad
-          select.form-control(ng-model="modality", ng-options="modality.name for modality in modalities")
+          select.form-control(ng-model='modality', ng-options='modality.name for modality in modalities', name='modality')
             option(value="") Seleccione una modalidad
 
         .form-group
