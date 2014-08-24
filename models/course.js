@@ -54,6 +54,17 @@ module.exports = function(sequelize, DataTypes) {
 				course.checkAndAssignTeacher(semesterTeacher,idTeacher,semester,success);
 			});
 		},
+		assignedInstructor:function(idTeacher,semester,success){
+			//import models
+			var SemesterTeacher=Course.models.SemesterTeacher;
+			//para no perder la referencia en los callbacks
+			var course=this;
+			//obteniendo el SemesterTeacher  del semestre dado	
+			SemesterTeacher.getSemesterTeacherFor(idTeacher,semester)
+			.success(function(semesterTeacher){
+				course.checkAndAssignInstructor(semesterTeacher,idTeacher,semester,success);
+			});
+		},
 		deallocateATypeOfTeacher:function(idTeacher,semesterTeachers,dellocateTeacher){
 			for(n=0;n < semesterTeachers.length;n++){	
 				if(semesterTeachers[n].teacher.id == idTeacher){
@@ -78,6 +89,25 @@ module.exports = function(sequelize, DataTypes) {
 				}else{
 					//Si el semesterTeacher existe,simplemente lo asigna
 					this.addSemesterTeacher(semesterTeacher);	
+					success(undefined);
+				}
+		},
+		checkAndAssignInstructor:function(semesterTeacher,idTeacher,semester,success) {
+				var Teacher=Course.models.Teacher;
+				
+				//para no perder la referencia en los callbacks
+				var course=this;
+				
+				//Si no existe el semesterTeacher lo crea y lo asigna
+				if(semesterTeacher == undefined){
+					Teacher.newSemesterTeacher(idTeacher,function(newSemesterTeacher) {
+											course.addSemesterInstructor(newSemesterTeacher);	
+											semester.addSemesterTeacher(newSemesterTeacher);
+											success(undefined);											
+									});
+				}else{
+					//Si el semesterTeacher existe,simplemente lo asigna
+					this.addSemesterInstructor(semesterTeacher);	
 					success(undefined);
 				}
 		}

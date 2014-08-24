@@ -54,7 +54,6 @@ app.get('/lastSemester', routes.lastSemester);
 
 //courses
 app.get('/courses', cursos.index);
-app.get('/course/:id/:commission', cursos.commission);
 app.get('/course/new', cursos.new);
 app.post('/course/create', cursos.create);
 app.put('/updateCourse', cursos.actualizar);

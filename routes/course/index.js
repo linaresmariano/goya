@@ -136,35 +136,6 @@ exports.list = function(req, res){
 };
 
 
-/*
- * GET cursos/:code_curso/:comision.
- */
-
-exports.commission = function(req, res) {
-
-  weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
-  code = req.params.id
-  commission = req.params.commission
-  curso = ''
-
-  db.Course.findAll({include: [
-    {model: db.CourseSchedule, as: 'Schedules'},
-    {model: db.Teacher, as: 'Teachers'}
-  ]}).success(function(courses) {
-    courses.forEach(function(entry) {
-      if(entry.code == code && entry.commission == commission) {
-
-        res.render('cursos/curso', {
-          title: 'Curso '+ code,
-          curso: entry,
-          datos: datos,
-          weekday: weekday
-        });
-      }
-    });
-  })
-};
-
 
 
 exports.actualizar = function(req, res) {
@@ -263,9 +234,8 @@ exports.assignedTeacher = function(req, res) {
     var idCourse = req.body.idCourse;
  	var year = req.body.year;
     var semester = req.body.semester;
-  	//Asigna un teacher a un horario de un curso para un semestre
+  	//Asigna un teacher a un curso
 	db.Semester.teacherAssignedToACourse(idTeacher,idCourse,semester,year,function(result) {
-			//La idea de este chequeo es mostrar mensajes de error o otro tipo de mensajes
 			res.send('ok');	
 	});
 }
@@ -277,65 +247,11 @@ exports.assignedInstructor = function(req, res) {
     var idCourse = req.body.idCourse;
 	var year = req.body.year;
     var semester = req.body.semester;
-  db.Course.find(idCourse).success(function(course) {
-		db.SemesterTeacher.find({
-			where: {'Teacher.id':idTeacher,'Semester.year':year,'Semester.semester':semester},
-			include: [ {	model: db.Teacher, as: 'Teacher' ,require:false },
-					{	model: db.Semester, as: 'Semester' ,require:false }]
-			}
-		).success(function(semesterTeacher) {
-			
-			if(semesterTeacher == undefined){
-				
-				db.Teacher.find(idTeacher).success(function(teacher) {
-					var newSemesterTeacher= db.SemesterTeacher.create({
-					}).success(function(newSemesterTeacher) {
-										newSemesterTeacher.setTeacher(teacher);
-										course.addSemesterInstructor(newSemesterTeacher);	
-										db.Semester.find({where: {'year':year,'semester':semester}}).success(function(semester) {
-											semester.addSemesterTeacher(newSemesterTeacher);
-											res.send('ok')
-										});
-																				
-								});
-				
-				})
-				console.log('el profesor es nulo**********************************************');
-			}else{
-				console.log('el profesor no es nulo******************************************');
-				course.addSemesterInstructor(semesterTeacher);	
-				res.send('ok');
-			}
-			
-			
-		})
-  
-
-  })
+	 //Asigna un instructor a un curso
+	db.Semester.instructorAssignedToACourse(idTeacher,idCourse,semester,year,function(result) {
+			res.send('ok');	
+	});
 }
 
 
-
-exports.update_profe = function(req, res) {
-  //Actualiza el horario con el id correspondiente
-  db.CourseSchedule.find(req.param('id')).success(function(schedule) {
-
-    schedule.updateAttributes({
-      duration: req.param('duration')
-    }, ['duration'])
-      .success(function() {
-        res.send('ok')
-      })
-      .error(function(err) {
-        res.send('error')
-      })
-  })
-
-  Curso.findOneAndUpdate(
-    {'code': req.param('code'), 'comision': req.param('comision')},
-    {'horarios.$.duracion':req.param('duracion')},
-    function(err,curso) {
-      res.send(err ? 'error' : 'ok');
-  });
-}
 
