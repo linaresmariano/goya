@@ -138,13 +138,12 @@ exports.list = function(req, res){
 
 
 
-exports.actualizar = function(req, res) {
-
-  db.CourseSchedule.find(req.param('id')).success(function(schedule) {
+exports.update = function(req, res) {
+  db.CourseSchedule.find(req.body.id).success(function(schedule) {
 
     schedule.updateAttributes({
-      day: req.param('day'),
-      hour: req.param('hour')
+      day: req.body.day,
+      hour: req.body.hour
     }, ['day', 'hour'])
       .success(function() {
         res.send('ok')
@@ -156,12 +155,12 @@ exports.actualizar = function(req, res) {
 
 }
 
-exports.actualizarFin = function(req, res) {
+exports.updateEnd = function(req, res) {
   //Actualiza el horario con el id correspondiente
-  db.CourseSchedule.find(req.param('id')).success(function(schedule) {
-
+  console.log(req.body.duration+"********************************");
+  db.CourseSchedule.find(req.body.id).success(function(schedule) {
     schedule.updateAttributes({
-      duration: req.param('duration')
+      duration: req.body.duration
     }, ['duration'])
       .success(function() {
         res.send('ok')
