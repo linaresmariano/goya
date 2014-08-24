@@ -8,8 +8,8 @@ module.exports = function(sequelize, DataTypes) {
       classMethods: {
         associate: function(models) {
           Semester.hasMany(models.Course,{ as: 'Courses'});
-		  Semester.hasMany(models.Teacher,{ as: 'Teachers'});
-		  Semester.hasMany(models.ClassRoom,{ as: 'ClassRooms'});
+		  Semester.hasMany(models.SemesterClassRoom,{ as: 'SemesterClassRooms'});
+		  Semester.hasMany(models.SemesterTeacher,{ as: 'SemesterTeachers'});
         }
       }
     }, {

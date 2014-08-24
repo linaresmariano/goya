@@ -188,7 +188,7 @@ function CalendarCtrl($scope, $http, $q){
 						//Agragando el horario a la grilla
 						$scope.addSchedule(copiedEventObject.course,copiedEventObject.schedule);
 						$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
-						
+
 					}).error(function(err){
 						alert('Error al actualizar dato,es posible que no este conectado a internet.');
 					});
@@ -227,16 +227,15 @@ function CalendarCtrl($scope, $http, $q){
 										//chequeo para ver si es un aula o un profesor que se dropea con
 										//el curso
 										classroom=getModel(ui.draggable,"ng-model");
-
 										
 										if(ui.draggable.attr('class').indexOf("dragg-class-room") !=-1){
 											
 											$http({
 													url:"/assignedClassRoom",
 													method:'put',
-													data: { idClassRoom:classroom.id,idCourseSchedule:event.schedule.id}
+													data: { idClassRoom:classroom.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester}
 											}).success(function(data) {
-												event.schedule.classRoom=classroom;
+												event.schedule.semesterClassRoom=newSemesterClassRoom(classroom);
 												deferred.resolve(event);
 												
 											}).error(function(err){
@@ -245,22 +244,22 @@ function CalendarCtrl($scope, $http, $q){
 											
 										}else{
 											teacher=getModel(ui.draggable,"ng-model");
-											$scope.courseTeacher.teacher=teacher;
+											$scope.courseTeacher.teacher=newSemesterTeacher(teacher);
 											$scope.courseTeacher.event=event;
 											
-											if(!isTeacher(event.course,teacher)){
+											if(!isTeacher(event.course,$scope.courseTeacher.teacher)){
 													$('#assingTeacherCourse').modal('toggle');
 											}else{
 											
-												if(!existTeacher(event.schedule.teachers,teacher)){
+												if(!existTeacher(event.schedule.semesterTeachers,$scope.courseTeacher.teacher)){
 											
 													$http({
 															url:"/assignedTeacher",
 															method:'put',
-															data: { idTeacher:teacher.id,idCourseSchedule:event.schedule.id}
+															data: { idTeacher:$scope.courseTeacher.teacher.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester}
 													}).success(function(data) {
 														
-														event.schedule.teachers.push(teacher);
+														event.schedule.semesterTeachers.push($scope.courseTeacher.teacher);
 														deferred.resolve(event);
 
 													}).error(function(err){
@@ -302,7 +301,7 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	function isTeacher(course,teacher){
-		return existTeacher(course.courseTeacher,teacher) || existTeacher(course.courseInstructor,teacher);
+		return existTeacher(course.semesterTeachers,teacher) || existTeacher(course.semesterInstructors,teacher);
 	}
 	
 
@@ -311,8 +310,8 @@ function CalendarCtrl($scope, $http, $q){
       	$scope.events.push({
 								id: schedule.id,
 								title: course.subject.code+ " \n c"+course.commission +"-" +  schedule.type
-									+ (schedule.classRoom == undefined ? '' : '\n Aula '+schedule.classRoom.number)
-									+ getNamesTeachers(schedule.teachers),
+									+ (schedule.semesterClassRoom == undefined ? '' : '\n Aula '+schedule.semesterClassRoom.classRoom.number)
+									+ getNamesTeachers(schedule.semesterTeachers),
 								start: new Date(y, m-1, d+schedule.day, schedule.hour, 0),
 								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.duration, 0),
 								allDay: false,
@@ -328,10 +327,32 @@ function CalendarCtrl($scope, $http, $q){
 			return angular.element(elm).scope().$eval($(elm).attr(modelName));
 	}
 	
-	function getNamesTeachers(teachers){
+	function newSemesterClassRoom(classRoom){
+			return {
+						id:classRoom.id,
+						description: classRoom.description,
+						capacity: classRoom.capacity,
+						numberOfComputers: classRoom.numberOfComputers,
+						hasProyector: classRoom.hasProyector,
+						classRoom:{	name: classRoom.name,
+									number: classRoom.number 
+									}
+					}
+	}
+	
+	function newSemesterTeacher(teacher){
+			return {
+						id:teacher.id,
+						teacher:{	name: teacher.name,
+									code: teacher.code 
+									}
+					}
+	}
+	
+	function getNamesTeachers(semesterTeachers){
 		names="";
-		teachers.forEach(function(teacher) {
-			names+= " \n " + teacher.name;
+		semesterTeachers.forEach(function(semesterTeacher) {
+			names+= " \n " + semesterTeacher.teacher.name;
 		});
 		return names;
 	}
@@ -406,16 +427,16 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.assignedTeacherToCourse = function(isInCharge ) {
 		var deferred = $q.defer();
 		if(isInCharge == 0){
-				if($scope.courseTeacher.event.course.courseTeacher.length == 2){
+				if($scope.courseTeacher.event.course.semesterTeachers.length == 2){
 					alert("Un curso solo puede tener 2 profesores a cargo como máximo");
 				}else{
 					$http({
 						url:"/course/assignedTeacher",
 						method:'put',
-						data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.course.id}
+						data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.course.id,year:$scope.semester.year,semester:$scope.semester.semester}
 					}).success(function(data) {
 															
-						$scope.courseTeacher.event.course.courseTeacher.push($scope.courseTeacher.teacher);
+						$scope.courseTeacher.event.course.semesterTeachers.push($scope.courseTeacher.teacher);
 						deferred.resolve($scope.courseTeacher.event);
 					}).error(function(err){
 						alert("Error al asignar un profesor a un horario");
@@ -426,10 +447,10 @@ function CalendarCtrl($scope, $http, $q){
 				$http({
 					url:"/course/assignedInstructor",
 					method:'put',
-					data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.course.id}
+					data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.course.id,year:$scope.semester.year,semester:$scope.semester.semester}
 				}).success(function(data) {
 													
-					$scope.courseTeacher.event.course.courseInstructor.push($scope.courseTeacher.teacher);
+					$scope.courseTeacher.event.course.semesterInstructors.push($scope.courseTeacher.teacher);
 					
 					deferred.resolve($scope.courseTeacher.event);
 				}).error(function(err){
@@ -455,7 +476,7 @@ function CalendarCtrl($scope, $http, $q){
 			data: { idCourseSchedule:$scope.courseShow.schedule.id}
 		}).success(function(data) {
 													
-			$scope.courseShow.schedule.classRoom=undefined;
+			$scope.courseShow.schedule.semesterClassRoom=undefined;
 
 			deferred.resolve($scope.courseShow);
 		}).error(function(err){
@@ -496,7 +517,7 @@ function CalendarCtrl($scope, $http, $q){
 		var deferred = $q.defer();
 		
 		if(existTeacherInSchedules($scope.courseShow.course.schedules,
-					$scope.courseShow.course.courseTeacher[index])){
+					$scope.courseShow.course.semesterTeachers[index])){
 					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
 					return;
 		}
@@ -507,7 +528,7 @@ function CalendarCtrl($scope, $http, $q){
 			data: { idCourse:$scope.courseShow.course.id,idTeacher:idTeacher}
 		}).success(function(data) {
 
-			$scope.courseShow.course.courseTeacher.splice(index, 1);
+			$scope.courseShow.course.semesterTeachers.splice(index, 1);
 			deferred.resolve($scope.courseShow);
 		}).error(function(err){
 			alert("Error al desasignar un profesor");
@@ -525,7 +546,7 @@ function CalendarCtrl($scope, $http, $q){
 		var deferred = $q.defer();
 		
 		if(existTeacherInSchedules($scope.courseShow.course.schedules,
-					$scope.courseShow.course.courseInstructor[index])){
+					$scope.courseShow.course.semesterInstructors[index])){
 					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
 					return;
 		}
@@ -536,7 +557,7 @@ function CalendarCtrl($scope, $http, $q){
 			data: { idCourse:$scope.courseShow.course.id,idTeacher:idTeacher}
 		}).success(function(data) {
 
-			$scope.courseShow.course.courseInstructor.splice(index, 1);
+			$scope.courseShow.course.semesterInstructors.splice(index, 1);
 			deferred.resolve($scope.courseShow);
 		}).error(function(err){
 			alert("Error al desasignar un profesor");
@@ -622,6 +643,8 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.teachers = semesterJSON.teachers ;
 	
 	$scope.classRooms = semesterJSON.classRooms ;
+	$scope.semester = { year:semesterJSON.year , semester:semesterJSON.semester };
+
 		 	
 	//Informacion de los cursos no asignados
 	$scope.infoCoursesNotAssigned=[ ];

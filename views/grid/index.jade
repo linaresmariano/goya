@@ -53,26 +53,26 @@ block content
 						.row.list-group
 							div.list-group-item 
 								b Aula
-								&nbsp; {{courseShow.schedule.classRoom.number}}
+								&nbsp; {{courseShow.schedule.semesterClassRoom.classRoom.number}}
 								button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateClassroom()")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores a cargo del curso
-							div.list-group-item(ng-repeat="teacher in courseShow.course.courseTeacher track by $index")
-								div{{teacher.name}} 
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(teacher.id,$index)")
+							div.list-group-item(ng-repeat="semesterTeacher in courseShow.course.semesterTeachers track by $index")
+								div{{semesterTeacher.teacher.name}} 
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(semesterTeacher.teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores no a cargo del curso
-							div.list-group-item(ng-repeat="teacher in courseShow.course.courseInstructor track by $index")
-								div	{{teacher.name}}
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseInstructor(teacher.id,$index)")
+							div.list-group-item(ng-repeat="semesterTeacher in courseShow.course.semesterInstructors track by $index")
+								div	{{semesterTeacher.teacher.name}}
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseInstructor(semesterTeacher.teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores asignados a este horario
-							div.list-group-item(ng-repeat="teacher in courseShow.schedule.teachers track by $index")
-								div	{{teacher.name}}
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateScheduleTeacher(teacher.id,$index)")
+							div.list-group-item(ng-repeat="semesterTeacher in courseShow.schedule.semesterTeachers track by $index")
+								div	{{semesterTeacher.teacher.name}}
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateScheduleTeacher(semesterTeacher.teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar
