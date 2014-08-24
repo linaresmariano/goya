@@ -32,6 +32,12 @@ var courseORGA = db.Course.build({
 									commission: 1,
 									color: 'green'
 								});
+								
+var courseTVD= db.Course.build({
+									enrolled: 30,
+									commission: 1,
+									color: 'yellow'
+								});
 						
 //Schedules								
 var courseSchedule1 = db.CourseSchedule.build({
@@ -52,18 +58,34 @@ var courseSchedule2 = db.CourseSchedule.build({
 								
 var courseSchedule3 = db.CourseSchedule.build({
 									type: 'Practica',
-									day: -1,
-									hour: -1,
+									day: 1,
+									hour: 10,
 									minutes: 0,
 									duration: 3
 								});
 								
 var courseSchedule4 = db.CourseSchedule.build({
 									type: 'Teorica/Practica',
+									day: 2,
+									hour: 17,
+									minutes: 0,
+									duration: 3
+								});
+								
+var courseSchedule5 = db.CourseSchedule.build({
+									type: 'Practica',
 									day: -1,
 									hour: -1,
 									minutes: 0,
-									duration: 3
+									duration: 2
+								});
+		
+var courseSchedule6 = db.CourseSchedule.build({
+									type: 'Teorica',
+									day: -1,
+									hour: -1,
+									minutes: 0,
+									duration: 2
 								});
 
 //Teachers								
@@ -139,6 +161,18 @@ var subjectORGA= db.Subject.build({
 						code: 'ORGA',
 						name: 'Organizacion de las computadoras'
 					});
+				
+var subjectTVDIG= db.Subject.build({
+						area: 1,
+						core: 0,
+						period: 'Cuatrimestral',
+						modality: 1,
+						ocode: '01032',
+						credits: 12,
+						capacity: 35,
+						code: 'TVD',
+						name: 'Television Digital'
+					});
 
 //Save models
 chainer = new db.Sequelize.Utils.QueryChainer
@@ -146,6 +180,7 @@ chainer = new db.Sequelize.Utils.QueryChainer
 //save courses
 chainer.add(courseORGA.save());
 chainer.add(courseEPERS.save());
+chainer.add(courseTVD.save());
 
 //save models
 chainer.add(semester.save());
@@ -162,6 +197,8 @@ chainer.add(courseSchedule1.save());
 chainer.add(courseSchedule2.save());
 chainer.add(courseSchedule3.save());
 chainer.add(courseSchedule4.save());
+chainer.add(courseSchedule5.save());
+chainer.add(courseSchedule6.save());
 
 //save class rooms
 chainer.add(classRoom37B.save());
@@ -172,14 +209,17 @@ chainer.add(classRoom45.save());
 //save subjects
 chainer.add(subjectEPERS.save());
 chainer.add(subjectORGA.save());
+chainer.add(subjectTVDIG.save());
 
 //save relations
 chainer.run().complete( function(err, result) {
         semester.setCourses([courseEPERS]);
 		semester.setCourses([courseORGA]);
+		semester.setCourses([courseTVD]);
 		
 		courseEPERS.setSubject(subjectEPERS);
 		courseORGA.setSubject(subjectORGA);
+		courseTVD.setSubject(subjectTVDIG);
 		
 		//semester.setTeachers([teacherPABLOT,teacherRONY]);
 		
@@ -190,7 +230,7 @@ chainer.run().complete( function(err, result) {
 		
 		courseEPERS.setSchedules([courseSchedule1]);
 		courseORGA.setSchedules([courseSchedule2,courseSchedule3,courseSchedule4]);
-		
+		courseTVD.setSchedules([courseSchedule5,courseSchedule6]);
 		//courseSchedule1.setTeachers([teacherRONY,teacherPABLOT]);
 		
 		//courseSchedule1.setClassRoom(classRoom37B);
