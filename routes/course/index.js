@@ -43,6 +43,7 @@ exports.create = function(req, res) {
 										color: 'blue' // color default
 									}).success(function(course) {
 											course.addSchedule(schedule);
+											showFeedbackPanel(res,'Courso creado correctamente',typeMessage.SUCCESS);
 											exports.new(req, res);	
 									});
 		});
@@ -74,6 +75,7 @@ exports.create = function(req, res) {
 											
 						}
 					}
+					showFeedbackPanel(res,'Courso creado correctamente',typeMessage.SUCCESS);
 					exports.new(req, res);	
 			});
 		});

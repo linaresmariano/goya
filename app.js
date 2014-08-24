@@ -20,7 +20,21 @@ var db = require('./models');
 var bodyParser = require('body-parser');
 
 
+
 var app = express();
+
+app.use(express.cookieParser());
+app.use(express.session({secret: 'w345fawf4qw4sdrse5'}));
+
+//app.use(function(req, res, next) {
+ // res.locals.session = req.session;
+ // next();
+//});
+
+global.showFeedbackPanel = function(res,msj,type){ 
+	res.locals.feedbackpanel={msj:msj,type:type}; 
+}; 
+global.typeMessage = {ERROR:'danger',SUCCESS:'success',WARNING:'warning'}
 
 // all environments
 app.set('port', process.env.PORT || 3000);

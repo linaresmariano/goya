@@ -63,7 +63,7 @@ html(ng-app="APP")
 						div(style="margin:15px;margin-right:32px;color:white") Bienvenido al semestre {{number}} del {{year}}
 		if feedbackpanel != undefined				
 			.container
-				.alert.alert-success.alert-dismissible(role='alert')
+				.alert(class="alert-#{feedbackpanel.type} alert-dismissible",role='alert')
 					button.close(type='button', data-dismiss='alert')
 						span(aria-hidden='true') ×
 						span.sr-only Close
