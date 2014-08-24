@@ -102,39 +102,18 @@ exports.deallocateTeacher = function(req, res){
 	var idCourse = req.body.idCourse;
 	var idTeacher= req.body.idTeacher;
 	
-	 db.Course.find({
-		where:{id:idCourse},
-		include: [ {model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
-												include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]
-	}).success(function(course) {				
-		for(n=0;n < course.semesterTeachers.length;n++){
-			console.log(course.semesterTeachers[n]);	
-			if(course.semesterTeachers[n].teacher.id == idTeacher){
-				course.removeSemesterTeacher(course.semesterTeachers[n]);
-				break;
-			}
-		}
+	 db.Course.deallocateTeacher(idCourse,idTeacher,function() {				
 		res.send('ok')
-	  })
+	  });
 };
 
 exports.deallocateInstructor = function(req, res){
 	var idCourse = req.body.idCourse;
 	var idTeacher= req.body.idTeacher;
 	
-	db.Course.find({
-		where:{id:idCourse},
-		include: [ {model: db.SemesterTeacher, as: 'SemesterInstructors',require:false,
-												include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]
-	}).success(function(course) {				
-		for(n=0;n < course.semesterInstructors.length;n++){	
-			if(course.semesterInstructors[n].teacher.id == idTeacher){
-				course.removeSemesterInstructor(course.semesterInstructors[n]);
-				break;
-			}
-		}
+	db.Course.deallocateInstructor(idCourse,idTeacher,function() {				
 		res.send('ok')
-	  })
+	 });
 };
 
 exports.list = function(req, res){

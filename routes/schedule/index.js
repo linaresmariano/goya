@@ -26,7 +26,7 @@ exports.assignedTeacher = function(req, res) {
 
 exports.deallocateClassroom = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
-	  db.CourseSchedule.deallocateClassRoom(idCourseSchedule,function(courseSchedule) {
+	  db.CourseSchedule.deallocateClassRoom(idCourseSchedule,function() {
 		res.send('ok')
 	  })
 

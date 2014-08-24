@@ -13,7 +13,34 @@ module.exports = function(sequelize, DataTypes) {
 			Course.hasMany(models.SemesterTeacher,{ as: 'SemesterInstructors', through: 'course_has_instructors'});
 			Course.hasOne(models.CourseRequirements, { as: 'Requirements'});
 			Course.belongsTo(models.Subject, { as: 'Subject'});
-        }
+        },
+		findWithTeachers:function(idCourse){
+			var Teacher=Course.models.Teacher;
+			var SemesterTeacher=Course.models.SemesterTeacher;
+			return this.find({
+									where:{id:idCourse},
+									include: [ {model: SemesterTeacher, as: 'SemesterTeachers',require:false,
+												include: [ 	{model: Teacher, as: 'Teacher',require:false}]},
+											   {model: SemesterTeacher, as: 'SemesterInstructors',require:false,
+												include: [ 	{model: Teacher, as: 'Teacher',require:false}]}]
+			});
+		},
+		deallocateTeacher:function(idCourse,idTeacher,success){
+			this.findWithTeachers(idCourse).success(function(course){
+				course.deallocateATypeOfTeacher(idTeacher,course.semesterTeachers,function(teacher){
+					course.removeSemesterTeacher(teacher);
+				});
+				success();
+			});
+		},
+		deallocateInstructor:function(idCourse,idTeacher,success){
+			this.findWithTeachers(idCourse).success(function(course){
+				course.deallocateATypeOfTeacher(idTeacher,course.semesterInstructors,function(teacher){
+					course.removeSemesterInstructor(teacher);
+				});
+				success();
+			});
+		}
       },
 	  instanceMethods:{
 		assignedTeacher:function(idTeacher,semester,success){
@@ -26,6 +53,14 @@ module.exports = function(sequelize, DataTypes) {
 			.success(function(semesterTeacher){
 				course.checkAndAssignTeacher(semesterTeacher,idTeacher,semester,success);
 			});
+		},
+		deallocateATypeOfTeacher:function(idTeacher,semesterTeachers,dellocateTeacher){
+			for(n=0;n < semesterTeachers.length;n++){	
+				if(semesterTeachers[n].teacher.id == idTeacher){
+					dellocateTeacher(semesterTeachers[n]);
+					break;
+				}
+			}
 		},
 		checkAndAssignTeacher:function(semesterTeacher,idTeacher,semester,success) {
 				var Teacher=Course.models.Teacher;
