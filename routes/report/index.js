@@ -31,23 +31,4 @@ exports.offer = function(req, res) {
     })
   })
 
-  // db.Semester.find({
-  //   where: {
-  //     'year': year,
-  //     'semester': semester
-  //   },
-  //   include: [ {  model: db.Course, as: 'Courses' ,require:false,
-  //     include: [  {model: db.CourseSchedule, as: 'Schedules',require:false,
-  //       include: [  {model: db.ClassRoom, as: 'ClassRoom',require:false}]}]
-  //   }]
-
-  // }).success(function(semester) {
-  //   console.log(semester)
-  //   res.render('report/offer', {
-  //     title: 'Oferta académica',
-  //     semester: semester 
-  //   })
-    
-  // })
-
 }
