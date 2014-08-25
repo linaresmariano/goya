@@ -22,10 +22,6 @@ exports.create = function(req, res) {
 	var semester = req.body.semester;
 	
 	//Agragando un profesor al ultimo semestre
-	db.Semester.find({
-		include: [ {	model: db.Teacher, as: 'Teachers' ,require:false}],
-		where:{ 'year': year,'semester':semester}
-	}).success(function(semester) {
 		db.ClassRoom.create({
 					number: number,
 					name: name,
@@ -33,14 +29,12 @@ exports.create = function(req, res) {
 					description:description,
 					capacity:capacity,
 					numberOfComputers: numberOfComputers
-		}).success(function(classroom) {
-						semester.addClassRoom(classroom);
+		}).success(function(classRoom) {
+						//semester.addsemesterClassroom(semesterClassroom);
 						res.render('classroom/new', {
 						  title: 'Crear Materia'
 						});
 		});
-	});
-
 }
 
 
@@ -50,14 +44,11 @@ exports.list = function(req, res){
 	var year = req.params.year;
 	var semester = req.params.semester;
 	
-	db.Semester.find({
-		include: [ {model: db.ClassRoom, as: 'ClassRooms' ,require:false}],
-		where:{ 'year': year,'semester':semester}
-	}).success(function(semester) {
+	db.ClassRoom.findAll().success(function(classRooms) {
 	
 		res.render('classroom/list', {
           title: 'Aulas',
-          classRooms:semester.classRooms
+          classRooms:classRooms
 		});
 	});
 };

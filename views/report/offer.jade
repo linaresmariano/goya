@@ -89,7 +89,7 @@ block content
             td(contenteditable="true")
               div(ng-repeat='schedule in course.schedules')
                 {{scheduleView(schedule)}}
-            td(contenteditable="true") {{course.courseTeacher[0].name || '-'}}
+            td(contenteditable="true") {{course.semesterTeachers[0].name || '-'}}
             td(contenteditable="true") {{course.capacity || '-'}}
             td(contenteditable="true") P
             td(contenteditable="true") No

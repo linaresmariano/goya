@@ -181,19 +181,19 @@ chainer.run().complete( function(err, result) {
 		courseEPERS.setSubject(subjectEPERS);
 		courseORGA.setSubject(subjectORGA);
 		
-		semester.setTeachers([teacherPABLOT,teacherRONY]);
+		//semester.setTeachers([teacherPABLOT,teacherRONY]);
 		
-		semester.setClassRooms([classRoom37B,classRoom60,classRoomcyt,classRoom45]);
+		//semester.setClassRooms([classRoom37B,classRoom60,classRoomcyt,classRoom45]);
 		
-		courseEPERS.setCourseTeacher([teacherPABLOT]);
-		courseEPERS.setCourseInstructor([teacherRONY]);
+		//courseEPERS.setCourseTeacher([teacherPABLOT]);
+		//courseEPERS.setCourseInstructor([teacherRONY]);
 		
 		courseEPERS.setSchedules([courseSchedule1]);
 		courseORGA.setSchedules([courseSchedule2,courseSchedule3,courseSchedule4]);
 		
-		courseSchedule1.setTeachers([teacherRONY,teacherPABLOT]);
+		//courseSchedule1.setTeachers([teacherRONY,teacherPABLOT]);
 		
-		courseSchedule1.setClassRoom(classRoom37B);
+		//courseSchedule1.setClassRoom(classRoom37B);
 });
 
 

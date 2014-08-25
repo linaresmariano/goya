@@ -34,22 +34,33 @@ exports.semester = function(req, res) {
             },
 	include: [ {	model: db.Course, as: 'Courses' ,require:false,
 						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false,
-										include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false},
-													{model: db.Teacher, as: 'Teachers',require:false}]},
+										include: [ 	{model: db.SemesterClassRoom, as: 'SemesterClassRoom',require:false,
+														include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]},
+													{model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
+														include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]},
 									{model: db.Subject, as: 'Subject',require:false},
-									{model: db.Teacher, as: 'CourseInstructor',require:false},
-									{model: db.Teacher, as: 'CourseTeacher',require:false}]
-						},
-				{	model: db.Teacher, as: 'Teachers' ,require:false},
-				{	model: db.ClassRoom, as: 'ClassRooms' ,require:false }]
+									{model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
+											include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]},
+									{model: db.SemesterTeacher, as: 'SemesterInstructors',require:false,
+											include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]
+						}]
   })
     .success(function(semester) {
-			console.log(semester.courses[0]);
-			res.render('grid/index', {
-				title: 'Grilla',
-				semester: semester 
-			  })
+			
+			
+			db.ClassRoom.findAll().success(function(classRooms) {
+			
+				db.Teacher.findAll().success(function(teachers) {
+
+					res.render('grid/index', {
+						title: 'Grilla',
+						semester: { courses: semester.courses,classRooms:classRooms ,teachers:teachers,
+									year:semester.year,semester:semester.semester}
+					  })
+				});
 		
+			});
+			
   })
 
 }
@@ -68,7 +79,8 @@ exports.classrooms = function(req, res) {
             },
 	include: [ {	model: db.Course, as: 'Courses' ,require:false,
 						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false,
-										include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]}]
+										include: [ 	{model: db.SemesterClassRoom, as: 'SemesterClassRoom',require:false,
+												include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]}]}]
 						}]
   }).success(function(semester) {
 			res.render('grid/classrooms', {

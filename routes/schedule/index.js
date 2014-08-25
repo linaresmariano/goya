@@ -7,19 +7,19 @@ exports.assignedTeacher = function(req, res) {
  	
 	var idTeacher= req.body.idTeacher;
     var idCourseSchedule = req.body.idCourseSchedule;
-  db.CourseSchedule.find(idCourseSchedule).success(function(schedule) {
-
-		db.Teacher.find(idTeacher).success(function(teacher) {
-			schedule.addTeacher(teacher);
-			res.send('ok')
-		})
+  	var year = req.body.year;
+    var semester = req.body.semester;
+	db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
+		courseSchedule.assignedTeacher(db,idTeacher,semester,year,function(){
+			res.send('ok');
+		});
   })
 }
 
 exports.deallocateClassroom = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
 	  db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		courseSchedule.setClassRoom(undefined);
+		courseSchedule.setSemesterClassRoom(undefined);
 		res.send('ok')
 	  })
 
@@ -27,26 +27,30 @@ exports.deallocateClassroom = function(req, res){
 
 exports.deallocateSchedule = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
-	  db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		courseSchedule.updateAttributes({
-				hour: -1
-			}).success(function() {
-				res.send('ok')
-			})
-	  })
-
+	db.CourseSchedule.deallocate(idCourseSchedule,function(){
+		res.send('ok');
+	});
 };
 
 
 exports.deallocateTeacher = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
 	var idTeacher= req.body.idTeacher;
-	  db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		 db.Teacher.find(idTeacher).success(function(teacher) {
-			courseSchedule.removeTeacher(teacher);
-			res.send('ok')
-		 });
-		
+							
+	db.CourseSchedule.find({
+		where:{id:idCourseSchedule},
+		include: [ {model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
+												include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]
+	}).success(function(courseSchedule) {				
+		for(n=0;n < courseSchedule.semesterTeachers.length;n++){
+			console.log(courseSchedule.semesterTeachers[n]);	
+			if(courseSchedule.semesterTeachers[n].teacher.id == idTeacher){
+				courseSchedule.removeSemesterTeacher(courseSchedule.semesterTeachers[n]);
+				
+				break;
+			}
+		}
+		res.send('ok')
 	  })
 };
 

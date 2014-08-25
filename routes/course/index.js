@@ -25,7 +25,6 @@ exports.create = function(req, res) {
 	if(typeof req.body.day === "string"){
 	
 		db.Semester.find({
-			include: [ {	model: db.Teacher, as: 'Teachers' ,require:false}],
 			where:{ 'year': year,'semester':semester}
 		}).success(function(semester1) {
 			var schedule = db.CourseSchedule.build({
@@ -52,7 +51,6 @@ exports.create = function(req, res) {
 	
 	
 		db.Semester.find({
-			include: [ {	model: db.Teacher, as: 'Teachers' ,require:false}],
 			where:{ 'year': year,'semester':semester}
 		}).success(function(semester) {
 			db.Course.create({
@@ -104,12 +102,19 @@ exports.deallocateTeacher = function(req, res){
 	var idCourse = req.body.idCourse;
 	var idTeacher= req.body.idTeacher;
 	
-	  db.Course.find(idCourse).success(function(course) {
-		 db.Teacher.find(idTeacher).success(function(teacher) {
-			course.removeCourseTeacher(teacher);
-			res.send('ok')
-		 });
-		
+	 db.Course.find({
+		where:{id:idCourse},
+		include: [ {model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
+												include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]
+	}).success(function(course) {				
+		for(n=0;n < course.semesterTeachers.length;n++){
+			console.log(course.semesterTeachers[n]);	
+			if(course.semesterTeachers[n].teacher.id == idTeacher){
+				course.removeSemesterTeacher(course.semesterTeachers[n]);
+				break;
+			}
+		}
+		res.send('ok')
 	  })
 };
 
@@ -117,12 +122,18 @@ exports.deallocateInstructor = function(req, res){
 	var idCourse = req.body.idCourse;
 	var idTeacher= req.body.idTeacher;
 	
-	  db.Course.find(idCourse).success(function(course) {
-		 db.Teacher.find(idTeacher).success(function(teacher) {
-			course.removeCourseInstructor(teacher);
-			res.send('ok')
-		 });
-		
+	db.Course.find({
+		where:{id:idCourse},
+		include: [ {model: db.SemesterTeacher, as: 'SemesterInstructors',require:false,
+												include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]
+	}).success(function(course) {				
+		for(n=0;n < course.semesterInstructors.length;n++){	
+			if(course.semesterInstructors[n].teacher.id == idTeacher){
+				course.removeSemesterInstructor(course.semesterInstructors[n]);
+				break;
+			}
+		}
+		res.send('ok')
 	  })
 };
 
@@ -218,12 +229,50 @@ exports.assignedClassRoom = function(req, res) {
  	
 	var idClassRoom = req.body.idClassRoom;
     var idCourseSchedule = req.body.idCourseSchedule;
+	var year = req.body.year;
+    var semester = req.body.semester;
   db.CourseSchedule.find(idCourseSchedule).success(function(schedule) {
 
-		db.ClassRoom.find(idClassRoom).success(function(classRoom) {
-			schedule.setClassRoom(classRoom);
-			res.send('ok')
+		db.SemesterClassRoom.find({
+			where: {'ClassRoom.id':idClassRoom,'Semester.year':year,'Semester.semester':semester},
+			include: [ {	model: db.ClassRoom, as: 'ClassRoom' ,require:false },
+					{	model: db.Semester, as: 'Semester' ,require:false }]
+			}
+		).success(function(semesterClassRoom) {
+		
+			if(semesterClassRoom == undefined){
+				
+				db.ClassRoom.find(idClassRoom).success(function(classroom) {
+					var newSemesterClassRoom= db.SemesterClassRoom.create({
+						name: classroom.name,
+						number: classroom.number,
+						description: classroom.description,
+						capacity: classroom.capacity,
+						numberOfComputers: classroom.numberOfComputers,
+						hasProyector: classroom.hasProyector
+					}).success(function(newSemesterClassRoom) {
+										newSemesterClassRoom.setClassRoom(classroom);
+										schedule.setSemesterClassRoom(newSemesterClassRoom);	
+										db.Semester.find({where: {'year':year,'semester':semester}}).success(function(semester) {
+											console.log(year+"    "+semester);
+											semester.addSemesterClassRoom(newSemesterClassRoom);
+											res.send('ok')
+										});
+																				
+								});
+				
+				})
+				console.log('la clase es nula');
+			}else{
+				console.log('la clase no es nula');
+				schedule.setSemesterClassRoom(semesterClassRoom);
+				res.send('ok');
+			}
+			
+			
 		})
+  
+
   })
 }
 
@@ -233,12 +282,43 @@ exports.assignedTeacher = function(req, res) {
  	
 	var idTeacher= req.body.idTeacher;
     var idCourse = req.body.idCourse;
+ 	var year = req.body.year;
+    var semester = req.body.semester;
   db.Course.find(idCourse).success(function(course) {
 
-		db.Teacher.find(idTeacher).success(function(teacher) {
-			course.addCourseTeacher(teacher);
-			res.send('ok')
+		db.SemesterTeacher.find({
+			where: {'Teacher.id':idTeacher,'Semester.year':year,'Semester.semester':semester},
+			include: [ {	model: db.Teacher, as: 'Teacher' ,require:false },
+					{	model: db.Semester, as: 'Semester' ,require:false }]
+			}
+		).success(function(semesterTeacher) {
+		
+			if(semesterTeacher == undefined){
+				
+				db.Teacher.find(idTeacher).success(function(teacher) {
+					var newSemesterTeacher= db.SemesterTeacher.create({
+					}).success(function(newSemesterTeacher) {
+										newSemesterTeacher.setTeacher(teacher);
+										course.addSemesterTeacher(newSemesterTeacher);	
+										db.Semester.find({where: {'year':year,'semester':semester}}).success(function(semester) {
+											semester.addSemesterTeacher(newSemesterTeacher);
+											res.send('ok')
+										});
+																				
+								});
+				
+				})
+				console.log('el profesor es nulo');
+			}else{
+				console.log('el profesor no es nulo');
+				course.addSemesterTeacher(semesterTeacher);	
+				res.send('ok');
+			}
+			
+			
 		})
+  
+
   })
 }
 
@@ -247,12 +327,42 @@ exports.assignedInstructor = function(req, res) {
  	
 	var idTeacher= req.body.idTeacher;
     var idCourse = req.body.idCourse;
+	var year = req.body.year;
+    var semester = req.body.semester;
   db.Course.find(idCourse).success(function(course) {
-
-		db.Teacher.find(idTeacher).success(function(teacher) {
-			course.addCourseInstructor(teacher);
-			res.send('ok')
+		db.SemesterTeacher.find({
+			where: {'Teacher.id':idTeacher,'Semester.year':year,'Semester.semester':semester},
+			include: [ {	model: db.Teacher, as: 'Teacher' ,require:false },
+					{	model: db.Semester, as: 'Semester' ,require:false }]
+			}
+		).success(function(semesterTeacher) {
+			
+			if(semesterTeacher == undefined){
+				
+				db.Teacher.find(idTeacher).success(function(teacher) {
+					var newSemesterTeacher= db.SemesterTeacher.create({
+					}).success(function(newSemesterTeacher) {
+										newSemesterTeacher.setTeacher(teacher);
+										course.addSemesterInstructor(newSemesterTeacher);	
+										db.Semester.find({where: {'year':year,'semester':semester}}).success(function(semester) {
+											semester.addSemesterTeacher(newSemesterTeacher);
+											res.send('ok')
+										});
+																				
+								});
+				
+				})
+				console.log('el profesor es nulo**********************************************');
+			}else{
+				console.log('el profesor no es nulo******************************************');
+				course.addSemesterInstructor(semesterTeacher);	
+				res.send('ok');
+			}
+			
+			
 		})
+  
+
   })
 }
 

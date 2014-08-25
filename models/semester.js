@@ -2,14 +2,17 @@
 module.exports = function(sequelize, DataTypes) {
 
   var Semester = sequelize.define('Semester', {
-    	semester: DataTypes.INTEGER,
-    	year: DataTypes.INTEGER
+    	semester: {type:DataTypes.INTEGER ,  validate: {isIn: {
+																  args: [[1, 2]],
+																  msg: "Solo puede haber semestres 1 y 2"
+															}}},
+    	year: {type:DataTypes.INTEGER ,  validate: {min:1900}}
     }, {
       classMethods: {
         associate: function(models) {
           Semester.hasMany(models.Course,{ as: 'Courses'});
-		  Semester.hasMany(models.Teacher,{ as: 'Teachers'});
-		  Semester.hasMany(models.ClassRoom,{ as: 'ClassRooms'});
+		  Semester.hasMany(models.SemesterClassRoom,{ as: 'SemesterClassRooms'});
+		  Semester.hasMany(models.SemesterTeacher,{ as: 'SemesterTeachers'});
         }
       }
     }, {
@@ -23,3 +26,4 @@ module.exports = function(sequelize, DataTypes) {
 
   return Semester;
 }
+
