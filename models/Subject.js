@@ -2,6 +2,13 @@
 module.exports = function(sequelize, DataTypes) {
 
   var Subject = sequelize.define('Subject', {
+    area: DataTypes.STRING,
+    core: DataTypes.STRING,
+    period: DataTypes.STRING,
+    modality: DataTypes.STRING,
+    ocode: DataTypes.STRING,
+    credits: DataTypes.INTEGER,
+    capacity: {type:DataTypes.INTEGER ,  validate: {min:0}},
     code: DataTypes.STRING,	
     name: {type:DataTypes.STRING ,  validate: {len: {
 														args: [4, 100],

@@ -22,27 +22,13 @@ var semester3 = db.Semester.build({
 								});
 //Courses							
 var courseEPERS = db.Course.build({
-									area: 'Programación',
-									core: 'Avanzado Obligatorio',
-									period: 'Cuatrimestral',
-									modality: 'Presencial',
-									code: '01044',
-									credits: 12,
 									commission: 1,
 									enrolled: 25,
-									capacity: 25,
 									color: 'red'
 								});
 								
 var courseORGA = db.Course.build({
-									area: 'Sistemas Informáticos',
-									core: 'Básico Obligatorio',
-									period: 'Cuatrimestral',
-									modality: 'Presencial con campus virtual**',
-									code: '01032',
-									credits: 12,
 									enrolled: 30,
-									capacity: 35,
 									commission: 1,
 									color: 'green'
 								});
@@ -131,11 +117,25 @@ var classRoom45= db.ClassRoom.build({
 //Subject
 
 var subjectEPERS= db.Subject.build({
+						area: 'Programación',
+						core: 'Avanzado Obligatorio',
+						period: 'Cuatrimestral',
+						modality: 'Presencial',
+						ocode: '01044',
+						credits: 12,
+						capacity: 25,
 						code: 'EPERS',
 						name: 'Estrategias de persistencia'
 					});
 					
 var subjectORGA= db.Subject.build({
+						area: 'Sistemas Informáticos',
+						core: 'Básico Obligatorio',
+						period: 'Cuatrimestral',
+						modality: 'Presencial con campus virtual**',
+						ocode: '01032',
+						credits: 12,
+						capacity: 35,
 						code: 'ORGA',
 						name: 'Organizacion de las computadoras'
 					});

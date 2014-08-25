@@ -2,14 +2,7 @@
 module.exports = function(sequelize, DataTypes) {
 
   var Course = sequelize.define('Course', {
-    area: DataTypes.STRING,
-    core: DataTypes.STRING,
-    period: DataTypes.STRING,
-    modality: DataTypes.STRING,
-    code: DataTypes.STRING,
-    credits: DataTypes.INTEGER,
     enrolled: DataTypes.INTEGER,
-    capacity: {type:DataTypes.INTEGER ,  validate: {min:0}},
     commission: {type:DataTypes.INTEGER ,  validate: {min:0}},
     color: DataTypes.STRING
     }, {

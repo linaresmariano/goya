@@ -79,18 +79,18 @@ block content
             td No
 
           tr(ng-repeat='course in courses')
-            td(contenteditable="true") {{course.area || '-'}}
-            td(contenteditable="true") {{course.core || '-'}}
-            td(contenteditable="true") {{course.period || '-'}}
-            td(contenteditable="true") {{course.modality || '-'}}
-            td(contenteditable="true") {{course.code || '-'}}
+            td(contenteditable="true") {{course.subject.area || '-'}}
+            td(contenteditable="true") {{course.subject.core || '-'}}
+            td(contenteditable="true") {{course.subject.period || '-'}}
+            td(contenteditable="true") {{course.subject.modality || '-'}}
+            td(contenteditable="true") {{course.subject.ocode || '-'}}
             td(contenteditable="true") {{course.subject.name}}
-            td(contenteditable="true") {{course.credits || '-'}}
+            td(contenteditable="true") {{course.subject.credits || '-'}}
             td(contenteditable="true")
               div(ng-repeat='schedule in course.schedules')
                 {{scheduleView(schedule)}}
             td(contenteditable="true") {{course.semesterTeachers[0].name || '-'}}
-            td(contenteditable="true") {{course.capacity || '-'}}
+            td(contenteditable="true") {{course.subject.capacity || '-'}}
             td(contenteditable="true") P
             td(contenteditable="true") No
 
