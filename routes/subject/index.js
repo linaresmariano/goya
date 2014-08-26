@@ -18,7 +18,10 @@ exports.create = function(req, res) {
     area: req.body.area,
     core: req.body.core,
     period: req.body.period,
-    modality: req.body.modality
+    modality: req.body.modality,
+    ocode: req.body.ocode,
+    credits: req.body.credits,
+    capacity: req.body.capacity
 
   }).success(function(course) {
 
