@@ -11,25 +11,20 @@ exports.new = function(req, res) {
 
 exports.create = function(req, res) {
 
-	var code = req.body.code;
-	var name = req.body.name;
-  var area = req.body.area;
-  var core = req.body.core;
-  var period = req.body.period;
-  var modality = req.body.modality;
-	
-	db.Subject.create({
-				code: code,
-				name: name,
-        area: area,
-        core: core,
-        period: period,
-        modality: modality
-			}).success(function(course) {
-					res.render('subject/new', {
-					  title: 'Crear Materia'
-					})
-			})
+  db.Subject.create({
+
+    code: req.body.code,
+    name: req.body.name,
+    area: req.body.area,
+    core: req.body.core,
+    period: req.body.period,
+    modality: req.body.modality
+
+  }).success(function(course) {
+
+    res.redirect('subject/list')
+    
+  })
 
 }
 
