@@ -1,0 +1,62 @@
+extends ../layout
+
+block content
+
+  script.
+    
+    app.controller('createCourseCtrl', function ($scope,localStorageService) {
+
+      $scope.areas = [
+        {id:0, name:'Programación'},
+        {id:1, name:'Sistemas Informáticos'},
+        {id:2, name:'Matemática Básica'},
+        {id:3, name:'Matemática Superior'},
+        {id:4, name:'Idioma'}
+      ]
+      
+    })
+
+  .container
+    form(action="../subject/create",method="post")
+      legend Nueva Materia para el semestre {{number}} de {{year}}
+      div.col-md-6
+
+        .form-group
+          label(for='area') Área
+          select(class="form-control", ng-model="area", ng-options="area in areas")
+
+        .form-group
+          label(for='core') Núcleo
+          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+
+        .form-group
+          label(for='pediod') Período
+          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+
+        .form-group
+          label(for='modality') Modalidad
+          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+
+        .form-group
+          label(for='ocode') Código de Asignatura
+          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+
+        .form-group
+          label(for='credits') Créditos
+          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+
+        .form-group
+          label(for='capacity') Capacidad
+          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+
+        .form-group
+          label(for='name') Nombre 
+          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+
+        .form-group
+          label(for='code') Codigo
+          input#code.form-control( placeholder='Codigo',name='code',required,maxlength='12')
+
+        button.btn.btn-success(type="submit") Crear
+
+

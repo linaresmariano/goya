@@ -2,14 +2,16 @@ extends ../layout
 
 block content
 	script.
-		function subjects($scope){
-			
+
+		app.controller('listSubjectCtrl', function ($scope,localStorageService){
+
 			$scope.subjects=!{JSON.stringify(subjects)};
 			
-		}
+		})
+	
 	.container
 		legend Seleccione una materia
-		div( ng-controller="subjects")
+		div(ng-controller="listSubjectCtrl")
 			div(ng-repeat='subject in subjects')
 				div
 					a.list-group-item {{subject.name}} 
