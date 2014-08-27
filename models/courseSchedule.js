@@ -1,6 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-
-  return sequelize.define('CourseSchedule', {
+  var CourseSchedule=sequelize.define('CourseSchedule', {
     type: DataTypes.STRING,
   	day: {type:DataTypes.INTEGER ,  validate: {min:-1,max:6}},
   	hour: {type:DataTypes.INTEGER ,  validate: {min:-1,max:22}},
@@ -23,42 +22,37 @@ module.exports = function(sequelize, DataTypes) {
 		}
       },
 	  instanceMethods:{
-		assignedTeacher:function(db,idTeacher,semester,year,succes){
+		assignedTeacher:function(idTeacher,semester,success){
+			//import models
+			var SemesterTeacher=CourseSchedule.models.SemesterTeacher;
+			//para no perder la referencia en los callbacks
 			var schedule=this;
-			db.SemesterTeacher.find({
-			where: {'Teacher.id':idTeacher,'Semester.year':year,'Semester.semester':semester},
-			include: [ {	model: db.Teacher, as: 'Teacher' ,require:false },
-					{	model: db.Semester, as: 'Semester' ,require:false }]
-			}
-			).success(function(semesterTeacher) {
-		
+			//obteniendo el SemesterTeacher  del semestre dado	
+			SemesterTeacher.getSemesterTeacherFor(idTeacher,semester)
+			.success(function(semesterTeacher){
+				schedule.checkAndAssignTeacher(semesterTeacher,idTeacher,semester,success);
+			});
+		},
+		checkAndAssignTeacher:function(semesterTeacher,idTeacher,semester,success) {
+				var Teacher=CourseSchedule.models.Teacher;
+				
+				//para no perder la referencia en los callbacks
+				var schedule=this;
+				
+				//Si no existe el semesterTeacher lo crea y lo asigna
 				if(semesterTeacher == undefined){
-					
-					db.Teacher.find(idTeacher).success(function(teacher) {
-						var newSemesterTeacher= db.SemesterTeacher.create({
-						}).success(function(newSemesterTeacher) {
-											newSemesterTeacher.setTeacher(teacher);
+					Teacher.newSemesterTeacher(idTeacher,function(newSemesterTeacher) {
 											schedule.addSemesterTeacher(newSemesterTeacher);	
-											db.Semester.find({where: {'year':year,'semester':semester}}).success(function(semester) {
-												semester.addSemesterTeacher(newSemesterTeacher);
-												succes();
-											});
-																					
+											semester.addSemesterTeacher(newSemesterTeacher);
+											success(undefined);											
 									});
-					
-					})
-					console.log('el profesor es nulo');
 				}else{
-					console.log('el profesor no es nulo');
-					schedule.addSemesterTeacher(semesterTeacher);	
-					succes();
-
+					//Si el semesterTeacher existe,simplemente lo asigna
+					this.addSemesterTeacher(semesterTeacher);	
+					success(undefined);
 				}
-			
-			
-			})
 		}
 	  }
   })
-
+	return CourseSchedule;
 }

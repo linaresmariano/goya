@@ -258,9 +258,12 @@ function CalendarCtrl($scope, $http, $q){
 															method:'put',
 															data: { idTeacher:$scope.courseTeacher.teacher.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester}
 													}).success(function(data) {
-														
-														event.schedule.semesterTeachers.push($scope.courseTeacher.teacher);
-														deferred.resolve(event);
+														if(data.success){
+															event.schedule.semesterTeachers.push($scope.courseTeacher.teacher);
+															deferred.resolve(event);
+														}else{
+															alert(data.type +' - '+data.message);
+														}
 
 													}).error(function(err){
 														alert("Error al asignar un profesor a un horario");

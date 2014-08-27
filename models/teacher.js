@@ -6,8 +6,21 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-		this.hasMany(models.Teacher, { as: 'Teachers'});
-      }
+		this.hasMany(models.SemesterTeacher, { as: 'SemesterTeachers'});
+      },
+	  //crea un nuevo SemesterTeacher a partir del teacher de id 'idTeacher'
+	  newSemesterTeacher:function(idTeacher,success){
+		var SemesterTeacher=Teacher.models.SemesterTeacher;
+	  
+		Teacher.find(idTeacher).success(function(teacher) {
+						SemesterTeacher.create({
+						}).success(function(newSemesterTeacher){
+							newSemesterTeacher.setTeacher(teacher);
+							success(newSemesterTeacher);
+						});
+
+				});
+		}
     }
   })
 

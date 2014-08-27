@@ -81,5 +81,12 @@ html(ng-app="APP")
 							a(href='#contact') Contact
 					.pull-right 
 						div(style="margin:15px;margin-right:32px;color:white") Bienvenido al semestre {{number}} del {{year}}
-
+		if feedbackpanel != undefined				
+			.container
+				.alert.alert-success.alert-dismissible(role='alert')
+					button.close(type='button', data-dismiss='alert')
+						span(aria-hidden='true') ×
+						span.sr-only Close
+					strong  
+						div !{feedbackpanel.msj}
 		block content

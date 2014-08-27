@@ -4,16 +4,24 @@ var datos = require('../../extras/datos'),
 	
 exports.assignedTeacher = function(req, res) {
 
- 	
 	var idTeacher= req.body.idTeacher;
     var idCourseSchedule = req.body.idCourseSchedule;
   	var year = req.body.year;
     var semester = req.body.semester;
-	db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		courseSchedule.assignedTeacher(db,idTeacher,semester,year,function(){
-			res.send('ok');
-		});
-  })
+	//Asigna un teacher a un horario de un curso para un semestre
+	db.Semester.teacherAssignedToASchedule(idTeacher,idCourseSchedule,semester,year,function(result) {
+			//La idea de este chequeo es mostrar mensajes de error o otro tipo de mensajes
+			if(result == undefined){
+				res.json({success:true}); // para probar {succes:false,type:'Error Fatal',message:'Un Ejemplo de error'}
+			}else{
+				if(result.success){
+					res.json({success:true,message:result.message});
+				}else{
+					res.json({success:false,type:result.type,message:result.message});
+				}
+			}
+			
+	});
 }
 
 exports.deallocateClassroom = function(req, res){
