@@ -2,8 +2,6 @@ extends ../layout
 
 block content
 
-  script(src='/js/angular/controllers.js')
-
   .container(ng-controller='newSubjectCtrl')
     form(action="../subject/create",method="post")
       legend Nueva Materia para el semestre {{number}} de {{year}}

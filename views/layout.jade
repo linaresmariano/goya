@@ -11,28 +11,8 @@ html(ng-app="APP")
 		script(src='/js/angular/angular-local-storage.min.js')
 		script(src='/js/fullcalendar/calendar.js')
 		script(src='http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js')
-		script.
-			var app =angular.module('APP', ['LocalStorageModule','ui.calendar', 'ui.bootstrap']);
+		script(src='/js/angular/controllers.js')
 
-			app.controller('WebController', function ($scope,localStorageService,$http) {
-				if(localStorageService.get('year') == undefined && localStorageService.get('number') == undefined ){
-					$http({
-							url:"/lastSemester",
-							method:'get',
-							data: {}
-					}).success(function(data) {
-						$scope.year=data.semester.year;
-						$scope.number=data.semester.number;
-						localStorageService.set('year',$scope.year);
-						localStorageService.set('number',$scope.number);
-					}).error(function(err){
-						alert('Error al conectar con el servidor.');
-					});
-				}else{
-					$scope.year=localStorageService.get('year');
-					$scope.number=localStorageService.get('number');
-				}
-			});
 	body(ng-controller='WebController')
 		.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
 				.navbar-header
