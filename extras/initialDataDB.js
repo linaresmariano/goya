@@ -117,10 +117,10 @@ var classRoom45= db.ClassRoom.build({
 //Subject
 
 var subjectEPERS= db.Subject.build({
-						area: 'Programación',
-						core: 'Avanzado Obligatorio',
+						area: 0,
+						core: 1,
 						period: 'Cuatrimestral',
-						modality: 'Presencial',
+						modality: 0,
 						ocode: '01044',
 						credits: 12,
 						capacity: 25,
@@ -129,10 +129,10 @@ var subjectEPERS= db.Subject.build({
 					});
 					
 var subjectORGA= db.Subject.build({
-						area: 'Sistemas Informáticos',
-						core: 'Básico Obligatorio',
+						area: 1,
+						core: 0,
 						period: 'Cuatrimestral',
-						modality: 'Presencial con campus virtual**',
+						modality: 1,
 						ocode: '01032',
 						credits: 12,
 						capacity: 35,
