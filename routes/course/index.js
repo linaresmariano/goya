@@ -26,7 +26,7 @@ exports.create = function(req, res) {
 	
 		db.Semester.find({
 			where:{ 'year': year,'semester':semester}
-		}).success(function(semester1) {
+		}).success(function(semester) {
 			var schedule = db.CourseSchedule.build({
 										type: 'Teorica/Practica',
 										day: req.body.day,
@@ -37,15 +37,28 @@ exports.create = function(req, res) {
 									console.log('Es unico horario');
 									db.Course.create({
 										SubjectId: idSubject,
-										SemesterId: semester1.id,
+										SemesterId: semester.id,
 										enrolled: 45,
-                    nick: req.body.nick,
+										nick: req.body.nick,
 										commission: req.body.commission,
 										color: 'blue' // color default
 									}).success(function(course) {
-											course.addSchedule(schedule);
-											showFeedbackPanel(res,'Courso creado correctamente',typeMessage.SUCCESS);
-											exports.new(req, res);	
+										schedule.save().success(function(schedule) {
+											var patchSchedule = db.PatchSchedule.build({
+												day: req.body.day,
+												hour: req.body.hour,
+												minutes: 0,
+												duration: req.body.duration,
+
+											}).save().success(function(patchSchedule) {
+												schedule.setPatch(patchSchedule);
+												course.addSchedule(schedule);
+												showFeedbackPanel(res,'Courso creado correctamente',typeMessage.SUCCESS);
+												exports.new(req, res);
+											});
+											
+										})
+												
 									});
 		});
 	//si hay varios horarios y sin horario
@@ -57,22 +70,47 @@ exports.create = function(req, res) {
 		}).success(function(semester) {
 			db.Course.create({
 										SubjectId: idSubject,
+										SemesterId: semester.id,
 										enrolled: 45,
-										commission: 1,
+										nick: req.body.nick,
+										commission: req.body.commission,
 										color: 'blue' // color default
 			}).success(function(course) {
 					semester.addCourse(course);
 					//Si no hay horarios para el curso
 					if(req.body.day != undefined){
-						for(i=0;i < req.body.day.length;i++){
-							var schedule = db.CourseSchedule.build({
-													type: 'Teorica/Practica',
-													day: req.body.day[i] ,
+						for(var i=0;i < req.body.day.length;i++){
+							
+							
+							saveSchedule=function(index){
+								var schedule = db.CourseSchedule.build({
+														type: 'Teorica/Practica',
+														day: req.body.day[i] ,
+														hour: req.body.hour[i] ,
+														minutes: 0,
+														duration: req.body.duration[i] 
+													});
+								var patchSchedule = db.PatchSchedule.build({
+													day:  req.body.day[i],
 													hour: req.body.hour[i] ,
 													minutes: 0,
 													duration: req.body.duration[i] 
+
+												})
+								
+								schedule.save().success(function(schedule) {
+
+												patchSchedule.save().success(function(patchSchedule) {
+													console.log(index+" ********************************** ");
+													schedule.setPatch(patchSchedule);
+													course.addSchedule(schedule);
+													
 												});
-							course.addSchedule(schedule);
+												
+											})
+							};
+							
+							saveSchedule(i);
 											
 						}
 					}
@@ -142,35 +180,29 @@ exports.list = function(req, res){
 
 
 exports.update = function(req, res) {
-  db.CourseSchedule.find(req.body.id).success(function(schedule) {
 
-    schedule.updateAttributes({
-      day: req.body.day,
-      hour: req.body.hour
-    }, ['day', 'hour'])
-      .success(function() {
-        res.send('ok')
-      })
-      .error(function(err) {
-        res.send('error')
-      })
+
+  db.CourseSchedule.find({where:{id:req.body.id},
+						include: [ 	{model: db.PatchSchedule, as: 'Patch',require:false}]}).success(function(schedule) {
+    schedule.patch.updateAttributes({
+		    day: req.body.day,
+			hour: req.body.hour
+		}).success(function() {	
+			res.send('ok')
+		})
   })
 
 }
 
 exports.updateEnd = function(req, res) {
   //Actualiza el horario con el id correspondiente
-  console.log(req.body.duration+"********************************");
-  db.CourseSchedule.find(req.body.id).success(function(schedule) {
-    schedule.updateAttributes({
-      duration: req.body.duration
-    }, ['duration'])
-      .success(function() {
-        res.send('ok')
-      })
-      .error(function(err) {
-        res.send('error')
-      })
+  db.CourseSchedule.find({where:{id:req.body.id},
+						include: [ 	{model: db.PatchSchedule, as: 'Patch',require:false}]}).success(function(schedule) {
+    schedule.patch.updateAttributes({
+		duration: req.body.duration
+		}).success(function() {	
+			res.send('ok')
+		})
   })
 
 }

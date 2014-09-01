@@ -38,7 +38,53 @@ var courseTVD= db.Course.build({
 									commission: 1,
 									color: 'yellow'
 								});
-						
+	
+//patches schedules
+var patchSchedule1 = db.PatchSchedule.build({
+									day: 5,
+									hour: 9,
+									minutes: 0,
+									duration: 6
+								});
+								
+//patches schedules
+var patchSchedule2 = db.PatchSchedule.build({
+									day: -1,
+									hour: -1,
+									minutes: 0,
+									duration: 3
+								});
+								
+var patchSchedule3 = db.PatchSchedule.build({
+									day: 1,
+									hour: 10,
+									minutes: 0,
+									duration: 3
+								});
+								
+								
+var patchSchedule4 = db.PatchSchedule.build({
+									day: 2,
+									hour: 17,
+									minutes: 0,
+									duration: 3
+								});
+								
+var patchSchedule5 = db.PatchSchedule.build({
+									day: -1,
+									hour: -1,
+									minutes: 0,
+									duration: 2
+								});
+								
+var patchSchedule6 = db.PatchSchedule.build({
+									day: -1,
+									hour: -1,
+									minutes: 0,
+									duration: 2
+								});
+
+	
 //Schedules								
 var courseSchedule1 = db.CourseSchedule.build({
 									type: 'Teorica/Practica',
@@ -200,6 +246,14 @@ chainer.add(courseSchedule4.save());
 chainer.add(courseSchedule5.save());
 chainer.add(courseSchedule6.save());
 
+//save patchSechedules
+chainer.add(patchSchedule1.save());
+chainer.add(patchSchedule2.save());
+chainer.add(patchSchedule3.save());
+chainer.add(patchSchedule4.save());
+chainer.add(patchSchedule5.save());
+chainer.add(patchSchedule6.save());
+
 //save class rooms
 chainer.add(classRoom37B.save());
 chainer.add(classRoom60.save());
@@ -227,6 +281,13 @@ chainer.run().complete( function(err, result) {
 		
 		//courseEPERS.setCourseTeacher([teacherPABLOT]);
 		//courseEPERS.setCourseInstructor([teacherRONY]);
+		
+		courseSchedule1.setPatch(patchSchedule1);
+		courseSchedule2.setPatch(patchSchedule2);
+		courseSchedule3.setPatch(patchSchedule3);
+		courseSchedule4.setPatch(patchSchedule4);
+		courseSchedule5.setPatch(patchSchedule5);
+		courseSchedule6.setPatch(patchSchedule6);
 		
 		courseEPERS.setSchedules([courseSchedule1]);
 		courseORGA.setSchedules([courseSchedule2,courseSchedule3,courseSchedule4]);

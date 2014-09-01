@@ -10,6 +10,7 @@ module.exports = function(sequelize, DataTypes) {
         associate: function(models) {
           this.hasMany(models.SemesterTeacher, { as: 'SemesterTeachers',through:'schedule_has_teachers'});
 		  this.belongsTo(models.SemesterClassRoom, { as: 'SemesterClassRoom'});
+		  this.belongsTo(models.PatchSchedule, { as: 'Patch'});
         },
 		deallocate:function(id,succes){
 				this.find(id).success(function(courseSchedule) {
