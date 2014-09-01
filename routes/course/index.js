@@ -32,7 +32,8 @@ exports.create = function(req, res) {
 										day: req.body.day,
 										hour: req.body.hour,
 										minutes: 0,
-										duration: req.body.duration 
+										durationHour: req.body.duration ,
+										durationMinutes:0
 									});
 									console.log('Es unico horario');
 									db.Course.create({
@@ -45,10 +46,10 @@ exports.create = function(req, res) {
 									}).success(function(course) {
 										schedule.save().success(function(schedule) {
 											var patchSchedule = db.PatchSchedule.build({
-												day: req.body.day,
-												hour: req.body.hour,
-												minutes: 0,
-												duration: req.body.duration,
+													extraHour: 0,
+													extraMinutes: 0,
+													extraDurationHour: 0,
+													extraDurationMinutes: 0
 
 											}).save().success(function(patchSchedule) {
 												schedule.setPatch(patchSchedule);
@@ -88,13 +89,14 @@ exports.create = function(req, res) {
 														day: req.body.day[i] ,
 														hour: req.body.hour[i] ,
 														minutes: 0,
-														duration: req.body.duration[i] 
+														durationHour: req.body.duration[i] ,
+														durationMinutes:0
 													});
 								var patchSchedule = db.PatchSchedule.build({
-													day:  req.body.day[i],
-													hour: req.body.hour[i] ,
-													minutes: 0,
-													duration: req.body.duration[i] 
+													extraHour: 0,
+													extraMinutes: 0,
+													extraDurationHour: 0,
+													extraDurationMinutes: 0
 
 												})
 								
@@ -182,11 +184,11 @@ exports.list = function(req, res){
 exports.update = function(req, res) {
 
 
-  db.CourseSchedule.find({where:{id:req.body.id},
-						include: [ 	{model: db.PatchSchedule, as: 'Patch',require:false}]}).success(function(schedule) {
-    schedule.patch.updateAttributes({
+  db.CourseSchedule.find(req.body.id).success(function(schedule) {
+    schedule.updateAttributes({
 		    day: req.body.day,
-			hour: req.body.hour
+			hour: req.body.hour,
+			minutes:req.body.minutes,
 		}).success(function() {	
 			res.send('ok')
 		})
@@ -196,10 +198,10 @@ exports.update = function(req, res) {
 
 exports.updateEnd = function(req, res) {
   //Actualiza el horario con el id correspondiente
-  db.CourseSchedule.find({where:{id:req.body.id},
-						include: [ 	{model: db.PatchSchedule, as: 'Patch',require:false}]}).success(function(schedule) {
-    schedule.patch.updateAttributes({
-		duration: req.body.duration
+  db.CourseSchedule.find(req.body.id).success(function(schedule) {
+    schedule.updateAttributes({
+		durationHour: req.body.durationHour,
+		durationMinutes: req.body.durationMinutes,
 		}).success(function() {	
 			res.send('ok')
 		})

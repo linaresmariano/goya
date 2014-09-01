@@ -41,47 +41,47 @@ var courseTVD= db.Course.build({
 	
 //patches schedules
 var patchSchedule1 = db.PatchSchedule.build({
-									day: 5,
-									hour: 9,
-									minutes: 0,
-									duration: 6
+									extraHour: 0,
+									extraMinutes: 0,
+									extraDurationHour: 0,
+									extraDurationMinutes: 0
 								});
 								
 //patches schedules
 var patchSchedule2 = db.PatchSchedule.build({
-									day: -1,
-									hour: -1,
-									minutes: 0,
-									duration: 3
+									extraHour: 0,
+									extraMinutes: 0,
+									extraDurationHour: 0,
+									extraDurationMinutes: 0
 								});
 								
-var patchSchedule3 = db.PatchSchedule.build({
-									day: 1,
-									hour: 10,
-									minutes: 0,
-									duration: 3
+var patchSchedule3 =db.PatchSchedule.build({
+									extraHour: 0,
+									extraMinutes: 0,
+									extraDurationHour: 0,
+									extraDurationMinutes: 0
 								});
 								
 								
-var patchSchedule4 = db.PatchSchedule.build({
-									day: 2,
-									hour: 17,
-									minutes: 0,
-									duration: 3
+var patchSchedule4 =db.PatchSchedule.build({
+									extraHour: 0,
+									extraMinutes: 0,
+									extraDurationHour: 0,
+									extraDurationMinutes: 0
 								});
 								
-var patchSchedule5 = db.PatchSchedule.build({
-									day: -1,
-									hour: -1,
-									minutes: 0,
-									duration: 2
+var patchSchedule5 =db.PatchSchedule.build({
+									extraHour: 0,
+									extraMinutes: 0,
+									extraDurationHour: 0,
+									extraDurationMinutes: 0
 								});
 								
-var patchSchedule6 = db.PatchSchedule.build({
-									day: -1,
-									hour: -1,
-									minutes: 0,
-									duration: 2
+var patchSchedule6 =db.PatchSchedule.build({
+									extraHour: 0,
+									extraMinutes: 0,
+									extraDurationHour: 0,
+									extraDurationMinutes: 0
 								});
 
 	
@@ -91,7 +91,8 @@ var courseSchedule1 = db.CourseSchedule.build({
 									day: 5,
 									hour: 9,
 									minutes: 0,
-									duration: 6
+									durationHour: 6,
+									durationMinutes:0
 								});
 								
 var courseSchedule2 = db.CourseSchedule.build({
@@ -99,7 +100,8 @@ var courseSchedule2 = db.CourseSchedule.build({
 									day: -1,
 									hour: -1,
 									minutes: 0,
-									duration: 3
+									durationHour: 3,
+									durationMinutes:0
 								});
 								
 var courseSchedule3 = db.CourseSchedule.build({
@@ -107,7 +109,8 @@ var courseSchedule3 = db.CourseSchedule.build({
 									day: 1,
 									hour: 10,
 									minutes: 0,
-									duration: 3
+									durationHour: 3,
+									durationMinutes:0
 								});
 								
 var courseSchedule4 = db.CourseSchedule.build({
@@ -115,7 +118,8 @@ var courseSchedule4 = db.CourseSchedule.build({
 									day: 2,
 									hour: 17,
 									minutes: 0,
-									duration: 3
+									durationHour: 3,
+									durationMinutes:0
 								});
 								
 var courseSchedule5 = db.CourseSchedule.build({
@@ -123,7 +127,8 @@ var courseSchedule5 = db.CourseSchedule.build({
 									day: -1,
 									hour: -1,
 									minutes: 0,
-									duration: 2
+									durationHour: 2,
+									durationMinutes:0
 								});
 		
 var courseSchedule6 = db.CourseSchedule.build({
@@ -131,7 +136,8 @@ var courseSchedule6 = db.CourseSchedule.build({
 									day: -1,
 									hour: -1,
 									minutes: 0,
-									duration: 2
+									durationHour: 2,
+									durationMinutes:0
 								});
 
 //Teachers								

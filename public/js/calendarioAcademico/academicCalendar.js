@@ -152,11 +152,13 @@ function CalendarCtrl($scope, $http, $q){
 			  $.ajax({url:"/updateCourse",
 						method:'put',
 						data: {
-							id:event.id, hour:event.start.getHours(), day:event.start.getDay()
+							id:event.id, hour:event.start.getHours(), day:event.start.getDay(),
+							minutes:event.start.getMinutes()
 						},
 						success:function(result){
-                        	event.schedule.patch.day=event.start.getDay();
-							event.schedule.patch.hour=event.start.getHours();
+                        	event.schedule.day=event.start.getDay();
+							event.schedule.hour=event.start.getHours();
+							event.schedule.hour=event.start.getMinutes;
 						},
 						error:function(err){
 							revertFunc();
@@ -179,12 +181,14 @@ function CalendarCtrl($scope, $http, $q){
 					$http({
 							url:"/updateCourse",
 							method:'put',
-							data: { id:copiedEventObject.schedule.id, hour:date.getHours(),day:date.getDay()}
+							data: { id:copiedEventObject.schedule.id, hour:date.getHours(),day:date.getDay(),
+							minutes:date.getMinutes()}
 					}).success(function(data) {
 					
 						//Actualizando el schedule con el nuevo horario
-						copiedEventObject.schedule.patch.day=date.getDay();
-						copiedEventObject.schedule.patch.hour=date.getHours();
+						copiedEventObject.schedule.day=date.getDay();
+						copiedEventObject.schedule.hour=date.getHours();
+						copiedEventObject.schedule.minutes=date.getMinutes();
 						//Agragando el horario a la grilla
 						$scope.addSchedule(copiedEventObject.course,copiedEventObject.schedule);
 						$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
@@ -201,10 +205,12 @@ function CalendarCtrl($scope, $http, $q){
 				method: 'put',
 				data: {
 					id: event.id,
-					duration: Math.abs(event.start.getHours() - event.end.getHours())
+					durationHour: Math.abs(event.start.getHours() - event.end.getHours()),
+					durationMinutes: Math.abs(event.start.getMinutes() - event.end.getMinutes())
 				},
 				success:function(result) {
-	            	event.schedule.patch.duration=Math.abs(event.start.getHours() - event.end.getHours());
+	            	event.schedule.durationHour=Math.abs(event.start.getHours() - event.end.getHours());
+					event.schedule.durationMinutes=Math.abs(event.start.getMinutes() - event.end.getMinutes());
 				},
 				error:function(err) {
 					revertFunc();
@@ -315,8 +321,8 @@ function CalendarCtrl($scope, $http, $q){
 								title: course.subject.nick+ "-C"+course.commission +"\n" +  schedule.type
 									+'\n Aula '+(schedule.semesterClassRoom ? schedule.semesterClassRoom.classRoom.number : '??')
 									+ getNamesTeachers(schedule.semesterTeachers),
-								start: new Date(y, m-1, d+schedule.patch.day, schedule.patch.hour, 0),
-								end: new Date(y, m-1, d+schedule.patch.day, schedule.patch.hour+schedule.patch.duration, 0),
+								start: new Date(y, m-1, d+schedule.day, schedule.hour,schedule.minutes),
+								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.durationHour, schedule.minutes+schedule.durationMinutes),
 								allDay: false,
 								backgroundColor: course.color,
 								borderColor: 'black',
@@ -614,7 +620,7 @@ function CalendarCtrl($scope, $http, $q){
 		maxTime: 22,
 		allDaySlot:false,
 		slotMinutes: 30,
-		snapMinutes:60,
+		snapMinutes:30,
 		dropAccept:".dragg-course",
 		slotEventOverlap:false,
 		dayNames:['Lunes', 'Martes', 'Miercoles', 'Jueves',
@@ -668,7 +674,7 @@ function CalendarCtrl($scope, $http, $q){
 			var horario = curso.schedules[j];
 
 			//Si no esta asignada a un horario o dia			
-			if(horario.patch.day == -1  || horario.patch.hour == -1 ){
+			if(horario.day == -1  || horario.hour == -1 ){
 				$scope.addScheduleNotAssigned(curso,horario);
 			}else{
 				$scope.addSchedule(curso,horario);
