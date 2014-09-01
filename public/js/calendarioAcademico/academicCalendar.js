@@ -158,7 +158,7 @@ function CalendarCtrl($scope, $http, $q){
 						success:function(result){
                         	event.schedule.day=event.start.getDay();
 							event.schedule.hour=event.start.getHours();
-							event.schedule.hour=event.start.getMinutes;
+							event.schedule.minutes=event.start.getMinutes();
 						},
 						error:function(err){
 							revertFunc();
