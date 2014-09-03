@@ -22,8 +22,9 @@ exports.create = function(req, res) {
 							code: code,
 							name: name
 						}).success(function(teacher) {
+									showFeedbackPanel(res,'Profesor creado correctamente',typeMessage.SUCCESS);
 									res.render('teacher/new', {
-										title: 'Crear Profesor'
+										title: 'Crear Profesor',
 									})
 						})
 

@@ -20,7 +20,21 @@ var db = require('./models');
 var bodyParser = require('body-parser');
 
 
+
 var app = express();
+
+app.use(express.cookieParser());
+app.use(express.session({secret: 'w345fawf4qw4sdrse5'}));
+
+//app.use(function(req, res, next) {
+ // res.locals.session = req.session;
+ // next();
+//});
+
+global.showFeedbackPanel = function(res,msj,type){ 
+	res.locals.feedbackpanel={msj:msj,type:type}; 
+}; 
+global.typeMessage = {ERROR:'danger',SUCCESS:'success',WARNING:'warning'}
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -54,11 +68,10 @@ app.get('/lastSemester', routes.lastSemester);
 
 //courses
 app.get('/courses', cursos.index);
-app.get('/course/:id/:commission', cursos.commission);
 app.get('/course/new', cursos.new);
 app.post('/course/create', cursos.create);
-app.put('/updateCourse', cursos.actualizar);
-app.put('/updateEndCourse', cursos.actualizarFin);
+app.put('/updateCourse', cursos.update);
+app.put('/updateEndCourse', cursos.updateEnd);
 app.put('/assignedClassRoom', cursos.assignedClassRoom);
 app.put('/course/assignedTeacher', cursos.assignedTeacher);
 app.put('/course/assignedInstructor', cursos.assignedInstructor);

@@ -34,6 +34,15 @@ module.exports = function(sequelize, DataTypes) {
 					course.assignedTeacher(idTeacher,semester,success);
 				});
 			});
+		},
+		instructorAssignedToACourse:function(idTeacher,idCourse,semester,year,success){
+			var Course=Semester.models.Course;
+			Semester.getSemester(year,semester).success(function(semester){
+				Course.find(idCourse).success(function(course) {
+					//asignando el teacher al curso
+					course.assignedInstructor(idTeacher,semester,success);
+				});
+			});
 		}
 	  }
 	}, {

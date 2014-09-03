@@ -258,7 +258,7 @@ function CalendarCtrl($scope, $http, $q){
 															method:'put',
 															data: { idTeacher:$scope.courseTeacher.teacher.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester}
 													}).success(function(data) {
-														if(data.succes){
+														if(data.success){
 															event.schedule.semesterTeachers.push($scope.courseTeacher.teacher);
 															deferred.resolve(event);
 														}else{

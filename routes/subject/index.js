@@ -24,10 +24,13 @@ exports.create = function(req, res) {
     capacity: req.body.capacity
 
   }).success(function(course) {
-
-    res.redirect('subject/list')
+	showFeedbackPanel(res,'Materia creada correctamente',typeMessage.SUCCESS);
+    exports.new(req, res);	
     
-  })
+  }).error(function(err) {
+        showFeedbackPanel(res,err.name[0],typeMessage.ERROR);
+		exports.new(req, res);	
+   })
 
 }
 

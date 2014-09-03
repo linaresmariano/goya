@@ -12,12 +12,12 @@ exports.assignedTeacher = function(req, res) {
 	db.Semester.teacherAssignedToASchedule(idTeacher,idCourseSchedule,semester,year,function(result) {
 			//La idea de este chequeo es mostrar mensajes de error o otro tipo de mensajes
 			if(result == undefined){
-				res.json({succes:true}); // para probar {succes:false,type:'Error Fatal',message:'Un Ejemplo de error'}
+				res.json({success:true}); // para probar {succes:false,type:'Error Fatal',message:'Un Ejemplo de error'}
 			}else{
 				if(result.success){
-					res.json({succes:true,message:result.message});
+					res.json({success:true,message:result.message});
 				}else{
-					res.json({succes:false,type:result.type,message:result.message});
+					res.json({success:false,type:result.type,message:result.message});
 				}
 			}
 			
@@ -26,8 +26,7 @@ exports.assignedTeacher = function(req, res) {
 
 exports.deallocateClassroom = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
-	  db.CourseSchedule.find(idCourseSchedule).success(function(courseSchedule) {
-		courseSchedule.setSemesterClassRoom(undefined);
+	  db.CourseSchedule.deallocateClassRoom(idCourseSchedule,function() {
 		res.send('ok')
 	  })
 

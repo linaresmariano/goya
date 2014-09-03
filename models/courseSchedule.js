@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
   	day: {type:DataTypes.INTEGER ,  validate: {min:-1,max:6}},
   	hour: {type:DataTypes.INTEGER ,  validate: {min:-1,max:22}},
   	minutes: DataTypes.INTEGER,
-  	duration: {type:DataTypes.INTEGER ,  validate: {min:0,max:6}}
+  	duration: {type:DataTypes.INTEGER }
 	},{
       classMethods: {
         associate: function(models) {
@@ -18,6 +18,12 @@ module.exports = function(sequelize, DataTypes) {
 						}).success(function() {
 							succes();
 						})
+				})
+		},
+		deallocateClassRoom:function(idCourseSchedule,succes){
+				this.find(idCourseSchedule).success(function(courseSchedule) {
+					courseSchedule.setSemesterClassRoom(undefined);
+					succes();
 				})
 		}
       },

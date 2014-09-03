@@ -30,7 +30,7 @@ exports.create = function(req, res) {
 					capacity:capacity,
 					numberOfComputers: numberOfComputers
 		}).success(function(classRoom) {
-						//semester.addsemesterClassroom(semesterClassroom);
+						showFeedbackPanel(res,'Aula creada correctamente',typeMessage.SUCCESS);
 						res.render('classroom/new', {
 						  title: 'Crear Materia'
 						});
