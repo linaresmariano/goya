@@ -29,8 +29,8 @@ exports.create = function(req, res) {
 		}).success(function(semester1) {
 			var schedule = db.CourseSchedule.build({
 										type: 'Teorica/Practica',
-										day: req.body.day ,
-										hour: req.body.hour ,
+										day: req.body.day,
+										hour: req.body.hour,
 										minutes: 0,
 										duration: req.body.duration 
 									});
@@ -39,7 +39,8 @@ exports.create = function(req, res) {
 										SubjectId: idSubject,
 										SemesterId: semester1.id,
 										enrolled: 45,
-										commission: 1,
+                    nick: req.body.nick,
+										commission: req.body.commission,
 										color: 'blue' // color default
 									}).success(function(course) {
 											course.addSchedule(schedule);

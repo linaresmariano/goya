@@ -53,6 +53,13 @@ block content
 					select#selectSubject(class="form-control",ng-model="subject",ng-options="subject.name for subject in subjects",required)
 						option(value="") Seleccione una materia
 					input(name="idSubject",value="{{subject.id}}",hidden)
+				legend Comisión
+				.form-group
+					label(for='commission') Número
+					input#commission.form-control(type="number", min="1", placeholder='Número de comision', name='commission', required)
+				.form-group
+					label(for='nick') Apodo
+					input#nick.form-control(placeholder='Apodo del curso (ej: EPA para EPERS-C1)', name='nick', maxlength='12')
 				legend Horarios
 				.form-group
 					label Horarios seleccionados

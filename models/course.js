@@ -4,6 +4,7 @@ module.exports = function(sequelize, DataTypes) {
   var Course = sequelize.define('Course', {
     enrolled: DataTypes.INTEGER,
     commission: {type:DataTypes.INTEGER ,  validate: {min:0}},
+    nick: DataTypes.STRING,
     color: DataTypes.STRING
     }, {
       classMethods: {
