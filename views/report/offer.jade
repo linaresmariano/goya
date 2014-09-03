@@ -11,18 +11,18 @@ block content
 
       $scope.courses = $scope.semester.courses.filter(shouldDisplayCourse)
 
-      $scope.coursesTEST = [/*{'teacher': 'Eduardo Bonelli (PO)'},
-        {'teacher': 'Eduardo Bonelli '},
-        {'teacher': 'Pablo Factorovich (PI)'},
-        {'teacher': 'Pablo Factorovich (PI)'},*/
-      ]
-
       var weekday = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
 
       $scope.scheduleView = function(schedule) {
         return schedule.hour > 0 ?
           weekday[schedule.day]+" "+schedule.hour+":00 a "+(schedule.hour+schedule.duration)+":00" :
           ""
+      }
+
+      $scope.classroomView = function(schedule) {
+        return schedule.hour > 0 && schedule.semesterClassRoom ?
+          schedule.semesterClassRoom.classRoom.number :
+          ''
       }
 
       $scope.getArea = function(index) {
@@ -72,24 +72,12 @@ block content
               th Créditos
               th.col-md-2 Días y Horarios {{year}}
               th.col-md-2 Docente/s (Apellido y nombre completo)
+              th Inscritos
               th Cupo
+              th Aulas requeridas
               th Grupo Carreras
               th.col-md-1 Nueva Asignatura Indicar para que Plan de Estudios se oferta
         tbody
-          tr(ng-repeat='course in coursesTEST')
-            td Programación
-            td Básico Obligatorio
-            td Cuatrimestral
-            td Presencial
-            td 00487
-            td Introducción a la Programación
-            td 18
-            td  Lunes 9:00 a 11:30  Miércoles 10:00 a 13:00  Jueves 9:00 a 11:30
-            td {{course.teacher}}
-            td 30
-            td P
-            td No
-
           tr(ng-repeat='course in courses')
             td(contenteditable="true") {{getArea(course.subject.area) || '-'}}
             td(contenteditable="true") {{getCore(course.subject.core) || '-'}}
@@ -101,8 +89,12 @@ block content
             td(contenteditable="true")
               div(ng-repeat='schedule in course.schedules')
                 {{scheduleView(schedule)}}
-            td(contenteditable="true") {{course.semesterTeachers[0].teacher.name || '-'}}
+            td(contenteditable="true") {{course.semesterTeachers[0].teacher.name || 'A designar'}}
+            td(contenteditable="true") {{course.enrolled || '-'}}
             td(contenteditable="true") {{course.subject.capacity || '-'}}
+            td(contenteditable="true")
+              div(ng-repeat='schedule in course.schedules')
+                {{classroomView(schedule)}}
             td(contenteditable="true") P
             td(contenteditable="true") No
 
