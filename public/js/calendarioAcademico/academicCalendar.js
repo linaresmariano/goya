@@ -201,19 +201,24 @@ function CalendarCtrl($scope, $http, $q){
 				var originalEventObject = $(this).data('eventObject');
 
 					// we need to copy it, so that multiple events don't have a reference to the same object
-					var copiedEventObject = getModel($(this),"dragg-model");
-
+				var copiedEventObject = getModel($(this),"dragg-model");
+				
+				
+				seconds=Math.abs(date.getMinutes() + (date.getHours() * 60) - ((getMinutes(copiedEventObject.schedule.patch.extraHour) +(getHour(copiedEventObject.schedule.patch.extraHour)*60)) || 0))*60;
+				hour=Math.abs(parseInt(seconds/3600));
+				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
+				
 					$http({
 							url:"/updateCourse",
 							method:'put',
-							data: { id:copiedEventObject.schedule.id, hour:date.getHours(),day:date.getDay(),
-							minutes:date.getMinutes()}
+							data: { id:copiedEventObject.schedule.id, hour:hour,day:date.getDay(),
+							minutes:minutes}
 					}).success(function(data) {
 					
 						//Actualizando el schedule con el nuevo horario
 						copiedEventObject.schedule.day=date.getDay();
-						copiedEventObject.schedule.hour=date.getHours();
-						copiedEventObject.schedule.minutes=date.getMinutes();
+						copiedEventObject.schedule.hour=hour;
+						copiedEventObject.schedule.minutes=minutes;
 						//Agragando el horario a la grilla
 						$scope.addSchedule(copiedEventObject.course,copiedEventObject.schedule);
 						$scope.removeScheduleNotAssigned(copiedEventObject.schedule);

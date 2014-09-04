@@ -69,8 +69,8 @@ var patchSchedule4 =db.PatchSchedule.build({
 								});
 								
 var patchSchedule5 =db.PatchSchedule.build({
-									extraHour: 0,
-									extraDuration: 0
+									extraHour: 2.5,
+									extraDuration: 0.5
 								});
 								
 var patchSchedule6 =db.PatchSchedule.build({
