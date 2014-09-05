@@ -146,7 +146,7 @@ var subjectEPERS= db.Subject.build({
 						ocode: '01044',
 						credits: 12,
 						capacity: 25,
-						code: 'EPERS',
+						nick: 'EPERS',
 						name: 'Estrategias de persistencia'
 					});
 					
@@ -158,7 +158,7 @@ var subjectORGA= db.Subject.build({
 						ocode: '01032',
 						credits: 12,
 						capacity: 35,
-						code: 'ORGA',
+						nick: 'ORGA',
 						name: 'Organizacion de las computadoras'
 					});
 				
@@ -170,7 +170,7 @@ var subjectTVDIG= db.Subject.build({
 						ocode: '01032',
 						credits: 12,
 						capacity: 35,
-						code: 'TVD',
+						nick: 'TVD',
 						name: 'Television Digital'
 					});
 

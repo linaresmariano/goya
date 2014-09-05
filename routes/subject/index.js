@@ -13,7 +13,7 @@ exports.create = function(req, res) {
 
   db.Subject.create({
 
-    code: req.body.code,
+    nick: req.body.nick,
     name: req.body.name,
     area: req.body.area,
     core: req.body.core,

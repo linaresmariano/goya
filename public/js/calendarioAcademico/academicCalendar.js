@@ -312,7 +312,7 @@ function CalendarCtrl($scope, $http, $q){
     $scope.addSchedule = function(course,schedule) {
       	$scope.events.push({
 								id: schedule.id,
-								title: course.subject.code+ " \n c"+course.commission +"-" +  schedule.type
+								title: course.subject.nick+ " \n c"+course.commission +"-" +  schedule.type
 									+ (schedule.semesterClassRoom == undefined ? '' : '\n Aula '+schedule.semesterClassRoom.classRoom.number)
 									+ getNamesTeachers(schedule.semesterTeachers),
 								start: new Date(y, m-1, d+schedule.day, schedule.hour, 0),

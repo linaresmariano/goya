@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     ocode: DataTypes.STRING,
     credits: DataTypes.INTEGER,
     capacity: {type:DataTypes.INTEGER ,  validate: {min:0}},
-    code: DataTypes.STRING,	
+    nick: DataTypes.STRING,	
     name: {type:DataTypes.STRING ,  validate: {len: {
 														args: [4, 100],
 														msg: 'El nombre de la materia debe contener entre 4 y 100 caracteres'

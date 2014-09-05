@@ -10,7 +10,7 @@ block content
 		div( ng-controller="courses")
 			div(ng-repeat='course in courses')
 				div
-					a.list-group-item {{course.subject.code}} - {{course.subject.name}}
+					a.list-group-item {{course.subject.nick}} - {{course.subject.name}}
 						button.btn.btn-xs.btn-info.pull-right.button-option
 							span.glyphicon.glyphicon-edit
 						button.btn.btn-xs.btn-danger.pull-right.button-option
