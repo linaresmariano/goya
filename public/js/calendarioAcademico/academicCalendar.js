@@ -313,7 +313,7 @@ function CalendarCtrl($scope, $http, $q){
       	$scope.events.push({
 								id: schedule.id,
 								title: course.subject.nick+ "-C"+course.commission +"\n" +  schedule.type
-									+ (schedule.semesterClassRoom == undefined ? '' : '\n Aula '+schedule.semesterClassRoom.classRoom.number)
+									+'\n Aula '+(schedule.semesterClassRoom ? schedule.semesterClassRoom.classRoom.number : '??')
 									+ getNamesTeachers(schedule.semesterTeachers),
 								start: new Date(y, m-1, d+schedule.patch.day, schedule.patch.hour, 0),
 								end: new Date(y, m-1, d+schedule.patch.day, schedule.patch.hour+schedule.patch.duration, 0),
@@ -583,7 +583,7 @@ function CalendarCtrl($scope, $http, $q){
 	}
 
 	$scope.hasSchedule = function() {
-		return $scope.courseShow && $scope.courseShow.schedule.patch.hour > 0;
+		return $scope.infoCoursesNotAssigned.indexOf($scope.courseShow) < 0;
 	}
 	
 	
