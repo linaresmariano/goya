@@ -390,6 +390,8 @@ function CalendarCtrl($scope, $http, $q){
 
 			
 			deferred.resolve($scope.courseShow);
+			$('#myModal').modal('hide');
+			
 		}).error(function(err){
 			alert("Error al desasignar un profesor");
 		});	
@@ -578,6 +580,10 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.showCoursesNotAssigned=function(index){
 		$scope.courseShow=$scope.infoCoursesNotAssigned[index];
 		
+	}
+
+	$scope.hasSchedule = function() {
+		return $scope.courseShow && $scope.courseShow.schedule.hour > 0;
 	}
 	
 	

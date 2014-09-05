@@ -76,7 +76,7 @@ block content
 										span.glyphicon.glyphicon-remove
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar
-						button.btn.btn-danger(type='button',ng-click="remove()") Eliminar
+						button.btn.btn-danger(type='button',ng-click="remove()",ng-show='hasSchedule()') Eliminar
 						
 		//Modal para asignar un profesor a un curso
 		#assingTeacherCourse.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
