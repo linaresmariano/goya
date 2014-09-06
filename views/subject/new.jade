@@ -9,7 +9,7 @@ block content
 
         .form-group
           label(for='career') Carrera
-          select.form-control(ng-model='career', ng-options='career.name for career in careers', name='career')
+          select.form-control(ng-model='career', ng-options='career.id as career.name for career in careers', name='career')
             option(value="") Seleccione la carrera a la que pertenece la materia
 
         .form-group

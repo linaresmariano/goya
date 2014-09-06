@@ -11,7 +11,7 @@ exports.new = function(req, res) {
     })
 
   })
-  
+
 }
 
 
@@ -27,16 +27,17 @@ exports.create = function(req, res) {
     modality: req.body.modality,
     ocode: req.body.ocode,
     credits: req.body.credits,
-    capacity: req.body.capacity
+    capacity: req.body.capacity,
+    career: req.body.career
 
   }).success(function(course) {
-	showFeedbackPanel(res,'Materia creada correctamente',typeMessage.SUCCESS);
+    showFeedbackPanel(res,'Materia creada correctamente',typeMessage.SUCCESS);
     exports.new(req, res);	
     
   }).error(function(err) {
-        showFeedbackPanel(res,err.name[0],typeMessage.ERROR);
-		exports.new(req, res);	
-   })
+    showFeedbackPanel(res,err.name[0],typeMessage.ERROR);
+    exports.new(req, res);	
+  })
 
 }
 
