@@ -47,9 +47,7 @@ exports.create = function(req, res) {
 										schedule.save().success(function(schedule) {
 											var patchSchedule = db.PatchSchedule.build({
 													extraHour: 0,
-													extraMinutes: 0,
-													extraDurationHour: 0,
-													extraDurationMinutes: 0
+													extraDuration:0
 
 											}).save().success(function(patchSchedule) {
 												schedule.setPatch(patchSchedule);
@@ -94,9 +92,7 @@ exports.create = function(req, res) {
 													});
 								var patchSchedule = db.PatchSchedule.build({
 													extraHour: 0,
-													extraMinutes: 0,
-													extraDurationHour: 0,
-													extraDurationMinutes: 0
+													extraDuration:0
 
 												})
 								
