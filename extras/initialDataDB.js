@@ -48,46 +48,34 @@ var courseTVD= db.Course.build({
 //patches schedules
 var patchSchedule1 = db.PatchSchedule.build({
 									extraHour: 0,
-									extraMinutes: 0,
-									extraDurationHour: 0,
-									extraDurationMinutes: 0
+									extraDuration: 0.3
 								});
 								
 //patches schedules
 var patchSchedule2 = db.PatchSchedule.build({
 									extraHour: 0,
-									extraMinutes: 0,
-									extraDurationHour: 0,
-									extraDurationMinutes: 0
+									extraDuration: 0,
 								});
 								
 var patchSchedule3 =db.PatchSchedule.build({
 									extraHour: 0,
-									extraMinutes: 0,
-									extraDurationHour: 0,
-									extraDurationMinutes: 0
+									extraDuration: 0,
 								});
 								
 								
 var patchSchedule4 =db.PatchSchedule.build({
 									extraHour: 0,
-									extraMinutes: 0,
-									extraDurationHour: 0,
-									extraDurationMinutes: 0
+									extraDuration: 0
 								});
 								
 var patchSchedule5 =db.PatchSchedule.build({
 									extraHour: 0,
-									extraMinutes: 0,
-									extraDurationHour: 0,
-									extraDurationMinutes: 0
+									extraDurationHour: 0
 								});
 								
 var patchSchedule6 =db.PatchSchedule.build({
 									extraHour: 0,
-									extraMinutes: 0,
-									extraDurationHour: 0,
-									extraDurationMinutes: 0
+									extraDuration: 0
 								});
 
 	

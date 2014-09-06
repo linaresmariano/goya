@@ -75,24 +75,21 @@ block content
 									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateScheduleTeacher(semesterTeacher.teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
-							.panel-heading  Opciones avanzadas	
+							.panel-heading  Opciones avanzadas	- Solo aplican en los reportes
 									button.btn.btn-xs.btn-default.pull-right(type="button")
 										span.glyphicon.glyphicon-plus
 							row
-								.col-lg-6
-									.form-group
-										label(for='nick') Horario de inicio extra
-										input#nick.form-control(type="number",value="0")
-									.form-group
-										label(for='nick') Minutos de inicio extra
-										input#nick.form-control(type="number",value="0")
-									.form-group
-										label(for='nick') Horas de duracion de inicio extra
-										input#nick.form-control(type="number",value="0")
-									.form-group
-										label(for='nick') Minutos de duracion de inicio extra
-										input#nick.form-control(type="number",value="0")
-									button(type="button",class="btn btn-success") Guardar
+								.content-row
+									form
+										.col-lg-6
+											.form-group
+												label(for='nick') Horario de inicio extra
+												input#nick.form-control(type="number",value="{{courseShow.schedule.patch.extraHour}}",step="0.1")
+										.col-lg-6
+											.form-group
+												label(for='nick') Horas de duracion extra
+												input#nick.form-control(type="number",value="{{courseShow.schedule.patch.extraDuration}}",step="0.1")
+											button.pull-right.padding-bottom-button(type="submit",class="btn btn-success") Guardar
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar
 						button.btn.btn-danger(type='button',ng-click="remove()",ng-show='hasSchedule()') Eliminar

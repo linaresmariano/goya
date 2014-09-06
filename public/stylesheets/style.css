@@ -17,7 +17,13 @@
 	background:#D5D5D5 !important;
 }
 
+.content-row{
+	padding-top:12px !important;
+}
 
+.padding-bottom-button{
+	margin-bottom:12px !important;
+}
 
 body {
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
