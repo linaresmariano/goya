@@ -48,7 +48,7 @@ var courseTVD= db.Course.build({
 //patches schedules
 var patchSchedule1 = db.PatchSchedule.build({
 									extraHour: 0,
-									extraDuration: 0.3
+									extraDuration: 0.5
 								});
 								
 //patches schedules
