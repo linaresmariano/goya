@@ -149,11 +149,14 @@ function CalendarCtrl($scope, $http, $q){
 		                 esHorarioInvalido(event.end.getHours())){		 
 				revertFunc();				
 			}else{
+			
+				extraHour=getHour(event.schedule.patch.extraHour);
+				extraMinutes=getMinutes(event.schedule.patch.extraHour);
 			  $.ajax({url:"/updateCourse",
 						method:'put',
 						data: {
-							id:event.id, hour:event.start.getHours(), day:event.start.getDay(),
-							minutes:event.start.getMinutes()
+							id:event.id, hour:event.start.getHours()-extraHour, day:event.start.getDay(),
+							minutes:event.start.getMinutes()-extraMinutes
 						},
 						success:function(result){
                         	event.schedule.day=event.start.getDay();
@@ -201,12 +204,16 @@ function CalendarCtrl($scope, $http, $q){
 	};
 	
     $scope.eventResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
+	
+		extraHourDuration=getHour(event.schedule.patch.extraDuration);
+		extraMinutesDuration=getMinutes(event.schedule.patch.extraDuration);
+	
        $.ajax({url:"/updateEndCourse",
 				method: 'put',
 				data: {
 					id: event.id,
-					durationHour: Math.abs(event.start.getHours() - event.end.getHours()),
-					durationMinutes: Math.abs(event.start.getMinutes() - event.end.getMinutes())
+					durationHour: Math.abs(event.start.getHours() - event.end.getHours()-extraHourDuration),
+					durationMinutes: Math.abs(event.start.getMinutes() - event.end.getMinutes()-extraMinutesDuration)
 				},
 				success:function(result) {
 	            	event.schedule.durationHour=Math.abs(event.start.getHours() - event.end.getHours());
@@ -313,22 +320,41 @@ function CalendarCtrl($scope, $http, $q){
 		return existTeacher(course.semesterTeachers,teacher) || existTeacher(course.semesterInstructors,teacher);
 	}
 	
+	function getMinutes(floatNumber){
+		return (floatNumber+"").split(".").length == 1 ? 0 : ((floatNumber+"").split(".")[1]-2)*10;
+	}
+	
+	function getHour(floatNumber){
+		return parseInt(floatNumber) ;
+	}
+	
 
     //Agrega un schedule al calendario
     $scope.addSchedule = function(course,schedule) {
+	
+	
+		
+	
+		extraHour=getHour(schedule.patch.extraHour);
+		extraMinutes=getMinutes(schedule.patch.extraHour);
+		
+		
+		extraHourDuration=getHour(schedule.patch.extraDuration);
+		extraMinutesDuration=getMinutes(schedule.patch.extraDuration);
+	
       	$scope.events.push({
 								id: schedule.id,
 								title: course.subject.nick+ "-C"+course.commission +"\n" +  schedule.type
 									+'\n Aula '+(schedule.semesterClassRoom ? schedule.semesterClassRoom.classRoom.number : '??')
 									+ getNamesTeachers(schedule.semesterTeachers),
-								start: new Date(y, m-1, d+schedule.day, schedule.hour,schedule.minutes),
-								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.durationHour, schedule.minutes+schedule.durationMinutes),
+								start: new Date(y, m-1, d+schedule.day, schedule.hour+extraHour,schedule.minutes+extraMinutes),
+								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.durationHour+extraHour+extraHourDuration, schedule.minutes+schedule.durationMinutes+extraMinutes+extraMinutesDuration),
 								allDay: false,
 								backgroundColor: course.color,
 								borderColor: 'black',
 								//Datos necesarios del modelo
 								schedule:schedule,
-								course:course,
+								course:course
 							});
     };
 	

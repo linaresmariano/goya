@@ -3,15 +3,6 @@ extends ../layout
 block content
 	link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.css')
 	link(rel='stylesheet', href='/stylesheets/fullcalendar/fullcalendar.print.css',media='print')
-	script(src='/js/lib/jquery.ui.droppable.js')
-	script(src='/js/fullcalendar/fullcalendar.js')
-	script.
-		var semesterJSON=!{JSON.stringify(semester)};
-		$(window).resize(function () {
-			$("#grid").css("width", "100%");
-			$("#grid").width($("#grid").width());
-		});
-	script(src='/js/calendarioAcademico/academicCalendar.js')
 	div(ng-controller='CalendarCtrl')
 		.row
 			.col-md-2.col-md-2
@@ -125,3 +116,12 @@ block content
 	button(onclick="$('#grid').css('width', '100%');$('#grid').width($('#grid').width());$('#grid').printThis()") Imprimir (printThis, el mejor)
 	button(onclick="$('#grid').printArea()") Imprimir (printArea, no anda)
 	button(onclick="$('#grid').printElement()") Imprimir (printElement)
+	script(src='/js/lib/jquery.ui.droppable.js')
+	script(src='/js/fullcalendar/fullcalendar.js')
+	script.
+		var semesterJSON=!{JSON.stringify(semester)};
+		$(window).resize(function () {
+			$("#grid").css("width", "100%");
+			$("#grid").width($("#grid").width());
+		});
+	script(src='/js/calendarioAcademico/academicCalendar.js')
