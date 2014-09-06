@@ -321,7 +321,8 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	function getMinutes(floatNumber){
-		return (floatNumber+"").split(".").length == 1 ? 0 : ((floatNumber+"").split(".")[1]-2)*10;
+		sign=floatNumber >= 0 ? 1 : -1 ;
+		return (floatNumber+"").split(".").length == 1 ? 0 : ((floatNumber+"").split(".")[1]-2)*10*sign;
 	}
 	
 	function getHour(floatNumber){
