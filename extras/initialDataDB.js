@@ -1,5 +1,11 @@
 var db = require('../models')
 
+// Career
+var tpi = db.Career.build({
+	nick: 'TPI',
+	name: 'Tecnicatura en Programación Informática'
+})
+
 //Semesters
 var semester = db.Semester.build({
 									semester: 1,
@@ -229,6 +235,9 @@ var subjectTVDIG= db.Subject.build({
 //Save models
 chainer = new db.Sequelize.Utils.QueryChainer
 
+//save career
+chainer.add(tpi.save());
+
 //save courses
 chainer.add(courseORGA.save());
 chainer.add(courseEPERS.save());
@@ -281,8 +290,12 @@ chainer.run().complete( function(err, result) {
 		courseORGA.setSubject(subjectORGA);
 		courseTVD.setSubject(subjectTVDIG);
 		
-		//semester.setTeachers([teacherPABLOT,teacherRONY]);
+		subjectEPERS.setCareer(tpi);
+		subjectORGA.setCareer(tpi);
+		subjectTVDIG.setCareer(tpi);
 		
+		//semester.setTeachers([teacherPABLOT,teacherRONY]);
+
 		//semester.setClassRooms([classRoom37B,classRoom60,classRoomcyt,classRoom45]);
 		
 		//courseEPERS.setCourseTeacher([teacherPABLOT]);

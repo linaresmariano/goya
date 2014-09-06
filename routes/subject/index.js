@@ -3,9 +3,15 @@ var db = require('../../models')
 
 exports.new = function(req, res) {
 
+  db.Career.findAll().success(function(careers) {
+    
     res.render('subject/new', {
-      title: 'Crear Materia'
+      title: 'Crear Materia',
+      careers: careers
     })
+
+  })
+  
 }
 
 
