@@ -47,6 +47,10 @@ block content
 								&nbsp; {{courseShow.schedule.semesterClassRoom.classRoom.number}}
 								button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateClassroom()")
 										span.glyphicon.glyphicon-remove
+						.row.list-group
+							div.list-group-item 
+								b Ocultar
+									input.pull-right(type="checkbox")
 						.row.panel.panel-default
 							.panel-heading Profesores a cargo del curso
 							div.list-group-item(ng-repeat="semesterTeacher in courseShow.course.semesterTeachers track by $index")
