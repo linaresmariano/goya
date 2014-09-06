@@ -377,7 +377,7 @@ function CalendarCtrl($scope, $http, $q){
 								id: schedule.id,
 								title: course.subject.nick+ "-C"+course.commission +"\n" +  schedule.type
 									+'\n Aula '+(schedule.semesterClassRoom ? schedule.semesterClassRoom.classRoom.number : '??')
-									+ getNamesTeachers(schedule.semesterTeachers),
+									+ getNamesTeachers(schedule.semesterTeachers,schedule.patch),
 								start: new Date(y, m-1, d+schedule.day, schedule.hour+extraHour,schedule.minutes+extraMinutes),
 								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.durationHour+extraHour+extraHourDuration, schedule.minutes+schedule.durationMinutes+extraMinutes+extraMinutesDuration),
 								allDay: false,
@@ -416,10 +416,11 @@ function CalendarCtrl($scope, $http, $q){
 					}
 	}
 	
-	function getNamesTeachers(semesterTeachers){
+	function getNamesTeachers(semesterTeachers,patch){
 		names="";
 		semesterTeachers.forEach(function(semesterTeacher) {
-			names+= " \n " + semesterTeacher.teacher.name;
+			if(!existTeacher(patch.noVisibleTeachers,semesterTeacher))
+				names+= " \n " + semesterTeacher.teacher.name;
 		});
 		return names;
 	}
@@ -647,6 +648,26 @@ function CalendarCtrl($scope, $http, $q){
 
 	$scope.hasSchedule = function() {
 		return $scope.infoCoursesNotAssigned.indexOf($scope.courseShow) < 0;
+	}
+	
+	$scope.hideTeacher=function(teacher){
+		noVisibleTeachers=$scope.courseShow.schedule.patch.noVisibleTeachers;
+		if(!existTeacher($scope.courseShow.schedule.patch.noVisibleTeachers,teacher)){
+			
+			noVisibleTeachers.push(teacher);
+		}else{
+			for(i=0;i<noVisibleTeachers.length;i++){
+				if(teacher.id == noVisibleTeachers[i].id){
+					noVisibleTeachers.splice(i,1);
+				}
+			}	
+		}
+		$scope.removeSchedule($scope.courseShow.schedule);
+		$scope.addSchedule($scope.courseShow.course,$scope.courseShow.schedule);
+	}
+	
+	$scope.isHideTeacher=function(teacher){
+		return existTeacher($scope.courseShow.schedule.patch.noVisibleTeachers,teacher);
 	}
 	
 	

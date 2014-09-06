@@ -65,6 +65,11 @@ block content
 								div	{{semesterTeacher.teacher.name}}
 									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateScheduleTeacher(semesterTeacher.teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
+									button.btn.btn-xs.btn-default.pull-right.button-option(type="button",ng-click="hideTeacher(semesterTeacher.teacher)")
+										div(ng-if="!isHideTeacher(semesterTeacher.teacher)")
+											span.glyphicon.glyphicon-eye-close
+										div(ng-if="isHideTeacher(semesterTeacher.teacher)")
+											span.glyphicon.glyphicon-eye-open
 						.row.panel.panel-default
 							.panel-heading  Opciones avanzadas	- Solo aplican en la grilla
 									button.btn.btn-xs.btn-default.pull-right(type="button")
