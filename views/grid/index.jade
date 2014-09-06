@@ -74,6 +74,25 @@ block content
 								div	{{semesterTeacher.teacher.name}}
 									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateScheduleTeacher(semesterTeacher.teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
+						.row.panel.panel-default
+							.panel-heading  Opciones avanzadas	
+									button.btn.btn-xs.btn-default.pull-right(type="button")
+										span.glyphicon.glyphicon-plus
+							row
+								.col-lg-6
+									.form-group
+										label(for='nick') Horario de inicio extra
+										input#nick.form-control(type="number",value="0")
+									.form-group
+										label(for='nick') Minutos de inicio extra
+										input#nick.form-control(type="number",value="0")
+									.form-group
+										label(for='nick') Horas de duracion de inicio extra
+										input#nick.form-control(type="number",value="0")
+									.form-group
+										label(for='nick') Minutos de duracion de inicio extra
+										input#nick.form-control(type="number",value="0")
+									button(type="button",class="btn btn-success") Guardar
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar
 						button.btn.btn-danger(type='button',ng-click="remove()",ng-show='hasSchedule()') Eliminar
@@ -99,43 +118,6 @@ block content
 						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar
 						button.btn.btn-primary(type='button',ng-click="assignedTeacherToCourse(isInCharge)") Aceptar
 						
-		//Modal para crear un curso
-		#createCourseModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-			.modal-dialog
-				.modal-content
-					.modal-header
-						button.close(type='button', data-dismiss='modal')
-							span(aria-hidden='true') ×
-							span.sr-only Close
-						h4#myModalLabel.modal-title Crear cursos
-					.modal-body 
-						div.form-horizontal
-							form-group.form-group
-								.input-group.input-group-sm
-										b Codigo
-										input.form-control(type='text', placeholder='Codigo')
-										b Tipo
-										select.form-control
-											option Practica
-											option Teorica
-											option Teorica/practica
-					.modal-footer
-						button.btn.btn-default(type='button', data-dismiss='modal') Close
-						button.btn.btn-primary(type='button',ng-click="createCourse()") Save
-						
-		//Modal para crear un curso
-		#modal-teacher.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-			.modal-dialog
-				.modal-content
-					.modal-header.header-color-blue
-						button.close(type='button', data-dismiss='modal')
-							span(aria-hidden='true') ×
-							span.sr-only Close
-						h4#myModalLabel.modal-title Profesor
-					.modal-body 
-						teacher
-					.modal-footer
-						button.btn.btn-default(type='button', data-dismiss='modal') Close
 
 
 	script(src='/js/lib/jquery.print.js')
