@@ -137,11 +137,30 @@ function CalendarCtrl($scope, $http, $q){
     /* event source that contains custom events on the scope */
     $scope.events = [
     ];
+	
+	var tagExtraDuration=$('#extraDuration').clone();
+	var tagExtraHour=$('#extraHour').clone();
 
     $scope.eventClick = function( event, allDay, jsEvent, view ){
-       //Curso a mostrar
-	   				
-	   $scope.courseShow=event;
+		//Para mostrar el curso
+		$scope.courseShow=event;
+		
+		//para actualizar los campos
+		tagExtraDurationNew=tagExtraDuration.clone();
+		tagExtraHourNew=tagExtraHour.clone();
+		
+	    tagExtraDurationNew.attr('value',$scope.courseShow.schedule.patch.extraDuration+"");
+		tagExtraHourNew.attr('value',$scope.courseShow.schedule.patch.extraHour+"");
+		
+		parentTagExtraDuratio=$('#extraDuration').parent();
+		parentTagExtraHour=$('#extraHour').parent();
+		
+		$('#extraDuration').remove();
+		$('#extraHour').remove();
+		
+	    parentTagExtraDuratio.append(tagExtraDurationNew);
+		parentTagExtraHour.append(tagExtraHourNew);
+		
     };
 
      $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
