@@ -70,7 +70,7 @@ var patchSchedule4 =db.PatchSchedule.build({
 								
 var patchSchedule5 =db.PatchSchedule.build({
 									extraHour: 0,
-									extraDurationHour: 0
+									extraDuration: 0
 								});
 								
 var patchSchedule6 =db.PatchSchedule.build({
