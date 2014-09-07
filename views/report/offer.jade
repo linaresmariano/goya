@@ -15,8 +15,15 @@ block content
 
       $scope.scheduleView = function(schedule) {
         return schedule.hour > 0 ?
-          weekday[schedule.day]+" "+schedule.hour+":00 a "+(schedule.hour+schedule.duration)+":00" :
+          weekday[schedule.day]+" "+schedule.hour+":"+addZero(schedule.minutes)+" a "+addZero(schedule.hour+schedule.durationHour)+":"+addZero(schedule.durationMinutes) :
           ""
+      }
+	  
+      function addZero(number) {
+        if( number == 0){
+          return number+"0";
+        };
+        return number;
       }
 
       $scope.classroomView = function(schedule) {
