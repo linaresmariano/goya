@@ -205,19 +205,23 @@ function CalendarCtrl($scope, $http, $q){
 	
     $scope.eventResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
 	
-		extraHourDuration=getHour(event.schedule.patch.extraDuration);
-		extraMinutesDuration=getMinutes(event.schedule.patch.extraDuration);
-	
+		
+		seconds=Math.abs(minuteDelta+event.schedule.durationMinutes + (event.schedule.durationHour * 60) )*60;
+		hourDuration=Math.abs(parseInt(seconds/3600));
+		minutesDuration=Math.abs(parseInt((seconds-(3600*hourDuration))/60));	
+		
+
        $.ajax({url:"/updateEndCourse",
 				method: 'put',
 				data: {
 					id: event.id,
-					durationHour: Math.abs(event.start.getHours() - event.end.getHours()-extraHourDuration),
-					durationMinutes: Math.abs(event.start.getMinutes() - event.end.getMinutes()-extraMinutesDuration)
+					/**/
+					durationHour:hourDuration,
+					durationMinutes: minutesDuration
 				},
 				success:function(result) {
-	            	event.schedule.durationHour=Math.abs(event.start.getHours() - event.end.getHours());
-					event.schedule.durationMinutes=Math.abs(event.start.getMinutes() - event.end.getMinutes());
+	            	event.schedule.durationHour=hourDuration;
+					event.schedule.durationMinutes=minutesDuration;
 				},
 				error:function(err) {
 					revertFunc();
@@ -338,7 +342,6 @@ function CalendarCtrl($scope, $http, $q){
 	
 		extraHour=getHour(schedule.patch.extraHour);
 		extraMinutes=getMinutes(schedule.patch.extraHour);
-		
 		
 		extraHourDuration=getHour(schedule.patch.extraDuration);
 		extraMinutesDuration=getMinutes(schedule.patch.extraDuration);
