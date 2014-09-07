@@ -14,8 +14,13 @@ block content
       var weekday = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
 
       $scope.scheduleView = function(schedule) {
+        //para calcular la hora final,teniendo en cuenta las media horas
+        seconds=Math.abs(schedule.durationMinutes +schedule.minutes +(schedule.hour*60)+ (schedule.durationHour * 60) )*60;
+        hourDuration=Math.abs(parseInt(seconds/3600));
+        minutesDuration=Math.abs(parseInt((seconds-(3600*hourDuration))/60));
+		
         return schedule.hour > 0 ?
-          weekday[schedule.day]+" "+schedule.hour+":"+addZero(schedule.minutes)+" a "+addZero(schedule.hour+schedule.durationHour)+":"+addZero(schedule.durationMinutes) :
+          weekday[schedule.day]+" "+schedule.hour+":"+addZero(schedule.minutes)+" a "+addZero(hourDuration)+":"+addZero(minutesDuration) :
           ""
       }
 	  

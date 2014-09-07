@@ -169,18 +169,21 @@ function CalendarCtrl($scope, $http, $q){
 				revertFunc();				
 			}else{
 			
-				extraHour=getHour(event.schedule.patch.extraHour);
-				extraMinutes=getMinutes(event.schedule.patch.extraHour);
+				seconds=Math.abs(minuteDelta+event.schedule.minutes + (event.schedule.hour * 60) )*60;
+				hour=Math.abs(parseInt(seconds/3600));
+				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
+			
+
 			  $.ajax({url:"/updateCourse",
 						method:'put',
 						data: {
-							id:event.id, hour:event.start.getHours()-extraHour, day:event.start.getDay(),
-							minutes:event.start.getMinutes()-extraMinutes
+							id:event.id, hour:hour, day:event.start.getDay(),
+							minutes:minutes
 						},
 						success:function(result){
                         	event.schedule.day=event.start.getDay();
-							event.schedule.hour=event.start.getHours();
-							event.schedule.minutes=event.start.getMinutes();
+							event.schedule.hour=hour;
+							event.schedule.minutes=minutes;
 						},
 						error:function(err){
 							revertFunc();
