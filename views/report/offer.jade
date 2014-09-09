@@ -18,12 +18,12 @@ block content
         seconds=Math.abs(schedule.durationMinutes +schedule.minutes +(schedule.hour*60)+ (schedule.durationHour * 60) )*60;
         hourDuration=Math.abs(parseInt(seconds/3600));
         minutesDuration=Math.abs(parseInt((seconds-(3600*hourDuration))/60));
-		
+
         return schedule.hour > 0 ?
           weekday[schedule.day]+" "+schedule.hour+":"+addZero(schedule.minutes)+" a "+addZero(hourDuration)+":"+addZero(minutesDuration) :
           ""
       }
-	  
+  
       function addZero(number) {
         if( number == 0){
           return number+"0";

@@ -28,7 +28,7 @@ exports.create = function(req, res) {
     ocode: req.body.ocode,
     credits: req.body.credits,
     capacity: req.body.capacity,
-    career: req.body.career
+    CareerId: req.body.careerId
 
   }).success(function(course) {
     showFeedbackPanel(res,'Materia creada correctamente',typeMessage.SUCCESS);
