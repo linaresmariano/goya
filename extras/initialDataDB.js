@@ -6,6 +6,11 @@ var tpi = db.Career.build({
 	name: 'Tecnicatura en Programación Informática'
 })
 
+var lds = db.Career.build({
+	nick: 'LDS',
+	name: 'Licenciatura en Desarrollo de Software'
+})
+
 //Semesters
 var semester = db.Semester.build({
 									semester: 1,
@@ -225,6 +230,7 @@ chainer = new db.Sequelize.Utils.QueryChainer
 
 //save career
 chainer.add(tpi.save());
+chainer.add(lds.save());
 
 //save courses
 chainer.add(courseORGA.save());
