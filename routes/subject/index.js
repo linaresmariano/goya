@@ -32,9 +32,22 @@ exports.create = function(req, res) {
     capacity: req.body.capacity,
     CareerId: req.body.careerId
 
-  }).success(function(course) {
-    showFeedbackPanel(res,'Materia creada correctamente',typeMessage.SUCCESS);
-    exports.new(req, res);	
+  }).success(function(subject) {
+
+    if(req.body.dictates != undefined) {
+      for(var i=0; i < req.body.dictates.length; i++) {
+        db.Career.find({
+          where:{ 'id': req.body.dictates[i] }
+        }).success(function(career) {
+          
+          career.addSubject(subject)
+
+        })
+      }
+    }
+
+    showFeedbackPanel(res, 'Materia creada correctamente', typeMessage.SUCCESS)
+    exports.new(req, res)
     
   }).error(function(err) {
     showFeedbackPanel(res,err.name[0],typeMessage.ERROR);
