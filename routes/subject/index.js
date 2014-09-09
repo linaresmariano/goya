@@ -17,6 +17,8 @@ exports.new = function(req, res) {
 
 exports.create = function(req, res) {
 
+  console.log(req.body.dictates)
+
   db.Subject.create({
 
     nick: req.body.nick,

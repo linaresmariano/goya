@@ -7,6 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Career.hasMany(models.Subject, { as: 'subjects'})
+        Career.belongsTo(models.Subject, { as: 'dictate'})
       }
     }
   })

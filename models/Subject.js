@@ -23,6 +23,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Subject.hasMany(models.Course, { as: 'Courses'})
+        Subject.hasMany(models.Career, { as: 'dictateCareers'})
         Subject.belongsTo(models.Career, { as: 'career'})
       }
     }

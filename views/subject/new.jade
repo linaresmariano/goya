@@ -26,13 +26,10 @@ block content
 
           div.form-control(ng-repeat="dictateCareer in dictateCareers track by $index")
             div {{dictateCareer.name}}
-              button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="remove(index)")
+              button.btn.btn-xs.btn-danger.pull-right(type="button", ng-click="remove(index)")
                 span.glyphicon.glyphicon-remove
-                input.hidden(name="dictate", type="number", value="{{dictate}}")
+                input.hidden(name="dictates", type="number", value="{{dictateCareer.id}}")
           br
-
-
-
 
 
         .form-group
