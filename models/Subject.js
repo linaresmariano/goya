@@ -5,10 +5,8 @@ module.exports = function(sequelize, DataTypes) {
     area: DataTypes.INTEGER,
     core: DataTypes.INTEGER,
     period: DataTypes.STRING,
-    modality: DataTypes.INTEGER,
     ocode: DataTypes.STRING,
     credits: DataTypes.INTEGER,
-    capacity: {type:DataTypes.INTEGER ,  validate: {min:0}},
     nick: DataTypes.STRING,	
     name: {type:DataTypes.STRING,
       validate: {

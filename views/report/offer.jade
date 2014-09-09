@@ -94,7 +94,7 @@ block content
             td(contenteditable="true") {{getArea(course.subject.area) || '-'}}
             td(contenteditable="true") {{getCore(course.subject.core) || '-'}}
             td(contenteditable="true") {{course.subject.period || '-'}}
-            td(contenteditable="true") {{getModality(course.subject.modality) || '-'}}
+            td(contenteditable="true") {{getModality(course.modality) || '-'}}
             td(contenteditable="true") {{course.subject.ocode || '-'}}
             td(contenteditable="true") {{course.subject.name}}
             td(contenteditable="true") {{course.subject.credits || '-'}}
@@ -103,7 +103,7 @@ block content
                 {{scheduleView(schedule)}}
             td(contenteditable="true") {{course.semesterTeachers[0].teacher.name || 'A designar'}}
             td(contenteditable="true") {{course.enrolled || '-'}}
-            td(contenteditable="true") {{course.subject.capacity || '-'}}
+            td(contenteditable="true") {{course.capacity || '-'}}
             td(contenteditable="true")
               div(ng-repeat='schedule in course.schedules')
                 {{classroomView(schedule)}}

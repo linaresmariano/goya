@@ -40,6 +40,8 @@ exports.create = function(req, res) {
 										SubjectId: idSubject,
 										SemesterId: semester.id,
 										enrolled: 45,
+										modality: req.body.modality,
+    								capacity: req.body.capacity,
 										nick: req.body.nick,
 										commission: req.body.commission,
 										color: 'blue' // color default
@@ -72,6 +74,8 @@ exports.create = function(req, res) {
 										SemesterId: semester.id,
 										enrolled: 45,
 										nick: req.body.nick,
+										modality: req.body.modality,
+    								capacity: req.body.capacity,
 										commission: req.body.commission,
 										color: 'blue' // color default
 			}).success(function(course) {

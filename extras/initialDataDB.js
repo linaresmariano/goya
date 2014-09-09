@@ -34,6 +34,8 @@ var semester3 = db.Semester.build({
 //Courses							
 var courseEPERS = db.Course.build({
 									commission: 1,
+									modality: 0,
+									capacity: 25,
 									enrolled: 25,
 									color: 'red'
 								});
@@ -41,12 +43,16 @@ var courseEPERS = db.Course.build({
 var courseORGA = db.Course.build({
 									enrolled: 30,
 									commission: 1,
+									modality: 1,
+									capacity: 35,
 									color: 'green'
 								});
 								
 var courseTVD= db.Course.build({
 									enrolled: 30,
 									commission: 1,
+									modality: 1,
+									capacity: 35,
 									color: 'yellow'
 								});
 	
@@ -193,10 +199,8 @@ var subjectEPERS= db.Subject.build({
 						area: 0,
 						core: 1,
 						period: 'Cuatrimestral',
-						modality: 0,
 						ocode: '01044',
 						credits: 12,
-						capacity: 25,
 						nick: 'EPERS',
 						name: 'Estrategias de persistencia'
 					});
@@ -205,10 +209,8 @@ var subjectORGA= db.Subject.build({
 						area: 1,
 						core: 0,
 						period: 'Cuatrimestral',
-						modality: 1,
 						ocode: '01032',
 						credits: 12,
-						capacity: 35,
 						nick: 'ORGA',
 						name: 'Organizacion de las computadoras'
 					});
@@ -217,10 +219,8 @@ var subjectTVDIG= db.Subject.build({
 						area: 1,
 						core: 0,
 						period: 'Cuatrimestral',
-						modality: 1,
 						ocode: '01032',
 						credits: 12,
-						capacity: 35,
 						nick: 'TVD',
 						name: 'Television Digital'
 					});

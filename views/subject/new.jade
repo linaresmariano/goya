@@ -55,21 +55,12 @@ block content
           input#period.form-control(value='Cuatrimestral', name='period', maxlength='100')
 
         .form-group
-          label(for='modality') Modalidad
-          select.form-control(ng-model='modality', ng-options='modality.name for modality in modalities', name='modality')
-            option(value="") Seleccione una modalidad
-
-        .form-group
           label(for='ocode') Código de Asignatura
           input#name.form-control(placeholder='Código de asignatura', name='ocode', maxlength='100')
 
         .form-group
           label(for='credits') Créditos
           input#credits.form-control(placeholder='Créditos', name='credits', type='number')
-
-        .form-group
-          label(for='capacity') Capacidad
-          input#capacity.form-control(placeholder='Capacidad', name='capacity', type='number')
 
         button.btn.btn-success(type="submit") Crear
 

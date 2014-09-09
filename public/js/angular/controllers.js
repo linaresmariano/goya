@@ -39,8 +39,6 @@ app.controller('newSubjectCtrl', function ($scope, localStorageService, subjectS
 
   $scope.cores = subjectService.cores
 
-  $scope.modalities = subjectService.modalities
-
   $scope.dictateCareers = []
 
   $scope.addDictate = function(dictate){

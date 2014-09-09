@@ -3,10 +3,13 @@ extends ../layout
 block content
 	script.
 		
-		app.controller('createCourseCtrl', function ($scope,localStorageService) {
+		app.controller('createCourseCtrl', function ($scope,localStorageService, subjectService) {
 
-			$scope.subjects=!{JSON.stringify(subjects)};
-			$scope.hours = [];
+			$scope.subjects=!{JSON.stringify(subjects)}
+
+			$scope.modalities = subjectService.modalities
+
+			$scope.hours = []
 			for(i=8;i<21;i++){
 				$scope.hours.push(i);
 			}
@@ -53,13 +56,27 @@ block content
 					select#selectSubject(class="form-control",ng-model="subject",ng-options="subject.name for subject in subjects",required)
 						option(value="") Seleccione una materia
 					input(name="idSubject",value="{{subject.id}}",hidden)
+
+
 				legend Comisión
 				.form-group
 					label(for='commission') Número
 					input#commission.form-control(type="number", min="1", placeholder='Número de comision', name='commission', required)
+					
 				.form-group
 					label(for='nick') Apodo
 					input#nick.form-control(placeholder='Apodo del curso (ej: EPA para EPERS-C1)', name='nick', maxlength='12')
+
+				.form-group
+					label(for='modality') Modalidad
+					select.form-control(ng-model='modality', ng-options='modality.name for modality in modalities', name='modality')
+						option(value="") Seleccione una modalidad
+
+				.form-group
+					label(for='capacity') Capacidad
+					input#capacity.form-control(placeholder='Capacidad', name='capacity', type='number')
+
+
 				legend Horarios
 				.form-group
 					label Horarios seleccionados
