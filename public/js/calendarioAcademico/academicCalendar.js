@@ -669,6 +669,20 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.isHideTeacher=function(teacher){
 		return existTeacher($scope.courseShow.schedule.patch.noVisibleTeachers,teacher);
 	}
+
+	$scope.updatePatch = function() {
+		$http({
+			url:"/patches/update",
+			method:'put',
+			data: { extraHour:$scope.extraHour, extraDuration: $scope.extraDuration}
+		}).success(function(data) {
+
+			$('#myModal').modal('hide')
+			
+		}).error(function(err){
+			alert("Error al desasignar un profesor");
+		})
+	}
 	
 	
 	function existTeacherInSchedules(schedules,teacher){

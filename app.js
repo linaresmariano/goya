@@ -9,6 +9,7 @@ var user = require('./routes/user');
 var classroom = require('./routes/classroom/index');
 var schedule = require('./routes/schedule/index');
 var grilla = require('./routes/grid/index');
+var patches = require('./routes/patches/index');
 var cursos = require('./routes/course/index');
 var subject = require('./routes/subject/index');
 var teacher = require('./routes/teacher/index');
@@ -62,6 +63,9 @@ app.get('/', routes.index);
 app.get('/grid', grilla.index);
 app.get('/grid/classrooms/:semester/:year', grilla.classrooms);
 app.get('/grid/:semester/:year', grilla.semester);
+
+//patches
+app.post('/patches/update', patches.update);
 
 //semesters
 app.get('/lastSemester', routes.lastSemester);

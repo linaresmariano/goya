@@ -80,15 +80,16 @@ block content
 										span.glyphicon.glyphicon-plus
 							row
 								.content-row
-									form
+									form(action="../../patches/update", method="post")
 										.col-lg-6
 											.form-group
 												label(for='extraHour') Horario de inicio extra
-												input#extraHour.form-control(type="number",value="{{courseShow.schedule.patch.extraHour}}",step="0.5")
+												input#extraHour.form-control(type="number",value="{{courseShow.schedule.patch.extraHour}}",step="0.5", name="extraHour")
 										.col-lg-6
 											.form-group
 												label(for='extraDuration') Horas de duracion extra
-												input#extraDuration.form-control(type="number",value="{{courseShow.schedule.patch.extraDuration}}",step="0.5")
+												input#extraDuration.form-control(type="number",value="{{courseShow.schedule.patch.extraDuration}}",step="0.5", name="extraDuration")
+												input.hidden(name="patchId", type="number", value="{{courseShow.schedule.patch.id}}")
 											button.pull-right.padding-bottom-button(type="submit",class="btn btn-success") Guardar
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar
