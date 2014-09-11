@@ -655,7 +655,8 @@ function CalendarCtrl($scope, $http, $q){
 	
 	$scope.showCoursesNotAssigned=function(index){
 		$scope.courseShow=$scope.infoCoursesNotAssigned[index];
-		
+		$scope.newPatchExtras.extraDuration=$scope.courseShow.schedule.patch.extraDuration;
+		$scope.newPatchExtras.extraHour=$scope.courseShow.schedule.patch.extraHour;
 	}
 
 	$scope.hasSchedule = function() {
