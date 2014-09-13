@@ -295,7 +295,7 @@ function CalendarCtrl($scope, $http, $q){
 													$('#assingTeacherCourse').modal('toggle');
 											}else{
 											
-												if(!existTeacher(event.schedule.semesterTeachers,$scope.courseTeacher.teacher)){
+												if(!existSemesterTeacher(event.schedule.semesterTeachers,$scope.courseTeacher.teacher)){
 											
 													$http({
 															url:"/assignedTeacher",
@@ -337,6 +337,16 @@ function CalendarCtrl($scope, $http, $q){
 						});
         }
 		
+	function existSemesterTeacher(semesterTeachers,semesterTeacher){
+		
+		for(n=0;n < semesterTeachers.length;n++){
+			if(semesterTeachers[n].teacher.id == semesterTeacher.teacher.id ){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	function existTeacher(teachers,teacher){
 		
 		for(n=0;n < teachers.length;n++){
@@ -347,8 +357,8 @@ function CalendarCtrl($scope, $http, $q){
 		return false;
 	}
 	
-	function isTeacher(course,teacher){
-		return existTeacher(course.semesterTeachers,teacher) || existTeacher(course.semesterInstructors,teacher);
+	function isTeacher(course,semesterTeacher){
+		return existSemesterTeacher(course.semesterTeachers,semesterTeacher) || existSemesterTeacher(course.semesterInstructors,semesterTeacher);
 	}
 	
 	function getMinutes(floatNumber){
@@ -586,7 +596,7 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.deallocateCourseTeacher=function(idTeacher,index){
 		var deferred = $q.defer();
 		
-		if(existTeacherInSchedules($scope.courseShow.course.schedules,
+		if(existSemesterTeacherInSchedules($scope.courseShow.course.schedules,
 					$scope.courseShow.course.semesterTeachers[index])){
 					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
 					return;
@@ -615,7 +625,7 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.deallocateCourseInstructor=function(idTeacher,index){
 		var deferred = $q.defer();
 		
-		if(existTeacherInSchedules($scope.courseShow.course.schedules,
+		if(existSemesterTeacherInSchedules($scope.courseShow.course.schedules,
 					$scope.courseShow.course.semesterInstructors[index])){
 					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
 					return;
@@ -716,9 +726,9 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	
-	function existTeacherInSchedules(schedules,teacher){
+	function existSemesterTeacherInSchedules(schedules,teacher){
 		for(i=0;i<schedules.length;i++){
-			if(existTeacher(schedules[i].semesterTeachers,teacher)){
+			if(existSemesterTeacher(schedules[i].semesterTeachers,teacher)){
 				return true;
 			}
 		}
