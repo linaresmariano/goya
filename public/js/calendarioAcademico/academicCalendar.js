@@ -419,7 +419,7 @@ function CalendarCtrl($scope, $http, $q){
 	function getNamesTeachers(semesterTeachers,patch){
 		names="";
 		semesterTeachers.forEach(function(semesterTeacher) {
-			if(!existTeacher(patch.noVisibleTeachers,semesterTeacher))
+			if(!existTeacher(patch.noVisibleTeachers,semesterTeacher.teacher))
 				names+= " \n " + semesterTeacher.teacher.name;
 		});
 		return names;
@@ -652,21 +652,52 @@ function CalendarCtrl($scope, $http, $q){
 	
 	$scope.hideTeacher=function(teacher){
 		noVisibleTeachers=$scope.courseShow.schedule.patch.noVisibleTeachers;
+		var deferred = $q.defer();
 		if(!existTeacher($scope.courseShow.schedule.patch.noVisibleTeachers,teacher)){
-			
-			noVisibleTeachers.push(teacher);
+
+			$http({
+				url:"/patch/teacherHide",
+				method:'put',
+				data: { idPatch:$scope.courseShow.schedule.patch.id,idTeacher:teacher.id}
+			}).success(function(data) {
+				noVisibleTeachers.push(teacher);
+				deferred.resolve();
+				
+			}).error(function(err){
+				alert("Error al desasignar un profesor");
+			});	
+		
 		}else{
-			for(i=0;i<noVisibleTeachers.length;i++){
-				if(teacher.id == noVisibleTeachers[i].id){
-					noVisibleTeachers.splice(i,1);
+			for(j=0;j<noVisibleTeachers.length;j++){
+				if(teacher.id == noVisibleTeachers[j].id){
+					
+					$http({
+						url:"/patch/teacherVisible",
+						method:'put',
+						data: { idPatch:$scope.courseShow.schedule.patch.id,idTeacher:teacher.id}
+					}).success(function(data) {
+						noVisibleTeachers.splice(j,1);
+						deferred.resolve();
+						
+					}).error(function(err){
+						alert("Error al desasignar un profesor");
+					});	
+					break;
 				}
 			}	
 		}
-		$scope.removeSchedule($scope.courseShow.schedule);
-		$scope.addSchedule($scope.courseShow.course,$scope.courseShow.schedule);
+		
+		//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function() {
+					$scope.removeSchedule($scope.courseShow.schedule);
+					$scope.addSchedule($scope.courseShow.course,$scope.courseShow.schedule);
+				});
+
 	}
 	
 	$scope.isHideTeacher=function(teacher){
+		//alert($scope.courseShow.schedule.patch.noVisibleTeachers[0].id);
 		return existTeacher($scope.courseShow.schedule.patch.noVisibleTeachers,teacher);
 	}
 

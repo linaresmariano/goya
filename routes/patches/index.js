@@ -15,3 +15,36 @@ exports.update = function(req, res) {
   })
 
 }
+
+
+
+exports.teacherHide = function(req, res) {
+
+  db.PatchSchedule.find({
+    where:{ 'id': req.body.idPatch }
+  }).success(function(patch) {
+  
+	db.Teacher.find({
+    where:{ 'id': req.body.idTeacher }
+	  }).success(function(teacher) {
+		patch.addNoVisibleTeacher(teacher);
+		res.send('ok')
+	  })
+  })
+}
+
+exports.teacherVisible = function(req, res) {
+
+  db.PatchSchedule.find({
+    where:{ 'id': req.body.idPatch }
+  }).success(function(patch) {
+  
+	db.Teacher.find({
+    where:{ 'id': req.body.idTeacher }
+	  }).success(function(teacher) {
+		patch.removeNoVisibleTeacher(teacher);
+		res.send('ok')
+	  })
+  })
+
+}

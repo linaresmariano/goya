@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
 		this.hasMany(models.SemesterTeacher, { as: 'SemesterTeachers'});
-		this.hasMany(models.PatchSchedule, { as: 'PatchSchedules'});
+		this.hasMany(models.PatchSchedule, { through:'patchschedule_has_teachers'});
       },
 	  //crea un nuevo SemesterTeacher a partir del teacher de id 'idTeacher'
 	  newSemesterTeacher:function(idTeacher,success){

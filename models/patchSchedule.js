@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
       classMethods: {
 			associate: function(models) {
-				PatchSchedule.hasMany(models.Teacher, { as: 'noVisibleTeachers'});
+				PatchSchedule.hasMany(models.Teacher, { as: 'noVisibleTeachers',through:'patchschedule_has_teachers'});
 				PatchSchedule.hasOne(models.CourseSchedule, { as: 'CourseSchedule'});
 			}
 		}
