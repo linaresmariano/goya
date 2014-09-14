@@ -65,7 +65,7 @@ app.get('/grid/classrooms/:semester/:year', grilla.classrooms);
 app.get('/grid/:semester/:year', grilla.semester);
 
 //patches
-app.post('/patches/update', patches.update);
+app.put('/patches/update', patches.update);
 app.put('/patch/teacherHide', patches.teacherHide);
 app.put('/patch/teacherVisible', patches.teacherVisible);
 

@@ -4,14 +4,16 @@ var db = require('../../models')
 exports.update = function(req, res) {
 
   db.PatchSchedule.find({
-    where:{ 'id': req.body.patchId }
+    where:{ 'id': req.body.idPatch }
   }).success(function(patch) {
 
     patch.extraHour = req.body.extraHour
     patch.extraDuration = req.body.extraDuration
 
-    patch.save()
-
+    patch.save().success(function(patch) {
+		res.send('ok');
+	});
+	
   })
 
 }

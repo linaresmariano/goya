@@ -144,7 +144,7 @@ function CalendarCtrl($scope, $http, $q){
     $scope.eventClick = function( event, allDay, jsEvent, view ){
 		//Para mostrar el curso
 		$scope.courseShow=event;
-		
+		/*
 		//para actualizar los campos
 		tagExtraDurationNew=tagExtraDuration.clone();
 		tagExtraHourNew=tagExtraHour.clone();
@@ -159,7 +159,9 @@ function CalendarCtrl($scope, $http, $q){
 		$('#extraHour').remove();
 		
 	    parentTagExtraDuratio.append(tagExtraDurationNew);
-		parentTagExtraHour.append(tagExtraHourNew);
+		parentTagExtraHour.append(tagExtraHourNew);*/
+		$scope.newPatchExtras.extraDuration=$scope.courseShow.schedule.patch.extraDuration;
+		$scope.newPatchExtras.extraHour=$scope.courseShow.schedule.patch.extraHour;
 		
     };
 
@@ -707,22 +709,31 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	$scope.isHideTeacher=function(teacher){
-		//alert($scope.courseShow.schedule.patch.noVisibleTeachers[0].id);
 		return existTeacher($scope.courseShow.schedule.patch.noVisibleTeachers,teacher);
 	}
-
+	
+	$scope.newPatchExtras={};
 	$scope.updatePatch = function() {
+		var deferred = $q.defer();
 		$http({
 			url:"/patches/update",
 			method:'put',
-			data: { extraHour:$scope.extraHour, extraDuration: $scope.extraDuration}
+			data: { extraHour:$scope.newPatchExtras.extraHour, extraDuration: $scope.newPatchExtras.extraDuration,idPatch:$scope.courseShow.schedule.patch.id}
 		}).success(function(data) {
-
-			$('#myModal').modal('hide')
+			$scope.courseShow.schedule.patch.extraDuration=$scope.newPatchExtras.extraDuration;
+			$scope.courseShow.schedule.patch.extraHour=$scope.newPatchExtras.extraHour;
+			deferred.resolve();
+			//$('#myModal').modal('hide')
 			
 		}).error(function(err){
-			alert("Error al desasignar un profesor");
+			alert("Error al actualizar horario");
 		})
+				//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function() {
+					$scope.removeSchedule($scope.courseShow.schedule);
+					$scope.addSchedule($scope.courseShow.course,$scope.courseShow.schedule);
+				});
 	}
 	
 	
