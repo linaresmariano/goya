@@ -723,8 +723,7 @@ function CalendarCtrl($scope, $http, $q){
 			$scope.courseShow.schedule.patch.extraDuration=$scope.newPatchExtras.extraDuration;
 			$scope.courseShow.schedule.patch.extraHour=$scope.newPatchExtras.extraHour;
 			deferred.resolve();
-			//$('#myModal').modal('hide')
-			
+			$('#myModal').modal('hide')
 		}).error(function(err){
 			alert("Error al actualizar horario");
 		})
