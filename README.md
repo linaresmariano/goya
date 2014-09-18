@@ -4,7 +4,9 @@ TIP Sistema GOYA
 ![Build Status](https://api.travis-ci.org/linaresmariano/goya.png?branch=master)
 
 
-Instalar base da datos MYSQL
+Instalar base de datos MYSQL
+
+      sudo apt-get install mysql-server
 
 
 Luego clonar el proyecto, y ejecutar
