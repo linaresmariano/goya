@@ -47,6 +47,14 @@ var courseORGA = db.Course.build({
 									capacity: 35,
 									color: 'green'
 								});
+		
+var courseORGA2 = db.Course.build({
+									enrolled: 30,
+									commission: 2,
+									modality: 1,
+									capacity: 35,
+									color: 'green'
+								});
 								
 var courseTVD= db.Course.build({
 									enrolled: 30,
@@ -88,6 +96,11 @@ var patchSchedule6 =db.PatchSchedule.build({
 									extraHour: 0,
 									extraDuration: 0
 								});
+								
+var patchSchedule7 =db.PatchSchedule.build({
+									extraHour: 0,
+									extraDuration: 0
+								});
 
 	
 //Schedules								
@@ -101,7 +114,7 @@ var courseSchedule1 = db.CourseSchedule.build({
 								});
 								
 var courseSchedule2 = db.CourseSchedule.build({
-									type: 'Teorica',
+									type: 'Practica',
 									day: -1,
 									hour: -1,
 									minutes: 0,
@@ -142,6 +155,15 @@ var courseSchedule6 = db.CourseSchedule.build({
 									hour: -1,
 									minutes: 0,
 									durationHour: 2,
+									durationMinutes:0
+								});
+								
+var courseSchedule7 = db.CourseSchedule.build({
+									type: 'Teorica',
+									day: -1,
+									hour: -1,
+									minutes: 0,
+									durationHour: 3,
 									durationMinutes:0
 								});
 
@@ -234,6 +256,7 @@ chainer.add(lds.save());
 
 //save courses
 chainer.add(courseORGA.save());
+chainer.add(courseORGA2.save());
 chainer.add(courseEPERS.save());
 chainer.add(courseTVD.save());
 
@@ -254,6 +277,7 @@ chainer.add(courseSchedule3.save());
 chainer.add(courseSchedule4.save());
 chainer.add(courseSchedule5.save());
 chainer.add(courseSchedule6.save());
+chainer.add(courseSchedule7.save());
 
 //save patchSechedules
 chainer.add(patchSchedule1.save());
@@ -262,6 +286,7 @@ chainer.add(patchSchedule3.save());
 chainer.add(patchSchedule4.save());
 chainer.add(patchSchedule5.save());
 chainer.add(patchSchedule6.save());
+chainer.add(patchSchedule7.save());
 
 //save class rooms
 chainer.add(classRoom37B.save());
@@ -279,9 +304,11 @@ chainer.run().complete( function(err, result) {
         semester.setCourses([courseEPERS]);
 		semester.setCourses([courseORGA]);
 		semester.setCourses([courseTVD]);
+		semester.setCourses([courseORGA2]);
 		
 		courseEPERS.setSubject(subjectEPERS);
 		courseORGA.setSubject(subjectORGA);
+		courseORGA2.setSubject(subjectORGA);
 		courseTVD.setSubject(subjectTVDIG);
 		
 		subjectEPERS.setCareer(tpi);
@@ -301,9 +328,11 @@ chainer.run().complete( function(err, result) {
 		courseSchedule4.setPatch(patchSchedule4);
 		courseSchedule5.setPatch(patchSchedule5);
 		courseSchedule6.setPatch(patchSchedule6);
+		courseSchedule7.setPatch(patchSchedule7);
 		
 		courseEPERS.setSchedules([courseSchedule1]);
 		courseORGA.setSchedules([courseSchedule2,courseSchedule3,courseSchedule4]);
+		courseORGA2.setSchedules([courseSchedule7]);
 		courseTVD.setSchedules([courseSchedule5,courseSchedule6]);
 		//courseSchedule1.setTeachers([teacherRONY,teacherPABLOT]);
 		

@@ -413,6 +413,8 @@ function CalendarCtrl($scope, $http, $q){
             courseInfo.course.subject.name == course.subject.name && courseInfo.schedule.durationMinutes ==  schedule.durationMinutes &&
 			courseInfo.schedule.patch.extraHour == schedule.patch.extraHour &&  courseInfo.schedule.patch.extraDuration == schedule.patch.extraDuration &&
 			courseInfo.schedule.type == schedule.type  &&
+			courseInfo.course.id != course.id  &&
+			courseInfo.course.color == course.color  &&
 			schedule.id != courseInfo.schedule.id)schedules.push(courseInfo.schedule);
         }
         return schedules;
@@ -429,10 +431,9 @@ function CalendarCtrl($scope, $http, $q){
 		
 		extraHourDuration=getHour(schedule.patch.extraDuration);
 		extraMinutesDuration=getMinutes(schedule.patch.extraDuration);
-	
       	$scope.events.push({
 								id: schedule.id,
-								title: course.subject.nick+ "-C"+course.commission +"\n" +  schedule.type
+								title: course.subject.nick+ ""+getCommissions(schedule) +"\n" +  schedule.type
 									+'\n Aula '+(schedule.semesterClassRoom ? schedule.semesterClassRoom.classRoom.number : '??')
 									+ getNamesTeachers(schedule.semesterTeachers,schedule.patch),
 								start: new Date(y, m-1, d+schedule.day, schedule.hour+extraHour,schedule.minutes+extraMinutes),
@@ -445,6 +446,14 @@ function CalendarCtrl($scope, $http, $q){
 								course:course
 							});
     };
+	
+	function getCommissions(schedule){
+        commissions='';
+        for(h=0;h <schedule.courses.length;h++){
+            commissions+=' - C'+ schedule.courses[h].commission
+        }
+        return commissions; 
+    }
 	
 	function getModel(elm,modelName){
 			return angular.element(elm).scope().$eval($(elm).attr(modelName));
@@ -537,6 +546,22 @@ function CalendarCtrl($scope, $http, $q){
 				return;
 			}
 		}
+    };
+	
+	$scope.existsSchedule= function(schedule) {
+		for(o=0;o< $scope.infoCoursesNotAssigned.length;o++){
+			if($scope.infoCoursesNotAssigned[o].schedule.id == schedule.id){
+				return true;
+			}
+		}
+		
+		for(p=0;p< $scope.events.length;p++){
+			if($scope.events[p].schedule.id == schedule.id){
+				return true;
+			}
+		}
+		
+		return false;
     };
 	
 	//Elimina de la lista a un schedule asignado
@@ -864,9 +889,14 @@ function CalendarCtrl($scope, $http, $q){
 
 			//Si no esta asignada a un horario o dia			
 			if(horario.day == -1  || horario.hour == -1 ){
-				$scope.addScheduleNotAssigned(curso,horario);
+				if(!$scope.existsSchedule(horario)){
+					$scope.addScheduleNotAssigned(curso,horario);
+				}
+				
 			}else{
-				$scope.addSchedule(curso,horario);
+					if(!$scope.existsSchedule(horario)){
+						$scope.addSchedule(curso,horario);
+					}
 				}
 			}
 	}
