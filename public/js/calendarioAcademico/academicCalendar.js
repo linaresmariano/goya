@@ -183,7 +183,6 @@ function CalendarCtrl($scope, $http, $q){
 				event.schedule.hour=hour;
 				event.schedule.minutes=minutes;
 				var schedule=$scope.getScheduleAtTheSameTime(event.schedule,event.course);
-				alert(schedule)
 				if(schedule != undefined){
 					newSchedule=$scope.mergeSchedules(schedule,event.schedule);
 					$scope.removeSchedule(schedule);

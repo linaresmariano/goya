@@ -121,10 +121,7 @@ block content
 	script(src='/js/lib/jquery.printThis.js')
 	script(src='/js/lib/jquery.printArea.js')
 	script(src='/js/lib/jquery.printElement.js')
-	button(onclick="$.print('#grid')") Imprimir (print)
-	button(onclick="$('#grid').css('width', '100%');$('#grid').width($('#grid').width());$('#grid').printThis()") Imprimir (printThis, el mejor)
-	button(onclick="$('#grid').printArea()") Imprimir (printArea, no anda)
-	button(onclick="$('#grid').printElement()") Imprimir (printElement)
+	button.btn.btn-primary.pull-right(onclick="$('#grid').css('width', '100%');$('#grid').width($('#grid').width());$('#grid').printThis()") Imprimir grilla
 	script(src='/js/lib/jquery.ui.droppable.js')
 	script(src='/js/fullcalendar/fullcalendar.js')
 	script.
