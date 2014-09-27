@@ -164,8 +164,12 @@ function CalendarCtrl($scope, $http, $q){
 		$scope.newPatchExtras.extraHour=$scope.courseShow.schedule.patch.extraHour;
 		
     };
-
-     $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
+	
+	$scope.mergeSchedules=function(scheduleA,ScheduleB){
+		return scheduleA;
+	}
+	
+    $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
        		if(esHorarioInvalido(event.start.getHours()) ||
 		                 esHorarioInvalido(event.end.getHours())){		 
 				revertFunc();				
@@ -174,9 +178,19 @@ function CalendarCtrl($scope, $http, $q){
 				seconds=Math.abs(minuteDelta+event.schedule.minutes + (event.schedule.hour * 60) )*60;
 				hour=Math.abs(parseInt(seconds/3600));
 				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
-			
+				
+				event.schedule.day=event.start.getDay();
+				event.schedule.hour=hour;
+				event.schedule.minutes=minutes;
+				var schedule=$scope.getScheduleAtTheSameTime(event.schedule,event.course);
+				alert(schedule)
+				if(schedule != undefined){
+					newSchedule=$scope.mergeSchedules(schedule,event.schedule);
+					$scope.removeSchedule(schedule);
+					$scope.removeSchedule(event.schedule);
+				}
 
-			  $.ajax({url:"/updateCourse",
+				$.ajax({url:"/updateCourse",
 						method:'put',
 						data: {
 							id:event.id, hour:hour, day:event.start.getDay(),
@@ -373,6 +387,19 @@ function CalendarCtrl($scope, $http, $q){
 		return parseInt(floatNumber) ;
 	}
 	
+	$scope.getScheduleAtTheSameTime=function(schedule,course){
+        for(h=0;h<$scope.events.length;h++){
+            courseInfo=$scope.events[h];
+            if(courseInfo.schedule.day == schedule.day && courseInfo.schedule.hour == schedule.hour &&
+            courseInfo.schedule.minutes ==  schedule.minutes && courseInfo.schedule.durationHour ==  schedule.durationHour  &&
+            courseInfo.schedule.durationMinutes ==  schedule.durationMinutes &&
+            courseInfo.course.subject.name == course.subject.name && courseInfo.schedule.durationMinutes ==  schedule.durationMinutes &&
+			courseInfo.schedule.patch.extraHour == schedule.patch.extraHour &&  courseInfo.schedule.patch.extraDuration == schedule.patch.extraDuration &&
+			courseInfo.schedule.type == schedule.type  &&
+			schedule.id != courseInfo.schedule.id)return courseInfo.schedule;
+        }
+        return undefined;
+    }
 
     //Agrega un schedule al calendario
     $scope.addSchedule = function(course,schedule) {

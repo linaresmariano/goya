@@ -110,7 +110,7 @@ var courseSchedule2 = db.CourseSchedule.build({
 								});
 								
 var courseSchedule3 = db.CourseSchedule.build({
-									type: 'Practica',
+									type: 'Teorica',
 									day: 1,
 									hour: 10,
 									minutes: 0,
