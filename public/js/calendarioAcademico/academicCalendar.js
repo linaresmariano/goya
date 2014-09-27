@@ -322,6 +322,7 @@ function CalendarCtrl($scope, $http, $q){
 											
 											
 										}
+										$(this).removeClass('schedule-hover');
 									},
 									over: function(event, ui) {
 										$(this).addClass('schedule-hover');
