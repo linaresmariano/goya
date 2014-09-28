@@ -165,8 +165,8 @@ function CalendarCtrl($scope, $http, $q){
 		
     };
 	
-	$scope.mergeSchedules=function(scheduleA,ScheduleB){
-		return scheduleA;
+	$scope.unifySchedules=function(schedules){
+		return schedules[0];
 	}
 	
     $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
@@ -182,11 +182,28 @@ function CalendarCtrl($scope, $http, $q){
 				event.schedule.day=event.start.getDay();
 				event.schedule.hour=hour;
 				event.schedule.minutes=minutes;
-				var schedule=$scope.getScheduleAtTheSameTime(event.schedule,event.course);
-				if(schedule != undefined){
-					newSchedule=$scope.mergeSchedules(schedule,event.schedule);
-					$scope.removeSchedule(schedule);
-					$scope.removeSchedule(event.schedule);
+				var schedules=$scope.getSchedulesAtTheSameTime(event.schedule,event.course);
+				if(schedules.length != 0){
+					schedules.push(event.schedule);
+					newSchedule=$scope.unifySchedules(schedules);
+					for(k=0;k < schedules.length;k++){
+						if(k != 1)
+							$scope.removeSchedule(schedules[k]);
+					}
+							
+					$.ajax({url:"/schedule/unify",
+						method:'put',
+						data: {
+							schedules:schedules
+						},
+						success:function(result){
+						},
+						error:function(err){
+							revertFunc();
+							alert('Error al unificar horarios');
+						}
+					});
+					return;
 				}
 
 				$.ajax({url:"/updateCourse",
@@ -386,7 +403,8 @@ function CalendarCtrl($scope, $http, $q){
 		return parseInt(floatNumber) ;
 	}
 	
-	$scope.getScheduleAtTheSameTime=function(schedule,course){
+	$scope.getSchedulesAtTheSameTime=function(schedule,course){
+		schedules=[];
         for(h=0;h<$scope.events.length;h++){
             courseInfo=$scope.events[h];
             if(courseInfo.schedule.day == schedule.day && courseInfo.schedule.hour == schedule.hour &&
@@ -395,9 +413,9 @@ function CalendarCtrl($scope, $http, $q){
             courseInfo.course.subject.name == course.subject.name && courseInfo.schedule.durationMinutes ==  schedule.durationMinutes &&
 			courseInfo.schedule.patch.extraHour == schedule.patch.extraHour &&  courseInfo.schedule.patch.extraDuration == schedule.patch.extraDuration &&
 			courseInfo.schedule.type == schedule.type  &&
-			schedule.id != courseInfo.schedule.id)return courseInfo.schedule;
+			schedule.id != courseInfo.schedule.id)schedules.push(courseInfo.schedule);
         }
-        return undefined;
+        return schedules;
     }
 
     //Agrega un schedule al calendario

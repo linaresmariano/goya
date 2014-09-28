@@ -24,6 +24,25 @@ exports.assignedTeacher = function(req, res) {
 	});
 }
 
+exports.unify = function(req, res){
+		console.log(JSON.stringify(req.body.schedules));
+		var schedules=req.body.schedules;
+		var firtSchedule=schedules[0];
+		schedules.splice(0,1)
+		for(i=0;i<schedules.length;i++ ){
+			var unify=function(schedule){
+				db.CourseSchedule.find(schedule.id).success(function(schedule) {
+					schedule.destroy().success(function() {
+						
+					})
+				})
+			}
+			unify(schedules[i]);
+		}
+		res.send('ok');
+};
+
+
 exports.deallocateClassroom = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
 	  db.CourseSchedule.deallocateClassRoom(idCourseSchedule,function() {

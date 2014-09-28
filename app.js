@@ -107,6 +107,7 @@ app.put('/assignedTeacher', schedule.assignedTeacher);
 app.put('/schedule/deallocateClassroom', schedule.deallocateClassroom);
 app.put('/schedule/deallocateTeacher', schedule.deallocateTeacher);
 app.put('/schedule/deallocateSchedule', schedule.deallocateSchedule);
+app.put('/schedule/unify', schedule.unify);
 
 //reports
 app.get('/report/offer/:year/:semester', report.offer);

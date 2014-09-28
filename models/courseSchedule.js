@@ -10,6 +10,7 @@ module.exports = function(sequelize, DataTypes) {
       classMethods: {
         associate: function(models) {
           this.hasMany(models.SemesterTeacher, { as: 'SemesterTeachers',through:'schedule_has_teachers'});
+		  this.hasMany(models.Course, { as: 'Courses',through:'schedule_has_courses'});
 		  this.belongsTo(models.SemesterClassRoom, { as: 'SemesterClassRoom'});
 		  this.belongsTo(models.PatchSchedule, { as: 'Patch'});
         },
