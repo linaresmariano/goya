@@ -270,10 +270,16 @@ exports.assignedTeacher = function(req, res) {
     var idCourse = req.body.idCourse;
  	var year = req.body.year;
     var semester = req.body.semester;
+	
+	for(m=0;m< idCourse.length;m++){
+		teacherAssignedToACourse=function(course){
+			db.Semester.teacherAssignedToACourse(idTeacher,course.id,semester,year,function(result) {	
+			});
+		}
+		teacherAssignedToACourse(idCourse[m]);
+	}
+	res.send('ok');
   	//Asigna un teacher a un curso
-	db.Semester.teacherAssignedToACourse(idTeacher,idCourse,semester,year,function(result) {
-			res.send('ok');	
-	});
 }
 
 exports.assignedInstructor = function(req, res) {

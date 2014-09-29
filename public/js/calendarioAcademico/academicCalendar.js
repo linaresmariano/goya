@@ -399,7 +399,7 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	function getTeachers(courses){
-		teachers=[];
+		teachers=[];alert();
 		for(n=0;n < courses.length;n++){
 			for(c=0;c < courses[n].semesterTeachers.length;c++){
 				if(!existTeacher(teachers,courses[n].semesterTeachers[c])){
@@ -442,9 +442,6 @@ function CalendarCtrl($scope, $http, $q){
 
     //Agrega un schedule al calendario
     $scope.addSchedule = function(schedule) {
-	
-	
-		
 	
 		extraHour=getHour(schedule.patch.extraHour);
 		extraMinutes=getMinutes(schedule.patch.extraHour);
@@ -597,18 +594,18 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.assignedTeacherToCourse = function(isInCharge ) {
 		var deferred = $q.defer();
 		if(isInCharge == 0){
-				if(getTeachers($scope.courseTeacher.event.schedule.courses).semesterTeachers.length == 2){
+				if(getTeachers($scope.courseTeacher.event.schedule.courses).length == 2){
 					alert("Un curso solo puede tener 2 profesores a cargo como máximo");
 				}else{
 					$http({
 						url:"/course/assignedTeacher",
 						method:'put',
-						data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:getTeachers($scope.courseTeacher.event.schedule.courses).id,year:$scope.semester.year,semester:$scope.semester.semester}
+						data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:getTeachers($scope.courseTeacher.event.schedule.courses),year:$scope.semester.year,semester:$scope.semester.semester}
 					}).success(function(data) {
 															
-						teachers=getTeachers($scope.courseTeacher.event.schedule.courses)
-						for(h=0;h<teachers.length;h++){
-							teachers[h].semesterTeachers.push($scope.courseTeacher.teacher);
+						
+						for(t=0;t<$scope.courseTeacher.event.schedule.courses.length;t++){
+							$scope.courseTeacher.event.schedule.courses[t].semesterTeachers.push($scope.courseTeacher.teacher);
 						}
 						
 						deferred.resolve($scope.courseTeacher.event);
@@ -621,7 +618,7 @@ function CalendarCtrl($scope, $http, $q){
 				$http({
 					url:"/course/assignedInstructor",
 					method:'put',
-					data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:getTeachers($scope.courseTeacher.event.schedule.courses).id,year:$scope.semester.year,semester:$scope.semester.semester}
+					data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:getTeachers($scope.courseTeacher.event.schedule.courses),year:$scope.semester.year,semester:$scope.semester.semester}
 				}).success(function(data) {
 													
 					teachers=getTeachers($scope.courseTeacher.event.schedule.courses)
@@ -640,6 +637,7 @@ function CalendarCtrl($scope, $http, $q){
 						//Update
 						$scope.removeSchedule(event.schedule);
 						$scope.addSchedule(event.schedule);
+						
 				});
 		$('#assingTeacherCourse').modal('hide')
 		//alert("Se debe asignar como profesor"+(isInCharge == 1 ? ' no ' : '')+ ' a cargo a este curso, y al horario');

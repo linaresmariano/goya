@@ -44,7 +44,7 @@ block content
 						.row.list-group
 							div.list-group-item 
 								b Aula
-								&nbsp; {{courseShow.schedule.semesterClassRoom.classRoom.number}}
+								&nbsp; {{scheduleShow.schedule.semesterClassRoom.classRoom.number}}
 								button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateClassroom()")
 										span.glyphicon.glyphicon-remove
 						.row.list-group
@@ -53,19 +53,19 @@ block content
 									input.pull-right(type="checkbox")
 						.row.panel.panel-default
 							.panel-heading Profesores a cargo del curso
-							div.list-group-item(ng-repeat="semesterTeacher in courseShow.course.semesterTeachers track by $index")
+							div.list-group-item(ng-repeat="semesterTeacher in getTeachers(scheduleShow.schedule.courses) track by $index")
 								div{{semesterTeacher.teacher.name}} 
 									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(semesterTeacher.teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores no a cargo del curso
-							div.list-group-item(ng-repeat="semesterTeacher in courseShow.course.semesterInstructors track by $index")
+							div.list-group-item(ng-repeat="semesterTeacher in getTeachers(scheduleShow.schedule.courses) track by $index")
 								div	{{semesterTeacher.teacher.name}}
 									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseInstructor(semesterTeacher.teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores asignados a este horario
-							div.list-group-item(ng-repeat="semesterTeacher in courseShow.schedule.semesterTeachers track by $index")
+							div.list-group-item(ng-repeat="semesterTeacher in scheduleShow.schedule.semesterTeachers track by $index")
 								div	{{semesterTeacher.teacher.name}}
 									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateScheduleTeacher(semesterTeacher.teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
@@ -84,11 +84,11 @@ block content
 										.col-lg-6
 											.form-group
 												label(for='extraHour') Horario de inicio extra
-												input#extraHour.form-control(type="number",ng-model="newPatchExtras.extraHour",ng-value="courseShow.schedule.patch.extraHour",step="0.5", name="extraHour")
+												input#extraHour.form-control(type="number",ng-model="newPatchExtras.extraHour",ng-value="scheduleShow.schedule.patch.extraHour",step="0.5", name="extraHour")
 										.col-lg-6
 											.form-group
 												label(for='extraDuration') Horas de duracion extra
-												input#extraDuration.form-control(type="number",ng-model="newPatchExtras.extraDuration",ng-value="courseShow.schedule.patch.extraDuration",step="0.5", name="extraDuration")
+												input#extraDuration.form-control(type="number",ng-model="newPatchExtras.extraDuration",ng-value="scheduleShow.schedule.patch.extraDuration",step="0.5", name="extraDuration")
 											button.pull-right.padding-bottom-button(type="submit",class="btn btn-success") Guardar
 					.modal-footer
 						button.btn.btn-default(type='button', data-dismiss='modal') Cancelar
