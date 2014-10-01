@@ -70,8 +70,44 @@ exports.list = function(req, res){
 
 exports.edit = function(req, res) {
 
-  res.render('subject/edit', {
-    title: 'Editar Materia'
+  var id = req.params.id
+
+  console.log(id)
+
+  db.Subject.find({
+    include: [ {model: db.Career, as: 'dictateCareers', require:false} ],
+    where:{ 'id': id }
+  }).success(function(subject) {
+    db.Career.findAll().success(function(careers) {
+      res.render('subject/edit', {
+        title: 'Editar Materia',
+        subject: subject,
+        careers: careers
+      })
+
+    })
+  })
+  
+}
+
+
+exports.update = function(req, res) {
+
+  var id = req.params.id
+
+  console.log(id)
+
+  db.Subject.find(id).success(function(subject) {
+    db.Career.findAll().success(function(careers) {
+      console.log(subject)
+      console.log(careers)
+      res.render('subject/edit', {
+        title: 'Editar Materia',
+        subject: subject,
+        careers: careers
+      })
+
+    })
   })
   
 }

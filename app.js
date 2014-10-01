@@ -75,6 +75,7 @@ app.get('/lastSemester', routes.lastSemester);
 //courses
 app.get('/courses', cursos.index);
 app.get('/course/new', cursos.new);
+app.get('/course/edit/:year/:semester/:commission', cursos.edit);
 app.post('/course/create', cursos.create);
 app.put('/updateCourse', cursos.update);
 app.put('/updateEndCourse', cursos.updateEnd);
@@ -93,7 +94,8 @@ app.get('/classroom/list/:year/:semester', classroom.list);
 //subjects
 app.get('/subject/new', subject.new);
 app.post('/subject/create', subject.create);
-app.post('/subject/edit', subject.edit);
+app.post('/subject/update', subject.update);
+app.get('/subject/edit/:id', subject.edit);
 app.get('/subject/list', subject.list);
 
 //teachers

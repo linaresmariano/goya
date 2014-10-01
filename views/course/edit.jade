@@ -1,0 +1,112 @@
+extends ../layout
+
+block content
+  script.
+    
+    app.controller('createCourseCtrl', function ($scope,localStorageService, subjectService) {
+
+      $scope.subjects=!{JSON.stringify(subjects)}
+
+      $scope.modalities = subjectService.modalities
+
+      $scope.hours = []
+      for(i=8;i<21;i++){
+        $scope.hours.push(i);
+      }
+      $scope.durations = [];
+      for(i=2;i<7;i++){
+        $scope.durations.push(i);
+      }
+      $scope.days = [{name:'Lunes',id:0},
+              {name:'Martes',id:1},
+              {name:'Miercoles',id:2},
+              {name:'Jueves',id:3},
+              {name:'Viernes',id:4},
+              {name:'Sabado',id:5}];
+      $scope.schedules = [];
+      $scope.remove=function(index){
+        $scope.schedules.splice(index,1);
+      }
+      $scope.add=function(hour,duration,day,id){
+        if(hour != undefined  && 
+        duration != undefined && 
+        day != undefined && 
+        id != undefined && 
+        !isRepeat(hour,duration,day)){
+          $scope.schedules.push({day:day,id:id,hour:hour,duration:duration});
+        }
+        
+      }
+      function isRepeat(hour,duration,day){
+        for(i =0;i < $scope.schedules.length;i++){
+        schedule=$scope.schedules[i];
+          if(schedule.day == day && schedule.hour == hour && schedule.duration == duration){
+            return true;
+          }
+        };
+        return false;
+      }
+    })
+  .container(ng-controller='createCourseCtrl')
+    form(action="../course/create",method="post")
+      legend Nuevo curso para el semestre {{number}} de {{year}}
+      div.col-md-4
+        .form-group
+          label(for='selectSubject') Materia
+          select#selectSubject(class="form-control",ng-model="subject",ng-options="subject.name for subject in subjects",required)
+            option(value="") Seleccione una materia
+          input(name="idSubject",value="{{subject.id}}",hidden)
+
+
+        legend Comisión
+        .form-group
+          label(for='commission') Número
+          input#commission.form-control(type="number", min="1", placeholder='Número de comision', name='commission', required)
+          
+        .form-group
+          label(for='nick') Apodo
+          input#nick.form-control(placeholder='Apodo del curso (ej: EPA para EPERS-C1)', name='nick', maxlength='12')
+
+        .form-group
+          label(for='modality') Modalidad
+          select.form-control(ng-model='modality', ng-options='modality.name for modality in modalities', name='modality')
+            option(value="") Seleccione una modalidad
+
+        .form-group
+          label(for='capacity') Capacidad
+          input#capacity.form-control(placeholder='Capacidad', name='capacity', type='number')
+
+
+        legend Horarios
+        .form-group
+          label Horarios seleccionados
+          div(class="form-control",ng-repeat="schedule in schedules track by $index")
+            div El dia {{schedule.day}} a las {{schedule.hour}} durante {{schedule.duration}} horas
+              button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="remove(index)")
+                span.glyphicon.glyphicon-remove
+              input.hidden(name="duration",type="number",value="{{schedule.duration}}")
+              input.hidden(name="day",type="number",value="{{schedule.id}}")
+              input.hidden(name="hour",type="number",value="{{schedule.hour}}")
+          br
+          br
+          label Nuevo Horario
+          select(class="form-control",ng-model="hour",ng-options="hour for hour in hours")
+            option(value="") Seleccione una hora de inicio
+          br
+          select(class="form-control",ng-model="duration",ng-options="duration for duration in durations")
+            option(value="") Seleccione una duracion en horas
+          br
+          select(class="form-control",ng-model="day",ng-options="day.name for day in days")
+            option(value="") Seleccione un dia de la semana
+          br
+          button.btn.btn-success.pull-right(type="button",ng-click="add(hour,duration,day.name,day.id)") Agregar
+        legend Requisitos
+        .form-group
+          label(for='numberOfComputers') Computadoras
+          input#numberOfComputers.form-control(type="number",min="0", placeholder='Cantidad de computadoras',name='numberOfComputers',required,maxlength='12', value='0')
+        .form-group.hidden
+          input.form-control(value='{{ number}}',name='semester',type="number")
+          input.form-control(value='{{ year}}',name='year',type="number")
+        button.btn.btn-success(type="submit") Crear
+
+

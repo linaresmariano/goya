@@ -290,4 +290,21 @@ exports.assignedInstructor = function(req, res) {
 }
 
 
+exports.edit = function(req, res) {
 
+	var year = req.params.year;
+	var semester = req.params.semester;
+	var commission = req.params.commission;
+	
+	db.Semester.find({
+		include: [ {model: db.Course, as: 'Courses' ,require:false,
+					include:{model: db.Subject, as: 'Subject',require:false}}],
+		where:{ 'year': year,'semester':semester}
+	}).success(function(semester) {
+	
+		res.render('course/list', {
+          title: 'Cursos',
+          courses:semester.courses
+		});
+	});
+};

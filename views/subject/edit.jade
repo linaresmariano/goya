@@ -2,61 +2,72 @@ extends ../layout
 
 block content
 
-  script.
-    
-    app.controller('createCourseCtrl', function ($scope,localStorageService) {
+  .container(ng-controller='editSubjectCtrl',
+    ng-init="careers= #{JSON.stringify(careers)}; subject=#{JSON.stringify(subject)}; dictateCareers=#{JSON.stringify(subject)}.dictateCareers")
 
-      $scope.areas = [
-        {id:0, name:'Programación'},
-        {id:1, name:'Sistemas Informáticos'},
-        {id:2, name:'Matemática Básica'},
-        {id:3, name:'Matemática Superior'},
-        {id:4, name:'Idioma'}
-      ]
-      
-    })
-
-  .container
-    form(action="../subject/create",method="post")
+    form(action="../subject/update", method="post")
       legend Nueva Materia para el semestre {{number}} de {{year}}
       div.col-md-6
 
         .form-group
-          label(for='area') Área
-          select(class="form-control", ng-model="area", ng-options="area in areas")
+          label Carrera
+          select.form-control(ng-model='career', ng-options='career.name for career in careers', name='career')
+            option(value="") Seleccione la carrera a la que pertenece la materia
+            input(name="careerId", value="{{career.id}}", hidden)
+
 
         .form-group
-          label(for='core') Núcleo
-          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+          label Carreras donde se dicta
+          select.form-control(ng-model="dictate", ng-options="career.name for career in careers")
+            option(value="") Seleccione la carrera en la que se dictará la materia
+          br
 
-        .form-group
-          label(for='pediod') Período
-          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+          button.btn.btn-success.pull-right(type="button", ng-click="addDictate(dictate)") Agregar
+          br
+          br
 
-        .form-group
-          label(for='modality') Modalidad
-          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+          div.form-control(ng-repeat="dictateCareer in dictateCareers track by $index")
+            div {{dictateCareer.name}}
+              button.btn.btn-xs.btn-danger.pull-right(type="button", ng-click="remove(index)")
+                span.glyphicon.glyphicon-remove
+                input.hidden(name="dictates", type="number", value="{{dictateCareer.id}}")
+          br
 
-        .form-group
-          label(for='ocode') Código de Asignatura
-          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
-
-        .form-group
-          label(for='credits') Créditos
-          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
-
-        .form-group
-          label(for='capacity') Capacidad
-          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
 
         .form-group
           label(for='name') Nombre 
-          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+          input#name.form-control(placeholder='Nombre'
+            name='name' required maxlength='100' value='{{subject.name}}')
 
         .form-group
-          label(for='code') Codigo
-          input#code.form-control( placeholder='Codigo',name='code',required,maxlength='12')
+          label(for='nick') Apodo
+          input#nick.form-control(placeholder='Apodo (ej: EPERS)'
+            name='nick' required maxlength='12' value='{{subject.nick}}')
 
-        button.btn.btn-success(type="submit") Crear
+        .form-group
+          label(for='area') Área
+          select.form-control(ng-model='area', ng-options='area.name for area in areas', name='area')
+            option(value="") Seleccione un área
+
+        .form-group
+          label(for='core') Núcleo
+          select.form-control(ng-model='core', ng-options='core.name for core in cores', name='core')
+            option(value="") Seleccione un núcleo
+
+        .form-group
+          label(for='pediod') Período
+          input#period.form-control(value='{{subject.period}}' name='period' maxlength='100')
+
+        .form-group
+          label(for='ocode') Código de Asignatura
+          input#name.form-control(value='{{subject.ocode}}'
+            placeholder='Código de asignatura' name='ocode' maxlength='100')
+
+        .form-group
+          label(for='credits') Créditos
+          input#credits.form-control(value='{{subject.credits}}'
+            placeholder='Créditos' name='credits' type='number')
+
+        button.btn.btn-success(type="submit") Guardar
 
 
