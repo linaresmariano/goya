@@ -84,15 +84,22 @@ module.exports = function(sequelize, DataTypes) {
 				
 				//Si no existe el semesterTeacher lo crea y lo asigna
 				if(semesterTeacher == undefined){
+					console.log("********************* NO EXISTE *****************************")
 					Teacher.newSemesterTeacher(idTeacher,function(newSemesterTeacher) {
 											course.addSemesterTeacher(newSemesterTeacher);	
-											semester.addSemesterTeacher(newSemesterTeacher);
-											success(undefined);											
+											semester.addSemesterTeacher(newSemesterTeacher).success(
+												function(result){
+													success(undefined);	
+												}
+											)										
 									});
 				}else{
 					//Si el semesterTeacher existe,simplemente lo asigna
-					this.addSemesterTeacher(semesterTeacher);	
-					success(undefined);
+					this.addSemesterTeacher(semesterTeacher).success(
+												function(result){
+													success(undefined);	
+												}
+											)
 				}
 		},
 		checkAndAssignInstructor:function(semesterTeacher,idTeacher,semester,success) {
@@ -104,14 +111,22 @@ module.exports = function(sequelize, DataTypes) {
 				//Si no existe el semesterTeacher lo crea y lo asigna
 				if(semesterTeacher == undefined){
 					Teacher.newSemesterTeacher(idTeacher,function(newSemesterTeacher) {
+											
 											course.addSemesterInstructor(newSemesterTeacher);	
-											semester.addSemesterTeacher(newSemesterTeacher);
-											success(undefined);											
+											semester.addSemesterTeacher(newSemesterTeacher).success(
+												function(result){
+													success(undefined);	
+												}
+											)
+																					
 									});
 				}else{
 					//Si el semesterTeacher existe,simplemente lo asigna
-					this.addSemesterInstructor(semesterTeacher);	
-					success(undefined);
+					this.addSemesterInstructor(semesterTeacher).success(
+												function(result){
+													success(undefined);	
+												}
+											)
 				}
 		}
 	  }

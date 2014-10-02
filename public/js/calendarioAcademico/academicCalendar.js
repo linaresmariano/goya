@@ -168,8 +168,8 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.unifySchedules=function(schedules){
 		firstSchedule=schedules[0];
 		for(p=1;p < schedules.length;p++){
-			for(m=0;m < schedules[m].courses.length;m++){
-				firstSchedule.courses.push(schedules[p].courses[m]);
+			for(j=0;j < schedules[j].courses.length;j++){
+				firstSchedule.courses.push(schedules[p].courses[j]);
 			}
 		}
 		return firstSchedule;
@@ -485,7 +485,7 @@ function CalendarCtrl($scope, $http, $q){
 		extraMinutesDuration=getMinutes(schedule.patch.extraDuration);
       	$scope.events.push({
 								id: schedule.id,
-								title: schedule.courses[0].subject.nick+ ""+$scope.getCommissions(schedule) +"\n" +  schedule.type
+								title: (schedule.courses[0].subject ? schedule.courses[0].subject.nick : ''+ "" )+ $scope.getCommissions(schedule) +"\n" +  schedule.type
 									+'\n Aula '+(schedule.semesterClassRoom ? schedule.semesterClassRoom.classRoom.number : '??')
 									+ getNamesTeachers(schedule.semesterTeachers,schedule.patch),
 								start: new Date(y, m-1, d+schedule.day, schedule.hour+extraHour,schedule.minutes+extraMinutes),
@@ -939,6 +939,7 @@ function CalendarCtrl($scope, $http, $q){
 				
 			}else{
 					if(!$scope.existsSchedule(horario)){
+						c=replaceCourse(horario,$scope.courses)
 						$scope.addSchedule(replaceCourse(horario,$scope.courses));
 					}
 				}

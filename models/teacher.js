@@ -16,8 +16,12 @@ module.exports = function(sequelize, DataTypes) {
 		Teacher.find(idTeacher).success(function(teacher) {
 						SemesterTeacher.create({
 						}).success(function(newSemesterTeacher){
-							newSemesterTeacher.setTeacher(teacher);
-							success(newSemesterTeacher);
+							newSemesterTeacher.setTeacher(teacher).success(
+								function(result){
+									success(newSemesterTeacher);
+								}
+							);
+							
 						});
 
 				});
