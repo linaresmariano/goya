@@ -267,7 +267,6 @@ function CalendarCtrl($scope, $http, $q){
 				seconds=Math.abs(date.getMinutes() + (date.getHours() * 60) - ((getMinutes(copiedEventObject.schedule.patch.extraHour) +(getHour(copiedEventObject.schedule.patch.extraHour)*60)) || 0))*60;
 				hour=Math.abs(parseInt(seconds/3600));
 				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
-				alert(copiedEventObject);
 				if(unifySchedules(date.getDay(),hour,minutes,copiedEventObject)){
 					return;
 				}
@@ -726,8 +725,8 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	function existSemesterTeacherInSchedulesOfCourses(courses,semesterTeacher){
-		for(l=0;l<$scope.events.length;l++){
-			if(existSemesterTeacherInSchedules($scope.events[l].schedule,courses,semesterTeacher)) return true;
+		for(rrr=0;rrr<$scope.events.length;rrr++){
+			if(existSemesterTeacherInSchedules($scope.events[rrr].schedule,courses,semesterTeacher)) return true;
 		}
 		return false;
 	}
@@ -874,8 +873,8 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	function existsCourseInSchedule(course, schedule){
-		for(i=0;i<schedule.courses.length;i++){
-			if(schedule.courses[i].id == course.id){
+		for(c=0;c<schedule.courses.length;c++){
+			if(schedule.courses[c].id == course.id){
 				return true;
 			}
 		}
