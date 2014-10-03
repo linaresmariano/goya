@@ -435,10 +435,11 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.getInstructors=function(courses){
 		teachers=[];
 		if(courses == undefined)return teachers;
-		for(u=0;u < courses.length;u++){
-			for(v=0;v < courses[u].semesterInstructors.length;v++){
-				if(!existTeacher(teachers,courses[u].semesterInstructors[v])){
-					teachers.push(courses[u].semesterInstructors[v]);
+		
+		for(w=0;w < courses.length;w++){
+			for(g=0;g < courses[w].semesterInstructors.length;g++){
+				if(!existTeacher(teachers,courses[w].semesterInstructors[g])){
+					teachers.push(courses[w].semesterInstructors[g]);
 				}
 			}
 		}
@@ -939,7 +940,6 @@ function CalendarCtrl($scope, $http, $q){
 				
 			}else{
 					if(!$scope.existsSchedule(horario)){
-						c=replaceCourse(horario,$scope.courses)
 						$scope.addSchedule(replaceCourse(horario,$scope.courses));
 					}
 				}
@@ -953,8 +953,8 @@ function CalendarCtrl($scope, $http, $q){
 		for(h=0; h<schedule.courses.length; h++) {
 			for(x=0; x< courses.length; x++) {
 				if(schedule.courses[h].id == courses[x].id){
-					schedule.courses.splice(h,1);
-					schedule.courses.push(courses[x]);
+					schedule.courses[h]=courses[x];
+					break;
 				}
 			}
 		}
