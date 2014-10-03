@@ -175,22 +175,10 @@ function CalendarCtrl($scope, $http, $q){
 		return firstSchedule;
 	}
 	
-    $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-       		if(esHorarioInvalido(event.start.getHours()) ||
-		                 esHorarioInvalido(event.end.getHours())){		 
-				revertFunc();				
-			}else{
-			
-				seconds=Math.abs(minuteDelta+event.schedule.minutes + (event.schedule.hour * 60) )*60;
-				hour=Math.abs(parseInt(seconds/3600));
-				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
-				
-				event.schedule.day=event.start.getDay();
-				event.schedule.hour=hour;
-				event.schedule.minutes=minutes;
-				
-				var deferred = $q.defer();
-				var schedules=$scope.getSchedulesAtTheSameTime(event.schedule);
+	/* Unifica horarios si es necesario,ademas retorna true si lo hace y false si no lo hace*/
+	function unifySchedules(day,hour,minutes,event){
+		var deferred = $q.defer();
+				var schedules=$scope.getSchedulesAtTheSameTime(day,hour,minutes,event.schedule);
 				if(schedules.length != 0){
 					schedules.push(event.schedule);
 					var newSchedule=$scope.unifySchedules(schedules);
@@ -200,7 +188,9 @@ function CalendarCtrl($scope, $http, $q){
 							schedules:schedules
 						},
 						success:function(result){
-						
+							event.schedule.day=day;
+							event.schedule.hour=hour;
+							event.schedule.minutes=minutes;
 							deferred.resolve(event.schedule);
 						},
 						error:function(err){
@@ -223,8 +213,26 @@ function CalendarCtrl($scope, $http, $q){
 						}
 						
 					});
+					return true;
+				}else{
+					return false;
+				}
+	}
+	
+    $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
+       		if(esHorarioInvalido(event.start.getHours()) ||
+		                 esHorarioInvalido(event.end.getHours())){		 
+				revertFunc();				
+			}else{
+			
+				seconds=Math.abs(minuteDelta+event.schedule.minutes + (event.schedule.hour * 60) )*60;
+				hour=Math.abs(parseInt(seconds/3600));
+				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
+				
+				if(unifySchedules(event.start.getDay(),hour,minutes,event)){
 					return;
 				}
+				
 
 				$.ajax({url:"/updateCourse",
 						method:'put',
@@ -259,6 +267,11 @@ function CalendarCtrl($scope, $http, $q){
 				seconds=Math.abs(date.getMinutes() + (date.getHours() * 60) - ((getMinutes(copiedEventObject.schedule.patch.extraHour) +(getHour(copiedEventObject.schedule.patch.extraHour)*60)) || 0))*60;
 				hour=Math.abs(parseInt(seconds/3600));
 				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
+				alert(copiedEventObject);
+				if(unifySchedules(date.getDay(),hour,minutes,copiedEventObject)){
+					return;
+				}
+				
 				
 					$http({
 							url:"/updateCourse",
@@ -459,12 +472,12 @@ function CalendarCtrl($scope, $http, $q){
 		return parseInt(floatNumber) ;
 	}
 	
-	$scope.getSchedulesAtTheSameTime=function(schedule){
+	$scope.getSchedulesAtTheSameTime=function(day,hour,minutes,schedule){
 		schedules=[];
         for(h=0;h<$scope.events.length;h++){
             courseInfo=$scope.events[h];
-            if(courseInfo.schedule.day == schedule.day && courseInfo.schedule.hour == schedule.hour &&
-            courseInfo.schedule.minutes ==  schedule.minutes && courseInfo.schedule.durationHour ==  schedule.durationHour  &&
+            if(courseInfo.schedule.day == day && courseInfo.schedule.hour == hour &&
+            courseInfo.schedule.minutes ==  minutes && courseInfo.schedule.durationHour ==  schedule.durationHour  &&
             courseInfo.schedule.durationMinutes ==  schedule.durationMinutes &&
             courseInfo.schedule.courses[0].subject.name == schedule.courses[0].subject.name && courseInfo.schedule.durationMinutes ==  schedule.durationMinutes &&
 			courseInfo.schedule.patch.extraHour == schedule.patch.extraHour &&  courseInfo.schedule.patch.extraDuration == schedule.patch.extraDuration &&
