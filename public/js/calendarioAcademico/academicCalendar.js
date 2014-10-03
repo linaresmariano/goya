@@ -713,17 +713,17 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	function existSemesterTeacherInSchedulesOfCourses(courses,semesterTeacher){
-		for(l=0;i<courses.length;l++){
-			if(existSemesterTeacherInSchedules(courses[l],semesterTeacher)) return true;
+		for(l=0;l<$scope.events.length;l++){
+			if(existSemesterTeacherInSchedules($scope.events[l].schedule,courses,semesterTeacher)) return true;
 		}
 		return false;
 	}
 	
 	$scope.deallocateCourseTeacher=function(idTeacher,semesterTeacher){
-		/*if(existSemesterTeacherInSchedulesOfCourses($scope.scheduleShow.schedule.courses,semesterTeacher)){
+		if(existSemesterTeacherInSchedulesOfCourses($scope.scheduleShow.schedule.courses,semesterTeacher)){
 					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
 					return;
-		}*/
+		}
 		
 		$http({
 			url:"/course/deallocateTeacher",
@@ -746,10 +746,10 @@ function CalendarCtrl($scope, $http, $q){
 	
 	$scope.deallocateCourseInstructor=function(idTeacher,semesterTeacher){
 	
-		/*if(existSemesterTeacherInSchedulesOfCourses($scope.scheduleShow.schedule.courses,semesterTeacher)){
+		if(existSemesterTeacherInSchedulesOfCourses($scope.scheduleShow.schedule.courses,semesterTeacher)){
 					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
 					return;
-		}*/
+		}
 		$http({
 			url:"/course/deallocateInstructor",
 			method:'put',
@@ -851,9 +851,18 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	
-	function existSemesterTeacherInSchedules(schedules,teacher){
-		for(i=0;i<schedules.length;i++){
-			if(existSemesterTeacher(schedules[i].semesterTeachers,teacher)){
+	function existSemesterTeacherInSchedules(schedule,courses,teacher){
+		for(i=0;i<courses.length;i++){
+			if(existsCourseInSchedule(courses[i],schedule) && existSemesterTeacher(schedule.semesterTeachers,teacher)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	function existsCourseInSchedule(course, schedule){
+		for(i=0;i<schedule.courses.length;i++){
+			if(schedule.courses[i].id == course.id){
 				return true;
 			}
 		}

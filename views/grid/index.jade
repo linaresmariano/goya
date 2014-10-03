@@ -39,7 +39,7 @@ block content
 						button.close(type='button', data-dismiss='modal')
 							span(aria-hidden='true') ×
 							span.sr-only Close
-						h4#myModalLabel.modal-title {{scheduleShow.schedule.courses[0].subject.name}} - {{scheduleShow.schedule.type}}  {{getCommissions(scheduleShow.schedule)}}
+						h4#myModalLabel.modal-title {{scheduleShow ? scheduleShow.schedule.courses[0].subject.name : ''}} - {{scheduleShow ?  scheduleShow.schedule.type : ''}}  {{ scheduleShow ? getCommissions(scheduleShow.schedule) : ''}}
 					.modal-body 
 						.row.list-group
 							div.list-group-item 
