@@ -733,7 +733,7 @@ function CalendarCtrl($scope, $http, $q){
 			
 			for(j=0;j<$scope.scheduleShow.schedule.courses.length;j++){
 				for(k=0;k<$scope.scheduleShow.schedule.courses[j].semesterTeachers.length;k++){
-					if($scope.scheduleShow.schedule.courses[j].semesterTeachers[k].id ==idTeacher){
+					if($scope.scheduleShow.schedule.courses[j].semesterTeachers[k].teacher.id ==idTeacher){
 						$scope.scheduleShow.schedule.courses[j].semesterTeachers.splice(k,1);
 					}
 				}
@@ -755,10 +755,9 @@ function CalendarCtrl($scope, $http, $q){
 			method:'put',
 			data: { idCourse:$scope.scheduleShow.schedule.courses,idTeacher:idTeacher}
 		}).success(function(data) {
-
 			for(j=0;j<$scope.scheduleShow.schedule.courses.length;j++){
 				for(k=0;k<$scope.scheduleShow.schedule.courses[j].semesterInstructors.length;k++){
-					if($scope.scheduleShow.schedule.courses[j].semesterInstructors[k].id ==idTeacher){
+					if($scope.scheduleShow.schedule.courses[j].semesterInstructors[k].teacher.id ==idTeacher){
 						$scope.scheduleShow.schedule.courses[j].semesterInstructors.splice(k,1);
 					}
 				}
