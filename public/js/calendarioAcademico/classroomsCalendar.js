@@ -23,22 +23,34 @@ function CalendarCtrl($scope, $http, $q){
     };
 
     
-
+	function getMinutes(floatNumber){
+		sign=floatNumber >= 0 ? 1 : -1 ;
+		return (floatNumber+"").split(".").length == 1 ? 0 : ((floatNumber+"").split(".")[1]-2)*10*sign;
+	}
+	
+	function getHour(floatNumber){
+		return parseInt(floatNumber) ;
+	}
 	
 
     //Agrega un schedule al calendario
-    $scope.addSchedule = function(course,schedule) {
+    $scope.addSchedule = function(schedule) {
+	
+		extraHour=getHour(schedule.patch.extraHour);
+		extraMinutes=getMinutes(schedule.patch.extraHour);
+		
+		extraHourDuration=getHour(schedule.patch.extraDuration);
+		extraMinutesDuration=getMinutes(schedule.patch.extraDuration);
       	$scope.events.push({
 								id: schedule.id,
-								title:  (schedule.semesterClassRoom == undefined ? '' : '\n Aula '+schedule.semesterClassRoom.classRoom.number),
-								start: new Date(y, m-1, d+schedule.day, schedule.hour, 0),
-								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.duration, 0),
+								title:  'Aula '+ schedule.semesterClassRoom.classRoom.number ,
+								start: new Date(y, m-1, d+schedule.day, schedule.hour+extraHour,schedule.minutes+extraMinutes),
+								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.durationHour+extraHour+extraHourDuration, schedule.minutes+schedule.durationMinutes+extraMinutes+extraMinutesDuration),
 								allDay: false,
 								backgroundColor: 'green',
 								borderColor: 'black',
 								//Datos necesarios del modelo
-								schedule:schedule,
-								course:course,
+								schedule:schedule
 							});
     };
 	
@@ -95,7 +107,16 @@ function CalendarCtrl($scope, $http, $q){
       }
     };
 
-
+	$scope.existsSchedule= function(schedule) {
+		
+		for(p=0;p< $scope.events.length;p++){
+			if($scope.events[p].schedule.id == schedule.id){
+				return true;
+			}
+		}
+		
+		return false;
+    };
 	
 	
 	//Modelos
@@ -108,13 +129,19 @@ function CalendarCtrl($scope, $http, $q){
 
 			var curso = $scope.courses[i];
 			var horario = curso.schedules[j];
-				
-				//Si no esta asignada a un horario o dia			
-				if((horario.day != -1  || horario.hour != -1 ) && horario.semesterClassRoom != undefined){
-					$scope.addSchedule(curso,horario);
+
+			//Si no esta asignada a un horario o dia			
+			if(!(horario.day == -1  || horario.hour == -1 ) && horario.semesterClassRoom != undefined){
+				if(!$scope.existsSchedule(horario)){
+						$scope.addSchedule(horario);
 				}
+				
 			}
+		}
+
 	}
+	
+
 	/* event sources array*/
     $scope.eventSources = [$scope.events];		
 
