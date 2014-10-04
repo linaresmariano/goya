@@ -422,6 +422,7 @@ function CalendarCtrl($scope, $http, $q){
 	
 	$scope.getTeachers=function(courses){
 		teachers=[];
+		if(courses == undefined)return teachers;
 		for(n=0;n < courses.length;n++){
 			for(c=0;c < courses[n].semesterTeachers.length;c++){
 				if(!existTeacher(teachers,courses[n].semesterTeachers[c])){
@@ -434,6 +435,7 @@ function CalendarCtrl($scope, $http, $q){
 	
 	$scope.getInstructors=function(courses){
 		teachers=[];
+		if(courses == undefined)return teachers;
 		for(n=0;n < courses.length;n++){
 			for(c=0;c < courses[n].semesterInstructors.length;c++){
 				if(!existTeacher(teachers,courses[n].semesterInstructors[c])){
@@ -947,18 +949,31 @@ function CalendarCtrl($scope, $http, $q){
 			//Si no esta asignada a un horario o dia			
 			if(horario.day == -1  || horario.hour == -1 ){
 				if(!$scope.existsSchedule(horario)){
-					$scope.addScheduleNotAssigned(horario);
+					$scope.addScheduleNotAssigned(replaceCourse(horario,$scope.courses));
 				}
 				
 			}else{
 					if(!$scope.existsSchedule(horario)){
-						$scope.addSchedule(horario);
+						$scope.addSchedule(replaceCourse(horario,$scope.courses));
 					}
 				}
 			}
+			$scope.courses[i].schedules=[];
 	}
 	/* event sources array*/
     $scope.eventSources = [$scope.events];
+	
+	function replaceCourse(schedule,courses){
+		for(h=0; h<schedule.courses.length; h++) {
+			for(x=0; x< courses.length; x++) {
+				if(schedule.courses[h].id == courses[x].id){
+					schedule.courses.splice(courses[x],1);
+					schedule.courses.push(courses[x]);
+				}
+			}
+		}
+		return schedule;
+	}
 	
 	function esHorarioInvalido(hora){
 	   if((hora >= 0 && hora<8) || hora>22  ){
