@@ -292,14 +292,21 @@ exports.assignedInstructor = function(req, res) {
 	 //Asigna un instructor a un curso
 
 	
-	for(m=0;m< idCourse.length;m++){
-		instructorAssignedToACourse=function(course){
-			db.Semester.instructorAssignedToACourse(idTeacher,course.id,semester,year,function(result) {
+	//Por recursoion
+	var instructorAssignedToACourses=function(courses){
+			console.log(courses.length);
+		if(courses.length != 0){
+			db.Semester.instructorAssignedToACourse(idTeacher,courses[0].id,semester,year,function(result) {
+				console.log("La concha de tu madre bien putaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				courses.splice(0,1);
+				instructorAssignedToACourses(courses);
 			});
+		}else{
+		console.log("''''''''''''''''''''''''''''''''''''''''''");
+			res.send('ok');
 		}
-		instructorAssignedToACourse(idCourse[m]);
 	}
-	res.send('ok');
+	instructorAssignedToACourses(idCourse);
 }
 
 

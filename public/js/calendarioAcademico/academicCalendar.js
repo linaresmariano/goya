@@ -636,7 +636,7 @@ function CalendarCtrl($scope, $http, $q){
 					$http({
 						url:"/course/assignedTeacher",
 						method:'put',
-						data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.getTeachers($scope.courseTeacher.event.schedule.courses),year:$scope.semester.year,semester:$scope.semester.semester}
+						data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.schedule.courses,year:$scope.semester.year,semester:$scope.semester.semester}
 					}).success(function(data) {
 															
 						
@@ -654,7 +654,7 @@ function CalendarCtrl($scope, $http, $q){
 				$http({
 					url:"/course/assignedInstructor",
 					method:'put',
-					data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.getTeachers($scope.courseTeacher.event.schedule.courses),year:$scope.semester.year,semester:$scope.semester.semester}
+					data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.schedule.courses,year:$scope.semester.year,semester:$scope.semester.semester}
 				}).success(function(data) {
 													
 					for(z=0;z<$scope.courseTeacher.event.schedule.courses.length;z++){
