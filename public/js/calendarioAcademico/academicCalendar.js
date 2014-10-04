@@ -194,7 +194,7 @@ function CalendarCtrl($scope, $http, $q){
 				if(schedules.length != 0){
 					schedules.push(event.schedule);
 					var newSchedule=$scope.unifySchedules(schedules);
-							
+					alert(JSON.stringify(schedules[0]));
 					$.ajax({url:"/schedule/unify",
 						method:'put',
 						data: {
@@ -437,9 +437,9 @@ function CalendarCtrl($scope, $http, $q){
 		teachers=[];
 		if(courses == undefined)return teachers;
 		for(n=0;n < courses.length;n++){
-			for(c=0;c < courses[n].semesterInstructors.length;c++){
-				if(!existTeacher(teachers,courses[n].semesterInstructors[c])){
-					teachers.push(courses[n].semesterInstructors[c]);
+			for(v=0;v < courses[n].semesterInstructors.length;v++){
+				if(!existTeacher(teachers,courses[n].semesterInstructors[v])){
+					teachers.push(courses[n].semesterInstructors[v]);
 				}
 			}
 		}
@@ -967,7 +967,7 @@ function CalendarCtrl($scope, $http, $q){
 		for(h=0; h<schedule.courses.length; h++) {
 			for(x=0; x< courses.length; x++) {
 				if(schedule.courses[h].id == courses[x].id){
-					schedule.courses.splice(courses[x],1);
+					schedule.courses.splice(h,1);
 					schedule.courses.push(courses[x]);
 				}
 			}
