@@ -93,8 +93,32 @@ exports.edit = function(req, res) {
 
 exports.update = function(req, res) {
 
-  res.redirect('subject/list')
-  req.flash(typeMessage.SUCCESS, "La materia se ha guardado con éxito")
+  var id = req.params.id
+
+  db.Subject.find(id).success(function(subject) {
+    if (subject) { // if the record exists in the db
+      subject.updateAttributes({
+        nick: req.body.nick,
+        name: req.body.name,
+        area: req.body.area,
+        core: req.body.core,
+        period: req.body.period,
+        ocode: req.body.ocode,
+        credits: req.body.credits,
+        CareerId: req.body.careerId
+      }).success(function() {
+
+        res.redirect('subject/list')
+        req.flash(typeMessage.SUCCESS, "La materia se ha guardado con éxito")
+
+      })
+    }
+  }).error(function(err) {
+
+    res.redirect('subject/list')
+    req.flash(typeMessage.ERROR, err.name[0])
+
+  })
   
 }
 

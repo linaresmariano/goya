@@ -100,7 +100,7 @@ app.get('/classroom/list/:year/:semester', classroom.list);
 //subjects
 app.get('/subject/new', subject.new);
 app.post('/subject/create', subject.create);
-app.post('/subject/update', subject.update);
+app.post('/subject/update/:id', subject.update);
 app.get('/subject/edit/:id', subject.edit);
 app.get('/subject/list', subject.list);
 

@@ -7,7 +7,7 @@ block content
 
     != messages()
 
-    form(action="../update", method="post")
+    form(action="{{'../update/'+ subject.id}}", method="post")
       legend Nueva Materia para el semestre {{number}} de {{year}}
       div.col-md-6
 
