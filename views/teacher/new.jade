@@ -21,6 +21,8 @@ block content
 				.form-group.hidden
 					input.form-control(value='{{ number}}',name='semester',type="number")
 					input.form-control(value='{{ year}}',name='year',type="number")
+
 				button.btn.btn-success(type="submit")	Crear
+				a.btn.btn-danger(href='/teacher/list/{{year}}/{{number}}') Cancelar
 
 
