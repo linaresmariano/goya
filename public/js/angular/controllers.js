@@ -91,6 +91,25 @@ app.controller('editSubjectCtrl', function ($scope, localStorageService, subject
   $scope.remove = function(index) {
     $scope.dictateCareers.splice(index, 1)
   }
+
+  $scope.init = function(careers, subject) {
+    $scope.careers = careers
+    $scope.subject = subject
+    $scope.dictateCareers = subject.dictateCareers
+
+    $scope.career = getById(careers, subject.CareerId)
+    $scope.area = subjectService.areas[subject.area]
+    $scope.core = subjectService.cores[subject.core]
+  }
+
+  // PREC: ID is in an element of list
+  function getById(list, id) {
+    for(var i = 0; i < list.length; i++) {
+      if(list[i].id == id) {
+        return list[i]
+      }
+    }
+  }
   
 })
 

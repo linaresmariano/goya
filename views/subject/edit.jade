@@ -3,7 +3,7 @@ extends ../layout
 block content
 
   .container(ng-controller='editSubjectCtrl',
-    ng-init="careers= #{JSON.stringify(careers)}; subject=#{JSON.stringify(subject)}; dictateCareers=#{JSON.stringify(subject)}.dictateCareers")
+    ng-init="init(#{JSON.stringify(careers)}, #{JSON.stringify(subject)})")
 
     form(action="../subject/update", method="post")
       legend Nueva Materia para el semestre {{number}} de {{year}}
