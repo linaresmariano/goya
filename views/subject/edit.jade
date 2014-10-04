@@ -5,7 +5,9 @@ block content
   .container(ng-controller='editSubjectCtrl',
     ng-init="init(#{JSON.stringify(careers)}, #{JSON.stringify(subject)})")
 
-    form(action="../subject/update", method="post")
+    != messages()
+
+    form(action="../update", method="post")
       legend Nueva Materia para el semestre {{number}} de {{year}}
       div.col-md-6
 
@@ -69,5 +71,5 @@ block content
             placeholder='Créditos' name='credits' type='number')
 
         button.btn.btn-success(type="submit") Guardar
-
+        a.btn.btn-danger(href='/subject/list') Cancelar
 

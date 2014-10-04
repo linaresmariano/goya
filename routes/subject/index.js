@@ -93,22 +93,8 @@ exports.edit = function(req, res) {
 
 exports.update = function(req, res) {
 
-  var id = req.params.id
-
-  console.log(id)
-
-  db.Subject.find(id).success(function(subject) {
-    db.Career.findAll().success(function(careers) {
-      console.log(subject)
-      console.log(careers)
-      res.render('subject/edit', {
-        title: 'Editar Materia',
-        subject: subject,
-        careers: careers
-      })
-
-    })
-  })
+  res.redirect('subject/list')
+  req.flash(typeMessage.SUCCESS, "La materia se ha guardado con éxito")
   
 }
 

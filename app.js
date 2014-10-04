@@ -32,6 +32,12 @@ app.use(express.session({secret: 'w345fawf4qw4sdrse5'}));
  // next();
 //});
 
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
 global.showFeedbackPanel = function(res,msj,type){ 
 	res.locals.feedbackpanel={msj:msj,type:type}; 
 }; 
