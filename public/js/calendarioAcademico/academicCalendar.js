@@ -399,7 +399,7 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	function getTeachers(courses){
-		teachers=[];alert();
+		teachers=[];
 		for(n=0;n < courses.length;n++){
 			for(c=0;c < courses[n].semesterTeachers.length;c++){
 				if(!existTeacher(teachers,courses[n].semesterTeachers[c])){
@@ -621,10 +621,11 @@ function CalendarCtrl($scope, $http, $q){
 					data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:getTeachers($scope.courseTeacher.event.schedule.courses),year:$scope.semester.year,semester:$scope.semester.semester}
 				}).success(function(data) {
 													
-					teachers=getTeachers($scope.courseTeacher.event.schedule.courses)
-					for(h=0;h<teachers.length;h++){
-						teachers[h].semesterInstructors.push($scope.courseTeacher.teacher);
+					for(z=0;z<$scope.courseTeacher.event.schedule.courses.length;z++){
+							$scope.courseTeacher.event.schedule.courses[z].semesterInstructors.push($scope.courseTeacher.teacher);
+							alert($scope.courseTeacher.event.schedule.courses[z].semesterInstructors.length)
 					}
+					
 
 					deferred.resolve($scope.courseTeacher.event);
 				}).error(function(err){
