@@ -1,27 +1,20 @@
 extends ../layout
 
 block content
-	script.
 
-		app.controller('listSubjectCtrl', function ($scope,localStorageService){
-
-			$scope.subjects=!{JSON.stringify(subjects)};
-			
-		})
-	
-	.container
+	.container(ng-init="subjects = #{JSON.stringify(subjects)}")
 
 		div!= messages()
 
 		legend Seleccione una materia
-		div(ng-controller="listSubjectCtrl")
-			div(ng-repeat='subject in subjects')
-				div
-					a.list-group-item(ng-href='/subject/edit/{{subject.id}}') {{subject.name}} 
-						button.btn.btn-xs.btn-info.pull-right.button-option
-							span.glyphicon.glyphicon-edit
-						button.btn.btn-xs.btn-danger.pull-right.button-option
-							span.glyphicon.glyphicon-remove
+
+		div(ng-repeat='subject in subjects')
+			div
+				a.list-group-item(ng-href='/subject/edit/{{subject.id}}') {{subject.name}} 
+					button.btn.btn-xs.btn-info.pull-right.button-option
+						span.glyphicon.glyphicon-edit
+					button.btn.btn-xs.btn-danger.pull-right.button-option
+						span.glyphicon.glyphicon-remove
 
 		br
 

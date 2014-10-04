@@ -26,33 +26,33 @@ html(ng-app="APP")
 				.collapse.navbar-collapse
 					ul.nav.navbar-nav
 						li.active
-							a(href='../../../') Home
+							a(href='/') Home
 						li.dropdown
 							a.dropdown-toggle(href='#', data-toggle='dropdown') Administrar
 								span.caret
 							ul.dropdown-menu(role='menu')
 								li
-									a(href='../../../course/list/{{year}}/{{number}}') Cursos
+									a(href='/course/list/{{year}}/{{number}}') Cursos
 								li
-									a(href='../../../classroom/list/{{year}}/{{number}}') Aulas
+									a(href='/classroom/list/{{year}}/{{number}}') Aulas
 								li
-									a(href='../../../teacher/list/{{year}}/{{number}}') Profesores
+									a(href='/teacher/list/{{year}}/{{number}}') Profesores
 								li
-									a(href='../../../subject/list') Materias
+									a(href='/subject/list') Materias
 						li.dropdown
 							a.dropdown-toggle(href='#', data-toggle='dropdown') Vistas
 								span.caret
 							ul.dropdown-menu(role='menu')
 								li
-									a(href='../../../grid/{{year}}/{{number}}') Cursos
+									a(href='/grid/{{year}}/{{number}}') Cursos
 								li
-									a(href='../../../grid/classrooms/{{year}}/{{number}}') Aulas
+									a(href='/grid/classrooms/{{year}}/{{number}}') Aulas
 						li.dropdown
 							a.dropdown-toggle(href='#', data-toggle='dropdown') Reportes
 								span.caret
 							ul.dropdown-menu(role='menu')
 								li
-									a(href='../../../report/offer/{{year}}/{{number}}') Oferta académica
+									a(href='/report/offer/{{year}}/{{number}}') Oferta académica
 								li
 									a(href='#') Reporte 1
 								li
