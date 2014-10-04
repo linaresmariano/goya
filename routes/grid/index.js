@@ -34,18 +34,19 @@ exports.semester = function(req, res) {
             },
 	include: [ {	model: db.Course, as: 'Courses' ,require:false,
 						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false,
-										include: [ 	{model: db.Course, as: 'Courses',require:false}	,
+										include: [ 	{model: db.Course, as: 'Courses',require:false,
+													include:[{model: db.Subject, as: 'Subject',require:false},
+															{model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
+																	include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]},
+															{model: db.SemesterTeacher, as: 'SemesterInstructors',require:false,
+																	include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]}	,
 													{model: db.SemesterClassRoom, as: 'SemesterClassRoom',require:false,
 														include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]},
 													{model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
 														include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]},
 													{model: db.PatchSchedule, as: 'Patch',require:false,
-																		include: [ 	{model: db.Teacher, as: 'noVisibleTeachers',require:false}]}]},
-									{model: db.Subject, as: 'Subject',require:false},
-									{model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
-											include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]},
-									{model: db.SemesterTeacher, as: 'SemesterInstructors',require:false,
-											include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]
+																		include: [ 	{model: db.Teacher, as: 'noVisibleTeachers',require:false}]}]}
+									]
 						}]
   })
     .success(function(semester) {
