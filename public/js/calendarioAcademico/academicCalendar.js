@@ -194,7 +194,6 @@ function CalendarCtrl($scope, $http, $q){
 				if(schedules.length != 0){
 					schedules.push(event.schedule);
 					var newSchedule=$scope.unifySchedules(schedules);
-					alert(JSON.stringify(schedules[0]));
 					$.ajax({url:"/schedule/unify",
 						method:'put',
 						data: {
@@ -436,10 +435,10 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.getInstructors=function(courses){
 		teachers=[];
 		if(courses == undefined)return teachers;
-		for(n=0;n < courses.length;n++){
-			for(v=0;v < courses[n].semesterInstructors.length;v++){
-				if(!existTeacher(teachers,courses[n].semesterInstructors[v])){
-					teachers.push(courses[n].semesterInstructors[v]);
+		for(u=0;u < courses.length;u++){
+			for(v=0;v < courses[u].semesterInstructors.length;v++){
+				if(!existTeacher(teachers,courses[u].semesterInstructors[v])){
+					teachers.push(courses[u].semesterInstructors[v]);
 				}
 			}
 		}
@@ -724,19 +723,24 @@ function CalendarCtrl($scope, $http, $q){
 				});
 	}
 	
-	$scope.deallocateCourseTeacher=function(idTeacher,index){
+	function existSemesterTeacherInSchedulesOfCourses(courses,semesterTeacher){
+		for(l=0;i<courses.length;l++){
+			if(existSemesterTeacherInSchedules(courses[l],semesterTeacher)) return true;
+		}
+		return false;
+	}
+	
+	$scope.deallocateCourseTeacher=function(idTeacher,semesterTeacher){
 		var deferred = $q.defer();
-		
-		if(existSemesterTeacherInSchedules($scope.scheduleShow.course.schedules,
-					$scope.scheduleShow.course.semesterTeachers[index])){
+		/*if(existSemesterTeacherInSchedulesOfCourses($scope.scheduleShow.schedule.courses,semesterTeacher)){
 					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
 					return;
-		}
+		}*/
 		
 		$http({
 			url:"/course/deallocateTeacher",
 			method:'put',
-			data: { idCourse:$scope.scheduleShow.course.id,idTeacher:idTeacher}
+			data: { courses:$scope.scheduleShow.schedule.courses,idTeacher:idTeacher}
 		}).success(function(data) {
 
 			$scope.scheduleShow.course.semesterTeachers.splice(index, 1);
@@ -753,19 +757,18 @@ function CalendarCtrl($scope, $http, $q){
 				});
 	}
 	
-	$scope.deallocateCourseInstructor=function(idTeacher,index){
+	$scope.deallocateCourseInstructor=function(idTeacher,semesterTeacher){
 		var deferred = $q.defer();
 		
-		if(existSemesterTeacherInSchedules($scope.scheduleShow.course.schedules,
-					$scope.scheduleShow.course.semesterInstructors[index])){
+		/*if(existSemesterTeacherInSchedulesOfCourses($scope.scheduleShow.schedule.courses,semesterTeacher)){
 					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
 					return;
-		}
+		}*/
 		
 		$http({
 			url:"/course/deallocateInstructor",
 			method:'put',
-			data: { idCourse:$scope.scheduleShow.course.id,idTeacher:idTeacher}
+			data: { idCourse:$scope.scheduleShow.schedule.courses,idTeacher:idTeacher}
 		}).success(function(data) {
 
 			$scope.scheduleShow.course.semesterInstructors.splice(index, 1);

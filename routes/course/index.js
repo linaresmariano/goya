@@ -142,21 +142,29 @@ exports.index = function(req, res){
 };
 
 exports.deallocateTeacher = function(req, res){
-	var idCourse = req.body.idCourse;
+	var courses = req.body.courses;
 	var idTeacher= req.body.idTeacher;
-	
-	 db.Course.deallocateTeacher(idCourse,idTeacher,function() {				
-		res.send('ok')
-	  });
+	for(m=0;m< courses.length;m++){
+		deallocateTeacher=function(course){
+			db.Course.deallocateTeacher(course.id,idTeacher,function() {				
+			});
+		}
+		deallocateTeacher(courses[m]);
+	}
+	res.send('ok');
 };
 
 exports.deallocateInstructor = function(req, res){
-	var idCourse = req.body.idCourse;
+	var courses = req.body.idCourse;
 	var idTeacher= req.body.idTeacher;
 	
-	db.Course.deallocateInstructor(idCourse,idTeacher,function() {				
-		res.send('ok')
-	 });
+	for(m=0;m< courses.length;m++){
+		deallocateTeacher=function(course){
+			db.Course.deallocateInstructor(course.id,idTeacher,function() {				
+			});
+		}
+		deallocateTeacher(courses[m]);
+	}
 };
 
 exports.list = function(req, res){
