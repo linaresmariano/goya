@@ -17,8 +17,6 @@ exports.new = function(req, res) {
 
 exports.create = function(req, res) {
 
-  console.log(req.body.dictates)
-
   var dictates = req.body.dictates
 
   db.Subject.create({
@@ -34,7 +32,8 @@ exports.create = function(req, res) {
 
   }).success(function(subject) {
 
-    if(req.body.dictates != undefined) {
+    // Si tiene carreras asociadas, persistirlas
+    if(dictates) {
       db.Career.findAll({ where: { id: dictates } }).success(function(careers) {
         subject.setDictateCareers(careers).success(function(associatedCareers) {
 
@@ -42,18 +41,11 @@ exports.create = function(req, res) {
           exports.new(req, res)
 
         })
+      }).error(function(err) {
+        showFeedbackPanel(res,err.name[0],typeMessage.ERROR)
+        exports.new(req, res)
       })
 
-
-      // for(var i=0; i < req.body.dictates.length; i++) {
-      //   db.Career.find({
-      //     where:{ 'id': req.body.dictates[i] }
-      //   }).success(function(career) {
-          
-      //     career.addSubject(subject)
-
-      //   })
-      // }
     } else {
 
       showFeedbackPanel(res, 'Materia creada correctamente', typeMessage.SUCCESS)
@@ -62,31 +54,29 @@ exports.create = function(req, res) {
     }
     
   }).error(function(err) {
-    showFeedbackPanel(res,err.name[0],typeMessage.ERROR);
-    exports.new(req, res);	
+    showFeedbackPanel(res,err.name[0],typeMessage.ERROR)
+    exports.new(req, res)
   })
 
 }
 
 
 exports.list = function(req, res){
-
 	
 	db.Subject.findAll().success(function(subjects) {
 	
 		res.render('subject/list', {
           title: 'Materias',
           subjects:subjects
-		});
-	});
-};
+		})
+	})
+
+}
 
 
 exports.edit = function(req, res) {
 
   var id = req.params.id
-
-  console.log(id)
 
   db.Subject.find({
     include: [ {model: db.Career, as: 'dictateCareers', require:false} ],
@@ -108,6 +98,7 @@ exports.edit = function(req, res) {
 exports.update = function(req, res) {
 
   var id = req.params.id
+  var dictates = req.body.dictates
 
   db.Subject.find(id).success(function(subject) {
     if (subject) { // if the record exists in the db
@@ -120,10 +111,29 @@ exports.update = function(req, res) {
         ocode: req.body.ocode,
         credits: req.body.credits,
         CareerId: req.body.careerId
-      }).success(function() {
+      }).success(function(subjectUpdated) {
 
-        res.redirect('subject/list')
-        req.flash(typeMessage.SUCCESS, "La materia se ha guardado con éxito")
+        // Si tiene carreras asociadas, persistirlas
+        if(dictates) {
+          db.Career.findAll({ where: { id: dictates } }).success(function(careers) {
+            subjectUpdated.setDictateCareers(careers).success(function(associatedCareers) {
+
+              res.redirect('subject/list')
+              req.flash(typeMessage.SUCCESS, "La materia se ha guardado correctamente")
+
+            })
+          }).error(function(err) {
+
+            req.flash(typeMessage.ERROR, err.name[0])
+
+          })
+
+        } else {
+
+          res.redirect('subject/list')
+          req.flash(typeMessage.SUCCESS, "La materia se ha guardado correctamente")
+
+        }
 
       })
     }
