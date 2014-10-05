@@ -3,7 +3,10 @@ extends ../layout
 block content
 
   .container(ng-controller='newSubjectCtrl', ng-init="careers= #{JSON.stringify(careers)}")
-    form(action="../subject/create",method="post")
+
+    div!= messages()
+
+    form(action="../subject/create", method="post")
       legend Nueva Materia para el semestre {{number}} de {{year}}
       div.col-md-6
 

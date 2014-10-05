@@ -5,7 +5,7 @@ block content
   .container(ng-controller='editSubjectCtrl',
     ng-init="init(#{JSON.stringify(careers)}, #{JSON.stringify(subject)})")
 
-    != messages()
+    div!= messages()
 
     form(action="{{'../update/'+ subject.id}}", method="post")
       legend Nueva Materia para el semestre {{number}} de {{year}}

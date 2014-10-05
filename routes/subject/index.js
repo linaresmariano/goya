@@ -42,8 +42,10 @@ exports.create = function(req, res) {
 
         })
       }).error(function(err) {
-        showFeedbackPanel(res,err.name[0],typeMessage.ERROR)
-        exports.new(req, res)
+        // showFeedbackPanel(res,err.name[0],typeMessage.ERROR)
+        // exports.new(req, res)
+        res.redirect('back')
+        req.flash(typeMessage.ERROR, err.name[0])
       })
 
     } else {
@@ -54,8 +56,10 @@ exports.create = function(req, res) {
     }
     
   }).error(function(err) {
-    showFeedbackPanel(res,err.name[0],typeMessage.ERROR)
-    exports.new(req, res)
+    // showFeedbackPanel(res,err.name[0],typeMessage.ERROR)
+    // exports.new(req, res)
+    res.redirect('back')
+    req.flash(typeMessage.ERROR, err.name[0])
   })
 
 }
