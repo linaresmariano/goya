@@ -165,6 +165,7 @@ exports.deallocateInstructor = function(req, res){
 		}
 		deallocateTeacher(courses[m]);
 	}
+	res.send('ok');
 };
 
 exports.list = function(req, res){
@@ -305,7 +306,6 @@ exports.assignedInstructor = function(req, res) {
 			console.log(courses.length);
 		if(courses.length != 0){
 			db.Semester.instructorAssignedToACourse(idTeacher,courses[0].id,semester,year,function(result) {
-				console.log("La concha de tu madre bien putaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 				courses.splice(0,1);
 				instructorAssignedToACourses(courses);
 			});
