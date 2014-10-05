@@ -500,8 +500,8 @@ function CalendarCtrl($scope, $http, $q){
 	
 	$scope.getCommissions=function(schedule){
         commissions='';
-        for(h=0;h <schedule.courses.length;h++){
-            commissions+=' - C'+ schedule.courses[h].commission
+        for(r=0;r <schedule.courses.length;r++){
+            commissions+=' - C'+ schedule.courses[r].commission
         }
         return commissions; 
     }
@@ -627,7 +627,6 @@ function CalendarCtrl($scope, $http, $q){
 	
 		//Elimina de la lista a un schedule asignado
 	$scope.assignedTeacherToCourse = function(isInCharge ) {
-		var deferred = $q.defer();
 		if(isInCharge == 0){
 				if($scope.getTeachers($scope.courseTeacher.event.schedule.courses).length == 2){
 					alert("Un curso solo puede tener 2 profesores a cargo como máximo");
@@ -643,7 +642,6 @@ function CalendarCtrl($scope, $http, $q){
 							$scope.courseTeacher.event.schedule.courses[t].semesterTeachers.push($scope.courseTeacher.teacher);
 						}
 						
-						deferred.resolve($scope.courseTeacher.event);
 					}).error(function(err){
 						alert("Error al asignar un profesor a un horario");
 					});	
@@ -659,21 +657,11 @@ function CalendarCtrl($scope, $http, $q){
 					for(z=0;z<$scope.courseTeacher.event.schedule.courses.length;z++){
 							$scope.courseTeacher.event.schedule.courses[z].semesterInstructors.push($scope.courseTeacher.teacher);
 					}
-					
 
-					deferred.resolve($scope.courseTeacher.event);
 				}).error(function(err){
 					alert("Error al asignar un profesor a un horario");
 				});	
 		}
-		//Refresh calendario
-		var promise=deferred.promise;
-		promise.then(function(event) {
-						//Update
-						$scope.removeSchedule(event.schedule);
-						$scope.addSchedule(event.schedule);
-						
-				});
 		$('#assingTeacherCourse').modal('hide')
 		//alert("Se debe asignar como profesor"+(isInCharge == 1 ? ' no ' : '')+ ' a cargo a este curso, y al horario');
     };
@@ -743,9 +731,9 @@ function CalendarCtrl($scope, $http, $q){
 		}).success(function(data) {
 			
 			for(j=0;j<$scope.scheduleShow.schedule.courses.length;j++){
-				for(d=0;d<$scope.scheduleShow.schedule.courses[j].semesterTeachers.length;d++){
-					if($scope.scheduleShow.schedule.courses[j].semesterTeachers[d].id ==idTeacher){
-						$scope.scheduleShow.schedule.courses[j].semesterTeachers.splice(d,1);
+				for(k=0;k<$scope.scheduleShow.schedule.courses[j].semesterTeachers.length;k++){
+					if($scope.scheduleShow.schedule.courses[j].semesterTeachers[k].id ==idTeacher){
+						$scope.scheduleShow.schedule.courses[j].semesterTeachers.splice(k,1);
 					}
 				}
 			}
@@ -768,9 +756,9 @@ function CalendarCtrl($scope, $http, $q){
 		}).success(function(data) {
 
 			for(j=0;j<$scope.scheduleShow.schedule.courses.length;j++){
-				for(d=0;d<$scope.scheduleShow.schedule.courses[j].semesterInstructors.length;d++){
-					if($scope.scheduleShow.schedule.courses[j].semesterInstructors[d].id ==idTeacher){
-						$scope.scheduleShow.schedule.courses[j].semesterInstructors.splice(d,1);
+				for(k=0;k<$scope.scheduleShow.schedule.courses[j].semesterInstructors.length;k++){
+					if($scope.scheduleShow.schedule.courses[j].semesterInstructors[k].id ==idTeacher){
+						$scope.scheduleShow.schedule.courses[j].semesterInstructors.splice(k,1);
 					}
 				}
 			}
