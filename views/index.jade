@@ -3,7 +3,7 @@ extends layout
 block content
 	script.
 		var semestersJSON=!{JSON.stringify(semesters)};
-	script(src='/js/angular/controllers.js')
+
 	.container
 		legend Seleccione un semestre
 		div( ng-controller="SemestralGrids")
