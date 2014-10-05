@@ -19,6 +19,8 @@ exports.create = function(req, res) {
 
   console.log(req.body.dictates)
 
+  var dictates = req.body.dictates
+
   db.Subject.create({
 
     nick: req.body.nick,
@@ -33,19 +35,31 @@ exports.create = function(req, res) {
   }).success(function(subject) {
 
     if(req.body.dictates != undefined) {
-      for(var i=0; i < req.body.dictates.length; i++) {
-        db.Career.find({
-          where:{ 'id': req.body.dictates[i] }
-        }).success(function(career) {
-          
-          career.addSubject(subject)
+      db.Career.findAll({ where: { id: dictates } }).success(function(careers) {
+        subject.setDictateCareers(careers).success(function(associatedCareers) {
+
+          showFeedbackPanel(res, 'Materia creada correctamente', typeMessage.SUCCESS)
+          exports.new(req, res)
 
         })
-      }
-    }
+      })
 
-    showFeedbackPanel(res, 'Materia creada correctamente', typeMessage.SUCCESS)
-    exports.new(req, res)
+
+      // for(var i=0; i < req.body.dictates.length; i++) {
+      //   db.Career.find({
+      //     where:{ 'id': req.body.dictates[i] }
+      //   }).success(function(career) {
+          
+      //     career.addSubject(subject)
+
+      //   })
+      // }
+    } else {
+
+      showFeedbackPanel(res, 'Materia creada correctamente', typeMessage.SUCCESS)
+      exports.new(req, res)
+
+    }
     
   }).error(function(err) {
     showFeedbackPanel(res,err.name[0],typeMessage.ERROR);

@@ -6,8 +6,8 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Career.hasMany(models.Subject, { as: 'subjects'})
-        Career.belongsTo(models.Subject, { as: 'dictate'})
+        Career.hasMany(models.Subject, { as: 'subjects', through: 'career_subjects' })
+        Career.hasMany(models.Subject, { as: 'dictate', through: 'subject_dictateCareers' })
       }
     }
   })
