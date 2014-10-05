@@ -142,21 +142,30 @@ exports.index = function(req, res){
 };
 
 exports.deallocateTeacher = function(req, res){
-	var idCourse = req.body.idCourse;
+	var courses = req.body.courses;
 	var idTeacher= req.body.idTeacher;
-	
-	 db.Course.deallocateTeacher(idCourse,idTeacher,function() {				
-		res.send('ok')
-	  });
+	for(m=0;m< courses.length;m++){
+		deallocateTeacher=function(course){
+			db.Course.deallocateTeacher(course.id,idTeacher,function() {				
+			});
+		}
+		deallocateTeacher(courses[m]);
+	}
+	res.send('ok');
 };
 
 exports.deallocateInstructor = function(req, res){
-	var idCourse = req.body.idCourse;
+	var courses = req.body.idCourse;
 	var idTeacher= req.body.idTeacher;
 	
-	db.Course.deallocateInstructor(idCourse,idTeacher,function() {				
-		res.send('ok')
-	 });
+	for(m=0;m< courses.length;m++){
+		deallocateTeacher=function(course){
+			db.Course.deallocateInstructor(course.id,idTeacher,function() {				
+			});
+		}
+		deallocateTeacher(courses[m]);
+	}
+	res.send('ok');
 };
 
 exports.list = function(req, res){
@@ -290,9 +299,22 @@ exports.assignedInstructor = function(req, res) {
 	var year = req.body.year;
     var semester = req.body.semester;
 	 //Asigna un instructor a un curso
-	db.Semester.instructorAssignedToACourse(idTeacher,idCourse,semester,year,function(result) {
-			res.send('ok');	
-	});
+
+	
+	//Por recursoion
+	var instructorAssignedToACourses=function(courses){
+			console.log(courses.length);
+		if(courses.length != 0){
+			db.Semester.instructorAssignedToACourse(idTeacher,courses[0].id,semester,year,function(result) {
+				courses.splice(0,1);
+				instructorAssignedToACourses(courses);
+			});
+		}else{
+		console.log("''''''''''''''''''''''''''''''''''''''''''");
+			res.send('ok');
+		}
+	}
+	instructorAssignedToACourses(idCourse);
 }
 
 

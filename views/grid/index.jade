@@ -13,7 +13,7 @@ block content
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
-									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.course.subject.nick}} {{courseNotAssigned.schedule.type}}
+									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.schedule.courses[0].subject.nick}} {{courseNotAssigned.schedule.type}}
 						div(class="panel panel-default size-menu ")
 							div.panel-heading Aulas
 								button.btn.btn-default.btn-xs.pull-right
@@ -39,7 +39,7 @@ block content
 						button.close(type='button', data-dismiss='modal')
 							span(aria-hidden='true') ×
 							span.sr-only Close
-						h4#myModalLabel.modal-title {{scheduleShow.schedule.courses[0].subject.name}} - {{scheduleShow.schedule.type}} - Comision {{scheduleShow.schedule.courses[0].commission}}
+						h4#myModalLabel.modal-title {{scheduleShow.schedule.courses[0].subject.name}} - {{scheduleShow.schedule.type}}  {{getCommissions(scheduleShow.schedule)}}
 					.modal-body 
 						.row.list-group
 							div.list-group-item 
@@ -55,13 +55,13 @@ block content
 							.panel-heading Profesores a cargo del curso
 							div.list-group-item(ng-repeat="semesterTeacher in getTeachers(scheduleShow.schedule.courses) track by $index")
 								div{{semesterTeacher.teacher.name}} 
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(semesterTeacher.teacher.id,$index)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(semesterTeacher.teacher.id,semesterTeacher)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores no a cargo del curso
-							div.list-group-item(ng-repeat="semesterTeacher in getTeachers(scheduleShow.schedule.courses) track by $index")
+							div.list-group-item(ng-repeat="semesterTeacher in getInstructors(scheduleShow.schedule.courses) track by $index")
 								div	{{semesterTeacher.teacher.name}}
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseInstructor(semesterTeacher.teacher.id,$index)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseInstructor(semesterTeacher.teacher.id,semesterTeacher)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores asignados a este horario
