@@ -422,10 +422,10 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.getTeachers=function(courses){
 		teachers=[];
 		if(courses == undefined)return teachers;
-		for(n=0;n < courses.length;n++){
-			for(c=0;c < courses[n].semesterTeachers.length;c++){
-				if(!existTeacher(teachers,courses[n].semesterTeachers[c])){
-					teachers.push(courses[n].semesterTeachers[c]);
+		for(b=0;b < courses.length;b++){
+			for(c=0;c < courses[b].semesterTeachers.length;c++){
+				if(!existTeacher(teachers,courses[b].semesterTeachers[c])){
+					teachers.push(courses[b].semesterTeachers[c]);
 				}
 			}
 		}
