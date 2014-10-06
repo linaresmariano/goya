@@ -646,6 +646,7 @@ function CalendarCtrl($scope, $http, $q){
 	
 		//Elimina de la lista a un schedule asignado
 	$scope.assignedTeacherToCourse = function(isInCharge ) {
+		var deferred = $q.defer();
 		if(isInCharge == 0){
 				if($scope.getTeachers($scope.courseTeacher.event.schedule.courses).length == 2){
 					alert("Un curso solo puede tener 2 profesores a cargo como máximo");
@@ -659,9 +660,8 @@ function CalendarCtrl($scope, $http, $q){
 						
 						for(t=0;t<$scope.courseTeacher.event.schedule.courses.length;t++){
 							$scope.courseTeacher.event.schedule.courses[t].semesterTeachers.push($scope.courseTeacher.teacher);
-							checkAmountTeachers(event.schedule,element);
 						}
-						
+						deferred.resolve($scope.courseTeacher.event);
 					}).error(function(err){
 						alert("Error al asignar un profesor a un horario");
 					});	
@@ -677,13 +677,19 @@ function CalendarCtrl($scope, $http, $q){
 					for(z=0;z<$scope.courseTeacher.event.schedule.courses.length;z++){
 							$scope.courseTeacher.event.schedule.courses[z].semesterInstructors.push($scope.courseTeacher.teacher);
 					}
-
+					deferred.resolve($scope.courseTeacher.event);
 				}).error(function(err){
 					alert("Error al asignar un profesor a un horario");
 				});	
 		}
-		$('#assingTeacherCourse').modal('hide')
-		//alert("Se debe asignar como profesor"+(isInCharge == 1 ? ' no ' : '')+ ' a cargo a este curso, y al horario');
+		$('#assingTeacherCourse').modal('hide');
+				//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function(event) {
+						//Update
+						$scope.removeSchedule(event.schedule);
+						$scope.addSchedule(event.schedule);
+				});
     };
 	
 	$scope.deallocateClassroom=function(){
