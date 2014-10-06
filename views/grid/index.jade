@@ -43,6 +43,11 @@ block content
 					.modal-body 
 						.row.list-group
 							div.list-group-item 
+								b Editar
+								button.btn.btn-xs.btn-info.pull-right.button-option
+									span.glyphicon.glyphicon-edit
+						.row.list-group
+							div.list-group-item 
 								b Aula
 								&nbsp; {{scheduleShow.schedule.semesterClassRoom.classRoom.number}}
 								button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateClassroom()")
