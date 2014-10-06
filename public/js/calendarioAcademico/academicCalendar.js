@@ -659,6 +659,7 @@ function CalendarCtrl($scope, $http, $q){
 						
 						for(t=0;t<$scope.courseTeacher.event.schedule.courses.length;t++){
 							$scope.courseTeacher.event.schedule.courses[t].semesterTeachers.push($scope.courseTeacher.teacher);
+							checkAmountTeachers(event.schedule,element);
 						}
 						
 					}).error(function(err){
@@ -1000,6 +1001,9 @@ function CalendarCtrl($scope, $http, $q){
 		if($scope.getTeachers(schedule.courses).length == 0){
 				$(element).find('.fc-event-time').css('background','#E70000');
 				$(element).find('.fc-event-time').css('opacity','1');
+		}else if(schedule.semesterTeachers.length == 0){
+			$(element).find('.fc-event-time').css('background','yellow');
+			$(element).find('.fc-event-time').css('opacity','1');
 		}else{
 			$(element).find('.fc-event-time').css('background','black');
 			$(element).find('.fc-event-time').css('opacity','0.3');
