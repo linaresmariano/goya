@@ -330,8 +330,7 @@ function CalendarCtrl($scope, $http, $q){
 			element.attr('data-target','#myModal');
 			
 			
-			checkAmountTeachers(event.schedule,element);
-			
+			checkAll(event.schedule,element);
 
 			
 			//Para dropear un profesor o aula
@@ -1010,18 +1009,57 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	//Funciones para las validaciones
-
-	function checkAmountTeachers(schedule,element){
+	var messages=[];
+	function checkAmountTeachers(schedule,element,message){
 		if($scope.getTeachers(schedule.courses).length == 0){
-				$(element).find('.fc-event-time').css('background','#E70000');
-				$(element).find('.fc-event-time').css('opacity','1');
+			messages[schedule.id]=messages[schedule.id]+'* Este curso no tiene profesores\n'
+			$(element).find('.fc-event-time').css('background','#E70000');
+			$(element).find('.fc-event-time').css('opacity','1');
+			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+			return false;
 		}else if(schedule.semesterTeachers.length == 0){
+			messages[schedule.id]=messages[schedule.id]+'* Este horario no tiene profesores\n';
 			$(element).find('.fc-event-time').css('background','yellow');
 			$(element).find('.fc-event-time').css('opacity','1');
-		}else{
-			$(element).find('.fc-event-time').css('background','black');
-			$(element).find('.fc-event-time').css('opacity','0.3');
+			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+			return false;
 		}
+		return true;
+	}
+	
+	function amountEnrolled(courses){
+		amount=0;
+		courses.forEach(function(course) {
+			amount+=course.enrolled;
+		});
+		return amount;
+	}
+	
+	function checkAmountEnrolled(schedule,element){
+		if(amountEnrolled(schedule.courses) <= 5){
+				messages[schedule.id]=messages[schedule.id]+'* La cantidad de inscriptos es menor igual a 5 \n';
+				$(element).find('.fc-event-time').css('background','#E70000');
+				$(element).find('.fc-event-time').css('opacity','1');
+				$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+				return false;
+		}
+		return true;
+	}
+	
+	function checkAll(schedule,element){
+		messages[schedule.id]='';
+		
+		checkAmountEnrolledRes=checkAmountEnrolled(schedule,element);
+		checkAmountTeachersRes=checkAmountTeachers(schedule,element);
+		
+		if(checkAmountEnrolledRes && checkAmountTeachersRes){
+			checkOK(element);
+		}
+	}
+	
+	function checkOK(element){
+		$(element).find('.fc-event-time').css('background','black');
+		$(element).find('.fc-event-time').css('opacity','0.3');
 	}
 	
 }
