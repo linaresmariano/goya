@@ -1010,21 +1010,23 @@ function CalendarCtrl($scope, $http, $q){
 	
 	//Funciones para las validaciones
 	var messages=[];
+	var typeMessage={ok:0,danger:1,warning:2};
+	
 	function checkAmountTeachers(schedule,element,message){
 		if($scope.getTeachers(schedule.courses).length == 0){
 			messages[schedule.id]=messages[schedule.id]+'* Este curso no tiene profesores\n'
 			$(element).find('.fc-event-time').css('background','#E70000');
 			$(element).find('.fc-event-time').css('opacity','1');
 			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
-			return false;
+			return typeMessage.danger;
 		}else if(schedule.semesterTeachers.length == 0){
 			messages[schedule.id]=messages[schedule.id]+'* Este horario no tiene profesores\n';
 			$(element).find('.fc-event-time').css('background','yellow');
 			$(element).find('.fc-event-time').css('opacity','1');
 			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
-			return false;
+			return typeMessage.warning;
 		}
-		return true;
+		return typeMessage.ok;
 	}
 	
 	function amountEnrolled(courses){
@@ -1041,20 +1043,36 @@ function CalendarCtrl($scope, $http, $q){
 				$(element).find('.fc-event-time').css('background','#E70000');
 				$(element).find('.fc-event-time').css('opacity','1');
 				$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
-				return false;
+				return typeMessage.danger;
 		}
-		return true;
+		return typeMessage.ok;
 	}
 	
 	function checkAll(schedule,element){
 		messages[schedule.id]='';
+		results=[];
 		
-		checkAmountEnrolledRes=checkAmountEnrolled(schedule,element);
-		checkAmountTeachersRes=checkAmountTeachers(schedule,element);
+		results[0]=checkAmountEnrolled(schedule,element);
+		results[1]=checkAmountTeachers(schedule,element);
 		
-		if(checkAmountEnrolledRes && checkAmountTeachersRes){
+		results.forEach(function(result) {
+			if(result == typeMessage.danger){
+				$(element).find('.fc-event-time').css('background','#E70000');
+				$(element).find('.fc-event-time').css('opacity','1');
+				return;
+			}
+		});
+		
+		allResults=true;
+		results.forEach(function(result) {
+			allResults&=result == typeMessage.ok;
+			
+		});
+		
+		if(allResults){
 			checkOK(element);
 		}
+		
 	}
 	
 	function checkOK(element){
