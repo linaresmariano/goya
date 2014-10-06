@@ -328,6 +328,12 @@ function CalendarCtrl($scope, $http, $q){
 			//Para abrir un dialogo
 			element.attr('data-toggle','modal');
 			element.attr('data-target','#myModal');
+			
+			
+			checkAmountTeachers(event.schedule,element);
+			
+
+			
 			//Para dropear un profesor o aula
 			var deferred = $q.defer();
 			element.droppable({
@@ -987,6 +993,18 @@ function CalendarCtrl($scope, $http, $q){
 	   }
 	   return false;
 	}
+	
+	//Funciones para las validaciones
 
+	function checkAmountTeachers(schedule,element){
+		if($scope.getTeachers(schedule.courses).length == 0){
+				$(element).find('.fc-event-time').css('background','#E70000');
+				$(element).find('.fc-event-time').css('opacity','1');
+		}else{
+			$(element).find('.fc-event-time').css('background','black');
+			$(element).find('.fc-event-time').css('opacity','0.3');
+		}
+	}
+	
 }
 /* EOF */
