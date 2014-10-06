@@ -1038,12 +1038,18 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	function checkAmountEnrolled(schedule,element){
-		if(amountEnrolled(schedule.courses) <= 5){
-				messages[schedule.id]=messages[schedule.id]+'* La cantidad de inscriptos es menor igual a 5 \n';
-				$(element).find('.fc-event-time').css('background','#E70000');
-				$(element).find('.fc-event-time').css('opacity','1');
-				$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
-				return typeMessage.danger;
+		if(amountEnrolled(schedule.courses) < 5){
+			messages[schedule.id]=messages[schedule.id]+'* La cantidad de inscriptos es menor a 5 \n';
+			$(element).find('.fc-event-time').css('background','#E70000');
+			$(element).find('.fc-event-time').css('opacity','1');
+			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+			return typeMessage.danger;
+		}else if(amountEnrolled(schedule.courses) < 15){
+			messages[schedule.id]=messages[schedule.id]+'* La cantidad de inscriptos es menor a 15 \n';
+			$(element).find('.fc-event-time').css('background','yellow');
+			$(element).find('.fc-event-time').css('opacity','1');
+			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+			return typeMessage.warning;
 		}
 		return typeMessage.ok;
 	}

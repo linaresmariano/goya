@@ -36,7 +36,7 @@ var courseEPERS = db.Course.build({
 									commission: 1,
 									modality: 0,
 									capacity: 25,
-									enrolled: 2,
+									enrolled: 7,
 									color: 'red'
 								});
 								
