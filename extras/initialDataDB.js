@@ -41,7 +41,7 @@ var courseEPERS = db.Course.build({
 								});
 								
 var courseORGA = db.Course.build({
-									enrolled: 30,
+									enrolled: 7,
 									commission: 1,
 									modality: 1,
 									capacity: 35,
@@ -184,7 +184,7 @@ var classRoom37B= db.ClassRoom.build({
 						name: "Fidel",
 						number: "37b",
 						description: "Un aula con pcs",
-						capacity: 30,
+						capacity: 13,
 						numberOfComputers: 30,
 						hasProyector: true
 					});

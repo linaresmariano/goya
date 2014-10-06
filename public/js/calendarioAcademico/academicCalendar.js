@@ -1036,6 +1036,7 @@ function CalendarCtrl($scope, $http, $q){
 		});
 		return amount;
 	}
+
 	
 	function checkAmountEnrolled(schedule,element){
 		if(amountEnrolled(schedule.courses) < 5){
@@ -1054,12 +1055,27 @@ function CalendarCtrl($scope, $http, $q){
 		return typeMessage.ok;
 	}
 	
+	function checkPercentageEnrolled(schedule,element){
+		//Si no tiene aula ok
+		if(!schedule.semesterClassRoom)return typeMessage.ok;
+
+		if(amountEnrolled(schedule.courses) < (schedule.semesterClassRoom.capacity/2)){
+			messages[schedule.id]=messages[schedule.id]+'* La cantidad('+amountEnrolled(schedule.courses) +') de inscriptos es mucho menor a la capacidad('+schedule.semesterClassRoom.capacity +') del aula \n';
+			$(element).find('.fc-event-time').css('background','yellow');
+			$(element).find('.fc-event-time').css('opacity','1');
+			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+			return typeMessage.warning;
+		}
+		return typeMessage.ok;
+	}
+	
 	function checkAll(schedule,element){
 		messages[schedule.id]='';
 		results=[];
 		
 		results[0]=checkAmountEnrolled(schedule,element);
 		results[1]=checkAmountTeachers(schedule,element);
+		results[2]=checkPercentageEnrolled(schedule,element);
 		
 		results.forEach(function(result) {
 			if(result == typeMessage.danger){
