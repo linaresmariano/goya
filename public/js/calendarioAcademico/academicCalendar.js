@@ -749,7 +749,7 @@ function CalendarCtrl($scope, $http, $q){
 					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
 					return;
 		}
-		
+		var deferred = $q.defer();
 		$http({
 			url:"/course/deallocateTeacher",
 			method:'put',
@@ -763,9 +763,17 @@ function CalendarCtrl($scope, $http, $q){
 					}
 				}
 			}
+			deferred.resolve($scope.scheduleShow);
 		}).error(function(err){
 			alert("Error al desasignar un profesor");
 		});	
+		
+		var promise=deferred.promise;
+		promise.then(function(event) {
+						//Update
+						$scope.removeSchedule(event.schedule);
+						$scope.addSchedule(event.schedule);
+				});
 
 	}
 	
