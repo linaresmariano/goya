@@ -1036,6 +1036,14 @@ function CalendarCtrl($scope, $http, $q){
 		});
 		return amount;
 	}
+	
+	function amountCapacity(courses){
+		amount=0;
+		courses.forEach(function(course) {
+			amount+=course.capacity;
+		});
+		return amount;
+	}
 
 	
 	function checkAmountEnrolled(schedule,element){
@@ -1059,8 +1067,8 @@ function CalendarCtrl($scope, $http, $q){
 		//Si no tiene aula ok
 		if(!schedule.semesterClassRoom)return typeMessage.ok;
 
-		if(amountEnrolled(schedule.courses) < (schedule.semesterClassRoom.capacity/2)){
-			messages[schedule.id]=messages[schedule.id]+'* La cantidad('+amountEnrolled(schedule.courses) +') de inscriptos es mucho menor a la capacidad('+schedule.semesterClassRoom.capacity +') del aula \n';
+		if(amountCapacity(schedule.courses) < (schedule.semesterClassRoom.capacity/2)){
+			messages[schedule.id]=messages[schedule.id]+'* La cantidad('+amountCapacity(schedule.courses) +') de cupos es mucho menor a la capacidad('+schedule.semesterClassRoom.capacity +') del aula \n';
 			$(element).find('.fc-event-time').css('background','yellow');
 			$(element).find('.fc-event-time').css('opacity','1');
 			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);

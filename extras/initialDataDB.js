@@ -44,7 +44,7 @@ var courseORGA = db.Course.build({
 									enrolled: 7,
 									commission: 1,
 									modality: 1,
-									capacity: 35,
+									capacity: 20,
 									color: 'green'
 								});
 		
@@ -193,7 +193,7 @@ var classRoom60= db.ClassRoom.build({
 						name: "Mariano",
 						number: "60",
 						description: "Un aula con pcs nueva",
-						capacity: 30,
+						capacity: 500,
 						numberOfComputers: 30,
 						hasProyector: true
 					});
