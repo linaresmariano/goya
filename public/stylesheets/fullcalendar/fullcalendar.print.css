@@ -30,4 +30,8 @@
 	display: none !important;
 	}
 	
-	
+.fc-event-time{
+	border-radius: 3px !important;
+	background: black !important;
+	opacity: 0.3 !important;
+}
