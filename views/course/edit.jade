@@ -50,7 +50,7 @@ block content
   .container(ng-controller='createCourseCtrl')
     form(action="../course/create",method="post")
       legend Nuevo curso para el semestre {{number}} de {{year}}
-      div.col-md-4
+      div.col-md-4 ss
         .form-group
           label(for='selectSubject') Materia
           select#selectSubject(class="form-control",ng-model="subject",ng-options="subject.name for subject in subjects",required)

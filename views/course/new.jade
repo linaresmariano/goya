@@ -5,7 +5,7 @@ block content
 	.container(ng-controller='createCourseCtrl', ng-init='subjects = #{JSON.stringify(subjects)}')
 		form(action="../course/create",method="post")
 			legend Nuevo curso para el semestre {{number}} de {{year}}
-			div.col-md-4
+			div.col-md-6
 				.form-group
 					label(for='selectSubject') Materia
 					select#selectSubject(class="form-control",ng-model="subject",ng-options="subject.name for subject in subjects",required)
@@ -56,7 +56,7 @@ block content
 					br
 					button.btn.btn-success.pull-right(type="button",ng-click="add(hour,duration,day.name,day.id)") Agregar
 
-
+			div.col-md-6
 				legend Requisitos
 				.form-group
 					label(for='numberOfComputers') Computadoras
