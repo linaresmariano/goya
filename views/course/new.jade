@@ -46,6 +46,14 @@ block content
 				};
 				return false;
 			}
+
+			$scope.colors = [
+				{name: 'Negro', value: 'black'},
+				{name: 'Blanco', value: 'white'},
+				{name: 'Rojo', value: 'red'},
+				{name: 'Azul', value: 'blue'},
+				{name: 'Amarillo', value: 'yellow'}
+		    ]
 		})
 	.container(ng-controller='createCourseCtrl')
 		form(action="../course/create",method="post")
@@ -100,6 +108,8 @@ block content
 						option(value="") Seleccione un dia de la semana
 					br
 					button.btn.btn-success.pull-right(type="button",ng-click="add(hour,duration,day.name,day.id)") Agregar
+
+
 				legend Requisitos
 				.form-group
 					label(for='numberOfComputers') Computadoras
@@ -107,6 +117,14 @@ block content
 				.form-group.hidden
 					input.form-control(value='{{ number}}',name='semester',type="number")
 					input.form-control(value='{{ year}}',name='year',type="number")
+
+
+				legend Características visuales
+				.form-group
+					label(for='color') Color
+					select#color(class="form-control",ng-model="color",ng-options="color.name for color in colors")
+						option(value="") Seleccione un color para la grilla
+						input(name="color", value="{{color.value}}", hidden)
 
 				button.btn.btn-success(type="submit") Crear
 				a.btn.btn-danger(href='/course/list/{{year}}/{{number}}') Cancelar

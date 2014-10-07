@@ -20,6 +20,8 @@ exports.create = function(req, res) {
 	
 	var year = req.body.year;
 	var semester = req.body.semester;
+
+	var color = req.body.color || 'blue' // color default
 	
 	//Si solo hay un horario
 	if(typeof req.body.day === "string"){
@@ -44,7 +46,7 @@ exports.create = function(req, res) {
     								capacity: req.body.capacity,
 										nick: req.body.nick,
 										commission: req.body.commission,
-										color: 'blue' // color default
+										color: color
 									}).success(function(course) {
 										schedule.save().success(function(schedule) {
 											var patchSchedule = db.PatchSchedule.build({
@@ -77,7 +79,7 @@ exports.create = function(req, res) {
 										modality: req.body.modality,
     								capacity: req.body.capacity,
 										commission: req.body.commission,
-										color: 'blue' // color default
+										color: color
 			}).success(function(course) {
 					semester.addCourse(course);
 					//Si no hay horarios para el curso
