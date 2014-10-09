@@ -640,6 +640,38 @@ function CalendarCtrl($scope, $http, $q){
 		
     };
 	
+	function isAssignedTeacher(teacher){
+		var result=false;
+		$scope.events.forEach(function(event){
+				event.schedule.courses.forEach(function(course){
+					course.semesterTeachers.forEach(function(st){
+						if(st.teacher.id == teacher.id){
+							result=true;
+							return;
+						}
+					});
+				});
+			})	
+		//alert(result);
+		return result;
+	}
+	
+	function isAssignedInstructor(teacher){
+		var result=false;
+		$scope.events.forEach(function(event){
+				event.schedule.courses.forEach(function(course){
+					course.semesterInstructors.forEach(function(st){
+						if(st.teacher.id == teacher.id){
+							result=true;
+							return;
+						}
+					});
+				});
+			})	
+		//alert(result);
+		return result;
+	}
+	
 		//Elimina de la lista a un schedule asignado
 	$scope.assignedTeacherToCourse = function(isInCharge ) {
 		var deferred = $q.defer();
@@ -652,12 +684,11 @@ function CalendarCtrl($scope, $http, $q){
 						method:'put',
 						data: { idTeacher:$scope.courseTeacher.teacher.id,idCourse:$scope.courseTeacher.event.schedule.courses,year:$scope.semester.year,semester:$scope.semester.semester}
 					}).success(function(data) {
-															
-						
+								
 						for(t=0;t<$scope.courseTeacher.event.schedule.courses.length;t++){
 							$scope.courseTeacher.event.schedule.courses[t].semesterTeachers.push($scope.courseTeacher.teacher);
 						}
-						
+
 						$scope.courseTeacher.teacher.teacher.hasCurrentSemesterTeachers=true;
 						
 						deferred.resolve($scope.courseTeacher.event);
@@ -763,7 +794,8 @@ function CalendarCtrl($scope, $http, $q){
 					}
 				}
 			}
-			semesterTeacher.teacher.hasCurrentSemesterTeachers=$scope.hasCurrentSemesterTeachers(semesterTeacher.teacher);
+			//alert(JSON.stringify(semesterTeacher.teacher))
+			semesterTeacher.teacher.hasCurrentSemesterTeachers=isAssignedTeacher(semesterTeacher.teacher) || isAssignedInstructor(semesterTeacher.teacher);
 			deferred.resolve($scope.scheduleShow);
 		}).error(function(err){
 			alert("Error al desasignar un profesor");
@@ -796,7 +828,7 @@ function CalendarCtrl($scope, $http, $q){
 					}
 				}
 			}
-			semesterTeacher.teacher.hasCurrentSemesterTeachers=$scope.hasCurrentSemesterTeachers(semesterTeacher.teacher);
+			semesterTeacher.teacher.hasCurrentSemesterTeachers=isAssignedInstructor(semesterTeacher.teacher) || isAssignedTeacher(semesterTeacher.teacher);
 		}).error(function(err){
 			alert("Error al desasignar un profesor");
 		});	
