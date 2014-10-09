@@ -45,9 +45,10 @@ block content
 					.modal-body 
 						.row.list-group
 							div.list-group-item 
-								b Editar
-								button.btn.btn-xs.btn-info.pull-right.button-option
-									span.glyphicon.glyphicon-edit
+								b Editar Comisiones
+								span(ng-repeat="course in scheduleShow.schedule.courses track by $index")
+									a.btn.btn-xs.btn-info.pull-right.button-option(href="../../course/edit/{{course.id}}",title="c{{course.commission}}")
+										span.glyphicon.glyphicon-edit
 						.row.list-group
 							div.list-group-item 
 								b Aula
