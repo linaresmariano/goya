@@ -794,8 +794,8 @@ function CalendarCtrl($scope, $http, $q){
 					}
 				}
 			}
-			//alert(JSON.stringify(semesterTeacher.teacher))
-			semesterTeacher.teacher.hasCurrentSemesterTeachers=isAssignedTeacher(semesterTeacher.teacher) || isAssignedInstructor(semesterTeacher.teacher);
+			getTeacherOfList(semesterTeacher.teacher).hasCurrentSemesterTeachers=isAssignedTeacher(semesterTeacher.teacher) || isAssignedInstructor(semesterTeacher.teacher);
+			
 			deferred.resolve($scope.scheduleShow);
 		}).error(function(err){
 			alert("Error al desasignar un profesor");
@@ -810,8 +810,17 @@ function CalendarCtrl($scope, $http, $q){
 
 	}
 	
-	$scope.deallocateCourseInstructor=function(idTeacher,semesterTeacher){
+	function getTeacherOfList(teacher){
+		var teacherOfList;
+		$scope.teachers.forEach(function(t){
+			if(t.id == teacher.id){
+				teacherOfList=t;
+			}
+		})
+		return teacherOfList;
+	}
 	
+	$scope.deallocateCourseInstructor=function(idTeacher,semesterTeacher){
 		if(existSemesterTeacherInSchedulesOfCourses($scope.scheduleShow.schedule.courses,semesterTeacher)){
 					alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo');
 					return;
@@ -828,7 +837,7 @@ function CalendarCtrl($scope, $http, $q){
 					}
 				}
 			}
-			semesterTeacher.teacher.hasCurrentSemesterTeachers=isAssignedInstructor(semesterTeacher.teacher) || isAssignedTeacher(semesterTeacher.teacher);
+			getTeacherOfList(semesterTeacher.teacher).hasCurrentSemesterTeachers=isAssignedInstructor(semesterTeacher.teacher) || isAssignedTeacher(semesterTeacher.teacher);
 		}).error(function(err){
 			alert("Error al desasignar un profesor");
 		});	
