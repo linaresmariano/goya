@@ -54,12 +54,14 @@ exports.semester = function(req, res) {
 			
 			db.ClassRoom.findAll().success(function(classRooms) {
 			
-				db.Teacher.findAll({
-					
-					include: [ {model: db.SemesterTeacher, as: 'SemesterTeachers' ,require:false,
-						include: [ {model: db.Semester, as: 'Semester' ,require:false}]}]}
-			
-			    ).success(function(teachers) {
+                db.Teacher.findAll({
+                    
+                    include: [ {model: db.SemesterTeacher, as: 'SemesterTeachers' ,require:false,
+                        include: [ {model: db.Semester, as: 'Semester' ,require:false},
+                                {model: db.Course, as: 'teacherCourses' ,require:false},
+                                {model: db.Course, as: 'instructorCourses' ,require:false}]}]}
+            
+                ).success(function(teachers) {
 
 					res.render('grid/index', {
 						title: 'Grilla',

@@ -28,8 +28,8 @@ block content
 							.size-menu-height
 								div.scroll-menu(style="position:relative",ng-repeat="teacher in teachers track by $index")
 									div(data-target='#modal-teacher',data-toggle='modal',class="list-group-item size-menu",class="dragg-teacher ",dragg-teacher,ng-model="teacher"){{teacher.name}}
-										span(ng-if="!haveCurrentSemesterTeachers(teacher)")
-											span(class="pull-right glyphicon glyphicon-warning-sign notify-danger",title="Este profesor no fue asignado a ningun curso")
+										span(ng-init="teacher.hasCurrentSemesterTeachers=hasCurrentSemesterTeachers(teacher)",ng-if="!teacher.hasCurrentSemesterTeachers",ng-model="teacher.hasCurrentSemesterTeachers")
+											span(class="pull-right glyphicon glyphicon-warning-sign notify-danger",title="Este profesor no fue asignado a ningun curso") 
 			.col-md-10.col-md-10
 					div
 						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')

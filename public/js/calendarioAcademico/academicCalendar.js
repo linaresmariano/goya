@@ -544,10 +544,7 @@ function CalendarCtrl($scope, $http, $q){
 	function newSemesterTeacher(teacher){
 			return {
 						id:teacher.id,
-						teacher:{	name: teacher.name,
-									code: teacher.code,
-									id:teacher.id
-									}
+						teacher:teacher
 					}
 	}
 	
@@ -660,6 +657,9 @@ function CalendarCtrl($scope, $http, $q){
 						for(t=0;t<$scope.courseTeacher.event.schedule.courses.length;t++){
 							$scope.courseTeacher.event.schedule.courses[t].semesterTeachers.push($scope.courseTeacher.teacher);
 						}
+						
+						$scope.courseTeacher.teacher.teacher.hasCurrentSemesterTeachers=true;
+						
 						deferred.resolve($scope.courseTeacher.event);
 					}).error(function(err){
 						alert("Error al asignar un profesor a un horario");
@@ -676,6 +676,7 @@ function CalendarCtrl($scope, $http, $q){
 					for(z=0;z<$scope.courseTeacher.event.schedule.courses.length;z++){
 							$scope.courseTeacher.event.schedule.courses[z].semesterInstructors.push($scope.courseTeacher.teacher);
 					}
+					$scope.courseTeacher.teacher.teacher.hasCurrentSemesterTeachers=true;
 					deferred.resolve($scope.courseTeacher.event);
 				}).error(function(err){
 					alert("Error al asignar un profesor a un horario");
@@ -762,6 +763,7 @@ function CalendarCtrl($scope, $http, $q){
 					}
 				}
 			}
+			semesterTeacher.teacher.hasCurrentSemesterTeachers=$scope.hasCurrentSemesterTeachers(semesterTeacher.teacher);
 			deferred.resolve($scope.scheduleShow);
 		}).error(function(err){
 			alert("Error al desasignar un profesor");
@@ -794,6 +796,7 @@ function CalendarCtrl($scope, $http, $q){
 					}
 				}
 			}
+			semesterTeacher.teacher.hasCurrentSemesterTeachers=$scope.hasCurrentSemesterTeachers(semesterTeacher.teacher);
 		}).error(function(err){
 			alert("Error al desasignar un profesor");
 		});	
@@ -943,15 +946,20 @@ function CalendarCtrl($scope, $http, $q){
       }
     };
 	
-	$scope.haveCurrentSemesterTeachers=function(teacher){
-		semesterTeachers=[];
-		teacher.semesterTeachers.forEach(function(semesterTeacher) {
-			if(semesterTeacher.semester.year == semesterJSON.year && semesterTeacher.semester.semester == semesterJSON.semester){
-				semesterTeachers.push(semesterTeacher)
-			}
-		});
-		return semesterTeachers.length == 0 ? false : true;
-	}
+    $scope.hasCurrentSemesterTeachers=function(teacher){
+        semesterTeachers=[];
+        teacher.semesterTeachers.forEach(function(semesterTeacher) {
+            if(semesterTeacher.semester.year == semesterJSON.year && semesterTeacher.semester.semester == semesterJSON.semester
+                && hasCourses(semesterTeacher)){
+                semesterTeachers.push(semesterTeacher)
+            }
+        });
+        return semesterTeachers.length == 0 ? false : true;
+    }
+    
+    function hasCourses(semesterTeacher){
+        return  semesterTeacher.teacherCourses.length != 0  ||  semesterTeacher.instructorCourses.length != 0;
+    }
 
 
 	
