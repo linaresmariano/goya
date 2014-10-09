@@ -85,8 +85,8 @@ exports.classrooms = function(req, res) {
   // buscar los del "semester"
   db.Semester.find({
      where: {
-              'year': semester ,
-			  'semester':year
+              'year': year ,
+			  'semester':semester
             },
 	include: [ {	model: db.Course, as: 'Courses' ,require:false,
 						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false,
