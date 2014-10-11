@@ -23,14 +23,14 @@ exports.index = function(req, res) {
 
 exports.semester = function(req, res) {
 
-  var semester = req.params.semester;
   var year = req.params.year;
+  var semester = req.params.semester;
 
   // buscar los del "semester"
   db.Semester.find({
      where: {
-              'year': semester ,
-			  'semester':year
+              'year': year ,
+			  'semester':semester
             },
 	include: [ {	model: db.Course, as: 'Courses' ,require:false,
 						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false,
@@ -54,7 +54,12 @@ exports.semester = function(req, res) {
 			
 			db.ClassRoom.findAll().success(function(classRooms) {
 			
-				db.Teacher.findAll().success(function(teachers) {
+				db.Teacher.findAll({
+					
+					include: [ {model: db.SemesterTeacher, as: 'SemesterTeachers' ,require:false,
+						include: [ {model: db.Semester, as: 'Semester' ,require:false}]}]}
+			
+			    ).success(function(teachers) {
 
 					res.render('grid/index', {
 						title: 'Grilla',

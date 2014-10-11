@@ -13,7 +13,7 @@ block content
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
-									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.schedule.courses[0].subject.nick}} {{courseNotAssigned.schedule.type}}
+									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.schedule.courses[0].subject.nick}} {{courseNotAssigned.schedule.type}} {{getCommissions(courseNotAssigned.schedule)}}
 						div(class="panel panel-default size-menu ")
 							div.panel-heading Aulas
 								button.btn.btn-default.btn-xs.pull-right
@@ -27,7 +27,9 @@ block content
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div.scroll-menu(style="position:relative",ng-repeat="teacher in teachers track by $index")
-									div(data-target='#modal-teacher',data-toggle='modal',class="list-group-item size-menu",class="dragg-teacher",dragg-teacher,ng-model="teacher"){{teacher.name}}
+									div(data-target='#modal-teacher',data-toggle='modal',class="list-group-item size-menu",class="dragg-teacher ",dragg-teacher,ng-model="teacher"){{teacher.name}}
+										span(ng-if="!haveCurrentSemesterTeachers(teacher)")
+											span(class="pull-right glyphicon glyphicon-warning-sign notify-danger",title="Este profesor no fue asignado a ningun curso")
 			.col-md-10.col-md-10
 					div
 						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')
