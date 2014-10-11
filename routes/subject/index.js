@@ -87,7 +87,7 @@ exports.edit = function(req, res) {
     where:{ 'id': id }
   }).success(function(subject) {
     db.Career.findAll().success(function(careers) {
-      res.render('subject/edit', {
+      res.render('subject/new', {
         title: 'Editar Materia',
         subject: subject,
         careers: careers
@@ -103,6 +103,7 @@ exports.update = function(req, res) {
 
   var id = req.params.id
   var dictates = req.body.dictates
+  console.log(req.body.careerId)
 
   db.Subject.find(id).success(function(subject) {
     if (subject) { // if the record exists in the db

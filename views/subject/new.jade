@@ -2,19 +2,22 @@ extends ../layout
 
 block content
 
-  .container(ng-controller='newSubjectCtrl', ng-init="careers= #{JSON.stringify(careers)}")
+  script(src='/js/angular/controllers/subject/subject.js')
+
+  .container(ng-controller='subjectCtrl'
+    ng-init="init(#{JSON.stringify(careers)}, #{JSON.stringify(subject)})")
 
     div!= messages()
 
-    form(action="../subject/create", method="post")
+    form(action="{{isEditing() ? '../update/'+subject.id : '../subject/create'}}", method="post")
       legend Nueva Materia para el semestre {{number}} de {{year}}
       div.col-md-6
 
         .form-group
           label Carrera
-          select.form-control(ng-model='career', ng-options='career.name for career in careers', name='career')
+          select.form-control(ng-model='subject.career', ng-options='career.name for career in careers', name='career')
             option(value="") Seleccione la carrera a la que pertenece la materia
-            input(name="careerId", value="{{career.id}}", hidden)
+            input(name="careerId", value="{{subject.career.id}}", hidden)
 
 
         .form-group
@@ -37,35 +40,39 @@ block content
 
         .form-group
           label(for='name') Nombre 
-          input#name.form-control( placeholder='Nombre',name='name',required,maxlength='100')
+          input#name.form-control(ng-model='subject.name' placeholder='Nombre'
+            name='name' required maxlength='100')
 
         .form-group
           label(for='nick') Apodo
-          input#nick.form-control(placeholder='Apodo (ej: EPERS)', name='nick', required, maxlength='12')
+          input#nick.form-control(ng-model='subject.nick' placeholder='Apodo (ej: EPERS)'
+            name='nick' required maxlength='12')
 
         .form-group
           label(for='area') Área
-          select.form-control(ng-model='area', ng-options='area.name for area in areas', name='area')
+          select.form-control(ng-model='subject.area' ng-options='area.name for area in areas' name='area')
             option(value="") Seleccione un área
 
         .form-group
           label(for='core') Núcleo
-          select.form-control(ng-model='core', ng-options='core.name for core in cores', name='core')
+          select.form-control(ng-model='subject.core' ng-options='core.name for core in cores' name='core')
             option(value="") Seleccione un núcleo
 
         .form-group
           label(for='pediod') Período
-          input#period.form-control(value='Cuatrimestral', name='period', maxlength='100')
+          input#period.form-control(ng-model='subject.period' name='period' maxlength='100')
 
         .form-group
           label(for='ocode') Código de Asignatura
-          input#name.form-control(placeholder='Código de asignatura', name='ocode', maxlength='100')
+          input#name.form-control(ng-model='subject.ocode' placeholder='Código de asignatura'
+            name='ocode' maxlength='100')
 
         .form-group
           label(for='credits') Créditos
-          input#credits.form-control(placeholder='Créditos', name='credits', type='number')
+          input#credits.form-control(ng-model='subject.credits' placeholder='Créditos'
+            name='credits' type='number')
 
-        button.btn.btn-success(type='submit') Crear
+        button.btn.btn-success(type='submit') {{isEditing() ? 'Editar' : 'Crear'}}
         a.btn.btn-danger(href='/subject/list') Cancelar
 
 
