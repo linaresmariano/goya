@@ -2,34 +2,41 @@ extends ../layout
 
 block content
 
-	.container(ng-controller='createCourseCtrl', ng-init='subjects = #{JSON.stringify(subjects)}')
-		form(action="../course/create",method="post")
+	script(src='/js/angular/controllers/course/course.js')
+
+	.container(ng-controller='courseCtrl' ng-init='init(#{JSON.stringify(subjects)}, #{JSON.stringify(course)})')
+		form(action="{{isEditing() ? '../update/'+course.id : '../course/create'}}" method="post")
+
 			legend Nuevo curso para el semestre {{number}} de {{year}}
+
 			div.col-md-6
 				.form-group
 					label(for='selectSubject') Materia
-					select#selectSubject(class="form-control",ng-model="subject",ng-options="subject.name for subject in subjects",required)
-						option(value="") Seleccione una materia
-					input(name="idSubject",value="{{subject.id}}",hidden)
+					select.form-control(ng-model='course.subject' ng-options='subject.name for subject in subjects' required)
+						option(value='') Seleccione una materia
+						input(name='idSubject' value='{{course.subject.id}}' hidden)
 
 
 				legend Comisión
 				.form-group
 					label(for='commission') Número
-					input#commission.form-control(type="number", min="1", placeholder='Número de comision', name='commission', required)
+					input.form-control(ng-model='course.commission' placeholder='Número de comision'
+						type='number' min='1' name='commission' required)
 					
 				.form-group
 					label(for='nick') Apodo
-					input#nick.form-control(placeholder='Apodo del curso (ej: EPA para EPERS-C1)', name='nick', maxlength='12')
+					input#nick.form-control(ng-model='course.nick' placeholder='Apodo del curso (ej: EPA para EPERS-C1)'
+						name='nick' maxlength='12')
 
 				.form-group
 					label(for='modality') Modalidad
-					select.form-control(ng-model='modality', ng-options='modality.name for modality in modalities', name='modality')
-						option(value="") Seleccione una modalidad
+					select.form-control(ng-model='course.modality' ng-options='modality.name for modality in modalities' name='modality')
+						option(value='') Seleccione una modalidad
 
 				.form-group
 					label(for='capacity') Capacidad
-					input#capacity.form-control(placeholder='Capacidad', name='capacity', type='number')
+					input#capacity.form-control(ng-model='course.capacity' placeholder='Capacidad'
+						name='capacity' type='number')
 
 
 				legend Horarios
@@ -69,11 +76,11 @@ block content
 				legend Características visuales
 				.form-group
 					label(for='color') Color
-					select#color(class="form-control",ng-model="color",ng-options="color.name for color in colors")
-						option(value="") Seleccione un color para la grilla
-						input(name="color", value="{{color.value}}", hidden)
+					select.form-control(ng-model='course.color' ng-options='color.name for color in colors')
+						option(value='') Seleccione un color para la grilla
+						input(name='color' value='{{course.color.id}}' hidden)
 
-				button.btn.btn-success(type="submit") Crear
+				button.btn.btn-success(type='submit') {{isEditing() ? 'Editar' : 'Crear'}}
 				a.btn.btn-danger(href='/course/list/{{year}}/{{number}}') Cancelar
 
 

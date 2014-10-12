@@ -6,10 +6,34 @@ var datos = require('../../extras/datos'),
 exports.new = function(req, res) {
 	db.Subject.findAll().success(function(subjects) {
 		res.render('course/new', {
-		  title: 'Crear Curso',
+		  title: 'Crear curso',
 		  subjects: subjects
 		})
 	})
+}
+
+
+exports.edit = function(req, res) {
+
+  var id = req.params.id;
+  
+  db.Course.find({
+    where: {'id': id }
+    // include: [{
+    //   model: db.Subject, as: 'subject', require: false
+    // }]
+  }).success(function(course) {
+
+    db.Subject.findAll().success(function(subjects) {
+      res.render('course/new', {
+        title: 'Editar curso',
+        subjects: subjects,
+        course: course
+      })
+
+    })
+  })
+
 }
 
 
@@ -319,23 +343,3 @@ exports.assignedInstructor = function(req, res) {
 	}
 	instructorAssignedToACourses(idCourse);
 }
-
-
-exports.edit = function(req, res) {
-
-	var year = req.params.year;
-	var semester = req.params.semester;
-	var commission = req.params.commission;
-	
-	db.Semester.find({
-		include: [ {model: db.Course, as: 'Courses' ,require:false,
-					include:{model: db.Subject, as: 'Subject',require:false}}],
-		where:{ 'year': year,'semester':semester}
-	}).success(function(semester) {
-	
-		res.render('course/list', {
-          title: 'Cursos',
-          courses:semester.courses
-		});
-	});
-};
