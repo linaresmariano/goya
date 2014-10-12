@@ -942,6 +942,16 @@ function CalendarCtrl($scope, $http, $q){
 		defaultView: 'agendaWeek'
       }
     };
+	
+	$scope.haveCurrentSemesterTeachers=function(teacher){
+		semesterTeachers=[];
+		teacher.semesterTeachers.forEach(function(semesterTeacher) {
+			if(semesterTeacher.semester.year == semesterJSON.year && semesterTeacher.semester.semester == semesterJSON.semester){
+				semesterTeachers.push(semesterTeacher)
+			}
+		});
+		return semesterTeachers.length == 0 ? false : true;
+	}
 
 
 	

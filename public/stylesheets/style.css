@@ -3,6 +3,10 @@
 
 }
 
+.notify-danger{
+	color:red !important;
+}
+
 .size-menu-height{
 	height:148px;
 	overflow-y:auto;
