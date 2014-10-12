@@ -30,7 +30,7 @@ block content
           br
           br
 
-          div.form-control(ng-repeat="dictateCareer in dictateCareers track by $index")
+          div.form-control(ng-repeat="dictateCareer in subject.dictateCareers track by $index")
             div {{dictateCareer.name}}
               button.btn.btn-xs.btn-danger.pull-right(type="button", ng-click="remove(index)")
                 span.glyphicon.glyphicon-remove

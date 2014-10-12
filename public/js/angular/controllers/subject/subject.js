@@ -15,26 +15,24 @@ app.controller('subjectCtrl', function ($scope, localStorageService, subjectServ
       $scope.subject.area = subjectService.areas[subject.area]
       $scope.subject.core = subjectService.cores[subject.core]
 
-      $scope.dictateCareers = subject.dictateCareers
-
     } else {
       $scope.subject = {}
       $scope.subject.period = 'Cuatrimestral'
 
-      $scope.dictateCareers = []
+      $scope.subject.dictateCareers = []
     }
   }
 
 
   $scope.addDictate = function(dictate){
     if(dictate != null && !isRepeat(dictate)) {
-      $scope.dictateCareers.push(dictate)
+      $scope.subject.dictateCareers.push(dictate)
     }
   }
 
   function isRepeat(dictate){
-    for(i =0; i < $scope.dictateCareers.length; i++) {
-      var career = $scope.dictateCareers[i]
+    for(i =0; i < $scope.subject.dictateCareers.length; i++) {
+      var career = $scope.subject.dictateCareers[i]
       if(career.id == dictate.id) {
         return true
       }
@@ -44,7 +42,7 @@ app.controller('subjectCtrl', function ($scope, localStorageService, subjectServ
   }
 
   $scope.remove = function(index) {
-    $scope.dictateCareers.splice(index, 1)
+    $scope.subject.dictateCareers.splice(index, 1)
   }
 
   $scope.isEditing = function() {
@@ -57,6 +55,13 @@ app.controller('subjectCtrl', function ($scope, localStorageService, subjectServ
       if(list[i].id == id) {
         return list[i]
       }
+    }
+  }
+
+  function remove(list, elem) {
+    var i = list.indexOf(elem);
+    if(i != -1) {
+      list.splice(i, 1);
     }
   }
   
