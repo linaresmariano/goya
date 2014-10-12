@@ -8,11 +8,15 @@ block content
 			
 		}
 	.container
+
+		div!= messages()
+
 		legend Seleccione una materia
 		div( ng-controller="classRooms")
 			div(ng-repeat='classroom in classRooms')
 				div
-					a.list-group-item {{classroom.number}} - {{classroom.name}} 
+					a.list-group-item(ng-href='/classroom/edit/{{classroom.id}}')
+						{{classroom.number}} - {{classroom.name}} 
 						button.btn.btn-xs.btn-info.pull-right.button-option
 							span.glyphicon.glyphicon-edit
 						button.btn.btn-xs.btn-danger.pull-right.button-option

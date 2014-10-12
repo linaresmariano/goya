@@ -94,7 +94,9 @@ app.get('/course/list/:year/:semester', cursos.list);
 
 //classRooms
 app.get('/classroom/new', classroom.new);
+app.get('/classroom/edit/:id', classroom.edit);
 app.post('/classroom/create', classroom.create);
+app.post('/classroom/update/:id', classroom.update);
 app.get('/classroom/list/:year/:semester', classroom.list);
 
 //subjects

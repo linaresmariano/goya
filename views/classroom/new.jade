@@ -1,34 +1,51 @@
 extends ../layout
 
 block content
-	.container
-		form(action="../classroom/create",method="post")
+
+	script(src='/js/angular/controllers/classroom/classroom.js')
+
+	.container(ng-controller='classroomCtrl' ng-init='init(#{JSON.stringify(classroom)})')
+
+		div!= messages()
+
+		form(action="{{isEditing() ? '../update/'+classroom.id : '../classroom/create'}}" method="post")
 			legend Nueva Aula
 			div.col-md-4
 				.form-group
 					label(for='name') Nombre 
-					input#name.form-control( placeholder='Nombre',name='name',required,maxlength='20')
+					input.form-control(ng-model='classroom.name' placeholder='Nombre' name='name'
+						required maxlength='20')
+
 				.form-group
 					label(for='number') Número
-					input#number.form-control( placeholder='Numero',name='number',required,maxlength='25')
+					input.form-control(ng-model='classroom.number' placeholder='Numero'
+						name='number' required maxlength='25')
+
 				.form-group
 					label(for='capacity') Capacidad
-					input#capacity.form-control(type='number',min='0',placeholder='Capacidad',name='capacity',required,maxlength='25')
+					input.form-control(ng-model='classroom.capacity' placeholder='Capacidad'
+						type='number' min='0' name='capacity' required maxlength='25')
+
 				.form-group
 					label(for='numberOfComputers') Cantidad de computadoras
-					input#numberOfComputers.form-control(type='number',min='0',value='0',placeholder='Cantidad de computadoras',name='numberOfComputers',required,maxlength='25')
+					input.form-control(ng-model='classroom.numberOfComputers' placeholder='Cantidad de computadoras'
+						type='number' min='0' value='0' name='numberOfComputers' required maxlength='25')
+
 				form-control
 					label(for='hasProyector') Tiene proyector
-					input#hasProyector.pull-right(name="hasProyector",type="checkbox",value="false")
+					input.pull-right(ng-model='classroom.hasProyector' name='hasProyector' type='checkbox' value='false')
+
 				.form-group
 					br
 					label(for='description') Descripción
-					textarea#description.form-control(placeholder='Descripción',name='description',required,maxlength='25')
-				.form-group.hidden
-					input.form-control(value='{{ number}}',name='semester',type="number")
-					input.form-control(value='{{ year}}',name='year',type="number")
+					textarea.form-control(ng-model='classroom.description' placeholder='Descripción'
+						name='description' required maxlength='25')
 
-				button.btn.btn-success(type="submit") Crear
+				.form-group.hidden
+					input.form-control(value='{{number}}' name='semester' type="number")
+					input.form-control(value='{{year}}' name='year' type="number")
+
+				button.btn.btn-success(type="submit") {{isEditing() ? 'Editar' : 'Crear'}}
 				a.btn.btn-danger(href='/classroom/list/{{year}}/{{number}}') Cancelar
 
 
