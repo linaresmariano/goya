@@ -18,10 +18,10 @@ exports.edit = function(req, res) {
   var id = req.params.id;
   
   db.Course.find({
-    where: {'id': id }
-    // include: [{
-    //   model: db.Subject, as: 'subject', require: false
-    // }]
+    where: {'id': id },
+    include: [{
+      model: db.CourseSchedule, as: 'schedules', require: false
+    }]
   }).success(function(course) {
 
     db.Subject.findAll().success(function(subjects) {
@@ -58,7 +58,7 @@ exports.create = function(req, res) {
 										day: req.body.day,
 										hour: req.body.hour,
 										minutes: 0,
-										durationHour: req.body.duration ,
+										durationHour: req.body.durationHour,
 										durationMinutes:0
 									});
 									console.log('Es unico horario');
@@ -117,7 +117,7 @@ exports.create = function(req, res) {
 														day: req.body.day[i] ,
 														hour: req.body.hour[i] ,
 														minutes: 0,
-														durationHour: req.body.duration[i] ,
+														durationHour: req.body.durationHour[i] ,
 														durationMinutes:0
 													});
 								var patchSchedule = db.PatchSchedule.build({

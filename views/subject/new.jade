@@ -10,6 +10,7 @@ block content
     div!= messages()
 
     form(action="{{isEditing() ? '../update/'+subject.id : '../subject/create'}}", method="post")
+
       legend Nueva Materia para el semestre {{number}} de {{year}}
       div.col-md-6
 

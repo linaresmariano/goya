@@ -18,7 +18,7 @@ app.controller('courseCtrl', function ($scope, localStorageService, subjectServi
 
     } else {
       $scope.course = {}
-
+      $scope.course.schedules = []
     }
   }
 
@@ -41,27 +41,24 @@ app.controller('courseCtrl', function ($scope, localStorageService, subjectServi
     {name:'Sabado',id:5}
   ];
 
-  $scope.schedules = [];
-
   $scope.remove=function(index){
-    $scope.schedules.splice(index,1);
+    $scope.course.schedules.splice(index,1);
   }
 
-  $scope.add=function(hour,duration,day,id){
-    if(hour != undefined  && 
-    duration != undefined && 
-    day != undefined && 
-    id != undefined && 
-    !isRepeat(hour,duration,day)){
-      $scope.schedules.push({day:day,id:id,hour:hour,duration:duration});
+  $scope.add = function(hour, durationHour, day) {
+    if(hour && durationHour && day && !isRepeat(hour, durationHour, day)) {
+      $scope.course.schedules.push({
+        day: day.id,
+        hour: hour,
+        durationHour: durationHour
+      })
     }
-    
   }
 
-  function isRepeat(hour,duration,day){
-    for(i =0;i < $scope.schedules.length;i++){
-    schedule=$scope.schedules[i];
-      if(schedule.day == day && schedule.hour == hour && schedule.duration == duration){
+  function isRepeat(hour, durationHour, day) {
+    for(i =0; i < $scope.course.schedules.length; i++){
+    schedule=$scope.course.schedules[i];
+      if(schedule.day == day.id && schedule.hour == hour && schedule.durationHour == durationHour){
         return true;
       }
     };
@@ -88,4 +85,13 @@ app.controller('courseCtrl', function ($scope, localStorageService, subjectServi
   $scope.isEditing = function() {
     return $scope.course.id != undefined
   }
+
+  $scope.scheduleAssigned = function(schedule) {
+    if(schedule.hour < 0) {
+      return 'Sin horario asignado'
+    }
+    
+    return 'El día '+ getById($scope.days, schedule.day).name +' a las '+ schedule.hour
+  }
+
 })

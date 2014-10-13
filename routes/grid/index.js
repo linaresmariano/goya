@@ -6,7 +6,7 @@ var db = require('../../models')
 
 exports.index = function(req, res) {
 
-  db.Course.findAll({include: [ {model: db.CourseSchedule, as: 'Schedules'} ]}).success(function(courses) {
+  db.Course.findAll({include: [ {model: db.CourseSchedule, as: 'schedules'} ]}).success(function(courses) {
     res.render('grid/index', {
       title: 'Grilla',
       datos: datos,
@@ -33,7 +33,7 @@ exports.semester = function(req, res) {
 			  'semester':semester
             },
 	include: [ {	model: db.Course, as: 'Courses' ,require:false,
-						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false,
+						include: [ 	{model: db.CourseSchedule, as: 'schedules',require:false,
 										include: [ 	{model: db.Course, as: 'Courses',require:false}	,
 													{model: db.SemesterClassRoom, as: 'SemesterClassRoom',require:false,
 														include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]},
@@ -89,7 +89,7 @@ exports.classrooms = function(req, res) {
 			  'semester':semester
             },
 	include: [ {	model: db.Course, as: 'Courses' ,require:false,
-						include: [ 	{model: db.CourseSchedule, as: 'Schedules',require:false,
+						include: [ 	{model: db.CourseSchedule, as: 'schedules',require:false,
 										include: [ 	{model: db.PatchSchedule, as: 'Patch',require:false},
 													{model: db.SemesterClassRoom, as: 'SemesterClassRoom',require:false,
 														include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]}]},
