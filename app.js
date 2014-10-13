@@ -91,6 +91,7 @@ app.put('/course/assignedInstructor', cursos.assignedInstructor);
 app.put('/course/deallocateTeacher', cursos.deallocateTeacher);
 app.put('/course/deallocateInstructor', cursos.deallocateInstructor);
 app.get('/course/list/:year/:semester', cursos.list);
+app.put('/course/remove', cursos.remove);
 
 //classRooms
 app.get('/classroom/new', classroom.new);

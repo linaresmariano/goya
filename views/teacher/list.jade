@@ -16,7 +16,7 @@ block content
 					a(ng-href='/teacher/edit/{{teacher.id}}')
 						button.btn.btn-xs.btn-info.pull-right.button-option
 							span.glyphicon.glyphicon-edit
-					button.btn.btn-xs.btn-danger.pull-right.button-option(ng-click="removeTeacher(teacher.id,$index)")
+					button.btn.btn-xs.btn-danger.pull-right.button-option(ng-click="removeTeacher(teacher, $index)")
 						span.glyphicon.glyphicon-remove
 
 		br

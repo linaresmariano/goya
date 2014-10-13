@@ -1,23 +1,21 @@
 extends ../layout
 
 block content
-	script.
-		function courses($scope){
-			$scope.courses=!{JSON.stringify(courses)};
-		}
-	.container
+
+	script(src='/js/angular/controllers/course/list.js')
+
+	.container(ng-controller="listCoursesCtrl" ng-init='courses=#{JSON.stringify(courses)}')
 		legend Seleccione un curso
-		div( ng-controller="courses")
-			div(ng-repeat='course in courses')
-				div
-					a.list-group-item(ng-href='/course/edit/{{course.id}}')
-						{{course.subject.nick}} - {{course.subject.name}}
+		
+		div(ng-repeat='course in courses')
+			div
+				.list-group-item
+					{{course.subject.nick}} - {{course.subject.name}}
+					a(ng-href='/course/edit/{{course.id}}')
 						button.btn.btn-xs.btn-info.pull-right.button-option
 							span.glyphicon.glyphicon-edit
-						button.btn.btn-xs.btn-danger.pull-right.button-option
-							span.glyphicon.glyphicon-remove
+					button.btn.btn-xs.btn-danger.pull-right.button-option(ng-click="remove(course, $index)")
+						span.glyphicon.glyphicon-remove
 
 		br
 		a.btn.btn-success(href='/course/new')	Nuevo
-  
-  

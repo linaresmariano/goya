@@ -343,3 +343,19 @@ exports.assignedInstructor = function(req, res) {
 	}
 	instructorAssignedToACourses(idCourse);
 }
+
+
+exports.remove = function(req, res){
+
+  var id = req.body.id
+
+  db.Course.find(id).success(function(course) {
+    if(course) {
+      course.destroy().success(function(u) {
+        res.send('ok');
+      })
+    }
+  })
+
+}
+
