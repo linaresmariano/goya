@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 	script.
-		function teachers($scope,$q,$http){
+		function teachers($scope, $q, $http, $window) {
 			
 			$scope.teachers=!{JSON.stringify(teachers)};
 			
@@ -26,20 +26,26 @@ block content
 							});
 			}
 
+			$scope.edit = function(id) {
+				$window.location = '/teacher/edit/'+ id
+			}
 			
 		}
 	.container
+
+		div!= messages()
+
 		legend Seleccione un profesor
-		div( ng-controller="teachers")
+		div(ng-controller="teachers")
 			div(ng-repeat='teacher in teachers track by $index')
 				div
 					.list-group-item {{teacher.name}} - {{teacher.code}}
-						button.btn.btn-xs.btn-info.pull-right.button-option
+						button.btn.btn-xs.btn-info.pull-right.button-option(ng-click="edit(teacher.id)")
 							span.glyphicon.glyphicon-edit
 						button.btn.btn-xs.btn-danger.pull-right.button-option(ng-click="removeTeacher(teacher.id,$index)")
 							span.glyphicon.glyphicon-remove
 
 		br
-		a.btn.btn-success(href='../../../teacher/new')	Nuevo
+		a.btn.btn-success(href='/teacher/new')	Nuevo
   
   

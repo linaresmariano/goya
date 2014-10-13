@@ -70,7 +70,7 @@ block content
         .form-group
           label(for='credits') Créditos
           input#credits.form-control(ng-model='subject.credits' placeholder='Créditos'
-            name='credits' type='number')
+            name='credits' type='number' min='0')
 
         button.btn.btn-success(type='submit') {{isEditing() ? 'Editar' : 'Crear'}}
         a.btn.btn-danger(href='/subject/list') Cancelar

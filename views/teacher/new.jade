@@ -1,28 +1,42 @@
 extends ../layout
 
 block content
-	.container
-		form(action="../teacher/create",method="post")
-			legend Nuevo Profesor 
+
+	script(src='/js/angular/controllers/teacher/teacher.js')
+
+	.container(ng-controller='teacherCtrl' ng-init='init(#{JSON.stringify(teacher)})')
+
+		div!= messages()
+
+		form(action="{{isEditing() ? '../update/'+teacher.id : '../teacher/create'}}" method="post")
+			legend Nuevo Profesor
+
 			div.col-md-4
 				.form-group
 					label(for='name') Nombre 
-					input#name.form-control(placeholder='Nombre',name='name',required,maxlength='20')
+					input#name.form-control(ng-model='teacher.name' placeholder='Nombre'
+						name='name' required maxlength='20')
+
 				.form-group
 					label(for='code') Codigo
-					input#code.form-control(placeholder='Codigo',name='code',required,maxlength='12')
+					input#code.form-control(ng-model='teacher.code' placeholder='Codigo'
+						name='code' required maxlength='12')
+
 				legend Requisitos
 				.form-group
 					label(for='numberOfComputers') Computadoras
-					input#numberOfComputers.form-control(type="number",min="0", placeholder='Cantidad de computadoras',name='numberOfComputers',required,maxlength='12')
+					input.form-control(ng-model='teacher.numberOfComputers' placeholder='Cantidad de computadoras'
+						type='number' min='0' name='numberOfComputers' maxlength='12')
+
 				.form-group
 					label(for='others') Otros
-					textarea#others.form-control(placeholder='Otros',name='others',required,maxlength='12')
-				.form-group.hidden
-					input.form-control(value='{{ number}}',name='semester',type="number")
-					input.form-control(value='{{ year}}',name='year',type="number")
+					textarea#others.form-control(placeholder='Otros' name='others' maxlength='12')
 
-				button.btn.btn-success(type="submit")	Crear
+				.form-group.hidden
+					input.form-control(value='{{number}}' name='semester' type='number')
+					input.form-control(value='{{year}}' name='year' type='number')
+
+				button.btn.btn-success(type='submit')	{{isEditing() ? 'Editar' : 'Crear'}}
 				a.btn.btn-danger(href='/teacher/list/{{year}}/{{number}}') Cancelar
 
 

@@ -96,7 +96,7 @@ app.get('/course/list/:year/:semester', cursos.list);
 app.get('/classroom/new', classroom.new);
 app.get('/classroom/edit/:id', classroom.edit);
 app.post('/classroom/create', classroom.create);
-app.post('/classroom/update/:id', classroom.update);
+app.put('/classroom/update/:id', classroom.update);
 app.get('/classroom/list/:year/:semester', classroom.list);
 
 //subjects
@@ -108,7 +108,9 @@ app.get('/subject/list', subject.list);
 
 //teachers
 app.get('/teacher/new', teacher.new);
+app.get('/teacher/edit/:id', teacher.edit);
 app.post('/teacher/create', teacher.create);
+app.post('/teacher/update/:id', teacher.update);
 app.get('/teacher/list/:year/:semester', teacher.list);
 app.put('/teacher/remove', teacher.remove);
 
