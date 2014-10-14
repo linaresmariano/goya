@@ -144,7 +144,6 @@ exports.update = function(req, res) {
     }
   }).error(function(err) {
 
-    res.redirect('subject/list')
     req.flash(typeMessage.ERROR, err.name[0])
 
   })

@@ -5,6 +5,9 @@ block content
 	script(src='/js/angular/controllers/course/course.js')
 
 	.container(ng-controller='courseCtrl' ng-init='init(#{JSON.stringify(subjects)}, #{JSON.stringify(course)})')
+
+		div!= messages()
+
 		form(action="{{isEditing() ? '../update/'+course.id : '/course/create'}}" method="post")
 
 			legend Nuevo curso para el semestre {{number}} de {{year}}

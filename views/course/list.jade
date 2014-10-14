@@ -5,6 +5,9 @@ block content
 	script(src='/js/angular/controllers/course/list.js')
 
 	.container(ng-controller="listCoursesCtrl" ng-init='courses=#{JSON.stringify(courses)}')
+
+		div!= messages()
+
 		legend Seleccione un curso
 		
 		div(ng-repeat='course in courses')

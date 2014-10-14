@@ -105,6 +105,47 @@ exports.create = function(req, res) {
 
 }
 
+
+exports.update = function(req, res) {
+  console.log(req.body)
+
+  var id = req.params.id
+  var year = req.body.year
+  var semester = req.body.semester
+  var idSubject = req.body.idSubject
+  var color = req.body.color || 'blue' // color default
+
+  db.Course.find(id).success(function(course) {
+    if (course) { // if the record exists in the db
+      course.updateAttributes({
+        SubjectId: idSubject,
+        enrolled: 45,
+        nick: req.body.nick,
+        modality: req.body.modality,
+        capacity: req.body.capacity,
+        commission: req.body.commission,
+        color: color
+      }).success(function(courseUpdated) {
+
+        // TODO: update schedules?
+      
+        res.redirect('course/list/'+year+'/'+semester)
+        req.flash(typeMessage.SUCCESS, "El curso se ha guardado correctamente")
+
+      }).error(function(err) {
+
+        req.flash(typeMessage.ERROR, err.name[0])
+
+      })
+    }
+  }).error(function(err) {
+
+    req.flash(typeMessage.ERROR, err.name[0])
+
+  })
+
+}
+
 /*
  * GET cursos.
  */
@@ -170,17 +211,16 @@ exports.list = function(req, res){
 
 
 
-exports.update = function(req, res) {
-
+exports.updateCourseSchedule = function(req, res) {
 
   db.CourseSchedule.find(req.body.id).success(function(schedule) {
     schedule.updateAttributes({
-		    day: req.body.day,
-			hour: req.body.hour,
-			minutes:req.body.minutes,
-		}).success(function() {	
-			res.send('ok')
-		})
+      day: req.body.day,
+      hour: req.body.hour,
+      minutes:req.body.minutes,
+    }).success(function() {
+      res.send('ok')
+    })
   })
 
 }
