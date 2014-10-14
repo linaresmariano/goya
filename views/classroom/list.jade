@@ -15,14 +15,13 @@ block content
 		div( ng-controller="classRooms")
 			div(ng-repeat='classroom in classRooms')
 				div
-					a.list-group-item(ng-href='/classroom/edit/{{classroom.id}}')
-						{{classroom.number}} - {{classroom.name}} 
-						button.btn.btn-xs.btn-info.pull-right.button-option
-							span.glyphicon.glyphicon-edit
+					.list-group-item
+						{{classroom.number}} - {{classroom.name}}
+						a(ng-href='/classroom/edit/{{classroom.id}}')
+							button.btn.btn-xs.btn-info.pull-right.button-option
+								span.glyphicon.glyphicon-edit
 						button.btn.btn-xs.btn-danger.pull-right.button-option
 							span.glyphicon.glyphicon-remove
 
 		br
 		a.btn.btn-success(href='../../../classroom/new')	Nuevo
-  
-  

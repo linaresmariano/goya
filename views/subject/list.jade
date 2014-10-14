@@ -10,9 +10,10 @@ block content
 
 		div(ng-repeat='subject in subjects')
 			div
-				a.list-group-item(ng-href='/subject/edit/{{subject.id}}') {{subject.name}} 
-					button.btn.btn-xs.btn-info.pull-right.button-option
-						span.glyphicon.glyphicon-edit
+				.list-group-item {{subject.name}} 
+					a(ng-href='/subject/edit/{{subject.id}}')
+						button.btn.btn-xs.btn-info.pull-right.button-option
+							span.glyphicon.glyphicon-edit
 					button.btn.btn-xs.btn-danger.pull-right.button-option
 						span.glyphicon.glyphicon-remove
 
