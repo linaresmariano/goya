@@ -1103,14 +1103,6 @@ function CalendarCtrl($scope, $http, $q){
 		});
 		return amount;
 	}
-
-	function quota(courses) {
-		return courses.map(function(elem) {
-			return elem.capacity;
-		}).reduce(function(pv, cv) {
-			return pv + cv;
-		}, 0);
-	}
 	
 	function checkAmountEnrolled(schedule,element){
 		if(amountEnrolled(schedule.courses) < 5){
@@ -1126,7 +1118,7 @@ function CalendarCtrl($scope, $http, $q){
 			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
 			return typeMessage.warning;
 
-		} else if(amountEnrolled(schedule.courses) > quota(schedule.courses)) {
+		} else if(amountEnrolled(schedule.courses) > amountCapacity(schedule.courses)) {
 			messages[schedule.id]+='* La cantidad de inscriptos supera el cupo \n';
 			$(element).find('.fc-event-time').css('background', '#E70000');
 			$(element).find('.fc-event-time').css('opacity', '1');
