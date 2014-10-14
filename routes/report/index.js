@@ -14,7 +14,7 @@ exports.offer = function(req, res) {
     },
   
     include: [ {  model: db.Course, as: 'Courses' ,require:false,
-            include: [  {model: db.CourseSchedule, as: 'Schedules',require:false,
+            include: [  {model: db.CourseSchedule, as: 'schedules',require:false,
                     include: [  {model: db.SemesterClassRoom, as: 'SemesterClassRoom',require:false,
 								include: [  {model: db.ClassRoom, as: 'ClassRoom',require:false}]},
                           {model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
