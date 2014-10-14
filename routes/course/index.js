@@ -38,117 +38,71 @@ exports.edit = function(req, res) {
 
 
 exports.create = function(req, res) {
-	//Para probar
-	var idSubject = req.body.idSubject;
-	console.log(req.body);
-	
-	var year = req.body.year;
-	var semester = req.body.semester;
+  var idSubject = req.body.idSubject
+  console.log(req.body)
 
-	var color = req.body.color || 'blue' // color default
-	
-	//Si solo hay un horario
-	if(typeof req.body.day === "string"){
-	
-		db.Semester.find({
-			where:{ 'year': year,'semester':semester}
-		}).success(function(semester) {
-			var schedule = db.CourseSchedule.build({
-										type: 'Teorica/Practica',
-										day: req.body.day,
-										hour: req.body.hour,
-										minutes: 0,
-										durationHour: req.body.durationHour,
-										durationMinutes:0
-									});
-									console.log('Es unico horario');
-									db.Course.create({
-										SubjectId: idSubject,
-										SemesterId: semester.id,
-										enrolled: 45,
-										modality: req.body.modality,
-    								capacity: req.body.capacity,
-										nick: req.body.nick,
-										commission: req.body.commission,
-										color: color
-									}).success(function(course) {
-										schedule.save().success(function(schedule) {
-											var patchSchedule = db.PatchSchedule.build({
-													extraHour: 0,
-													extraDuration:0
+  var year = req.body.year
+  var semester = req.body.semester
 
-											}).save().success(function(patchSchedule) {
-												schedule.setPatch(patchSchedule);
-												course.addSchedule(schedule);
-												showFeedbackPanel(res,'Courso creado correctamente',typeMessage.SUCCESS);
-												exports.new(req, res);
-											});
-											
-										})
-												
-									});
-		});
-	//si hay varios horarios y sin horario
-	}else{
-	
-	
-		db.Semester.find({
-			where:{ 'year': year,'semester':semester}
-		}).success(function(semester) {
-			db.Course.create({
-										SubjectId: idSubject,
-										SemesterId: semester.id,
-										enrolled: 45,
-										nick: req.body.nick,
-										modality: req.body.modality,
-    								capacity: req.body.capacity,
-										commission: req.body.commission,
-										color: color
-			}).success(function(course) {
-					semester.addCourse(course);
-					//Si no hay horarios para el curso
-					if(req.body.day != undefined){
-						for(var i=0;i < req.body.day.length;i++){
-							
-							
-							saveSchedule=function(index){
-								var schedule = db.CourseSchedule.build({
-														type: 'Teorica/Practica',
-														day: req.body.day[i] ,
-														hour: req.body.hour[i] ,
-														minutes: 0,
-														durationHour: req.body.durationHour[i] ,
-														durationMinutes:0
-													});
-								var patchSchedule = db.PatchSchedule.build({
-													extraHour: 0,
-													extraDuration:0
+  var color = req.body.color || 'blue' // color default
 
-												})
-								
-								schedule.save().success(function(schedule) {
+  var newSchedule = function(course, day, hour, durationHour) {
+    var schedule = db.CourseSchedule.build({
+      type: 'Teorica/Practica',
+      day: day,
+      hour: hour,
+      minutes: 0,
+      durationHour: durationHour,
+      durationMinutes: 0
+    })
 
-												patchSchedule.save().success(function(patchSchedule) {
-													console.log(index+" ********************************** ");
-													schedule.setPatch(patchSchedule);
-													course.addSchedule(schedule);
-													
-												});
-												
-											})
-							};
-							
-							saveSchedule(i);
-											
-						}
-					}
-					showFeedbackPanel(res,'Courso creado correctamente',typeMessage.SUCCESS);
-					exports.new(req, res);	
-			});
-		});
-	}
-	
-								
+    schedule.save().success(function(schedule) {
+      var patchSchedule = db.PatchSchedule.build({
+        extraHour: 0,
+        extraDuration: 0
+
+      }).save().success(function(patchSchedule) {
+        schedule.setPatch(patchSchedule)
+        course.addSchedule(schedule)
+      })
+    })
+  }
+
+  db.Semester.find({
+    where: {'year': year, 'semester': semester}
+  }).success(function(semester) {
+
+    db.Course.create({
+      SubjectId: idSubject,
+      SemesterId: semester.id,
+      enrolled: 45,
+      nick: req.body.nick,
+      modality: req.body.modality,
+      capacity: req.body.capacity,
+      commission: req.body.commission,
+      color: color
+    }).success(function(course) {
+
+      semester.addCourse(course)
+
+      // Si hay horarios para el curso
+      if(req.body.day) {
+        // Tiene uno, sino una lista
+        if(typeof req.body.day === "string") {
+          newSchedule(course, req.body.day, req.body.hour, req.body.durationHour)
+        } else {
+          for(var i=0; i < req.body.day.length; i++) {
+            newSchedule(course, req.body.day[i], req.body.hour[i], req.body.durationHour[i])
+          }
+        }
+      }
+
+      showFeedbackPanel(res, 'Curso creado correctamente', typeMessage.SUCCESS)
+      exports.new(req, res)
+          
+    })
+  })
+
 }
 
 /*

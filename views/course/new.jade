@@ -5,7 +5,7 @@ block content
 	script(src='/js/angular/controllers/course/course.js')
 
 	.container(ng-controller='courseCtrl' ng-init='init(#{JSON.stringify(subjects)}, #{JSON.stringify(course)})')
-		form(action="{{isEditing() ? '../update/'+course.id : '../course/create'}}" method="post")
+		form(action="{{isEditing() ? '../update/'+course.id : '/course/create'}}" method="post")
 
 			legend Nuevo curso para el semestre {{number}} de {{year}}
 
@@ -47,7 +47,7 @@ block content
 							button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="remove(index)")
 								span.glyphicon.glyphicon-remove
 							input.hidden(name="durationHour" type="number" value="{{schedule.durationHour}}")
-							input.hidden(name="day" type="number" value="{{schedule.id}}")
+							input.hidden(name="day" type="number" value="{{schedule.day}}")
 							input.hidden(name="hour" type="number" value="{{schedule.hour}}")
 					br
 					br
