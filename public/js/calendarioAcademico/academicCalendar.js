@@ -1133,11 +1133,20 @@ function CalendarCtrl($scope, $http, $q){
 		//Si no tiene aula ok
 		if(!schedule.semesterClassRoom)return typeMessage.ok;
 
-		if(amountCapacity(schedule.courses) < (schedule.semesterClassRoom.capacity/2)){
-			messages[schedule.id]=messages[schedule.id]+'* La cantidad('+amountCapacity(schedule.courses) +') de cupos es mucho menor a la capacidad('+schedule.semesterClassRoom.capacity +') del aula \n';
+		var courseCapacity = amountCapacity(schedule.courses);
+		var classroomCapacity = schedule.semesterClassRoom.capacity;
+
+		if(courseCapacity < (classroomCapacity/2)){
+			messages[schedule.id]=messages[schedule.id]+'* La cantidad de cupos ('+courseCapacity+') es mucho menor a la capacidad del aula ('+classroomCapacity+') \n';
 			$(element).find('.fc-event-time').css('background','yellow');
 			$(element).find('.fc-event-time').css('opacity','1');
 			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+			return typeMessage.warning;
+		} else if(courseCapacity > classroomCapacity) {
+			messages[schedule.id]+='* La cantidad de cupos ('+courseCapacity+') no entra en la capacidad del aula asignada ('+classroomCapacity+') \n';
+			$(element).find('.fc-event-time').css('background', 'yellow');
+			$(element).find('.fc-event-time').css('opacity', '1');
+			$(element).find('.fc-event-time').attr('title', messages[schedule.id]);
 			return typeMessage.warning;
 		}
 		return typeMessage.ok;
