@@ -362,31 +362,28 @@ function CalendarCtrl($scope, $http, $q){
 											
 											if(!isTeacherOfCourses(event.schedule.courses,$scope.courseTeacher.teacher)){
 													$('#assingTeacherCourse').modal('toggle');
-											}else{
-											
-												if(!existSemesterTeacher(event.schedule.semesterTeachers,$scope.courseTeacher.teacher)){
-											
-													$http({
-															url:"/assignedTeacher",
-															method:'put',
-															data: { idTeacher:$scope.courseTeacher.teacher.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester}
-													}).success(function(data) {
-														if(data.success){
-															event.schedule.semesterTeachers.push($scope.courseTeacher.teacher);
-															deferred.resolve(event);
-														}else{
-															alert(data.type +' - '+data.message);
-														}
-
-													}).error(function(err){
-														alert("Error al asignar un profesor a un horario");
-													});
-												}else{
-													alert("El profesor ya fue agregado a este horario");
-												}
 											}
 											
-											
+											if(!existSemesterTeacher(event.schedule.semesterTeachers,$scope.courseTeacher.teacher)){
+										
+												$http({
+														url:"/assignedTeacher",
+														method:'put',
+														data: { idTeacher:$scope.courseTeacher.teacher.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester}
+												}).success(function(data) {
+													if(data.success){
+														event.schedule.semesterTeachers.push($scope.courseTeacher.teacher);
+														deferred.resolve(event);
+													}else{
+														alert(data.type +' - '+data.message);
+													}
+
+												}).error(function(err){
+													alert("Error al asignar un profesor a un horario");
+												});
+											}else{
+												alert("El profesor ya fue agregado a este horario");
+											}
 											
 										}
 										$(this).removeClass('schedule-hover');
@@ -1156,9 +1153,9 @@ function CalendarCtrl($scope, $http, $q){
 		messages[schedule.id]='';
 		results=[];
 		
-		results[0]=checkAmountEnrolled(schedule,element);
-		results[1]=checkAmountTeachers(schedule,element);
-		results[2]=checkPercentageEnrolled(schedule,element);
+		results.push(checkAmountEnrolled(schedule,element));
+		results.push(checkAmountTeachers(schedule,element));
+		results.push(checkPercentageEnrolled(schedule,element));
 		
 		results.forEach(function(result) {
 			if(result == typeMessage.danger){
