@@ -13,7 +13,7 @@ block content
 		div(ng-repeat='course in courses')
 			div
 				.list-group-item
-					{{course.subject.nick}} - {{course.subject.name}}
+					{{course.subject.nick}} C{{course.commission}} - {{course.subject.name}}
 					a(ng-href='/course/edit/{{course.id}}')
 						button.btn.btn-xs.btn-info.pull-right.button-option
 							span.glyphicon.glyphicon-edit
