@@ -41,6 +41,12 @@ block content
 					input#capacity.form-control(ng-model='course.capacity' placeholder='Capacidad'
 						name='capacity' type='number' min='1')
 
+				.form-group
+					label(for='enrolled') Inscriptos
+					input#capacity.form-control(ng-model='course.enrolled' placeholder='Cantidad de inscriptos'
+						name='enrolled' type='number' min='0')
+
+
 
 				legend Horarios
 				.form-group

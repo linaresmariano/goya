@@ -19,6 +19,7 @@ app.controller('courseCtrl', function ($scope, localStorageService, subjectServi
     } else {
       $scope.course = {}
       $scope.course.schedules = []
+      $scope.course.enrolled = 0
     }
   }
 

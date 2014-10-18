@@ -75,7 +75,7 @@ exports.create = function(req, res) {
     db.Course.create({
       SubjectId: idSubject,
       SemesterId: semester.id,
-      enrolled: 45,
+      enrolled: req.body.enrolled,
       nick: req.body.nick,
       modality: req.body.modality,
       capacity: req.body.capacity,
@@ -119,7 +119,7 @@ exports.update = function(req, res) {
     if (course) { // if the record exists in the db
       course.updateAttributes({
         SubjectId: idSubject,
-        enrolled: 45,
+        enrolled: req.body.enrolled,
         nick: req.body.nick,
         modality: req.body.modality,
         capacity: req.body.capacity,
