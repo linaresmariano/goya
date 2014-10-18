@@ -67,12 +67,13 @@ app.controller('courseCtrl', function ($scope, localStorageService, subjectServi
   }
 
   $scope.colors = [
-    {name: 'Negro', id: 'black'},
-    {name: 'Blanco', id: 'white'},
-    {name: 'Rojo', id: 'red'},
-    {name: 'Azul', id: 'blue'},
-    {name: 'Amarillo', id: 'yellow'},
-    {name: 'Verde', id: 'green'}
+    {name: 'Verde', id: 'green', font: 'black'},
+    {name: 'Amarillo', id: 'yellow', font: 'black'},
+    {name: 'Naranja', id: 'orange', font: 'black'},
+    {name: 'Marrón', id: 'brown', font: 'white'},
+    {name: 'Rojo', id: 'red', font: 'white'},
+    {name: 'Azul', id: 'blue', font: 'white'},
+    {name: 'Rosa', id: 'pink', font: 'black'}
   ]
 
   function getById(list, id) {
