@@ -117,7 +117,7 @@ app.get('/teacher/list/:year/:semester', teacher.list);
 app.put('/teacher/remove', teacher.remove);
 
 //schedules
-app.put('/assignedTeacher', schedule.assignedTeacher);
+app.put('/schedule/assignedTeacher', schedule.assignedTeacher);
 app.put('/schedule/deallocateClassroom', schedule.deallocateClassroom);
 app.put('/schedule/deallocateTeacher', schedule.deallocateTeacher);
 app.put('/schedule/deallocateSchedule', schedule.deallocateSchedule);

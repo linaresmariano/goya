@@ -356,31 +356,14 @@ function CalendarCtrl($scope, $http, $q){
 											});
 											
 										}else{
-											teacher=getModel(ui.draggable,"ng-model");
-											$scope.courseTeacher.teacher=newSemesterTeacher(teacher);
-											$scope.courseTeacher.event=event;
-											
-											if(!isTeacherOfCourses(event.schedule.courses,$scope.courseTeacher.teacher)){
-													$('#assingTeacherCourse').modal('toggle');
-											}
-											
-											if(!existSemesterTeacher(event.schedule.semesterTeachers,$scope.courseTeacher.teacher)){
-										
-												$http({
-														url:"/assignedTeacher",
-														method:'put',
-														data: { idTeacher:$scope.courseTeacher.teacher.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester}
-												}).success(function(data) {
-													if(data.success){
-														event.schedule.semesterTeachers.push($scope.courseTeacher.teacher);
-														deferred.resolve(event);
-													}else{
-														alert(data.type +' - '+data.message);
-													}
+											teacher = getModel(ui.draggable,"ng-model");
+											$scope.courseTeacher.teacher = newSemesterTeacher(teacher);
+											$scope.courseTeacher.event = event;
 
-												}).error(function(err){
-													alert("Error al asignar un profesor a un horario");
-												});
+											if(!existSemesterTeacher(event.schedule.semesterTeachers, $scope.courseTeacher.teacher)) {
+												if(!isTeacherOfCourses(event.schedule.courses, $scope.courseTeacher.teacher)) {
+													$('#assingTeacherCourse').modal('toggle');
+												}
 											}else{
 												alert("El profesor ya fue agregado a este horario");
 											}
@@ -673,15 +656,19 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.assignedTeacherToCourse = function(isInCharge) {
 		var deferred = $q.defer();
 
+		var event = $scope.courseTeacher.event;
+		var schedule = event.schedule;
+
 		var dataTeacher = {
 			idTeacher: $scope.courseTeacher.teacher.id,
-			idCourse: $scope.courseTeacher.event.schedule.courses,
+			idCourse: schedule.courses,
 			year: $scope.semester.year,
 			semester: $scope.semester.semester
 		};
 
+
 		if(isInCharge == 0) {
-			if($scope.getTeachers($scope.courseTeacher.event.schedule.courses).length == 2){
+			if($scope.getTeachers(schedule.courses).length == 2){
 				alert("Un curso solo puede tener 2 profesores a cargo como máximo");
 			}else{
 				$http({
@@ -690,13 +677,13 @@ function CalendarCtrl($scope, $http, $q){
 					data: dataTeacher
 				}).success(function(data) {
 							
-					for(t=0;t<$scope.courseTeacher.event.schedule.courses.length;t++){
-						$scope.courseTeacher.event.schedule.courses[t].semesterTeachers.push($scope.courseTeacher.teacher);
+					for(t=0;t<schedule.courses.length;t++){
+						schedule.courses[t].semesterTeachers.push($scope.courseTeacher.teacher);
 					}
 
 					$scope.courseTeacher.teacher.teacher.hasCurrentSemesterTeachers=true;
 					
-					deferred.resolve($scope.courseTeacher.event);
+					deferred.resolve(event);
 				}).error(function(err){
 					alert("Error al asignar un profesor a un horario");
 				});
@@ -710,28 +697,51 @@ function CalendarCtrl($scope, $http, $q){
 				data: dataTeacher
 			}).success(function(data) {
 												
-				for(z=0;z<$scope.courseTeacher.event.schedule.courses.length;z++){
-						$scope.courseTeacher.event.schedule.courses[z].semesterInstructors.push($scope.courseTeacher.teacher);
+				for(z=0;z<schedule.courses.length;z++){
+					schedule.courses[z].semesterInstructors.push($scope.courseTeacher.teacher);
 				}
-				
+
 				$scope.courseTeacher.teacher.teacher.hasCurrentSemesterTeachers=true;
-				deferred.resolve($scope.courseTeacher.event);
+				deferred.resolve(event);
 			}).error(function(err){
 				alert("Error al asignar un profesor a un horario");
 			});
 
 		}
 
-		// inCharge == 2, no hace nada en la base, solo asigna al horario
+		// inCharge == 2, solo asigna al horario
 
+		// Siempre asignamos como profesor del horario
+		$http({
+			url: "/schedule/assignedTeacher",
+			method: 'put',
+			data: {
+				idTeacher: $scope.courseTeacher.teacher.id,
+				idCourseSchedule: schedule.id,
+				year: $scope.semester.year,
+				semester: $scope.semester.semester
+			}
+		}).success(function(data) {
+			if(data.success){
+				schedule.semesterTeachers.push($scope.courseTeacher.teacher);
+				deferred.resolve(event);
+			}else{
+				alert(data.type +' - '+data.message);
+			}
+
+		}).error(function(err){
+			alert("Error al asignar un profesor a un horario");
+		});
+
+		// Hide modal
 		$('#assingTeacherCourse').modal('hide');
 		
 		//Refresh calendario
 		var promise=deferred.promise;
 		promise.then(function(event) {
 			//Update
-			$scope.removeSchedule(event.schedule);
-			$scope.addSchedule(event.schedule);
+			$scope.removeSchedule(schedule);
+			$scope.addSchedule(schedule);
 		});
 	};
 	
