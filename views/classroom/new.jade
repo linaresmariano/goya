@@ -14,7 +14,7 @@ block content
 				.form-group
 					label(for='name') Nombre 
 					input.form-control(ng-model='classroom.name' placeholder='Nombre' name='name'
-						required maxlength='20')
+						required maxlength='100')
 
 				.form-group
 					label(for='number') Número
@@ -39,7 +39,7 @@ block content
 					br
 					label(for='description') Descripción
 					textarea.form-control(ng-model='classroom.description' placeholder='Descripción'
-						name='description' required maxlength='25')
+						name='description' required maxlength='200')
 
 				.form-group.hidden
 					input.form-control(value='{{number}}' name='semester' type="number")

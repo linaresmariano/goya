@@ -10,7 +10,7 @@ block content
 
 		legend Seleccione un profesor
 
-		div(ng-repeat='teacher in teachers track by $index')
+		div(ng-repeat="teacher in teachers | orderBy:'name' track by $index")
 			div
 				.list-group-item {{teacher.name}} - {{teacher.code}}
 					a(ng-href='/teacher/edit/{{teacher.id}}')
