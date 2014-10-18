@@ -15,22 +15,12 @@ block content
 				.form-group
 					label(for='name') Nombre 
 					input#name.form-control(ng-model='teacher.name' placeholder='Nombre'
-						name='name' required maxlength='20')
+						name='name' required maxlength='100')
 
 				.form-group
 					label(for='code') Codigo
 					input#code.form-control(ng-model='teacher.code' placeholder='Codigo'
-						name='code' required maxlength='12')
-
-				legend Requisitos
-				.form-group
-					label(for='numberOfComputers') Computadoras
-					input.form-control(ng-model='teacher.numberOfComputers' placeholder='Cantidad de computadoras'
-						type='number' min='0' name='numberOfComputers' maxlength='12')
-
-				.form-group
-					label(for='others') Otros
-					textarea#others.form-control(placeholder='Otros' name='others' maxlength='12')
+						name='code' required maxlength='20')
 
 				.form-group.hidden
 					input.form-control(value='{{number}}' name='semester' type='number')
