@@ -874,6 +874,12 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.hasSchedule = function() {
 		return $scope.infoCoursesNotAssigned.indexOf($scope.scheduleShow) < 0;
 	}
+
+	$scope.hasClassroom = function() {
+		return $scope.scheduleShow != undefined &&
+			$scope.scheduleShow.schedule != undefined &&
+			$scope.scheduleShow.schedule.semesterClassRoom != undefined;
+	}
 	
 	$scope.hideTeacher=function(teacher){
 		noVisibleTeachers=$scope.scheduleShow.schedule.patch.noVisibleTeachers;

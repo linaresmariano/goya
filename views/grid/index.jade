@@ -49,7 +49,7 @@ block content
 								span(ng-repeat="course in scheduleShow.schedule.courses track by $index")
 									a.btn.btn-xs.btn-info.pull-right.button-option(href="../../course/edit/{{course.id}}",title="c{{course.commission}}")
 										span.glyphicon.glyphicon-edit
-						.row.list-group
+						.row.list-group(ng-show='hasClassroom()')
 							div.list-group-item 
 								b Aula
 								&nbsp; {{scheduleShow.schedule.semesterClassRoom.classRoom.number}}
