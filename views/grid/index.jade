@@ -58,7 +58,7 @@ block content
 						.row.list-group
 							div.list-group-item 
 								b Ocultar
-									input.pull-right(type="checkbox")
+									input.pull-right(type="checkbox",ng-click="hideSchedule()",ng-checked="!scheduleShow.schedule.patch.visibility")
 						.row.panel.panel-default
 							.panel-heading Profesores a cargo del curso
 							div.list-group-item(ng-repeat="semesterTeacher in getTeachers(scheduleShow.schedule.courses) track by $index")

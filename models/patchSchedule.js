@@ -2,7 +2,7 @@
 module.exports = function(sequelize, DataTypes) {
 
   var PatchSchedule = sequelize.define('PatchSchedule', {
-		visibility: DataTypes.BOOLEAN,
+		visibility: {type:DataTypes.BOOLEAN,defaultValue:true},
 		extraHour: {type:DataTypes.FLOAT },
 		extraDuration: {type:DataTypes.FLOAT },
     }, {

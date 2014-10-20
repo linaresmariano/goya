@@ -13,22 +13,26 @@
  
  /* Events
 -----------------------------------------------------*/
- 
+.hideToPrint{
+	display: none !important;
+}
+
+
 .fc-event {
 	/*background: #fff !important;*/
 	/*color: #000 !important;*/
 	margin-left:12px;
-	}
+}
 	
 /* for vertical events */
 	
 .fc-event-bg {
 	display: none !important;
-	}
+}
 	
 .fc-event .ui-resizable-handle {
 	display: none !important;
-	}
+}
 	
 .fc-event-time{
 	border-radius: 3px !important;

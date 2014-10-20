@@ -331,6 +331,10 @@ function CalendarCtrl($scope, $http, $q){
 			
 			
 			checkAll(event.schedule,element);
+			
+			if(!event.schedule.patch.visibility){
+				element.addClass('hideToPrint');
+			}
 
 			
 			//Para dropear un profesor o aula
@@ -952,6 +956,12 @@ function CalendarCtrl($scope, $http, $q){
 					$scope.removeSchedule($scope.scheduleShow.schedule);
 					$scope.addSchedule($scope.scheduleShow.schedule);
 				});
+	}
+	
+	$scope.hideSchedule=function(){
+		$scope.scheduleShow.schedule.patch.visibility=!$scope.scheduleShow.schedule.patch.visibility;
+		$scope.removeSchedule($scope.scheduleShow.schedule);
+		$scope.addSchedule($scope.scheduleShow.schedule);
 	}
 	
 	
