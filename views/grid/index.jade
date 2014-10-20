@@ -43,12 +43,14 @@ block content
 							span.sr-only Close
 						h4#myModalLabel.modal-title {{scheduleShow ? scheduleShow.schedule.courses[0].subject.name : ''}} - {{scheduleShow ?  scheduleShow.schedule.type : ''}}  {{ scheduleShow ? getCommissions(scheduleShow.schedule) : ''}}
 					.modal-body 
-						.row.list-group
-							div.list-group-item 
-								b Editar Comisiones
-								span(ng-repeat="course in scheduleShow.schedule.courses track by $index")
-									a.btn.btn-xs.btn-info.pull-right.button-option(href="../../course/edit/{{course.id}}",title="c{{course.commission}}")
+						.row.panel.panel-default
+							.panel-heading Comisiones del horario
+							div.list-group-item(ng-repeat="course in scheduleShow.schedule.courses track by $index")
+								div c{{course.commission}}
+									a.btn.btn-xs.btn-info.pull-right.button-option(href="../../course/edit/{{course.id}}",title="Editar comisión")
 										span.glyphicon.glyphicon-edit
+									button.btn.btn-xs.btn-danger.pull-right.button-option(title="Quitar comisión")
+										span.glyphicon.glyphicon-remove
 						.row.list-group(ng-show='hasClassroom()')
 							div.list-group-item 
 								b Aula
