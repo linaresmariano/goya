@@ -43,12 +43,12 @@ exports.create = function(req, res) {
 
   var year = req.body.year
   var semester = req.body.semester
-
+	console.log('**********************************>'+req.body.type)
   var color = req.body.color || 'blue' // color default
 
-  var newSchedule = function(course, day, hour, durationHour) {
+  var newSchedule = function(course, day, hour, durationHour,type) {
     var schedule = db.CourseSchedule.build({
-      type: 'Teorica/Practica',
+      type: type,
       day: day,
       hour: hour,
       minutes: 0,
@@ -89,10 +89,10 @@ exports.create = function(req, res) {
       if(req.body.day) {
         // Tiene uno, sino una lista
         if(typeof req.body.day === "string") {
-          newSchedule(course, req.body.day, req.body.hour, req.body.durationHour)
+          newSchedule(course, req.body.day, req.body.hour, req.body.durationHour,req.body.type)
         } else {
           for(var i=0; i < req.body.day.length; i++) {
-            newSchedule(course, req.body.day[i], req.body.hour[i], req.body.durationHour[i])
+            newSchedule(course, req.body.day[i], req.body.hour[i], req.body.durationHour[i],req.body.type[i])
           }
         }
       }

@@ -46,25 +46,31 @@ app.controller('courseCtrl', function ($scope, localStorageService, subjectServi
     $scope.course.schedules.splice(index,1);
   }
 
-  $scope.add = function(hour, durationHour, day) {
-    if(hour && durationHour && day && !isRepeat(hour, durationHour, day)) {
+  $scope.add = function(hour, durationHour, day,scheduleType) {
+    if(hour && durationHour && day && scheduleType &&
+					!isRepeat(hour, durationHour, day,scheduleType)) {
       $scope.course.schedules.push({
         day: day.id,
         hour: hour,
+		type: scheduleType,
         durationHour: durationHour
       })
     }
   }
 
-  function isRepeat(hour, durationHour, day) {
+  function isRepeat(hour, durationHour, day,scheduleType) {
     for(i =0; i < $scope.course.schedules.length; i++){
     schedule=$scope.course.schedules[i];
-      if(schedule.day == day.id && schedule.hour == hour && schedule.durationHour == durationHour){
+      if(schedule.day == day.id && schedule.hour == hour
+			&& schedule.durationHour == durationHour
+			&& scheduleType == schedule.type){
         return true;
       }
     };
     return false;
   }
+  
+  $scope.scheduleTypes=['Teorica/Practica','Teorica','Practica'];
 
   $scope.colors = [
     {name: 'Verde', id: 'green', font: 'black'},

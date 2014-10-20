@@ -52,11 +52,12 @@ block content
 				.form-group
 					label Horarios seleccionados
 					div.form-control(ng-repeat="schedule in course.schedules track by $index")
-						div {{scheduleAssigned(schedule)}}, durante {{schedule.durationHour}} horas
+						div {{scheduleAssigned(schedule)}}, durante {{schedule.durationHour}} horas ,{{schedule.type}}
 							button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="remove(index)")
 								span.glyphicon.glyphicon-remove
 							input.hidden(name="durationHour" type="number" value="{{schedule.durationHour}}")
 							input.hidden(name="day" type="number" value="{{schedule.day}}")
+							input.hidden(name="type"  value="{{schedule.type}}")
 							input.hidden(name="hour" type="number" value="{{schedule.hour}}")
 					br
 					br
@@ -70,7 +71,10 @@ block content
 					select.form-control(ng-model="day" ng-options="day.name for day in days")
 						option(value="") Seleccione un dia de la semana
 					br
-					button.btn.btn-success.pull-right(type="button" ng-click="add(hour,durationHour,day)") Agregar
+					select.form-control(ng-model="scheduleType" ng-options="scheduleType for scheduleType in scheduleTypes")
+						option(value="") Seleccione un tipo de horario
+					br
+					button.btn.btn-success.pull-right(type="button" ng-click="add(hour,durationHour,day,scheduleType)") Agregar
 
 			div.col-md-6
 				legend Requisitos
