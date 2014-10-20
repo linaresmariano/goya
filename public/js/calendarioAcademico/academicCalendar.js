@@ -959,9 +959,27 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	$scope.hideSchedule=function(){
-		$scope.scheduleShow.schedule.patch.visibility=!$scope.scheduleShow.schedule.patch.visibility;
-		$scope.removeSchedule($scope.scheduleShow.schedule);
-		$scope.addSchedule($scope.scheduleShow.schedule);
+		var deferred = $q.defer();
+		$http({
+				url:"/patches/updateVisibility",
+				method:'put',
+				data: { idPatch:$scope.scheduleShow.schedule.patch.id, visibility:!$scope.scheduleShow.schedule.patch.visibility}
+			}).success(function(data) {
+					
+				//Actualizando el patch con la nueva cisibilidad
+				$scope.scheduleShow.schedule.patch.visibility=!$scope.scheduleShow.schedule.patch.visibility;
+				deferred.resolve($scope.scheduleShow.schedule);
+
+			}).error(function(err){
+					alert('Error al ocultar un horario');
+		});
+		
+		var promise=deferred.promise;
+		promise.then(function(schedule) {
+							//Update
+							$scope.removeSchedule(schedule);
+							$scope.addSchedule(schedule);
+				});
 	}
 	
 	

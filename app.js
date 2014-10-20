@@ -74,6 +74,7 @@ app.get('/grid/:year/:semester', grilla.semester);
 app.put('/patches/update', patches.update);
 app.put('/patch/teacherHide', patches.teacherHide);
 app.put('/patch/teacherVisible', patches.teacherVisible);
+app.put('/patches/updateVisibility', patches.updateVisibility);
 
 //semesters
 app.get('/lastSemester', routes.lastSemester);
@@ -122,6 +123,7 @@ app.put('/schedule/deallocateClassroom', schedule.deallocateClassroom);
 app.put('/schedule/deallocateTeacher', schedule.deallocateTeacher);
 app.put('/schedule/deallocateSchedule', schedule.deallocateSchedule);
 app.put('/schedule/unify', schedule.unify);
+
 
 //reports
 app.get('/report/offer/:year/:semester', report.offer);
