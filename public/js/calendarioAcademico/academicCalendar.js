@@ -268,6 +268,7 @@ function CalendarCtrl($scope, $http, $q){
 				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
 				
 				if(unifySchedules(event.start.getDay(),hour,minutes,event)){
+					$scope.removeScheduleNotAssigned(event.schedule);
 					return;
 				}
 				
@@ -306,6 +307,7 @@ function CalendarCtrl($scope, $http, $q){
 				hour=Math.abs(parseInt(seconds/3600));
 				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
 				if(unifySchedules(date.getDay(),hour,minutes,copiedEventObject)){
+					$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
 					return;
 				}
 				
