@@ -6,14 +6,14 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
-var classroom = require('./routes/classroom/index');
-var schedule = require('./routes/schedule/index');
-var grilla = require('./routes/grid/index');
-var patches = require('./routes/patches/index');
-var cursos = require('./routes/course/index');
-var subject = require('./routes/subject/index');
-var teacher = require('./routes/teacher/index');
-var report = require('./routes/report/index');
+var classroom = require('./routes/classroom');
+var schedule = require('./routes/schedule');
+var grilla = require('./routes/grid');
+var patch = require('./routes/patch');
+var cursos = require('./routes/course');
+var subject = require('./routes/subject');
+var teacher = require('./routes/teacher');
+var report = require('./routes/report');
 var http = require('http');
 var path = require('path');
 var Sequelize = require('sequelize');
@@ -70,11 +70,11 @@ app.get('/grid', grilla.index);
 app.get('/grid/classrooms/:year/:semester', grilla.classrooms);
 app.get('/grid/:year/:semester', grilla.semester);
 
-//patches
-app.put('/patches/update', patches.update);
-app.put('/patch/teacherHide', patches.teacherHide);
-app.put('/patch/teacherVisible', patches.teacherVisible);
-app.put('/patches/updateVisibility', patches.updateVisibility);
+//patch
+app.put('/patch/update', patch.update);
+app.put('/patch/teacherHide', patch.teacherHide);
+app.put('/patch/teacherVisible', patch.teacherVisible);
+app.put('/patch/updateVisibility', patch.updateVisibility);
 
 //semesters
 app.get('/lastSemester', routes.lastSemester);

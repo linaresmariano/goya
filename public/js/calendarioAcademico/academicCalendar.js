@@ -939,7 +939,7 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.updatePatch = function() {
 		var deferred = $q.defer();
 		$http({
-			url:"/patches/update",
+			url:"/patch/update",
 			method:'put',
 			data: { extraHour:$scope.newPatchExtras.extraHour, extraDuration: $scope.newPatchExtras.extraDuration,idPatch:$scope.scheduleShow.schedule.patch.id}
 		}).success(function(data) {
@@ -961,7 +961,7 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.hideSchedule=function(){
 		var deferred = $q.defer();
 		$http({
-				url:"/patches/updateVisibility",
+				url:"/patch/updateVisibility",
 				method:'put',
 				data: { idPatch:$scope.scheduleShow.schedule.patch.id, visibility:!$scope.scheduleShow.schedule.patch.visibility}
 			}).success(function(data) {
