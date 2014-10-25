@@ -16,7 +16,7 @@ block content
 			div(ng-repeat='classroom in classRooms')
 				div
 					.list-group-item
-						{{classroom.number}} - {{classroom.name}}
+						{{classroom.number}} - {{classroom.description}}
 						a(ng-href='/classroom/edit/{{classroom.id}}')
 							button.btn.btn-xs.btn-info.pull-right.button-option
 								span.glyphicon.glyphicon-edit

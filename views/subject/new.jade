@@ -11,7 +11,7 @@ block content
 
     form(action="{{isEditing() ? '../update/'+subject.id : '../subject/create'}}", method="post")
 
-      legend Nueva Materia para el semestre {{number}} de {{year}}
+      legend Nueva Materia
       div.col-md-6
 
         .form-group
@@ -58,7 +58,7 @@ block content
           label(for='core') Núcleo
           select.form-control(ng-model='subject.core' ng-options='core.name for core in cores' name='core')
             option(value="") Seleccione un núcleo
-
+      div.col-md-6
         .form-group
           label(for='pediod') Período
           input#period.form-control(ng-model='subject.period' name='period' maxlength='100')
