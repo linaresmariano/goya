@@ -13,4 +13,4 @@ block content
 				div(ng-if=" !(semester.year == year && semester.semester == number)")
 					a.list-group-item(ng-click='currentSemester(semester.year,semester.semester)',ng-href='#') Semestre {{semester.semester}} del año {{semester.year}}
 		br
-		button.btn.btn-success(type="button")	Nuevo
+		a.btn.btn-success(href="semester/new")	Nuevo

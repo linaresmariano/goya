@@ -14,6 +14,7 @@ var cursos = require('./routes/course');
 var subject = require('./routes/subject');
 var teacher = require('./routes/teacher');
 var report = require('./routes/report');
+var semester = require('./routes/semester');
 var http = require('http');
 var path = require('path');
 var Sequelize = require('sequelize');
@@ -64,6 +65,10 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+
+//semester
+app.get('/semester/new', semester.new);
+app.post('/semester/create', semester.create);
 
 //grid
 app.get('/grid', grilla.index);
