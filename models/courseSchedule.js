@@ -142,10 +142,12 @@ module.exports = function(sequelize, DataTypes) {
           }
 
           CourseSchedule.models.PatchSchedule.create({
-            extraHour: 0,
-            extraDuration: 0
+            visibility: original.patch.visibility || true,
+            extraHour: original.patch.extraHour || 0,
+            extraDuration: original.patch.extraDuration || 0
 
           }).success(function(patchSchedule) {
+
             schedule.setPatch(patchSchedule)
             course.addSchedule(schedule)
           })
