@@ -42,7 +42,19 @@ app.use(function (req, res, next) {
 global.showFeedbackPanel = function(res,msj,type){ 
 	res.locals.feedbackpanel={msj:msj,type:type}; 
 }; 
-global.typeMessage = {ERROR:'danger',SUCCESS:'success',WARNING:'warning'}
+
+global.showErrors=function(req,err){
+	errors=[];
+	for(key in err){
+		//req.flash('alert-'+typeMessage.ERROR, err.name[0]);
+		for(h=0;h<err[key].length;h++){
+			errors.push(err[key][h]);
+		}
+	}
+	req.flash(typeMessage.ERROR, errors);
+}
+
+global.typeMessage = {ERROR:'alert alert-danger padding-alert',SUCCESS:'alert alert-success padding-alert',WARNING:'alert alert-warning padding-alert'}
 
 // all environments
 app.set('port', process.env.PORT || 3000);

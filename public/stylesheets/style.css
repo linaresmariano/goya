@@ -3,6 +3,14 @@
 
 }
 
+.padding-alert{
+	padding-left:23px !important;
+}
+
+.close{
+	padding:15px !important;
+}
+
 .notify-danger{
 	color:red !important;
 }

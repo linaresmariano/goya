@@ -1,8 +1,24 @@
 module.exports = function(sequelize, DataTypes) {
 
   var Teacher = sequelize.define('Teacher', {
-    code: DataTypes.STRING,
-    name: DataTypes.STRING
+    code: {type:DataTypes.STRING,
+      validate: {
+        len: {
+            args: [2, 20],
+            msg: 'El codigo del profesor debe contener entre 2 y 20 caracteres'
+        },
+        notEmpty:true
+      }
+    },
+    name: {type:DataTypes.STRING,
+      validate: {
+        len: {
+            args: [4, 100],
+            msg: 'El nombre del profesor debe contener entre 4 y 100 caracteres'
+        },
+        notEmpty:true
+      }
+    }
   }, {
     classMethods: {
       associate: function(models) {

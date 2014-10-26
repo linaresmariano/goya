@@ -2,11 +2,20 @@
 module.exports = function(sequelize, DataTypes) {
 
   var Course = sequelize.define('Course', {
-    enrolled: DataTypes.INTEGER,
+    enrolled: {type:DataTypes.INTEGER ,  validate: {min:0}},
     commission: {type:DataTypes.INTEGER ,  validate: {min:0}},
     capacity: {type:DataTypes.INTEGER ,  validate: {min:0}},
     modality: DataTypes.INTEGER,
-    nick: DataTypes.STRING,
+    nick: {type:DataTypes.STRING,
+      validate: {
+        len: {
+            args: [2, 20],
+            msg: 'El nick del curso debe contener entre 2 y 20 caracteres'
+        },
+        notEmpty:true,
+		notNull:true
+      }
+    },
     color: DataTypes.STRING
     }, {
       classMethods: {

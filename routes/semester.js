@@ -18,10 +18,13 @@ exports.create = function(req, res) {
 							year: year,
 							semester: semester
 						}).success(function(teacher) {
-									showFeedbackPanel(res,'Semestre creado correctamente',typeMessage.SUCCESS);
+									req.flash(typeMessage.SUCCESS, 'Semestre creado correctamente');
 									res.render('semester/new', {
 										title: 'Crear un semester',
 									})
+						}).error(function(err) {
+							showErrors(req,err);
+							res.redirect('back');
 						})
 }
 

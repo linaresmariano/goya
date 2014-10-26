@@ -38,11 +38,18 @@ exports.create = function(req, res) {
 							code: code,
 							name: name
 						}).success(function(teacher) {
-									showFeedbackPanel(res,'Profesor creado correctamente',typeMessage.SUCCESS);
+									req.flash(typeMessage.SUCCESS, 'Profesor creado correctamente');
 									res.render('teacher/new', {
 										title: 'Crear Profesor',
 									})
-						})
+						}).error(function(err) {
+			showErrors(req,err);
+			res.render('teacher/new', {
+			  title: 'Crear un profesor',
+			  teacher: req.body
+			})
+			
+		  })
 
 }
 

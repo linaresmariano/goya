@@ -64,7 +64,12 @@ exports.create = function(req, res) {
         schedule.setPatch(patchSchedule)
         course.addSchedule(schedule)
       })
-    })
+    }).error(function(err) {
+
+        showErrors(req,err);
+		res.redirect('back');
+
+      })
   }
 
   db.Semester.find({
@@ -95,11 +100,15 @@ exports.create = function(req, res) {
           }
         }
       }
-
-      showFeedbackPanel(res, 'Curso creado correctamente', typeMessage.SUCCESS)
+	  req.flash(typeMessage.SUCCESS,  'Curso creado correctamente')
       exports.new(req, res)
           
-    })
+    }).error(function(err) {
+
+        showErrors(req,err);
+		res.redirect('back');
+
+      })
   })
 
 }
@@ -133,14 +142,11 @@ exports.update = function(req, res) {
 
       }).error(function(err) {
 
-        req.flash(typeMessage.ERROR, err.name[0])
+        showErrors(req,err);
+		res.redirect('back');
 
       })
     }
-  }).error(function(err) {
-
-    req.flash(typeMessage.ERROR, err.name[0])
-
   })
 
 }

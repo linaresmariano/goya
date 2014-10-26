@@ -37,7 +37,8 @@ var courseEPERS = db.Course.build({
 									modality: 0,
 									capacity: 25,
 									enrolled: 7,
-									color: 'red'
+									color: 'red',
+									nick: 'EPERS'
 								});
 								
 var courseORGA = db.Course.build({
@@ -45,7 +46,8 @@ var courseORGA = db.Course.build({
 									commission: 1,
 									modality: 1,
 									capacity: 20,
-									color: 'green'
+									color: 'green',
+									nick: 'ORGA'
 								});
 		
 var courseORGA2 = db.Course.build({
@@ -53,7 +55,8 @@ var courseORGA2 = db.Course.build({
 									commission: 2,
 									modality: 1,
 									capacity: 35,
-									color: 'green'
+									color: 'green',
+									nick: 'ORGA'
 								});
 								
 var courseTVD= db.Course.build({
@@ -61,7 +64,8 @@ var courseTVD= db.Course.build({
 									commission: 1,
 									modality: 1,
 									capacity: 35,
-									color: 'yellow'
+									color: 'yellow',
+									nick: 'TVD'
 								});
 	
 //patches schedules

@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
 																  args: [[1, 2]],
 																  msg: "Solo puede haber semestres 1 y 2"
 															}}},
-    	year: {type:DataTypes.INTEGER ,  validate: {min:1900}}
+    	year: {type:DataTypes.INTEGER ,  validate: {min:1985}}
     }, {
       classMethods: {
         associate: function(models) {

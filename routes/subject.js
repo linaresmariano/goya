@@ -59,7 +59,7 @@ exports.create = function(req, res) {
     // showFeedbackPanel(res,err.name[0],typeMessage.ERROR)
     // exports.new(req, res)
     res.redirect('back')
-    req.flash(typeMessage.ERROR, err.name[0])
+    showErrors(req,err);
   })
 
 }
@@ -140,12 +140,11 @@ exports.update = function(req, res) {
 
         }
 
-      })
+      }).error(function(err){
+		showErrors(req,err);
+		res.redirect('back');
+	  })
     }
-  }).error(function(err) {
-
-    req.flash(typeMessage.ERROR, err.name[0])
-
   })
   
 }

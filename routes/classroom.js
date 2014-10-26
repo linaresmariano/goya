@@ -45,12 +45,18 @@ exports.create = function(req, res) {
     numberOfComputers: numberOfComputers
 
   }).success(function(classRoom) {
-
-    showFeedbackPanel(res,'Aula creada correctamente', typeMessage.SUCCESS)
+	req.flash(typeMessage.SUCCESS, 'Aula creada correctamente');
     res.render('classroom/new', {
       title: 'Crear Materia'
     })
 
+  }).error(function(err) {
+	showErrors(req,err);
+    res.render('classroom/new', {
+      title: 'Crear un aula',
+      classroom: req.body
+    })
+    
   })
 }
 
@@ -107,10 +113,8 @@ exports.update = function(req, res) {
 
     }
   }).error(function(err) {
-
+	showErrors(req,err);
     res.redirect('classroom/list/'+year+'/'+semester)
-    req.flash(typeMessage.ERROR, err.name[0])
-
   })
   
 }
