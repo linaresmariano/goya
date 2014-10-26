@@ -54,7 +54,11 @@ global.showErrors=function(req,err){
 	req.flash(typeMessage.ERROR, errors);
 }
 
-global.typeMessage = {ERROR:'alert alert-danger padding-alert',SUCCESS:'alert alert-success padding-alert',WARNING:'alert alert-warning padding-alert'}
+global.typeMessage = {
+  ERROR: 'alert alert-danger padding-alert',
+  SUCCESS: 'alert alert-success padding-alert',
+  WARNING: 'alert alert-warning padding-alert'
+}
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -163,8 +167,10 @@ db
     }
 }).success(function() {
 
-  // Para cargar datos de pruebas
-  require('./extras/initialDataDB');
+  if ('development' == app.get('env')) {
+    // Para cargar datos de pruebas
+    require('./extras/initialDataDB')
+  }
 
 })
 
