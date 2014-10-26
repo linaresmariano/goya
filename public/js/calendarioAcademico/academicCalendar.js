@@ -175,6 +175,34 @@ function CalendarCtrl($scope, $http, $q){
 		return firstSchedule;
 	}
 	
+	$scope.separateSchedules=function(indexCourse){
+		otherCourse=removeCourseAndReturn($scope.scheduleShow.schedule,indexCourse);
+		$scope.removeSchedule($scope.scheduleShow.schedule);
+		$scope.addSchedule($scope.scheduleShow.schedule);
+		$scope.addSchedule(cloneSchedule($scope.scheduleShow.schedule,otherCourse));
+		
+	}
+	function cloneSchedule(schedule,otherCourse){
+		return {
+				id:schedule.id,
+				courses:[otherCourse],
+				semesterTeachers:[],
+				patch:schedule.patch,
+				type:schedule.type,
+				hour:schedule.hour,
+				minutes:schedule.minutes,
+				durationHour:schedule.durationHour,
+				durationMinutes:schedule.durationMinutes,
+				day:schedule.day
+				}
+	} 
+	
+	function removeCourseAndReturn(schedule,index){
+		course=schedule.courses[index];
+		schedule.courses.splice(index,1);
+		return course;
+	}
+	
 	/* Unifica horarios si es necesario,ademas retorna true si lo hace y false si no lo hace*/
 	function unifySchedules(day,hour,minutes,event){
 		var deferred = $q.defer();
