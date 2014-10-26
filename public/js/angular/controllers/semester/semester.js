@@ -1,7 +1,9 @@
 
 app.controller('semesterCtrl', function ($scope) {
 
-  $scope.init = function(semester) {
+  $scope.init = function(semester, semesters) {
+
+    $scope.semesters = semesters
 
     if(semester) {
       $scope.semester = semester

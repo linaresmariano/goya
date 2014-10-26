@@ -4,7 +4,7 @@ block content
 
 	script(src='/js/angular/controllers/semester/semester.js')
 
-	.container(ng-controller='semesterCtrl' ng-init='init(#{JSON.stringify(semester)})')
+	.container(ng-controller='semesterCtrl' ng-init='init(#{JSON.stringify(semester)}, #{JSON.stringify(semesters)})')
 
 		div!= messages()
 
@@ -27,6 +27,12 @@ block content
 						.col-lg-4
 							div 2do
 								input.pull-right(ng-model='semester.semester' name='semester' type='radio' value='2')
+
+				.form-group
+					label(for='duplicateSemester') Duplicar datos de un semestre anterior
+					select.form-control(ng-model='duplicateSemester' ng-options='duplicateSemester for duplicateSemester in semesters')
+						option(value='') Seleccione un semestre
+						input(name='idDuplicateSemester' value='{{duplicateSemester.id}}' hidden)
 
 				br
 				button.btn.btn-success(type='submit')	{{isEditing() ? 'Editar' : 'Crear'}}
