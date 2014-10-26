@@ -4,17 +4,15 @@
 
 //Controller principal
 function CalendarCtrl($scope, $http, $q){
+	//Fecha por defecto para mostrar la misma semana en la grilla
     var date = new Date();
     var d = 26;
     var m = 1;
     var y = 1000;
 
-    /* event source that contains custom events on the scope */
+    /* Eventos para agrgar la grilla*/
     $scope.events = [
     ];
-	
-	var tagExtraDuration=$('#extraDuration').clone();
-	var tagExtraHour=$('#extraHour').clone();
 
     $scope.eventClick = function( event, allDay, jsEvent, view ){
 		//Para mostrar el curso
@@ -901,7 +899,7 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 
-    /* config object */
+    /* Configuracion de la grilla */
     $scope.uiConfig = {
       calendar:{
         header:{
