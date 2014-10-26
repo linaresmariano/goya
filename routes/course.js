@@ -246,54 +246,14 @@ exports.updateEnd = function(req, res) {
 
 exports.assignedClassRoom = function(req, res) {
 
- 	
-	var idClassRoom = req.body.idClassRoom;
-    var idCourseSchedule = req.body.idCourseSchedule;
-	var year = req.body.year;
-    var semester = req.body.semester;
-  db.CourseSchedule.find(idCourseSchedule).success(function(schedule) {
-
-		db.SemesterClassRoom.find({
-			where: {'ClassRoom.id':idClassRoom,'Semester.year':year,'Semester.semester':semester},
-			include: [ {	model: db.ClassRoom, as: 'ClassRoom' ,require:false },
-					{	model: db.Semester, as: 'Semester' ,require:false }]
-			}
-		).success(function(semesterClassRoom) {
-		
-			if(semesterClassRoom == undefined){
-				
-				db.ClassRoom.find(idClassRoom).success(function(classroom) {
-					var newSemesterClassRoom= db.SemesterClassRoom.create({
-						name: classroom.name,
-						number: classroom.number,
-						description: classroom.description,
-						capacity: classroom.capacity,
-						numberOfComputers: classroom.numberOfComputers,
-						hasProyector: classroom.hasProyector
-					}).success(function(newSemesterClassRoom) {
-										newSemesterClassRoom.setClassRoom(classroom);
-										schedule.setSemesterClassRoom(newSemesterClassRoom);	
-										db.Semester.find({where: {'year':year,'semester':semester}}).success(function(semester) {
-											console.log(year+"    "+semester);
-											semester.addSemesterClassRoom(newSemesterClassRoom);
-											res.send('ok')
-										});
-																				
-								});
-				
-				})
-				console.log('la clase es nula');
-			}else{
-				console.log('la clase no es nula');
-				schedule.setSemesterClassRoom(semesterClassRoom);
-				res.send('ok');
-			}
-			
-			
-		})
+  var idClassRoom = req.body.idClassRoom
+  var idCourseSchedule = req.body.idCourseSchedule
+  var year = req.body.year
+  var semester = req.body.semester
   
+  db.CourseSchedule.assignedClassRoom(idClassRoom, idCourseSchedule, year, semester)
 
-  })
+  res.send('ok')
 }
 
 

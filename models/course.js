@@ -162,9 +162,21 @@ module.exports = function(sequelize, DataTypes) {
 
           semester.addCourse(course)
 
+          if(original.semesterTeachers) {
+            original.semesterTeachers.forEach(function(teacher) {
+              course.assignedTeacher(teacher.id, semester, function(x){})
+            })
+          }
+
+          if(original.semesterInstructors) {
+            original.semesterInstructors.forEach(function(teacher) {
+              course.assignedInstructor(teacher.id, semester, function(x){})
+            })
+          }
+
           if(original.schedules) {
             original.schedules.forEach(function(schedule) {
-              schedule.cloneToCourse(course)
+              schedule.cloneToCourse(course, semester)
             })
           }
 

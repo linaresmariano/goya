@@ -31,6 +31,55 @@ module.exports = function(sequelize, DataTypes) {
           courseSchedule.setSemesterClassRoom(undefined);
           succes();
         })
+      },
+
+      assignedClassRoom: function(idClassRoom, idCourseSchedule, year, semester) {
+        CourseSchedule.find(idCourseSchedule).success(function(schedule) {
+
+          CourseSchedule.models.SemesterClassRoom.find({
+            where: {'ClassRoom.id': idClassRoom, 'Semester.year': year, 'Semester.semester': semester},
+            include: [
+              {model: CourseSchedule.models.ClassRoom, as: 'ClassRoom', require: false},
+              {model: CourseSchedule.models.Semester, as: 'Semester', require: false }]
+
+          }).success(function(semesterClassRoom) {
+          
+            if(semesterClassRoom == undefined) {
+              
+              CourseSchedule.models.ClassRoom.find(idClassRoom).success(function(classroom) {
+                var newSemesterClassRoom = CourseSchedule.models.SemesterClassRoom.create({
+                  name: classroom.name,
+                  number: classroom.number,
+                  description: classroom.description,
+                  capacity: classroom.capacity,
+                  numberOfComputers: classroom.numberOfComputers,
+                  hasProyector: classroom.hasProyector
+                }).success(function(newSemesterClassRoom) {
+
+                  newSemesterClassRoom.setClassRoom(classroom);
+                  schedule.setSemesterClassRoom(newSemesterClassRoom);
+                  CourseSchedule.models.Semester.find({
+                    where: {'year':year,'semester':semester}
+                  }).success(function(semester) {
+                    console.log(year+"    "+semester);
+                    semester.addSemesterClassRoom(newSemesterClassRoom);
+                  });
+                                              
+                });
+              
+              })
+              console.log('la clase es nula');
+
+            } else {
+
+              console.log('la clase no es nula');
+              schedule.setSemesterClassRoom(semesterClassRoom);
+
+            }
+
+          })
+
+        })
       }
     },
 
@@ -67,7 +116,7 @@ module.exports = function(sequelize, DataTypes) {
         }
       },
 
-      cloneToCourse: function(course) {
+      cloneToCourse: function(course, semester) {
         
         //para no perder la referencia en los callbacks
         var original = this;
@@ -81,6 +130,14 @@ module.exports = function(sequelize, DataTypes) {
           durationMinutes: original.durationMinutes
 
         }).success(function(schedule) {
+
+          if(original.semesterClassRoom) {
+            CourseSchedule.assignedClassRoom(original.semesterClassRoom.id, schedule.id, semester.year, semester.semester)
+          }
+
+          if(original.semesterTeacher) {
+            console.log("tiene semester teacher")
+          }
 
           CourseSchedule.models.PatchSchedule.create({
             extraHour: 0,
