@@ -2,31 +2,32 @@ extends ../layout
 
 block content
 
-	script(src='/js/angular/controllers/teacher/teacher.js')
+	script(src='/js/angular/controllers/semester/semester.js')
 
-	.container(ng-controller='teacherCtrl' ng-init='init(#{JSON.stringify(teacher)})')
+	.container(ng-controller='semesterCtrl' ng-init='init(#{JSON.stringify(semester)})')
 
 		div!= messages()
 
 		form(action="../semester/create" method="post")
-			legend Nuevo Semetre
+			legend Nuevo Semestre
 
 			div.col-md-4
 				.form-group
 					label(for='year') Año 
-					input#year.form-control(type="number" min="0" placeholder='Año' name='year' required maxlength='100')
-				b Semestre 
-				br
-				row.form-control
-					.col-lg-4
-						div 1er
-							input.pull-right(name="semester" type="radio" value="1" checked)
-					.col-lg-4
-						div 2do
-							input.pull-right(name="semester" type="radio" value="2")
+					input#year.form-control(ng-model='semester.year' placeholder='Año'
+						type="number" min="0" name='year' required maxlength='100')
+
+				.form-group
+					label(for='semester') Semestre 
+
+					div.form-control
+						.col-lg-4
+							div 1ro
+								input.pull-right(ng-model='semester.semester' name='semester' type='radio' value='1')
+						.col-lg-4
+							div 2do
+								input.pull-right(ng-model='semester.semester' name='semester' type='radio' value='2')
 
 				br
 				button.btn.btn-success(type='submit')	{{isEditing() ? 'Editar' : 'Crear'}}
 				a.btn.btn-danger(href='/') Cancelar
-
-
