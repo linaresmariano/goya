@@ -536,7 +536,7 @@ function CalendarCtrl($scope, $http, $q){
 		names="";
 		semesterTeachers.forEach(function(semesterTeacher) {
 			if(!existTeacher(patch.noVisibleTeachers,semesterTeacher.teacher))
-				names+= " \n " + semesterTeacher.teacher.name;
+				names+= " \n " + semesterTeacher.teacher.code;
 		});
 		return names;
 	}
