@@ -145,19 +145,29 @@ module.exports = function(sequelize, DataTypes) {
       },
 
       cloneToSemester: function(semester) {
+
+        //para no perder la referencia en los callbacks
+        var original = this;
+
         Course.create({
-          SubjectId: this.SubjectId,
+          SubjectId: original.SubjectId,
           SemesterId: semester.id,
-          enrolled: this.enrolled,
-          nick: this.nick,
-          modality: this.modality,
-          capacity: this.capacity,
-          commission: this.commission,
-          color: this.color
+          enrolled: original.enrolled,
+          nick: original.nick,
+          modality: original.modality,
+          capacity: original.capacity,
+          commission: original.commission,
+          color: original.color
         }).success(function(course) {
 
           semester.addCourse(course)
-          
+
+          if(original.schedules) {
+            original.schedules.forEach(function(schedule) {
+              schedule.cloneToCourse(course)
+            })
+          }
+
         })
       }
 
