@@ -7,7 +7,11 @@
 	padding-left:23px !important;
 }
 
-.close{
+.item-grid{
+	padding:4px !important;
+}
+
+.close-alert{
 	padding:15px !important;
 }
 

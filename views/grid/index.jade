@@ -13,21 +13,21 @@ block content
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
-									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.schedule.courses[0].subject.nick}} {{courseNotAssigned.schedule.type}} {{getCommissions(courseNotAssigned.schedule)}}
+									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course item-grid list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.schedule.courses[0].subject.nick}} {{courseNotAssigned.schedule.type}} {{getCommissions(courseNotAssigned.schedule)}}
 						div(class="panel panel-default size-menu ")
 							div.panel-heading Aulas
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div(style="position:relative" ng-repeat="classRoom in classRooms | orderBy:'number' track by $index")
-									div.dragg-class-room.size-menu(ng-model="classRoom" dragg-class-room).list-group-item {{classRoom.number}}
+									div.dragg-class-room.size-menu.item-grid(ng-model="classRoom" dragg-class-room).list-group-item {{classRoom.number}}
 						div.panel.panel-default.size-menu
 							div.panel-heading Profesores
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div.scroll-menu(style="position:relative" ng-repeat="teacher in teachers | orderBy:'name' track by $index")
-									div(ng-init="teacher.hasCurrentSemesterTeachers=hasCurrentSemesterTeachers(teacher)",data-target='#modal-teacher',data-toggle='modal',class="list-group-item size-menu",class="dragg-teacher ",dragg-teacher,ng-model="teacher"){{teacher.name}}
+									div(ng-init="teacher.hasCurrentSemesterTeachers=hasCurrentSemesterTeachers(teacher)",data-target='#modal-teacher',data-toggle='modal',class="list-group-item size-menu item-grid",class="dragg-teacher ",dragg-teacher,ng-model="teacher"){{teacher.name}}
 										span(ng-if="!teacher.hasCurrentSemesterTeachers",ng-model="teacher.hasCurrentSemesterTeachers")
 											span(class="pull-right glyphicon glyphicon-warning-sign notify-danger",title="Este profesor no fue asignado a ningun curso") 
 			.col-md-10.col-md-10
