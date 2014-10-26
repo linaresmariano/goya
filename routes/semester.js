@@ -35,7 +35,7 @@ exports.create = function(req, res) {
 
         if(idClon) {
 
-          db.Semester.cloneFromTo(idClon, semester.id).success(function(semesterCloned) {
+          db.Semester.cloneFromTo(idClon, semester).success(function(semesterCloned) {
 
             res.redirect('/')
             req.flash(typeMessage.SUCCESS, "El semestre se ha guardado correctamente")

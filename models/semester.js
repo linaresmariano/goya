@@ -72,10 +72,14 @@ module.exports = function(sequelize, DataTypes) {
 			});
 		},
 
-      cloneFromTo: function(idSemesterFrom, idSemesterTo) {
-        Semester.find(idSemesterFrom).success(function(semesterFrom) {
-          Semester.find(idSemesterTo).success(function(semesterTo) {
+      cloneFromTo: function(idSemesterFrom, semesterTo) {
+        return Semester.find(idSemesterFrom).success(function(semesterFrom) {
+          Semester.findByYearAndSemesterIncludingAll(semesterFrom.year, semesterFrom.semester).success(function(completeSemesterFrom) {
 
+            completeSemesterFrom.courses.forEach(function(course) {
+              course.cloneToSemester(semesterTo);
+            })
+            
           })
         }) 
       }

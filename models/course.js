@@ -17,15 +17,16 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     color: DataTypes.STRING
-    }, {
-      classMethods: {
-        associate: function(models) {
-			Course.hasMany(models.CourseSchedule, { as: 'schedules',through:'schedule_has_courses'});
-			Course.hasMany(models.SemesterTeacher,{ as: 'SemesterTeachers',through:'course_has_teachers'});
-			Course.hasMany(models.SemesterTeacher,{ as: 'SemesterInstructors', through: 'course_has_instructors'});
-			Course.hasOne(models.CourseRequirements, { as: 'Requirements'});
-			Course.belongsTo(models.Subject, { as: 'Subject'});
-        },
+  }, {
+
+    classMethods: {
+      associate: function(models) {
+        Course.hasMany(models.CourseSchedule, { as: 'schedules',through:'schedule_has_courses'});
+        Course.hasMany(models.SemesterTeacher,{ as: 'SemesterTeachers',through:'course_has_teachers'});
+        Course.hasMany(models.SemesterTeacher,{ as: 'SemesterInstructors', through: 'course_has_instructors'});
+        Course.hasOne(models.CourseRequirements, { as: 'Requirements'});
+        Course.belongsTo(models.Subject, { as: 'Subject'});
+      },
 		findWithTeachers:function(idCourse){
 			var Teacher=Course.models.Teacher;
 			var SemesterTeacher=Course.models.SemesterTeacher;
@@ -53,8 +54,11 @@ module.exports = function(sequelize, DataTypes) {
 				success();
 			});
 		}
-      },
-	  instanceMethods:{
+		
+		},
+
+    instanceMethods: {
+
 		assignedTeacher:function(idTeacher,semester,success){
 			//import models
 			var SemesterTeacher=Course.models.SemesterTeacher;
@@ -111,36 +115,54 @@ module.exports = function(sequelize, DataTypes) {
 											)
 				}
 		},
-		checkAndAssignInstructor:function(semesterTeacher,idTeacher,semester,success) {
-				var Teacher=Course.models.Teacher;
-				
-				//para no perder la referencia en los callbacks
-				var course=this;
-				
-				//Si no existe el semesterTeacher lo crea y lo asigna
-				if(semesterTeacher == undefined){
-					Teacher.newSemesterTeacher(idTeacher,function(newSemesterTeacher) {
-											
-											course.addSemesterInstructor(newSemesterTeacher);	
-											semester.addSemesterTeacher(newSemesterTeacher).success(
-												function(result){
-													success(undefined);	
-												}
-											)
-																					
-									});
-				}else{
-					//Si el semesterTeacher existe,simplemente lo asigna
-					this.addSemesterInstructor(semesterTeacher).success(
-												function(result){
-													success(undefined);	
-												}
-											)
-				}
-		}
-	  }
+
+      checkAndAssignInstructor: function(semesterTeacher, idTeacher, semester, success) {
+        var Teacher = Course.models.Teacher;
+
+        //para no perder la referencia en los callbacks
+        var course = this;
+
+        //Si no existe el semesterTeacher lo crea y lo asigna
+        if(semesterTeacher == undefined){
+        	Teacher.newSemesterTeacher(idTeacher, function(newSemesterTeacher) {
+
+            course.addSemesterInstructor(newSemesterTeacher);	
+            semester.addSemesterTeacher(newSemesterTeacher).success(
+              function(result){
+                success(undefined);	
+              }
+            )
+
+          });
+        }else{
+          //Si el semesterTeacher existe,simplemente lo asigna
+          this.addSemesterInstructor(semesterTeacher).success(
+            function(result){
+              success(undefined);	
+            }
+          )
+        }
+      },
+
+      cloneToSemester: function(semester) {
+        Course.create({
+          SubjectId: this.SubjectId,
+          SemesterId: semester.id,
+          enrolled: this.enrolled,
+          nick: this.nick,
+          modality: this.modality,
+          capacity: this.capacity,
+          commission: this.commission,
+          color: this.color
+        }).success(function(course) {
+
+          semester.addCourse(course)
+          
+        })
+      }
+
     }
-  )
+  })
 
   return Course
 }
