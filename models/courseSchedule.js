@@ -135,8 +135,10 @@ module.exports = function(sequelize, DataTypes) {
             CourseSchedule.assignedClassRoom(original.semesterClassRoom.id, schedule.id, semester.year, semester.semester)
           }
 
-          if(original.semesterTeacher) {
-            console.log("tiene semester teacher")
+          if(original.semesterTeachers) {
+            original.semesterTeachers.forEach(function(semesterTeacher) {
+              schedule.assignedTeacher(semesterTeacher.teacher.id, semester, function(x){})
+            })
           }
 
           CourseSchedule.models.PatchSchedule.create({

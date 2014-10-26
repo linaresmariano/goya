@@ -163,14 +163,14 @@ module.exports = function(sequelize, DataTypes) {
           semester.addCourse(course)
 
           if(original.semesterTeachers) {
-            original.semesterTeachers.forEach(function(teacher) {
-              course.assignedTeacher(teacher.id, semester, function(x){})
+            original.semesterTeachers.forEach(function(semesterTeacher) {
+              course.assignedTeacher(semesterTeacher.teacher.id, semester, function(x){})
             })
           }
 
           if(original.semesterInstructors) {
-            original.semesterInstructors.forEach(function(teacher) {
-              course.assignedInstructor(teacher.id, semester, function(x){})
+            original.semesterInstructors.forEach(function(semesterTeacher) {
+              course.assignedInstructor(semesterTeacher.teacher.id, semester, function(x){})
             })
           }
 
