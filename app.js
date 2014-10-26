@@ -8,7 +8,6 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var classroom = require('./routes/classroom');
 var schedule = require('./routes/schedule');
-var grilla = require('./routes/grid');
 var patch = require('./routes/patch');
 var cursos = require('./routes/course');
 var subject = require('./routes/subject');
@@ -86,10 +85,7 @@ app.get('/', routes.index);
 app.get('/semester/new', semester.new);
 app.post('/semester/create', semester.create);
 
-//grid
-app.get('/grid', grilla.index);
-app.get('/grid/classrooms/:year/:semester', grilla.classrooms);
-app.get('/grid/:year/:semester', grilla.semester);
+
 
 //patch
 app.put('/patch/update', patch.update);
@@ -99,6 +95,7 @@ app.put('/patch/updateVisibility', patch.updateVisibility);
 
 //semesters
 app.get('/lastSemester', routes.lastSemester);
+app.get('/semester/grid/:year/:semester', semester.grid);
 
 //courses
 app.get('/courses', cursos.index);
@@ -122,6 +119,7 @@ app.get('/classroom/edit/:id', classroom.edit);
 app.post('/classroom/create', classroom.create);
 app.post('/classroom/update/:id', classroom.update);
 app.get('/classroom/list/:year/:semester', classroom.list);
+app.get('/classrooms/grid/:year/:semester', classroom.grid);
 
 //subjects
 app.get('/subject/new', subject.new);

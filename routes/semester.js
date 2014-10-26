@@ -68,4 +68,40 @@ exports.create = function(req, res) {
 
 }
 
+exports.grid = function(req, res) {
+
+  var year = req.params.year;
+  var semester = req.params.semester;
+
+  // buscar los del "semester"
+  db.Semester.findByYearAndSemesterIncludingAll(year, semester).success(function(semester) {
+
+    db.ClassRoom.findAll().success(function(classRooms) {
+
+      db.Teacher.findAll({       
+        include: [{model: db.SemesterTeacher, as: 'SemesterTeachers', require: false,
+          include: [
+            {model: db.Semester, as: 'Semester', require: false},
+            {model: db.Course, as: 'teacherCourses', require: false},
+            {model: db.Course, as: 'instructorCourses', require: false}
+          ]
+        }]
+
+      }).success(function(teachers) {
+
+        res.render('semester/grid', {
+          title: 'Grilla',
+          semester: {
+            courses: semester.courses,
+            classRooms: classRooms,
+            teachers: teachers,
+            year: semester.year,
+            semester: semester.semester
+          }
+        })
+      })
+    })
+  })
+}
+
 
