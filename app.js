@@ -94,7 +94,7 @@ app.put('/patch/teacherVisible', patch.teacherVisible);
 app.put('/patch/updateVisibility', patch.updateVisibility);
 
 //semesters
-app.get('/lastSemester', routes.lastSemester);
+app.get('/semester/last', semester.last);
 app.get('/semester/grid/:year/:semester', semester.grid);
 
 //courses
@@ -173,9 +173,7 @@ db
 
 })
 
-app.get('/rest', function(req, res) {
-	res.json({ message: 'hooray! welcome to our api!' });	
-});
+
 
 
 
