@@ -29,10 +29,10 @@ block content
 								input.pull-right(ng-model='semester.semester' name='semester' type='radio' value='2')
 
 				.form-group
-					label(for='duplicateSemester') Duplicar datos de un semestre anterior
-					select.form-control(ng-model='duplicateSemester' ng-options='duplicateSemester.getDescription() for duplicateSemester in semesters')
+					label(for='semesterToClone') Duplicar datos de un semestre anterior
+					select.form-control(ng-model='semesterToClone' ng-options='semesterToClone.getDescription() for semesterToClone in semesters')
 						option(value='') Seleccione un semestre
-						input(name='idDuplicateSemester' value='{{duplicateSemester.id}}' hidden)
+						input(name='idSemesterToClone' value='{{semesterToClone.id}}' hidden)
 
 				br
 				button.btn.btn-success(type='submit')	{{isEditing() ? 'Editar' : 'Crear'}}

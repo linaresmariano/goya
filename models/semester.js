@@ -7,16 +7,43 @@ module.exports = function(sequelize, DataTypes) {
 																  msg: "Solo puede haber semestres 1 y 2"
 															}}},
     	year: {type:DataTypes.INTEGER ,  validate: {min:1985}}
-    }, {
-      classMethods: {
-        associate: function(models) {
-          Semester.hasMany(models.Course,{ as: 'Courses'});
-		  Semester.hasMany(models.SemesterClassRoom,{ as: 'SemesterClassRooms'});
-		  Semester.hasMany(models.SemesterTeacher,{ as: 'SemesterTeachers'});
-        },
-	  getSemester:function(year,semester){
-		return Semester.find({where: {'year':year,'semester':semester}});
-	  },
+  }, {
+
+    classMethods: {
+      associate: function(models) {
+        Semester.hasMany(models.Course, {as: 'Courses'});
+        Semester.hasMany(models.SemesterClassRoom, {as: 'SemesterClassRooms'});
+        Semester.hasMany(models.SemesterTeacher, {as: 'SemesterTeachers'});
+      },
+
+      getSemester: function(year, semester) {
+        return Semester.find({where: {'year': year, 'semester': semester}});
+      },
+
+      findByYearAndSemesterIncludingAll: function(year, semester) {
+        return Semester.find({where: {'year': year, 'semester': semester},
+          include: [{model: Semester.models.Course, as: 'Courses', require: false,
+            include: [ {model: Semester.models.CourseSchedule, as: 'schedules', require: false,
+              include: [
+                {model: Semester.models.Course, as: 'Courses', require: false},
+                {model: Semester.models.SemesterClassRoom, as: 'SemesterClassRoom', require: false,
+                  include: [{model: Semester.models.ClassRoom, as: 'ClassRoom', require: false}]},
+                {model: Semester.models.SemesterTeacher, as: 'SemesterTeachers', require: false,
+                  include: [{model: Semester.models.Teacher, as: 'Teacher', require: false}]},
+                {model: Semester.models.PatchSchedule, as: 'Patch', require: false,
+                  include: [{model: Semester.models.Teacher, as: 'noVisibleTeachers', require: false}]}
+              ]},
+            
+              {model: Semester.models.Subject, as: 'Subject', require: false},
+              {model: Semester.models.SemesterTeacher, as: 'SemesterTeachers', require: false,
+                include: [{model: Semester.models.Teacher, as: 'Teacher', require: false}]},
+              {model: Semester.models.SemesterTeacher, as: 'SemesterInstructors', require: false,
+                include: [{model: Semester.models.Teacher, as: 'Teacher', require: false}]}
+            ]
+          }]
+        })
+      },
+
 		teacherAssignedToASchedule:function(idTeacher,idCourseSchedule,semester,year,success){
 			var CourseSchedule=Semester.models.CourseSchedule;
 			Semester.getSemester(year,semester).success(function(semester){
@@ -43,16 +70,26 @@ module.exports = function(sequelize, DataTypes) {
 					course.assignedInstructor(idTeacher,semester,success);
 				});
 			});
-		}
-	  }
-	}, {
-      instanceMethods: {
-        code: function() {
-			return parseInt(semester +""+ year);
-			}
-		}
-    })
+		},
+
+      cloneFromTo: function(idSemesterFrom, idSemesterTo) {
+        Semester.find(idSemesterFrom).success(function(semesterFrom) {
+          Semester.find(idSemesterTo).success(function(semesterTo) {
+
+          })
+        }) 
+      }
+
+    }
+  }, {
+
+    instanceMethods: {
+      code: function() {
+        return parseInt(semester +""+ year);
+      }
+    }
+
+  })
 
   return Semester;
 }
-
