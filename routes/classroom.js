@@ -40,7 +40,7 @@ exports.grid = function(req, res) {
 ]
 						}]
   }).success(function(semester) {
-			res.render('grid/classrooms', {
+			res.render('classroom/grid', {
 				title: 'Aulas',
 				semester: semester 
 			  })
