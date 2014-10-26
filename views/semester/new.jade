@@ -30,7 +30,7 @@ block content
 
 				.form-group
 					label(for='duplicateSemester') Duplicar datos de un semestre anterior
-					select.form-control(ng-model='duplicateSemester' ng-options='duplicateSemester for duplicateSemester in semesters')
+					select.form-control(ng-model='duplicateSemester' ng-options='duplicateSemester.getDescription() for duplicateSemester in semesters')
 						option(value='') Seleccione un semestre
 						input(name='idDuplicateSemester' value='{{duplicateSemester.id}}' hidden)
 
