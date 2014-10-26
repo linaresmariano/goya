@@ -47,7 +47,7 @@ block content
 							.panel-heading Comisiones del horario
 							div.list-group-item(ng-repeat="course in scheduleShow.schedule.courses track by $index")
 								div c{{course.commission}}
-									a.btn.btn-xs.btn-info.pull-right.button-option(href="../../course/edit/{{course.id}}",title="Editar comisión")
+									a.btn.btn-xs.btn-info.pull-right.button-option(href="../../../course/edit/{{course.id}}",title="Editar comisión")
 										span.glyphicon.glyphicon-edit
 									button.btn.btn-xs.btn-danger.pull-right.button-option(title="Quitar comisión",ng-click="separateSchedules($index)",ng-show='scheduleShow.schedule.courses.length > 1')
 										span.glyphicon.glyphicon-remove
