@@ -46,7 +46,6 @@ global.showFeedbackPanel = function(res,msj,type){
 global.showErrors=function(req,err){
 	errors=[];
 	for(key in err){
-		//req.flash('alert-'+typeMessage.ERROR, err.name[0]);
 		for(h=0;h<err[key].length;h++){
 			errors.push(err[key][h]);
 		}
@@ -55,9 +54,9 @@ global.showErrors=function(req,err){
 }
 
 global.typeMessage = {
-  ERROR: 'alert alert-danger padding-alert',
-  SUCCESS: 'alert alert-success padding-alert',
-  WARNING: 'alert alert-warning padding-alert'
+  ERROR: 'alert alert-danger padding-alert ',
+  SUCCESS: 'alert alert-success padding-alert ',
+  WARNING: 'alert alert-warning padding-alert '
 }
 
 // all environments
@@ -145,7 +144,7 @@ app.put('/schedule/deallocateClassroom', schedule.deallocateClassroom);
 app.put('/schedule/deallocateTeacher', schedule.deallocateTeacher);
 app.put('/schedule/deallocateSchedule', schedule.deallocateSchedule);
 app.put('/schedule/unify', schedule.unify);
-
+app.put('/schedule/separateSchedule', schedule.separateSchedule);
 
 //reports
 app.get('/report/offer/:year/:semester', report.offer);

@@ -23,8 +23,48 @@ exports.assignedTeacher = function(req, res) {
 	});
 }
 
+exports.separateSchedule=function(req, res){
+	var idSchedule=req.body.idSchedule;
+	var idCourse=req.body.idCourse;
+	db.CourseSchedule.find({
+     where: {
+              'id': idSchedule 
+            },
+	include: [{model: db.PatchSchedule, as: 'Patch' ,require:false}]
+  }).success(function(schedule) {
+		
+		db.Course.find(idCourse).success(function(course) {
+			schedule.removeCourse(course);
+			
+			var scheduleToSave = db.CourseSchedule.build({
+			  type: schedule.type,
+			  day: schedule.day,
+			  hour: schedule.hour,
+			  minutes: schedule.minutes,
+			  durationHour: schedule.durationHour,
+			  durationMinutes:  schedule.durationMinutes
+			})
+
+			scheduleToSave.save().success(function(newSchedule) {
+				newSchedule.addCourse(course);
+				clonePatch(schedule.patch).save().success(function(newPatch) {
+					newSchedule.setPatch(newPatch);
+					res.send(newSchedule.id+'')
+				});
+			});
+		});
+	});
+}
+
+function clonePatch(patch){
+	return db.PatchSchedule.build({
+				visibility: patch.visibility,
+				extraHour:  patch.extraHour,
+				extraDuration: patch.extraDuration,
+			})
+}
+
 exports.unify = function(req, res){
-        console.log(JSON.stringify(req.body.schedules));
         var schedules=req.body.schedules;
         var firstSchedule=schedules[0];
         schedules.splice(0,1)
@@ -41,10 +81,7 @@ exports.unify = function(req, res){
 												db.Course.find(courseParam.id).success(function(course) {
 														scheduleFind.removeCourse(course);
 														course.removeSchedule(scheduleFind);
-														//firstSchedule.addCourse(course);
 														firstSchedule.addCourse(course);
-														console.log("**************************************************************************************")
-														console.log(JSON.stringify(firstSchedule))
 													});
 												
 											}

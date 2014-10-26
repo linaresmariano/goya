@@ -176,15 +176,25 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 	$scope.separateSchedules=function(indexCourse){
-		otherCourse=removeCourseAndReturn($scope.scheduleShow.schedule,indexCourse);
-		$scope.removeSchedule($scope.scheduleShow.schedule);
-		$scope.addSchedule($scope.scheduleShow.schedule);
-		$scope.addSchedule(cloneSchedule($scope.scheduleShow.schedule,otherCourse));
+		
+		$http({
+				url:"/schedule/separateSchedule",
+				method:'put',
+				data: { idSchedule:$scope.scheduleShow.schedule.id, idCourse:$scope.scheduleShow.schedule.courses[indexCourse].id}
+		}).success(function(idNewSchedule) {
+				otherCourse=removeCourseAndReturn($scope.scheduleShow.schedule,indexCourse);
+				$scope.removeSchedule($scope.scheduleShow.schedule);
+				$scope.addSchedule($scope.scheduleShow.schedule);
+				$scope.addSchedule(cloneSchedule($scope.scheduleShow.schedule,otherCourse,parseInt(idNewSchedule)));
+				
+		}).error(function(err){
+				alert('Error al actualizar dato,es posible que no este conectado a internet.');
+		});
 		
 	}
-	function cloneSchedule(schedule,otherCourse){
+	function cloneSchedule(schedule,otherCourse,id){
 		return {
-				id:schedule.id,
+				id:id,
 				courses:[otherCourse],
 				semesterTeachers:[],
 				patch:schedule.patch,
@@ -258,6 +268,7 @@ function CalendarCtrl($scope, $http, $q){
 				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
 				
 				if(unifySchedules(event.start.getDay(),hour,minutes,event)){
+					$scope.removeScheduleNotAssigned(event.schedule);
 					return;
 				}
 				
@@ -296,6 +307,7 @@ function CalendarCtrl($scope, $http, $q){
 				hour=Math.abs(parseInt(seconds/3600));
 				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
 				if(unifySchedules(date.getDay(),hour,minutes,copiedEventObject)){
+					$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
 					return;
 				}
 				
