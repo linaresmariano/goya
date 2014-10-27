@@ -1,5 +1,5 @@
 
-app.controller('courseCtrl', function ($scope, localStorageService, subjectService) {
+app.controller('courseCtrl', function ($scope, $q, $http, localStorageService, subjectService) {
 
   $scope.modalities = subjectService.modalities
 
@@ -42,8 +42,37 @@ app.controller('courseCtrl', function ($scope, localStorageService, subjectServi
     {name:'Sabado',id:5}
   ];
 
-  $scope.remove=function(index){
-    $scope.course.schedules.splice(index,1);
+  $scope.remove = function(schedule, index) {
+
+    if(confirm("¿Está seguro que desea borrar el horario?")) {
+
+      if(schedule.id) {
+        var deferred = $q.defer();
+
+        $http({
+          url:"/schedule/delete",
+          method:'put',
+          data: {id: schedule.id}
+        }).success(function(data) {
+          
+          deferred.resolve(index);
+                      
+        }).error(function(err){
+          alert("Error al borrar un curso");
+        });
+            
+        var promise = deferred.promise;
+        promise.then(function(index) {
+          $scope.course.schedules.splice(index, 1);
+        });
+
+      } else {
+
+        $scope.course.schedules.splice(index, 1);
+
+      }
+    }
+
   }
 
   $scope.add = function(hour, durationHour, day,scheduleType) {

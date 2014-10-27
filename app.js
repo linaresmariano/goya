@@ -145,6 +145,7 @@ app.put('/schedule/deallocateTeacher', schedule.deallocateTeacher);
 app.put('/schedule/deallocateSchedule', schedule.deallocateSchedule);
 app.put('/schedule/unify', schedule.unify);
 app.put('/schedule/separateSchedule', schedule.separateSchedule);
+app.put('/schedule/delete', schedule.delete);
 
 //reports
 app.get('/report/offer/:year/:semester', report.offer);

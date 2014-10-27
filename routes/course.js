@@ -42,35 +42,7 @@ exports.create = function(req, res) {
 
   var year = req.body.year
   var semester = req.body.semester
-	console.log('**********************************>'+req.body.type)
   var color = req.body.color || 'blue' // color default
-
-  var newSchedule = function(course, day, hour, durationHour,type) {
-    var schedule = db.CourseSchedule.build({
-      type: type,
-      day: day,
-      hour: hour,
-      minutes: 0,
-      durationHour: durationHour,
-      durationMinutes: 0
-    })
-
-    schedule.save().success(function(schedule) {
-      var patchSchedule = db.PatchSchedule.build({
-        extraHour: 0,
-        extraDuration: 0
-
-      }).save().success(function(patchSchedule) {
-        schedule.setPatch(patchSchedule)
-        course.addSchedule(schedule)
-      })
-    }).error(function(err) {
-
-        showErrors(req,err);
-		res.redirect('back');
-
-      })
-  }
 
   db.Semester.find({
     where: {'year': year, 'semester': semester}
@@ -93,22 +65,23 @@ exports.create = function(req, res) {
       if(req.body.day) {
         // Tiene uno, sino una lista
         if(typeof req.body.day === "string") {
-          newSchedule(course, req.body.day, req.body.hour, req.body.durationHour,req.body.type)
+          db.CourseSchedule.newSchedule(course, req.body.day, req.body.hour, req.body.durationHour, req.body.type)
         } else {
           for(var i=0; i < req.body.day.length; i++) {
-            newSchedule(course, req.body.day[i], req.body.hour[i], req.body.durationHour[i],req.body.type[i])
+            db.CourseSchedule.newSchedule(course, req.body.day[i], req.body.hour[i], req.body.durationHour[i], req.body.type[i])
           }
         }
       }
-	  req.flash(typeMessage.SUCCESS,  'Curso creado correctamente')
+
+      req.flash(typeMessage.SUCCESS,  'Curso creado correctamente')
       exports.new(req, res)
           
     }).error(function(err) {
 
-        showErrors(req,err);
-		res.redirect('back');
+      showErrors(req,err);
+      res.redirect('back');
 
-      })
+    })
   })
 
 }
@@ -136,6 +109,21 @@ exports.update = function(req, res) {
       }).success(function(courseUpdated) {
 
         // TODO: update schedules?
+        // Si hay horarios para el curso
+        if(req.body.day) {
+          // Tiene uno, sino una lista
+          if(typeof req.body.day === "string") {
+            if(!req.body.idSchedule) {
+              db.CourseSchedule.newSchedule(course, req.body.day, req.body.hour, req.body.durationHour, req.body.type)
+            }
+          } else {
+            for(var i=0; i < req.body.day.length; i++) {
+              if(!req.body.idSchedule[i]) {
+                db.CourseSchedule.newSchedule(course, req.body.day[i], req.body.hour[i], req.body.durationHour[i], req.body.type[i])
+              }
+            }
+          }
+        }
       
         res.redirect('course/list/'+year+'/'+semester)
         req.flash(typeMessage.SUCCESS, "El curso se ha guardado correctamente")

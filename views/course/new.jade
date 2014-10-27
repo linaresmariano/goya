@@ -52,9 +52,10 @@ block content
 				.form-group
 					label Horarios seleccionados
 					div.form-control(ng-repeat="schedule in course.schedules track by $index")
-						div {{scheduleAssigned(schedule)}}, durante {{schedule.durationHour}} horas ,{{schedule.type}}
-							button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="remove(index)")
+						div {{scheduleAssigned(schedule)}}, durante {{schedule.durationHour}} horas, {{schedule.type}}
+							button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="remove(schedule, index)")
 								span.glyphicon.glyphicon-remove
+							input.hidden(name="idSchedule" type="number" value="{{schedule.id}}")
 							input.hidden(name="durationHour" type="number" value="{{schedule.durationHour}}")
 							input.hidden(name="day" type="number" value="{{schedule.day}}")
 							input.hidden(name="type"  value="{{schedule.type}}")

@@ -16,6 +16,28 @@ module.exports = function(sequelize, DataTypes) {
         this.belongsTo(models.PatchSchedule, {as: 'Patch'});
       },
 
+      newSchedule: function(course, day, hour, durationHour, type) {
+        CourseSchedule.create({
+          type: type,
+          day: day,
+          hour: hour,
+          minutes: 0,
+          durationHour: durationHour,
+          durationMinutes: 0
+        }).success(function(schedule) {
+
+          CourseSchedule.models.PatchSchedule.create({
+            extraHour: 0,
+            extraDuration: 0
+
+          }).success(function(patchSchedule) {
+            schedule.setPatch(patchSchedule)
+            course.addSchedule(schedule)
+          })
+
+        })
+      },
+
       deallocate: function(id, succes) {
         this.find(id).success(function(courseSchedule) {
           courseSchedule.updateAttributes({

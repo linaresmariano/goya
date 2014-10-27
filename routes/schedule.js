@@ -135,3 +135,15 @@ exports.deallocateTeacher = function(req, res){
 	  })
 };
 
+
+exports.delete = function(req, res) {
+  var id = req.body.id
+
+  db.CourseSchedule.find(id).success(function(schedule) {
+    if(schedule) {
+      schedule.destroy().success(function(u) {
+        res.send('ok');
+      })
+    }
+  })
+}
