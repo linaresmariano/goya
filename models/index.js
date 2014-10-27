@@ -1,7 +1,9 @@
 var fs        = require('fs')
   , path      = require('path')
   , Sequelize = require('sequelize')
-  , sequelize = new Sequelize('goya', 'root', 'root')
+  , sequelize = new Sequelize('goya', 'root', 'root', {
+    dialect: 'sqlite'
+  })
   , db        = {}
  
 fs
