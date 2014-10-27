@@ -7,8 +7,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "postinstall": "bower install",
-    "prestart": "npm install"
+    "postinstall": "bower install; npm install"
   },
   "dependencies": {
     "express": "3.4.8",
