@@ -40,10 +40,12 @@ block content
             td(contenteditable="true") {{course.subject.ocode || '-'}}
             td(contenteditable="true") {{course.subject.name}}
             td(contenteditable="true") {{course.subject.credits || '-'}}
-            td(contenteditable="true")
+            td(contenteditable="true" ng-show="isTPIDictate(course.subject)")
               div(ng-repeat='schedule in course.schedules')
                 {{scheduleView(schedule)}}
-            td(contenteditable="true") {{course.semesterTeachers[0].teacher.name || 'A designar'}}
+            td(contenteditable="true" ng-show="isTPIDictate(course.subject)") {{course.semesterTeachers[0].teacher.name || 'A designar'}}
+            td(contenteditable="true" ng-show="!isTPIDictate(course.subject)" colspan='2')
+              {{segunOfertaDe(course.subject)}}
             td(contenteditable="true") {{course.enrolled || '-'}}
             td(contenteditable="true") {{course.capacity || '-'}}
             td(contenteditable="true")

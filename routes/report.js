@@ -27,7 +27,8 @@ exports.offer = function(req, res) {
                 ]
               }]},
           {model: db.Subject, as: 'Subject', require: false, include: [
-            {model: db.Career, as: 'dictateCareers', require: false}
+            {model: db.Career, as: 'dictateCareers', require: false},
+            {model: db.Career, as: 'career', require: false}
           ]},
           {model: db.SemesterTeacher, as: 'SemesterInstructors', require: false,
             include: [{model: db.Teacher, as: 'Teacher', require: false}]},

@@ -72,4 +72,12 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
     return result
   }
 
+  $scope.segunOfertaDe = function(subject) {
+    return 'Según oferta de '+ subject.career.nick
+  }
+
+  $scope.isTPIDictate = function(subject) {
+    return subject.career == null || subject.career.nick == 'TPI'
+  }
+
 })
