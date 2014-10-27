@@ -58,4 +58,18 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
 
     return someHour
   }
+
+  $scope.getCareerGroup = function(subject) {
+    var result = ""
+
+    if(subject.dictateCareers) {
+      for (var i = 0; i < subject.dictateCareers.length; i++) {
+        if(result) result += "-";
+        result += subject.dictateCareers[i].group;
+      }
+    }
+
+    return result
+  }
+
 })

@@ -3,12 +3,20 @@ var db = require('../models')
 // Career
 var tpi = db.Career.build({
 	nick: 'TPI',
-	name: 'Tecnicatura en Programación Informática'
+	name: 'Tecnicatura en Programación Informática',
+	group: 'P'
 })
 
 var lds = db.Career.build({
 	nick: 'LDS',
-	name: 'Licenciatura en Desarrollo de Software'
+	name: 'Licenciatura en Desarrollo de Software',
+	group: 'W'
+})
+
+var diplo = db.Career.build({
+	nick: 'Diplomatura CyT',
+	name: 'Diplomatura en Ciencia y Tecnología',
+	group: 'N'
 })
 
 //Semesters
