@@ -260,10 +260,10 @@ var subjectTVDIG= db.Subject.build({
 					});
 
 var subjectING1 = db.Subject.build({
-	area: 1,
+	area: 4,
 	core: 0,
 	period: 'Cuatrimestral',
-	ocode: '01032',
+	ocode: '01033',
 	credits: 12,
 	nick: 'ING1',
 	name: 'Inglés 1'
