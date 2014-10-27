@@ -155,9 +155,11 @@ app.get('/report/offer/:year/:semester', report.offer);
 //});
 
 
+var isDevEnv = 'development' == app.get('env');
+
 db
  .sequelize
-  .sync({ force: true })
+  .sync({ force: isDevEnv })
   .complete(function(err) {
     if (err) {
       throw err[0]
@@ -168,7 +170,7 @@ db
     }
 }).success(function() {
 
-  if ('development' == app.get('env')) {
+  if (isDevEnv) {
     // Para cargar datos de pruebas
     require('./extras/initialDataDB')
   }
