@@ -259,12 +259,23 @@ var subjectTVDIG= db.Subject.build({
 						name: 'Television Digital'
 					});
 
+var subjectING1 = db.Subject.build({
+	area: 1,
+	core: 0,
+	period: 'Cuatrimestral',
+	ocode: '01032',
+	credits: 12,
+	nick: 'ING1',
+	name: 'Inglés 1'
+});
+
 //Save models
 chainer = new db.Sequelize.Utils.QueryChainer
 
 //save career
 chainer.add(tpi.save());
 chainer.add(lds.save());
+chainer.add(diplo.save());
 
 //save courses
 chainer.add(courseORGA.save());
@@ -310,6 +321,7 @@ chainer.add(classRoom45.save());
 chainer.add(subjectEPERS.save());
 chainer.add(subjectORGA.save());
 chainer.add(subjectTVDIG.save());
+chainer.add(subjectING1.save());
 
 //save relations
 chainer.run().complete( function(err, result) {
