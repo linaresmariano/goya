@@ -261,10 +261,10 @@ var subjectTVDIG= db.Subject.build({
 
 var subjectING1 = db.Subject.build({
 	area: 4,
-	core: 0,
+	core: 3,
 	period: 'Cuatrimestral',
-	ocode: '01033',
-	credits: 12,
+	ocode: '90000',
+	credits: 0,
 	nick: 'ING1',
 	name: 'Inglés 1'
 });
@@ -338,6 +338,7 @@ chainer.run().complete( function(err, result) {
 		subjectEPERS.setCareer(tpi);
 		subjectORGA.setCareer(tpi);
 		subjectTVDIG.setCareer(tpi);
+		subjectING1.setCareer(diplo);
 		
 		//semester.setTeachers([teacherPABLOT,teacherRONY]);
 
