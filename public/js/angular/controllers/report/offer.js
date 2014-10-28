@@ -6,6 +6,8 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
 
     $scope.courses = $scope.semester.courses.filter(shouldDisplayCourse)
 
+    $scope.currentCareer = 'TPI'
+
   }
 
   var weekday = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
@@ -73,11 +75,11 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
   }
 
   $scope.segunOfertaDe = function(subject) {
-    return 'Según oferta de '+ subject.career.nick
+    return subject.career ? 'Según oferta de '+ subject.career.nick : ''
   }
 
   $scope.isCurrentCareer = function(subject) {
-    return subject.career == null || subject.career.nick == 'TPI'
+    return subject.career == null || subject.career.nick == $scope.currentCareer
   }
 
   $scope.getEnrolled = function(course) {
