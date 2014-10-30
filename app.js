@@ -120,6 +120,7 @@ app.post('/classroom/create', classroom.create);
 app.post('/classroom/update/:id', classroom.update);
 app.get('/classroom/list/:year/:semester', classroom.list);
 app.get('/classrooms/grid/:year/:semester', classroom.grid);
+app.put('/classroom/remove', classroom.remove);
 
 //subjects
 app.get('/subject/new', subject.new);
@@ -127,6 +128,7 @@ app.post('/subject/create', subject.create);
 app.post('/subject/update/:id', subject.update);
 app.get('/subject/edit/:id', subject.edit);
 app.get('/subject/list', subject.list);
+app.put('/subject/remove', subject.remove);
 
 //teachers
 app.get('/teacher/new', teacher.new);

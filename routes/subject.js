@@ -149,3 +149,18 @@ exports.update = function(req, res) {
   
 }
 
+
+exports.remove = function(req, res){
+
+  var id = req.body.id
+
+  db.Subject.find(id).success(function(subject) {
+    if(subject) {
+      subject.destroy().success(function(u) {
+        res.send('ok');
+      })
+    }
+  })
+
+}
+

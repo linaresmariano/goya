@@ -146,3 +146,19 @@ exports.update = function(req, res) {
   })
   
 }
+
+
+exports.remove = function(req, res){
+
+  var id = req.body.id
+
+  db.ClassRoom.find(id).success(function(classroom) {
+    if(classroom) {
+      classroom.destroy().success(function(u) {
+        res.send('ok');
+      })
+    }
+  })
+
+}
+
