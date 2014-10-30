@@ -17,7 +17,7 @@ if (process.env.HEROKU_POSTGRESQL_ROSE_URL) {
     })
 } else {
     // the application is executed on the local machine ... use mysql
-    sequelize = new Sequelize('goya', 'root', 'root')
+    sequelize = new Sequelize('goya', process.env.MYSQL_USER || 'root', process.env.MYSQL_PASS || 'root')
 }
  
 fs
