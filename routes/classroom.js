@@ -21,6 +21,34 @@ exports.edit = function(req, res) {
   })
 }
 
+exports.grid = function(req, res) {
+
+  var semester = req.params.semester;
+  var year = req.params.year;
+
+  // buscar los del "semester"
+  db.Semester.find({
+     where: {
+              'year': year ,
+			  'semester':semester
+            },
+	include: [ {	model: db.Course, as: 'Courses' ,require:false,
+						include: [ 	{model: db.CourseSchedule, as: 'schedules',require:false,
+										include: [ 	{model: db.PatchSchedule, as: 'Patch',require:false},
+													{model: db.SemesterClassRoom, as: 'SemesterClassRoom',require:false,
+														include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]}]},
+]
+						}]
+  }).success(function(semester) {
+			res.render('classroom/grid', {
+				title: 'Aulas',
+				semester: semester 
+			  })
+		
+  })
+
+}
+
 
 exports.create = function(req, res) {
 
