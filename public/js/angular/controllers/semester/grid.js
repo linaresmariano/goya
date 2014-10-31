@@ -264,6 +264,8 @@ function CalendarCtrl($scope, $http, $q){
 											if(!existSemesterTeacher(event.schedule.semesterTeachers, $scope.courseTeacher.teacher)) {
 												if(!isTeacherOfCourses(event.schedule.courses, $scope.courseTeacher.teacher)) {
 													$('#assingTeacherCourse').modal('toggle');
+												}else{
+													$scope.assignedTeacherToSchedule();
 												}
 											}else{
 												alert("El profesor ya fue agregado a este horario");
@@ -609,10 +611,24 @@ function CalendarCtrl($scope, $http, $q){
 			});
 
 		}
-
-		// inCharge == 2, solo asigna al horario
-
 		// Siempre asignamos como profesor del horario
+		$scope.assignedTeacherToSchedule();
+		// Hide modal
+		$('#assingTeacherCourse').modal('hide');
+		
+		//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function(event) {
+			//Update
+			$scope.removeSchedule(schedule);
+			$scope.addSchedule(schedule);
+		});
+	};
+	
+	$scope.assignedTeacherToSchedule=function(){
+		var deferred = $q.defer();
+		var event = $scope.courseTeacher.event;
+		var schedule = event.schedule;
 		$http({
 			url: "/schedule/assignedTeacher",
 			method: 'put',
@@ -633,10 +649,6 @@ function CalendarCtrl($scope, $http, $q){
 		}).error(function(err){
 			alert("Error al asignar un profesor a un horario");
 		});
-
-		// Hide modal
-		$('#assingTeacherCourse').modal('hide');
-		
 		//Refresh calendario
 		var promise=deferred.promise;
 		promise.then(function(event) {
@@ -644,7 +656,7 @@ function CalendarCtrl($scope, $http, $q){
 			$scope.removeSchedule(schedule);
 			$scope.addSchedule(schedule);
 		});
-	};
+	}
 	
 	$scope.deallocateClassroom=function(){
 		var deferred = $q.defer();
