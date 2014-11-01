@@ -70,7 +70,7 @@ module.exports = function(sequelize, DataTypes) {
 										+")) "
 										+" OR (("+CourseSchedule.tableName+".hour + "+CourseSchedule.tableName+".minutes = "
 											+(schedule.hour+schedule.minutes )
-										+") AND ("+CourseSchedule.tableName+".durationMinutes+ "+CourseSchedule.tableName+".durationHour = "
+										+") OR ("+CourseSchedule.tableName+".durationMinutes+ "+CourseSchedule.tableName+".durationHour = "
 											+(schedule.durationHour+schedule.durationMinutes )
 										+"))) AND "+CourseSchedule.tableName+".day = "+schedule.day+"" ).success(function(myTableRows) {
 								
