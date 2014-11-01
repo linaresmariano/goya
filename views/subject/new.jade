@@ -16,7 +16,7 @@ block content
 
         .form-group
           label Carrera
-          select.form-control(ng-model='subject.career', ng-options='career.name for career in careers', name='career')
+          select.form-control(ng-model='subject.career', ng-options='career.name for career in careers', name='career' required)
             option(value="") Seleccione la carrera a la que pertenece la materia
             input(name="careerId", value="{{subject.career.id}}", hidden)
 

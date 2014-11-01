@@ -39,15 +39,16 @@ block content
             td(contenteditable="true") {{getModality(course.modality) || '-'}}
             td(contenteditable="true") {{course.subject.ocode || '-'}}
             td(contenteditable="true") {{course.subject.name}}
-            td(contenteditable="true") {{course.subject.credits || '-'}}
-            td(contenteditable="true" ng-show="isTPIDictate(course.subject)")
+            td(contenteditable="true") {{getCredits(course.subject)}}
+            td(contenteditable="true" ng-show="isCurrentCareer(course.subject)")
               div(ng-repeat='schedule in course.schedules')
                 {{scheduleView(schedule)}}
-            td(contenteditable="true" ng-show="isTPIDictate(course.subject)") {{course.semesterTeachers[0].teacher.name || 'A designar'}}
-            td(contenteditable="true" ng-show="!isTPIDictate(course.subject)" colspan='2')
+            td(contenteditable="true" ng-show="isCurrentCareer(course.subject)")
+              {{course.semesterTeachers[0].teacher.name || 'A designar'}}
+            td(contenteditable="true" ng-show="!isCurrentCareer(course.subject)" colspan='2')
               {{segunOfertaDe(course.subject)}}
-            td(contenteditable="true") {{course.enrolled || '-'}}
-            td(contenteditable="true") {{course.capacity || '-'}}
+            td(contenteditable="true") {{getEnrolled(course)}}
+            td(contenteditable="true") {{getCapacity(course)}}
             td(contenteditable="true")
               div(ng-repeat='schedule in course.schedules')
                 {{classroomView(schedule)}}
