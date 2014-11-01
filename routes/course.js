@@ -239,9 +239,20 @@ exports.assignedClassRoom = function(req, res) {
   var year = req.body.year
   var semester = req.body.semester
   
-  db.CourseSchedule.assignedClassRoom(idClassRoom, idCourseSchedule, year, semester)
+  db.CourseSchedule.find(idCourseSchedule).success(function(schedule){
+	db.ClassRoom.checkClassroomUsed(idClassRoom,schedule,year,semester,function(msj){
+		if(!msj){
+			db.CourseSchedule.assignedClassRoom(idClassRoom, idCourseSchedule, year, semester);
+			res.send('ok')
+		}else{
+			res.send(msj);
+		}
+	});
+  })
+  
 
-  res.send('ok')
+
+  
 }
 
 

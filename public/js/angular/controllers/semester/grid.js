@@ -249,8 +249,14 @@ function CalendarCtrl($scope, $http, $q){
 													method:'put',
 													data: { idClassRoom:classroom.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester}
 											}).success(function(data) {
-												event.schedule.semesterClassRoom=newSemesterClassRoom(classroom);
-												deferred.resolve(event);
+												if(data.error){
+													$scope.error=data.error;
+													$('#errorNotify').modal('toggle');
+												}else{
+													event.schedule.semesterClassRoom=newSemesterClassRoom(classroom);
+													deferred.resolve(event);
+												}
+
 												
 											}).error(function(err){
 												alert("Error al asignar aula a un horario");
@@ -975,6 +981,8 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.scheduleShow;
 	
 	$scope.teacherShow;
+	
+	$scope.error;
 	
 	//Modelos
 	$scope.courses = semesterJSON.courses ;

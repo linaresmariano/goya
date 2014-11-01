@@ -128,6 +128,20 @@ block content
 						button.btn.btn-default(type='button' data-dismiss='modal') Cancelar
 						button.btn.btn-primary(type='button' ng-click="assignedTeacherToCourse(isInCharge)") Aceptar
 						
+		//Modal para mostrar resultados de validaciones 
+		#errorNotify.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-dialog(ng-init="isInCharge=2")
+				.modal-content
+					.modal-header.header-color-red
+						button.close(type='button', data-dismiss='modal')
+							span(aria-hidden='true') ×
+							span.sr-only Close
+						h4#myModalLabel.modal-title Notificación
+					.modal-body 
+						{{error}}
+					.modal-footer
+						button.btn.btn-primary(type='button' data-dismiss='modal') Aceptar
+						
 	script(src='/js/lib/jquery.printThis.js')
 	button.btn.btn-primary.pull-right(onclick="$('#grid').css('width', '100%');$('#grid').width($('#grid').width());$('#grid').printThis()") Imprimir grilla
 	script(src='/js/lib/jquery.ui.droppable.js')
