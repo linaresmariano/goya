@@ -206,8 +206,6 @@ exports.list = function(req, res){
 
 exports.updateCourseSchedule = function(req, res) {
 
-  db.CourseSchedule.find(req.body.id).success(function(schedule) {
-  
 	  db.CourseSchedule.find({where: {'id':req.body.id},
 			  include: [{model: db.PatchSchedule, as: 'Patch', require: false},
 						{model: db.SemesterClassRoom, as: 'SemesterClassRoom', require: false,
@@ -237,20 +235,35 @@ exports.updateCourseSchedule = function(req, res) {
 		});
 		
 	  })
-  })
-
 }
 
 exports.updateEnd = function(req, res) {
   //Actualiza el horario con el id correspondiente
-  db.CourseSchedule.find(req.body.id).success(function(schedule) {
-    schedule.updateAttributes({
-		durationHour: req.body.durationHour,
-		durationMinutes: req.body.durationMinutes,
-		}).success(function() {	
-			res.send('ok')
-		})
-  })
+	db.CourseSchedule.find({where: {'id':req.body.id},
+				  include: [{model: db.PatchSchedule, as: 'Patch', require: false},
+							{model: db.SemesterClassRoom, as: 'SemesterClassRoom', require: false,
+								  include: [{model: db.ClassRoom, as: 'ClassRoom', require: false},
+											{model: db.Semester, as: 'Semester', require: false}]}]}).success(function(schedule){
+											
+			idclassRoom=!schedule.semesterClassRoom ? -1 : schedule.semesterClassRoom.classRoom.id;
+			year=!schedule.semesterClassRoom ? -1 : schedule.semesterClassRoom.semester.year;	
+			semester=!schedule.semesterClassRoom ? -1 : schedule.semesterClassRoom.semester.semester;
+			
+			schedule.durationHour=parseInt(req.body.durationHour);
+			schedule.durationMinutes=parseInt(req.body.durationMinutes);
+			db.ClassRoom.checkClassroomUsed(idclassRoom,schedule,year,semester,function(msj){
+				if(!msj){
+					schedule.updateAttributes({
+						durationHour: req.body.durationHour,
+						durationMinutes: req.body.durationMinutes,
+						}).success(function() {	
+							res.send('ok')
+						})
+				}else{
+					res.send(msj);
+				}
+			});
+	})
 
 }
 

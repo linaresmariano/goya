@@ -216,9 +216,15 @@ function CalendarCtrl($scope, $http, $q){
 					durationHour:hourDuration,
 					durationMinutes: minutesDuration
 				},
-				success:function(result) {
-	            	event.schedule.durationHour=hourDuration;
-					event.schedule.durationMinutes=minutesDuration;
+				success:function(data) {
+						if(data.error){
+							$scope.error=data.error;
+							$('#errorNotify').modal('toggle');
+							revertFunc();
+						}else{
+							event.schedule.durationHour=hourDuration;
+							event.schedule.durationMinutes=minutesDuration;
+						}
 				},
 				error:function(err) {
 					revertFunc();
