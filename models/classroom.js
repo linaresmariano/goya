@@ -57,22 +57,17 @@ module.exports = function(sequelize, DataTypes) {
 								+" WHERE "+ClassRoom.tableName+".id = "+idClassRoom
 										+" AND "+Semester.tableName+".year = "+year
 										+" AND "+Semester.tableName+".semester = "+semester
-										+" AND ((("+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes < "
+										+" AND (("+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes <= "
 											+(schedule.hour*60+schedule.minutes )
 										+" AND "+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes +"
-											+CourseSchedule.tableName+".durationHour *60 + "+CourseSchedule.tableName+".durationMinutes > "
+											+CourseSchedule.tableName+".durationHour *60 + "+CourseSchedule.tableName+".durationMinutes-1 >= "
 											+(schedule.hour*60+schedule.minutes)
-										+") OR ("+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes < "
-											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes )
+										+") OR ("+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes <= "
+											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes-1 )
 										+" AND "+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes +"
-											+CourseSchedule.tableName+".durationHour*60 + "+CourseSchedule.tableName+".durationMinutes > "
-											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes)
-										+")) "
-										+" OR (("+CourseSchedule.tableName+".hour + "+CourseSchedule.tableName+".minutes = "
-											+(schedule.hour+schedule.minutes )
-										+") OR ("+CourseSchedule.tableName+".durationMinutes+ "+CourseSchedule.tableName+".durationHour = "
-											+(schedule.durationHour+schedule.durationMinutes )
-										+"))) AND "+CourseSchedule.tableName+".day = "+schedule.day+"" ).success(function(myTableRows) {
+											+CourseSchedule.tableName+".durationHour*60 + "+CourseSchedule.tableName+".durationMinutes-1 >= "
+											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes-1)
+										+")) AND "+CourseSchedule.tableName+".day = "+schedule.day+"" ).success(function(myTableRows) {
 								
 				    if(myTableRows.length > 0){
 						console.log(myTableRows);
