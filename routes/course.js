@@ -207,13 +207,36 @@ exports.list = function(req, res){
 exports.updateCourseSchedule = function(req, res) {
 
   db.CourseSchedule.find(req.body.id).success(function(schedule) {
-    schedule.updateAttributes({
-      day: req.body.day,
-      hour: req.body.hour,
-      minutes:req.body.minutes,
-    }).success(function() {
-      res.send('ok')
-    })
+  
+	  db.CourseSchedule.find({where: {'id':req.body.id},
+			  include: [{model: db.PatchSchedule, as: 'Patch', require: false},
+						{model: db.SemesterClassRoom, as: 'SemesterClassRoom', require: false,
+							  include: [{model: db.ClassRoom, as: 'ClassRoom', require: false},
+										{model: db.Semester, as: 'Semester', require: false}]}]}).success(function(schedule){	
+										
+		idclassRoom=!schedule.semesterClassRoom ? -1 : schedule.semesterClassRoom.classRoom.id;
+		year=!schedule.semesterClassRoom ? -1 : schedule.semesterClassRoom.semester.year;	
+		semester=!schedule.semesterClassRoom ? -1 : schedule.semesterClassRoom.semester.semester;
+		
+		schedule.day=parseInt(req.body.day);
+		schedule.hour=parseInt(req.body.hour);
+		schedule.minutes=parseInt(req.body.minutes);
+		
+		db.ClassRoom.checkClassroomUsed(idclassRoom,schedule,year,semester,function(msj){
+			if(!msj){
+				    schedule.updateAttributes({
+					  day: req.body.day,
+					  hour: req.body.hour,
+					  minutes:req.body.minutes,
+					}).success(function() {
+					  res.send('ok')
+					})
+			}else{
+				res.send(msj);
+			}
+		});
+		
+	  })
   })
 
 }
