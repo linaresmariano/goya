@@ -68,16 +68,10 @@ module.exports = function(sequelize, DataTypes) {
 											+CourseSchedule.tableName+".durationHour*60 + "+CourseSchedule.tableName+".durationMinutes > "
 											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes)
 										+")) "
-										+" OR (("+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes = "
-											+(schedule.hour*60+schedule.minutes )
-										+" AND "+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes +"
-											+CourseSchedule.tableName+".durationHour *60 + "+CourseSchedule.tableName+".durationMinutes = "
-											+(schedule.hour*60+schedule.minutes)
-										+") AND ("+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes = "
-											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes )
-										+" AND "+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes +"
-											+CourseSchedule.tableName+".durationHour*60 + "+CourseSchedule.tableName+".durationMinutes = "
-											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes)
+										+" OR (("+CourseSchedule.tableName+".hour + "+CourseSchedule.tableName+".minutes = "
+											+(schedule.hour+schedule.minutes )
+										+") AND ("+CourseSchedule.tableName+".durationMinutes+ "+CourseSchedule.tableName+".durationHour = "
+											+(schedule.durationHour+schedule.durationMinutes )
 										+"))) AND "+CourseSchedule.tableName+".day = "+schedule.day+"" ).success(function(myTableRows) {
 								
 				    if(myTableRows.length > 0){
