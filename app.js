@@ -19,7 +19,7 @@ var path = require('path');
 var Sequelize = require('sequelize');
 var db = require('./models');
 var bodyParser = require('body-parser');
-
+var fs = require('fs');
 
 
 var app = express();
@@ -175,6 +175,11 @@ db
   }
 
 })
+
+//Manejo de errores inesperados
+process.on('uncaughtException', function(err) {
+	console.log(err);
+});
 
 
 
