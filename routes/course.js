@@ -193,7 +193,7 @@ exports.list = function(req, res){
 					include:{model: db.Subject, as: 'Subject',require:false}}],
 		where:{ 'year': year,'semester':semester}
 	}).success(function(semester) {
-	
+		check(semester,'El semestre no existe,debe crearlo.',res);
 		res.render('course/list', {
           title: 'Cursos',
           courses:semester.courses

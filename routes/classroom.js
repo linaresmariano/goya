@@ -39,11 +39,12 @@ exports.grid = function(req, res) {
 														include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]}]},
 ]
 						}]
-  }).success(function(semester) {
-			res.render('classroom/grid', {
-				title: 'Aulas',
-				semester: semester 
-			  })
+  }).success(function(semester) {	
+		check(semester,'El semestre no existe,debe crearlo.',res);
+		res.render('classroom/grid', {
+			title: 'Aulas',
+			semester: semester 
+		})
 		
   })
 

@@ -42,6 +42,15 @@ global.showFeedbackPanel = function(res,msj,type){
 	res.locals.feedbackpanel={msj:msj,type:type}; 
 }; 
 
+global.check=function(value,message,res){
+	if(!value || value == null){
+        res.render('error', {
+          title: 'Error',
+		  message: message
+        })
+	}
+}
+
 global.showErrors=function(req,err){
 	errors=[];
 	for(key in err){

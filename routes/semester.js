@@ -17,7 +17,7 @@ exports.new = function(req, res) {
 }
 
 exports.last = function(req, res){
-
+	
   db.Semester.findAll({
 		order:' year DESC ,semester DESC',
 		limit: 1
@@ -34,7 +34,7 @@ exports.create = function(req, res) {
   var year = req.body.year;
 
   db.Semester.getSemester(year, semester).success(function(semesters) {
-
+	
     if(!semesters) {
 
       db.Semester.create({
@@ -86,7 +86,8 @@ exports.grid = function(req, res) {
 
   // buscar los del "semester"
   db.Semester.findByYearAndSemesterIncludingAll(year, semester).success(function(semester) {
-
+	check(semester,'El semestre no existe,debe crearlo.',res);
+  
     db.ClassRoom.findAll().success(function(classRooms) {
 
       db.Teacher.findAll({       
