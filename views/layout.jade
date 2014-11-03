@@ -57,7 +57,8 @@ html(ng-app="APP")
 								li
 									a(href='/report/offer/{{year}}/{{number}}') Oferta académica
 					.pull-right 
-						div(style="margin:15px;margin-right:32px;color:white") Bienvenido al semestre {{number}} del {{year}}
+						div(ng-if="number != -1 && year != -1")
+							div(style="margin:15px;margin-right:32px;color:white") Bienvenido al semestre {{number}} del {{year}}
 		if feedbackpanel != undefined				
 			.container
 				.alert(class="alert-#{feedbackpanel.type} alert-dismissible",role='alert')

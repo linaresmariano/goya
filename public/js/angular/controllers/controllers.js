@@ -2,14 +2,16 @@ var app = angular.module('APP', ['LocalStorageModule','ui.calendar', 'ui.bootstr
 
 
 app.controller('WebController', function ($scope, localStorageService, $http) {
-	if(localStorageService.get('year') == undefined && localStorageService.get('number') == undefined) {
+	if((localStorageService.get('year') == undefined
+			|| localStorageService.get('year') == -1) && (localStorageService.get('number') == undefined
+					|| localStorageService.get('number') == -1)) {
 		$http({
 				url:"/semester/last",
 				method:'get',
 				data: {}
 		}).success(function(data) {
-			$scope.year=data.semester.year
-			$scope.number=data.semester.number
+			$scope.year=!data.semester ? -1 : data.semester.year
+			$scope.number=!data.semester ? -1 : data.semester.number
 			localStorageService.set('year', $scope.year)
 			localStorageService.set('number', $scope.number)
 		}).error(function(err) {

@@ -22,7 +22,11 @@ exports.last = function(req, res){
 		order:' year DESC ,semester DESC',
 		limit: 1
 	}).success(function(semesters) {
-		res.json({ semester: { year: semesters[0].year , number: semesters[0].semester } });
+		if(semesters.length > 0){
+			res.json({ semester: { year: semesters[0].year , number: semesters[0].semester } });
+		}else{
+			res.json({});
+		}
   })
 
 };
