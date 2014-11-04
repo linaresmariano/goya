@@ -73,9 +73,10 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower', express.static(__dirname + '/bower_components'));
 
+var isDevEnv = 'development' == app.get('env');
 
 // development only
-if ('development' == app.get('env')) {
+if (isDevEnv) {
   app.use(express.errorHandler());
 }
 
@@ -157,7 +158,7 @@ app.get('/report/offer/:year/:semester', report.offer);
 
 db
  .sequelize
-  .sync({ force: true })
+  .sync({ force: isDevEnv })
   .complete(function(err) {
     if (err) {
       throw err[0]
@@ -168,7 +169,7 @@ db
     }
 }).success(function() {
 
-  if ('development' == app.get('env')) {
+  if (isDevEnv) {
     // Para cargar datos de pruebas
     require('./extras/initialDataDB')
   }
