@@ -86,6 +86,9 @@ exports.edit = function(req, res) {
     include: [ {model: db.Career, as: 'dictateCareers', require:false} ],
     where:{ 'id': id }
   }).success(function(subject) {
+
+    check(subject, 'La materia no existe, debe crearla.', res)
+
     db.Career.findAll().success(function(careers) {
       res.render('subject/new', {
         title: 'Editar Materia',
