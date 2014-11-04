@@ -90,7 +90,7 @@ exports.grid = function(req, res) {
 
   // buscar los del "semester"
   db.Semester.findByYearAndSemesterIncludingAll(year, semester).success(function(semester) {
-	check(semester,'El semestre no existe,debe crearlo.',res);
+	if(check(semester,'El semestre no existe,debe crearlo.',res))return;
   
     db.ClassRoom.findAll().success(function(classRooms) {
 

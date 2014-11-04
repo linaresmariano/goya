@@ -39,7 +39,7 @@ exports.offer = function(req, res) {
       {model: db.SemesterClassRoom, as: 'SemesterClassRooms', require:false}]
   })
   .success(function(semester) {
-    check(semester,'El semestre no existe,debe crearlo.',res);
+    if(check(semester,'El semestre no existe,debe crearlo.',res))return;
     res.render('report/offer', {
       title: 'Oferta académica',
       semester: semester 

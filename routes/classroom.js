@@ -40,7 +40,7 @@ exports.grid = function(req, res) {
 ]
 						}]
   }).success(function(semester) {	
-		check(semester,'El semestre no existe,debe crearlo.',res);
+		if(check(semester,'El semestre no existe,debe crearlo.',res))return;
 		res.render('classroom/grid', {
 			title: 'Aulas',
 			semester: semester 

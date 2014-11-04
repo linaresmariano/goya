@@ -48,7 +48,9 @@ global.check=function(value,message,res){
           title: 'Error',
 		  message: message
         })
+		return true;
 	}
+	return false;
 }
 
 global.showErrors=function(req,err){
