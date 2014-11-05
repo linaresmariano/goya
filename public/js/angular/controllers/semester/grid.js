@@ -136,10 +136,16 @@ function CalendarCtrl($scope, $http, $q){
 							id:event.id, hour:hour, day:event.start.getDay(),
 							minutes:minutes
 						},
-						success:function(result){
-                        	event.schedule.day=event.start.getDay();
-							event.schedule.hour=hour;
-							event.schedule.minutes=minutes;
+						success:function(data){
+							if(data.error){
+								$scope.error=data.error;
+								revertFunc();
+								$('#errorNotify').modal('toggle');
+							}else{
+								event.schedule.day=event.start.getDay();
+								event.schedule.hour=hour;
+								event.schedule.minutes=minutes;
+							}
 						},
 						error:function(err){
 							revertFunc();
@@ -175,15 +181,18 @@ function CalendarCtrl($scope, $http, $q){
 							data: { id:copiedEventObject.schedule.id, hour:hour,day:date.getDay(),
 							minutes:minutes}
 					}).success(function(data) {
-					
-						//Actualizando el schedule con el nuevo horario
-						copiedEventObject.schedule.day=date.getDay();
-						copiedEventObject.schedule.hour=hour;
-						copiedEventObject.schedule.minutes=minutes;
-						//Agragando el horario a la grilla
-						$scope.addSchedule(copiedEventObject.schedule);
-						$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
-
+						if(data.error){
+								$scope.error=data.error;
+								$('#errorNotify').modal('toggle');
+						}else{
+							//Actualizando el schedule con el nuevo horario
+							copiedEventObject.schedule.day=date.getDay();
+							copiedEventObject.schedule.hour=hour;
+							copiedEventObject.schedule.minutes=minutes;
+							//Agragando el horario a la grilla
+							$scope.addSchedule(copiedEventObject.schedule);
+							$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
+						}
 					}).error(function(err){
 						alert('Error al actualizar dato,es posible que no este conectado a internet.');
 					});
@@ -207,9 +216,15 @@ function CalendarCtrl($scope, $http, $q){
 					durationHour:hourDuration,
 					durationMinutes: minutesDuration
 				},
-				success:function(result) {
-	            	event.schedule.durationHour=hourDuration;
-					event.schedule.durationMinutes=minutesDuration;
+				success:function(data) {
+						if(data.error){
+							$scope.error=data.error;
+							$('#errorNotify').modal('toggle');
+							revertFunc();
+						}else{
+							event.schedule.durationHour=hourDuration;
+							event.schedule.durationMinutes=minutesDuration;
+						}
 				},
 				error:function(err) {
 					revertFunc();

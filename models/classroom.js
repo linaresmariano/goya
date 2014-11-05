@@ -85,7 +85,8 @@ module.exports = function(sequelize, DataTypes) {
 											+"+"+PatchSchedule.tableName+".extraHour * 60 < "
 											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes-1
 												+schedule.patch.extraHour*60+schedule.patch.extraDuration*60)
-										+"))) AND "+CourseSchedule.tableName+".day = "+schedule.day+"" ).success(function(myTableRows) {
+										+"))) AND "+CourseSchedule.tableName+".day = "+schedule.day
+										+" AND "+CourseSchedule.tableName+".id != "+schedule.id ).success(function(myTableRows) {
 								
 				    if(myTableRows.length > 0){
 						console.log(myTableRows);
