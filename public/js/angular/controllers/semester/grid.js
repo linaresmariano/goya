@@ -2,164 +2,21 @@
  * calendarApp - 0.1.3
  */
 
-
-
-app.directive('draggableCourse', function() {
-			return {
-				restrict: 'A',
-				link: function(scope, elm, attrs) {
-				//Obteniendo valor del atributo model
-				var model = scope.$eval(attrs.draggModel);
-
-				var eventObject = model;
-
-				elm.data('eventObject', eventObject);
-				var clone;
-				elm.draggable({
-					start: function( event, ui ) {
-					
-					//Creando un clon del tag teacher para draggearlo afuera del scroll
-					clone=elm.clone();
-					clone.css('width',elm.css('width'));
-					clone.css('position','absolute');
-					$('body').append(clone);
-					$('body').css('cursor','pointer');
-					elm.css('display','none');
-					},
-					zIndex: 999,
-					revert: true,      
-					revertDuration: 0 ,
-					drag: function( event, ui ) {
-						clone.css('left',elm.css('left'));
-						clone.css('top',(event.pageY-15)+"px");
-					},
-					stop: function( event, ui ) {	
-						clone.remove();
-						elm.css('display','block');
-						elm.draggable( 'enable' );
-						$('body').css('cursor','auto');}
-				});         
-
-				}
-			};
-});
-
-//Creando directive droppable con jquery ui
-app.directive('draggTeacher', function() {
-	return {
-			restrict: 'A',
-			link: function(scope, elm, attrs) {
-				var clone;
-				elm.draggable({
-				start: function( event, ui ) {
-					
-					//Creando un clon del tag teacher para draggearlo afuera del scroll
-					clone=elm.clone();
-					clone.css('width',elm.css('width'));
-					clone.css('position','absolute');
-					$('body').append(clone);
-					$('body').css('cursor','pointer');
-					elm.css('display','none');
-
-				},
-				drag: function( event, ui ) {
-					clone.css('left',elm.css('left'));
-					clone.css('top',(event.pageY-15)+"px");
-					//clone.css('top',150+"px");
-				},
-				zIndex: 999,
-				revert: true,      
-				revertDuration: 0 ,
-				stop: function( event, ui ) {	
-					clone.remove();
-					elm.css('display','block');
-					$('body').css('cursor','auto');}
-			}); 
-			}
-		};
-});
-
-
-//Creando directive droppable con jquery ui
-app.directive('draggClassRoom', function() {
-	return {
-			restrict: 'A',
-			link: function(scope, elm, attrs) {
-				//Necesita de position absolute,para droppear a los eventos del calendar
-				//elm.css('position','absolute');
-				var clone;
-				elm.draggable({
-				start: function( event, ui ) {
-					clone=elm.clone();
-					clone.css('width',elm.css('width'));
-					clone.css('position','absolute');
-					$('body').append(clone);
-					$('body').css('cursor','pointer');
-					elm.css('display','none');
-				},
-				drag: function( event, ui ) {
-					clone.css('left',elm.css('left'));
-					clone.css('top',(event.pageY-15)+"px");
-				},
-				zIndex: 999,
-				revert: true,      
-				revertDuration: 0 ,
-				stop: function( event, ui ) {	
-					clone.remove();
-					elm.css('display','block');
-					$('body').css('cursor','auto');}
-			}); 
-			}
-		};
-});
-	
-		
-//Creando estilo menuTeachers,para solucionar el problema de la posicion absoluta que se requiere para dropear
-app.directive('menuDraggable', function() {
-	return {
-			restrict: 'C',
-			link: function(scope, elm, attrs) {
-				var space = attrs.space;
-					
-				//elm.css("top",space);
-				//elm.css("position","absolute");
-			}
-		};
-});
-
 //Controller principal
 function CalendarCtrl($scope, $http, $q){
+	//Fecha por defecto para mostrar la misma semana en la grilla
     var date = new Date();
     var d = 26;
     var m = 1;
     var y = 1000;
 
-    /* event source that contains custom events on the scope */
+    /* Eventos para agrgar la grilla*/
     $scope.events = [
     ];
-	
-	var tagExtraDuration=$('#extraDuration').clone();
-	var tagExtraHour=$('#extraHour').clone();
 
     $scope.eventClick = function( event, allDay, jsEvent, view ){
 		//Para mostrar el curso
 		$scope.scheduleShow=event;
-		/*
-		//para actualizar los campos
-		tagExtraDurationNew=tagExtraDuration.clone();
-		tagExtraHourNew=tagExtraHour.clone();
-		
-	    tagExtraDurationNew.attr('value',$scope.scheduleShow.schedule.patch.extraDuration+"");
-		tagExtraHourNew.attr('value',$scope.scheduleShow.schedule.patch.extraHour+"");
-		
-		parentTagExtraDuratio=$('#extraDuration').parent();
-		parentTagExtraHour=$('#extraHour').parent();
-		
-		$('#extraDuration').remove();
-		$('#extraHour').remove();
-		
-	    parentTagExtraDuratio.append(tagExtraDurationNew);
-		parentTagExtraHour.append(tagExtraHourNew);*/
 		$scope.newPatchExtras.extraDuration=$scope.scheduleShow.schedule.patch.extraDuration;
 		$scope.newPatchExtras.extraHour=$scope.scheduleShow.schedule.patch.extraHour;
 		
@@ -392,8 +249,14 @@ function CalendarCtrl($scope, $http, $q){
 													method:'put',
 													data: { idClassRoom:classroom.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester}
 											}).success(function(data) {
-												event.schedule.semesterClassRoom=newSemesterClassRoom(classroom);
-												deferred.resolve(event);
+												if(data.error){
+													$scope.error=data.error;
+													$('#errorNotify').modal('toggle');
+												}else{
+													event.schedule.semesterClassRoom=newSemesterClassRoom(classroom);
+													deferred.resolve(event);
+												}
+
 												
 											}).error(function(err){
 												alert("Error al asignar aula a un horario");
@@ -407,6 +270,8 @@ function CalendarCtrl($scope, $http, $q){
 											if(!existSemesterTeacher(event.schedule.semesterTeachers, $scope.courseTeacher.teacher)) {
 												if(!isTeacherOfCourses(event.schedule.courses, $scope.courseTeacher.teacher)) {
 													$('#assingTeacherCourse').modal('toggle');
+												}else{
+													$scope.assignedTeacherToSchedule();
 												}
 											}else{
 												alert("El profesor ya fue agregado a este horario");
@@ -752,10 +617,24 @@ function CalendarCtrl($scope, $http, $q){
 			});
 
 		}
-
-		// inCharge == 2, solo asigna al horario
-
 		// Siempre asignamos como profesor del horario
+		$scope.assignedTeacherToSchedule();
+		// Hide modal
+		$('#assingTeacherCourse').modal('hide');
+		
+		//Refresh calendario
+		var promise=deferred.promise;
+		promise.then(function(event) {
+			//Update
+			$scope.removeSchedule(schedule);
+			$scope.addSchedule(schedule);
+		});
+	};
+	
+	$scope.assignedTeacherToSchedule=function(){
+		var deferred = $q.defer();
+		var event = $scope.courseTeacher.event;
+		var schedule = event.schedule;
 		$http({
 			url: "/schedule/assignedTeacher",
 			method: 'put',
@@ -776,10 +655,6 @@ function CalendarCtrl($scope, $http, $q){
 		}).error(function(err){
 			alert("Error al asignar un profesor a un horario");
 		});
-
-		// Hide modal
-		$('#assingTeacherCourse').modal('hide');
-		
 		//Refresh calendario
 		var promise=deferred.promise;
 		promise.then(function(event) {
@@ -787,7 +662,7 @@ function CalendarCtrl($scope, $http, $q){
 			$scope.removeSchedule(schedule);
 			$scope.addSchedule(schedule);
 		});
-	};
+	}
 	
 	$scope.deallocateClassroom=function(){
 		var deferred = $q.defer();
@@ -1042,7 +917,7 @@ function CalendarCtrl($scope, $http, $q){
 	}
 	
 
-    /* config object */
+    /* Configuracion de la grilla */
     $scope.uiConfig = {
       calendar:{
         header:{
@@ -1106,6 +981,8 @@ function CalendarCtrl($scope, $http, $q){
 	$scope.scheduleShow;
 	
 	$scope.teacherShow;
+	
+	$scope.error;
 	
 	//Modelos
 	$scope.courses = semesterJSON.courses ;

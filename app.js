@@ -8,7 +8,6 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var classroom = require('./routes/classroom');
 var schedule = require('./routes/schedule');
-var grilla = require('./routes/grid');
 var patch = require('./routes/patch');
 var cursos = require('./routes/course');
 var subject = require('./routes/subject');
@@ -74,9 +73,10 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower', express.static(__dirname + '/bower_components'));
 
+var isDevEnv = 'development' == app.get('env');
 
 // development only
-if ('development' == app.get('env')) {
+if (isDevEnv) {
   app.use(express.errorHandler());
 }
 
@@ -86,10 +86,7 @@ app.get('/', routes.index);
 app.get('/semester/new', semester.new);
 app.post('/semester/create', semester.create);
 
-//grid
-app.get('/grid', grilla.index);
-app.get('/grid/classrooms/:year/:semester', grilla.classrooms);
-app.get('/grid/:year/:semester', grilla.semester);
+
 
 //patch
 app.put('/patch/update', patch.update);
@@ -98,7 +95,8 @@ app.put('/patch/teacherVisible', patch.teacherVisible);
 app.put('/patch/updateVisibility', patch.updateVisibility);
 
 //semesters
-app.get('/lastSemester', routes.lastSemester);
+app.get('/semester/last', semester.last);
+app.get('/semester/grid/:year/:semester', semester.grid);
 
 //courses
 app.get('/courses', cursos.index);
@@ -122,6 +120,8 @@ app.get('/classroom/edit/:id', classroom.edit);
 app.post('/classroom/create', classroom.create);
 app.post('/classroom/update/:id', classroom.update);
 app.get('/classroom/list/:year/:semester', classroom.list);
+app.get('/classrooms/grid/:year/:semester', classroom.grid);
+app.put('/classroom/remove', classroom.remove);
 
 //subjects
 app.get('/subject/new', subject.new);
@@ -129,6 +129,7 @@ app.post('/subject/create', subject.create);
 app.post('/subject/update/:id', subject.update);
 app.get('/subject/edit/:id', subject.edit);
 app.get('/subject/list', subject.list);
+app.put('/subject/remove', subject.remove);
 
 //teachers
 app.get('/teacher/new', teacher.new);
@@ -157,7 +158,7 @@ app.get('/report/offer/:year/:semester', report.offer);
 
 db
  .sequelize
-  .sync({ force: true })
+  .sync({ force: isDevEnv })
   .complete(function(err) {
     if (err) {
       throw err[0]
@@ -168,16 +169,14 @@ db
     }
 }).success(function() {
 
-  if ('development' == app.get('env')) {
+  if (isDevEnv) {
     // Para cargar datos de pruebas
     require('./extras/initialDataDB')
   }
 
 })
 
-app.get('/rest', function(req, res) {
-	res.json({ message: 'hooray! welcome to our api!' });	
-});
+
 
 
 

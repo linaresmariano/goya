@@ -1,8 +1,24 @@
 var fs        = require('fs')
   , path      = require('path')
   , Sequelize = require('sequelize')
-  , sequelize = new Sequelize('goya', 'root', 'root')
+  , sequelize = null
   , db        = {}
+
+if (process.env.HEROKU_POSTGRESQL_ROSE_URL) {
+    // the application is executed on Heroku ... use the postgres database
+    var match = process.env.HEROKU_POSTGRESQL_ROSE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/)
+ 
+    sequelize = new Sequelize(match[5], match[1], match[2], {
+      dialect:  'postgres',
+      protocol: 'postgres',
+      port:     match[4],
+      host:     match[3],
+      logging:  true //false
+    })
+} else {
+    // the application is executed on the local machine ... use mysql
+    sequelize = new Sequelize('goya', process.env.MYSQL_USER || 'root', process.env.MYSQL_PASS || 'root')
+}
  
 fs
   .readdirSync(__dirname)

@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
 
-  return sequelize.define('ClassRoom', {
+  var ClassRoom= sequelize.define('ClassRoom', {
 	name:{type:DataTypes.STRING,
       validate: {
         len: {
@@ -37,8 +37,70 @@ module.exports = function(sequelize, DataTypes) {
   },{classMethods: {
 			associate: function(models) {
 			  this.hasMany(models.SemesterClassRoom, { as: 'SemesterClassRoom'});
+			},
+			
+			checkClassroomUsed: function(idClassRoom,schedule,year,semester,success) {
+			  	var CourseSchedule=ClassRoom.models.CourseSchedule;
+				var Semester=ClassRoom.models.Semester;
+				var SemesterClassRoom=ClassRoom.models.SemesterClassRoom;
+				var PatchSchedule=ClassRoom.models.PatchSchedule;
+				
+				sequelize.query("SELECT * FROM "+ClassRoom.tableName
+								+" JOIN "+SemesterClassRoom.tableName
+										+" ON "+SemesterClassRoom.tableName+".ClassRoomId = "
+										+ClassRoom.tableName+".id "
+								+" JOIN "+CourseSchedule.tableName
+										+" ON "+CourseSchedule.tableName+".SemesterClassRoomId = "
+										+SemesterClassRoom.tableName+".id "
+								+" JOIN "+Semester.tableName
+										+" ON "+Semester.tableName+".id = "
+										+SemesterClassRoom.tableName+".semesterId "
+								+" JOIN "+PatchSchedule.tableName
+										+" ON "+PatchSchedule.tableName+".id = "
+										+CourseSchedule.tableName+".PatchScheduleId "
+								+" WHERE "+ClassRoom.tableName+".id = "+idClassRoom
+										+" AND "+Semester.tableName+".year = "+year
+										+" AND "+Semester.tableName+".semester = "+semester
+										+" AND ((("+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes"
+                                        +"+"+PatchSchedule.tableName+".extraHour * 60 <= "
+											+(schedule.hour*60+schedule.minutes+schedule.patch.extraHour*60 )
+										+" AND "+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes +"
+											+CourseSchedule.tableName+".durationHour *60 + "+CourseSchedule.tableName+".durationMinutes-1 "
+                                            +"+"+PatchSchedule.tableName+".extraHour * 60+"+PatchSchedule.tableName+".extraDuration * 60 >= "
+											+(schedule.hour*60+schedule.minutes+schedule.patch.extraHour*60 )
+										+") OR ("+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes"
+											+"+"+PatchSchedule.tableName+".extraHour * 60 <= "
+											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes-1
+												+schedule.patch.extraHour*60+schedule.patch.extraDuration*60)
+										+" AND "+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes +"
+											+CourseSchedule.tableName+".durationHour*60 + "+CourseSchedule.tableName+".durationMinutes-1 "
+                                            +"+"+PatchSchedule.tableName+".extraHour * 60+"+PatchSchedule.tableName+".extraDuration * 60 >= "
+											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes-1
+											    +schedule.patch.extraHour*60+schedule.patch.extraDuration*60)
+										+"))"
+										+"OR (("+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes"
+                                        +"+"+PatchSchedule.tableName+".extraHour * 60 > "
+											+(schedule.hour*60+schedule.minutes+schedule.patch.extraHour*60 )
+										+") AND ("+CourseSchedule.tableName+".hour*60 + "+CourseSchedule.tableName+".minutes"
+											+"+"+PatchSchedule.tableName+".extraHour * 60 < "
+											+(schedule.durationHour*60+schedule.durationMinutes+schedule.hour*60+schedule.minutes-1
+												+schedule.patch.extraHour*60+schedule.patch.extraDuration*60)
+										+"))) AND "+CourseSchedule.tableName+".day = "+schedule.day+"" ).success(function(myTableRows) {
+								
+				    if(myTableRows.length > 0){
+						console.log(myTableRows);
+						console.log(schedule);
+						success({error:'El aulas esta siendo usada en ese horario!'});
+					}else{
+						success();
+					}
+					
+				}).error(function(err) {
+					console.log(err);
+				})
+
 			}
 		}
     })
-  
+	return ClassRoom;
 }

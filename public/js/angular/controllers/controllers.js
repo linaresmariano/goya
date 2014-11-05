@@ -4,7 +4,7 @@ var app = angular.module('APP', ['LocalStorageModule','ui.calendar', 'ui.bootstr
 app.controller('WebController', function ($scope, localStorageService, $http) {
 	if(localStorageService.get('year') == undefined && localStorageService.get('number') == undefined) {
 		$http({
-				url:"/lastSemester",
+				url:"/semester/last",
 				method:'get',
 				data: {}
 		}).success(function(data) {

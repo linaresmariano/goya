@@ -1,27 +1,24 @@
 extends ../layout
 
 block content
-	script.
-		function classRooms($scope){
 
-			$scope.classRooms=!{JSON.stringify(classRooms)};
-			
-		}
-	.container
+	script(src='/js/angular/controllers/classroom/list.js')
+
+	.container(ng-controller="listClassroomsCtrl" ng-init='classRooms=#{JSON.stringify(classRooms)}')
 
 		div!= messages()
 
 		legend Seleccione una materia
-		div( ng-controller="classRooms")
-			div(ng-repeat='classroom in classRooms')
-				div
-					.list-group-item
-						{{classroom.number}} - {{classroom.description}}
-						a(ng-href='/classroom/edit/{{classroom.id}}')
-							button.btn.btn-xs.btn-info.pull-right.button-option
-								span.glyphicon.glyphicon-edit
-						button.btn.btn-xs.btn-danger.pull-right.button-option
-							span.glyphicon.glyphicon-remove
+		
+		div(ng-repeat='classroom in classRooms')
+			div
+				.list-group-item
+					{{classroom.number}} - {{classroom.description}}
+					a(ng-href='/classroom/edit/{{classroom.id}}')
+						button.btn.btn-xs.btn-info.pull-right.button-option
+							span.glyphicon.glyphicon-edit
+					button.btn.btn-xs.btn-danger.pull-right.button-option(ng-click="remove(classroom, $index)")
+						span.glyphicon.glyphicon-remove
 
 		br
 		a.btn.btn-success(href='../../../classroom/new')	Nuevo

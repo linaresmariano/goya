@@ -2,7 +2,9 @@ extends ../layout
 
 block content
 
-	.container(ng-init="subjects = #{JSON.stringify(subjects)}")
+	script(src='/js/angular/controllers/subject/list.js')
+
+	.container(ng-controller="listSubjectsCtrl" ng-init="subjects=#{JSON.stringify(subjects)}")
 
 		div!= messages()
 
@@ -14,7 +16,7 @@ block content
 					a(ng-href='/subject/edit/{{subject.id}}')
 						button.btn.btn-xs.btn-info.pull-right.button-option
 							span.glyphicon.glyphicon-edit
-					button.btn.btn-xs.btn-danger.pull-right.button-option
+					button.btn.btn-xs.btn-danger.pull-right.button-option(ng-click="remove(subject, $index)")
 						span.glyphicon.glyphicon-remove
 
 		br
