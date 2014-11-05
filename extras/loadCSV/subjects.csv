@@ -1,4 +1,4 @@
-#"AREAS: [1, Algo] CORES: [1, Algo]"
+#"AREAS: [0->Programación, 1->Sistemas Informáticos, 2->Matemática Básica, 3->Matemática Superior, 4->Idioma] CORES: [0->Básico Obligatorio, 1->Avanzado Obligatorio, 2->Complementaria, 3->Obligatoria]"
 AREA,CORE,PERIOD,OCODE,CREDITS,NICK,NAME,CAREER
 1,0,Cuatrimestral,01032,12,ORGA,Organización de computadoras,TPI
 0,1,Cuatrimestral,01044,12,EPERS,Estrategias de persistencia,TPI
