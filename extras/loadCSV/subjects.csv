@@ -1,0 +1,4 @@
+#"AREAS: [1, Algo] CORES: [1, Algo]"
+AREA,CORE,PERIOD,OCODE,CREDITS,NICK,NAME,CAREER
+1,0,Cuatrimestral,01032,12,ORGA,Organización de computadoras,TPI
+0,1,Cuatrimestral,01044,12,EPERS,Estrategias de persistencia,TPI

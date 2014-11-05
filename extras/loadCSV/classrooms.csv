@@ -1,0 +1,4 @@
+NAME,NUMBER,DESCRIPTION,CAPACITY,COMPUTERS,PROYECTOR
+"Aula de máquinas","37B","Un aula con pcs",30,38,TRUE
+"Aula de máquinas","60","Un aula con pcs nuevas",30,30,TRUE
+"Aula mediana","45","Un aula sin pcs con pizarrón de tiza",40,0,FALSE
