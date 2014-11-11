@@ -175,6 +175,14 @@ app.factory('CourseSchedule', ['$http','SemesterTeacher','Patch', function($http
 	
 	getNoVisibleTeachers:function(){
 		return this.patch.noVisibleTeachers;
+	},
+	
+	changeVisibility:function(){
+		this.patch.changeVisibility();
+	},
+	
+	getVisibility:function(){
+		this.patch.visibility;
 	}
   };
   return CourseSchedule;

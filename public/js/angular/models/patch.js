@@ -32,6 +32,10 @@ app.factory('Patch', ['$http', function($http) {
 	
 	addNoVisibleTeacher:function(teacher){
 		this.noVisibleTeachers.push(teacher);
+	},
+	
+	changeVisibility:function(){
+		this.visibility=!this.visibility;
 	}
   };
   return Patch;

@@ -641,7 +641,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 			}).success(function(data) {
 					
 				//Actualizando el patch con la nueva cisibilidad
-				$scope.scheduleShow.schedule.patch.visibility=!$scope.scheduleShow.schedule.patch.visibility;
+				$scope.scheduleShow.schedule.changeVisibility();
 				deferred.resolve($scope.scheduleShow.schedule);
 
 			}).error(function(err){
