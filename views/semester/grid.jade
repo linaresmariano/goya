@@ -13,20 +13,20 @@ block content
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
-									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course item-grid list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.schedule.courses[0].subject.nick}} {{courseNotAssigned.schedule.type}} {{getCommissions(courseNotAssigned.schedule)}}
+									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course item-grid list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.schedule.courses[0].subject.nick}} {{courseNotAssigned.schedule.type}} {{courseNotAssigned.schedule.getCommissions()}}
 						div(class="panel panel-default size-menu ")
 							div.panel-heading Aulas
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
 							.size-menu-height
-								div(style="position:relative" ng-repeat="classRoom in classRooms | orderBy:'number' track by $index")
+								div(style="position:relative" ng-repeat="classRoom in semester.classRooms | orderBy:'number' track by $index")
 									div.dragg-class-room.size-menu.item-grid(ng-model="classRoom" dragg-class-room).list-group-item {{classRoom.number}}
 						div.panel.panel-default.size-menu
 							div.panel-heading Profesores
 								button.btn.btn-default.btn-xs.pull-right
 									span.glyphicon.glyphicon-search
 							.size-menu-height
-								div.scroll-menu(style="position:relative" ng-repeat="teacher in teachers | orderBy:'name' track by $index")
+								div.scroll-menu(style="position:relative" ng-repeat="teacher in semester.teachers | orderBy:'name' track by $index")
 									div(ng-init="teacher.hasCurrentSemesterTeachers=hasCurrentSemesterTeachers(teacher)",data-target='#modal-teacher',data-toggle='modal',class="list-group-item size-menu item-grid",class="dragg-teacher ",dragg-teacher,ng-model="teacher"){{teacher.name}}
 										span(ng-if="!teacher.hasCurrentSemesterTeachers",ng-model="teacher.hasCurrentSemesterTeachers")
 											span(class="pull-right glyphicon glyphicon-warning-sign notify-danger",title="Este profesor no fue asignado a ningun curso") 
@@ -41,7 +41,7 @@ block content
 						button.close(type='button', data-dismiss='modal')
 							span(aria-hidden='true') ×
 							span.sr-only Close
-						h4#myModalLabel.modal-title {{scheduleShow ? scheduleShow.schedule.courses[0].subject.name : ''}} - {{scheduleShow ?  scheduleShow.schedule.type : ''}}  {{ scheduleShow ? getCommissions(scheduleShow.schedule) : ''}}
+						h4#myModalLabel.modal-title {{scheduleShow ? scheduleShow.schedule.courses[0].subject.name : ''}} - {{scheduleShow ?  scheduleShow.schedule.type : ''}}  {{ scheduleShow ? scheduleShow.schedule.getCommissions() : ''}}
 					.modal-body 
 						.row.panel.panel-default
 							.panel-heading Comisiones del horario
@@ -63,13 +63,13 @@ block content
 									input.pull-right(type="checkbox",ng-click="hideSchedule()",ng-checked="!scheduleShow.schedule.patch.visibility")
 						.row.panel.panel-default
 							.panel-heading Profesores a cargo del curso
-							div.list-group-item(ng-repeat="semesterTeacher in getTeachers(scheduleShow.schedule.courses) track by $index")
+							div.list-group-item(ng-repeat="semesterTeacher in scheduleShow.schedule.getTeachers() track by $index")
 								div{{semesterTeacher.teacher.name}} 
 									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(semesterTeacher.teacher.id,semesterTeacher)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores no a cargo del curso
-							div.list-group-item(ng-repeat="semesterTeacher in getInstructors(scheduleShow.schedule.courses) track by $index")
+							div.list-group-item(ng-repeat="semesterTeacher in scheduleShow.schedule.getInstructors() track by $index")
 								div	{{semesterTeacher.teacher.name}}
 									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseInstructor(semesterTeacher.teacher.id,semesterTeacher)")
 										span.glyphicon.glyphicon-remove
@@ -153,4 +153,12 @@ block content
 			$("#grid").width($("#grid").width());
 		});
 	script(src='/js/angular/directives.js')
+	script(src='/js/angular/models/teacher.js')
+	script(src='/js/angular/models/semesterClassRoom.js')
+	script(src='/js/angular/models/classRoom.js')
+	script(src='/js/angular/models/semesterTeacher.js')
+	script(src='/js/angular/models/patch.js')
+	script(src='/js/angular/models/course.js')
+	script(src='/js/angular/models/courseSchedule.js')
+	script(src='/js/angular/models/semester.js')
 	script(src='/js/angular/controllers/semester/grid.js')
