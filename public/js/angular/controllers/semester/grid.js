@@ -65,14 +65,11 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 					var promise=deferred.promise;
 					promise.then(function(schedule) {
 						//Update
-						for(k=0;k < schedules.length;k++){
-							if(k==0){
+						$scope.removeSchedule(schedules[0]);
+						$scope.addSchedule(schedules[0]);
+						for(k=1;k < schedules.length;k++){
 								$scope.removeSchedule(schedules[k]);
-								$scope.addSchedule(schedules[k]);
-							}else{
-								$scope.removeSchedule(schedules[k]);
-							}
-							
+
 						}
 						
 					});
@@ -259,10 +256,10 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 			if(data.error){
 				$scope.error=data.error;
 				$('#errorNotify').modal('toggle');
-				}else{
+			}else{
 					event.schedule.semesterClassRoom=new SemesterClassRoom(classroom.newSemesterClassRoom());
 					deferred.resolve(event);
-				}	
+			}	
 		}).error(function(err){
 			alert("Error al asignar aula a un horario");
 		});
@@ -328,7 +325,6 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 			data: { idCourseSchedule:$scope.scheduleShow.schedule.id,}
 		}).success(function(data) {
 
-			
 			deferred.resolve($scope.scheduleShow);
 			$('#myModal').modal('hide');
 			
@@ -628,7 +624,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 		}).error(function(err){
 			alert("Error al actualizar horario");
 		})
-				//Refresh calendario
+		//Refresh calendario
 		var promise=deferred.promise;
 		promise.then(function() {
 					$scope.removeSchedule($scope.scheduleShow.schedule);
@@ -702,14 +698,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
     };
 	
     $scope.hasCurrentSemesterTeachers=function(teacher){
-        semesterTeachers=[];
-        teacher.semesterTeachers.forEach(function(semesterTeacher) {
-            if(semesterTeacher.semester.year == $scope.semester.year && semesterTeacher.semester.semester == $scope.semester.semester
-                && hasCourses(semesterTeacher)){
-                semesterTeachers.push(semesterTeacher)
-            }
-        });
-        return semesterTeachers.length == 0 ? false : true;
+		return teacher.hasCurrentSemesterTeachers($scope.semester.year,$scope.semester.semester);
     }
     
     function hasCourses(semesterTeacher){
