@@ -1,11 +1,12 @@
 app.factory('Semester', ['$http','Course','Teacher','ClassRoom', function($http,Course,Teacher,ClassRoom) {
-  function Semester(data,courses) {
+  function Semester(data) {
 	  if (data) {
 	     angular.extend(this, data);
 	  }
       var coursesModels=[];
+	  if(!this.courses)return;
 	  //Creando los modelos de los cursos
-      courses.forEach(function(course) {
+      this.courses.forEach(function(course) {
          coursesModels.push(new Course(course));
 	  });
 	  
@@ -137,7 +138,11 @@ app.factory('Semester', ['$http','Course','Teacher','ClassRoom', function($http,
 			schedule.id != assignedSchedule.id)schedules.push(assignedSchedule);
         }
         return schedules;
-	}
+	},
+	
+    getDescription: function() {
+      return 'Semestre '+ this.semester +' del año '+ this.year;
+    }
   };
 
   return Semester;

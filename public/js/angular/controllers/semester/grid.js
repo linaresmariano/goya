@@ -472,7 +472,8 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 						year:semesterJSON.year , 
 						semester:semesterJSON.semester,
 						teachers:semesterJSON.teachers,
-						classRooms:semesterJSON.classRooms },semesterJSON.courses);
+						classRooms:semesterJSON.classRooms,
+						courses:semesterJSON.courses});
 						
 	$scope.semester.schedulesAreNotAssigned.forEach(function(schedule) {
 		$scope.addScheduleNotAssigned(schedule);
