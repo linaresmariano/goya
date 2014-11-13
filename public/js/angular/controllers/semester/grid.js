@@ -83,7 +83,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 					$scope.removeScheduleNotAssigned(event.schedule);
 					return;
 				}	
-				sendData({url:"/updateCourse",
+				sendData({url:"/schedule/update",
 							data: {
 							id:event.id, hour:time.hour, day:event.start.getDay(),minutes:time.minutes},
 							revertFunc:revertFunc,
@@ -104,7 +104,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 					$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
 					return;
 				}
-				sendData({	url:"/updateCourse",
+				sendData({	url:"/schedule/update",
 							data: { id:copiedEventObject.schedule.id, hour:time.hour,day:date.getDay(),minutes:time.minutes},
 							success:function(data){
 								copiedEventObject.schedule.update(date.getDay(),time.hour,time.minutes);
@@ -116,7 +116,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
     $scope.eventResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
 		
 		time=event.schedule.getDurationTimeToResizeSchedule(minuteDelta);
-		sendData({url:"/updateEndCourse",
+		sendData({url:"/schedule/updateEnd",
 				data: {id: event.id,durationHour:time.hour,durationMinutes: time.minutes},
 				revertFunc:revertFunc,
 				success:function(data){
@@ -173,7 +173,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	}
 	
 	function assignedClassRoom(classroom,event){
-		sendData({	url:"/assignedClassRoom",
+		sendData({	url:"/schedule/assignedClassRoom",
 					data: { idClassRoom:classroom.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester},
 					success:function(data){
 						event.schedule.semesterClassRoom=new SemesterClassRoom(classroom.newSemesterClassRoom());
