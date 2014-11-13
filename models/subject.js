@@ -46,6 +46,8 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
   },{
+ 	deletedAt: 'destroyTime',
+	paranoid: true,
     classMethods: {
       associate: function(models) {
         Subject.hasMany(models.Course, { as: 'Courses'})

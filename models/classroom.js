@@ -34,7 +34,10 @@ module.exports = function(sequelize, DataTypes) {
     capacity: {type:DataTypes.INTEGER ,  validate: {min:0}},
 	numberOfComputers: {type:DataTypes.INTEGER ,  validate: {min:0}},
 	hasProyector: DataTypes.BOOLEAN
-  },{classMethods: {
+  },{	
+  deletedAt: 'destroyTime',
+  paranoid: true,
+  classMethods: {
 			associate: function(models) {
 			  this.hasMany(models.SemesterClassRoom, { as: 'SemesterClassRoom'});
 			},
