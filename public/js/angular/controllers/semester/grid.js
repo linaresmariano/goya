@@ -490,13 +490,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
     $scope.hasCurrentSemesterTeachers=function(teacher){
 		return teacher.hasCurrentSemesterTeachers($scope.semester.year,$scope.semester.semester);
     }
-    
-    function hasCourses(semesterTeacher){
-        return  semesterTeacher.teacherCourses.length != 0  ||  semesterTeacher.instructorCourses.length != 0;
-    }
 
-
-	
 	//Modelos relacionados con la vista
 	$scope.courseTeacher={};
 	
