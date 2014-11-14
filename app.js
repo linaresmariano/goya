@@ -4,7 +4,6 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
 var user = require('./routes/user');
 var classroom = require('./routes/classroom');
 var schedule = require('./routes/schedule');
@@ -89,7 +88,7 @@ if (isDevEnv) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+app.get('/', semester.list);
 
 //semester
 app.get('/semester/new', semester.new);
