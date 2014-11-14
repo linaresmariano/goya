@@ -1,8 +1,3 @@
-/**
- * calendarApp - 0.1.3
- */
-
-//Controller principal
 function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester,SemesterClassRoom){
 	//Fecha por defecto para mostrar la misma semana en la grilla
     var date = new Date();
@@ -30,7 +25,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 						}).
 						error(function(err){
 							if(info.revertFunc)
-								revertFunc();
+								info.revertFunc();
 							alert('Error al conectarse con el servidor');
 					})
 	}
@@ -499,8 +494,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	$scope.teacherShow;
 	
 	$scope.error;
-	
-		 	
+		
 	//Informacion de los cursos no asignados
 	$scope.infoCoursesNotAssigned=[ ];
 				
@@ -518,7 +512,6 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	$scope.semester.assignedSchedules.forEach(function(schedule) {
 		$scope.addSchedule(schedule);
 	});
-	
 
 	/* event sources array*/
     $scope.eventSources = [$scope.events];
@@ -649,4 +642,3 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 		
 	}
 }
-/* EOF */
