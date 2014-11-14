@@ -28,6 +28,10 @@ app.factory('CourseSchedule', ['$http','SemesterTeacher','Patch', function($http
 		}
 	},
 	
+	semesterSemesterTeacher:function(index){
+		this.semesterTeachers.splice(index, 1);
+	},
+	
 	getExtraDuration:function(){
 		return this.patch.getExtraDuration();
 	},

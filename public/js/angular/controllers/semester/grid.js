@@ -13,7 +13,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
     /* Eventos para agrgar la grilla*/
     $scope.events = [
     ];
-	
+	//Hace una peticion ajax
 	function sendData(info){
 		$http({url:info.url,
 				method:'put',
@@ -34,7 +34,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 							alert('Error al conectarse con el servidor');
 					})
 	}
-
+	//Para manejar el evento click sobre un evento de la grilla
     $scope.eventClick = function( event, allDay, jsEvent, view ){
 		//Para mostrar el curso
 		$scope.scheduleShow=event;
@@ -54,7 +54,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 					}});
 	}
 	
-	/* Unifica horarios si es necesario,ademas retorna true si lo hace y false si no lo hace*/
+	// Unifica horarios si es necesario,ademas retorna true si lo hace y false si no lo hace*
 	function unifySchedules(day,hour,minutes,event){
 				var schedules=$scope.semester.getSchedulesAtTheSameTime(day,hour,minutes,event.schedule);
 				if(schedules.length != 0){
@@ -75,7 +75,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 					return false;
 				}
 	}
-	
+	//Para manejar el evento que agrega un horario a la grilla
     $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
        		if(esHorarioInvalido(event.start.getHours()) ||
 		                 esHorarioInvalido(event.end.getHours())){		 
@@ -100,17 +100,12 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 							}});
 			}
     };
-	
-
-	
-	$scope.drop= function(date, allDay) { // this function is called when something is dropped
-
+	//Para manejar el cambio de un horario en la grilla
+	$scope.drop= function(date, allDay) { 
 				// retrieve the dropped element's stored Event Object
 				var originalEventObject = $(this).data('eventObject');
-
-					// we need to copy it, so that multiple events don't have a reference to the same object
+				// we need to copy it, so that multiple events don't have a reference to the same object
 				var copiedEventObject = getModel($(this),"dragg-model");
-				
 				
 				seconds=Math.abs(date.getMinutes() + (date.getHours() * 60) - ((getMinutes(copiedEventObject.schedule.getExtraHour()) +(getHour(copiedEventObject.schedule.getExtraHour())*60)) || 0))*60;
 				hour=Math.abs(parseInt(seconds/3600));
@@ -352,7 +347,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 		sendData({	url:"/schedule/deallocateTeacher",
 					data: { idCourseSchedule:$scope.scheduleShow.schedule.id,idTeacher:idTeacher},
 					success:function(data){
-						$scope.scheduleShow.schedule.semesterTeachers.splice(index, 1);
+						$scope.scheduleShow.schedule.semesterSemesterTeacher(index);
 						$scope.removeSchedule($scope.scheduleShow.schedule);
 						$scope.addSchedule($scope.scheduleShow.schedule);
 					}});
@@ -578,25 +573,36 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 		return amount;
 	}
 	
+	function markError(element,schedule){
+		$(element).find('.fc-event-time').css('background','#E70000');
+		$(element).find('.fc-event-time').css('opacity','1');
+		$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+	}
+	
+	function markWarning(element,schedule){
+		$(element).find('.fc-event-time').css('background','yellow');
+		$(element).find('.fc-event-time').css('opacity','1');
+		$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+	}
+
+	function markOk(element){
+		$(element).find('.fc-event-time').css('background','black');
+		$(element).find('.fc-event-time').css('opacity','0.3');
+	}
+	
 	function checkAmountEnrolled(schedule,element){
 		if(amountEnrolled(schedule.courses) < 5){
 			messages[schedule.id]=messages[schedule.id]+'* La cantidad de inscriptos es menor a 5 \n';
-			$(element).find('.fc-event-time').css('background','#E70000');
-			$(element).find('.fc-event-time').css('opacity','1');
-			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+			markError(element,schedule);
 			return typeMessage.danger;
 		}else if(amountEnrolled(schedule.courses) < 15){
 			messages[schedule.id]=messages[schedule.id]+'* La cantidad de inscriptos es menor a 15 \n';
-			$(element).find('.fc-event-time').css('background','yellow');
-			$(element).find('.fc-event-time').css('opacity','1');
-			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+			markWarning(element,schedule);
 			return typeMessage.warning;
 
 		} else if(amountEnrolled(schedule.courses) > amountCapacity(schedule.courses)) {
 			messages[schedule.id]+='* La cantidad de inscriptos supera el cupo \n';
-			$(element).find('.fc-event-time').css('background', '#E70000');
-			$(element).find('.fc-event-time').css('opacity', '1');
-			$(element).find('.fc-event-time').attr('title', messages[schedule.id]);
+			markError(element,schedule);
 			return typeMessage.danger;
 		}
 
@@ -612,15 +618,11 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 
 		if(courseCapacity < (classroomCapacity/2)){
 			messages[schedule.id]=messages[schedule.id]+'* La cantidad de cupos ('+courseCapacity+') es mucho menor a la capacidad del aula ('+classroomCapacity+') \n';
-			$(element).find('.fc-event-time').css('background','yellow');
-			$(element).find('.fc-event-time').css('opacity','1');
-			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
+			markWarning(element,schedule);
 			return typeMessage.warning;
 		} else if(courseCapacity > classroomCapacity) {
 			messages[schedule.id]+='* La cantidad de cupos ('+courseCapacity+') no entra en la capacidad del aula asignada ('+classroomCapacity+') \n';
-			$(element).find('.fc-event-time').css('background', 'yellow');
-			$(element).find('.fc-event-time').css('opacity', '1');
-			$(element).find('.fc-event-time').attr('title', messages[schedule.id]);
+			markWarning(element,schedule);
 			return typeMessage.warning;
 		}
 		return typeMessage.ok;
@@ -636,8 +638,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 		
 		results.forEach(function(result) {
 			if(result == typeMessage.danger){
-				$(element).find('.fc-event-time').css('background','#E70000');
-				$(element).find('.fc-event-time').css('opacity','1');
+				markError(element,schedule);
 				return;
 			}
 		});
@@ -649,14 +650,9 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 		});
 		
 		if(allResults){
-			checkOK(element);
+			markOk(element);
 		}
 		
-	}
-	
-	function checkOK(element){
-		$(element).find('.fc-event-time').css('background','black');
-		$(element).find('.fc-event-time').css('opacity','0.3');
 	}
 }
 /* EOF */
