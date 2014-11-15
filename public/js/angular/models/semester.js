@@ -140,6 +140,20 @@ app.factory('Semester', ['$http','Course','Teacher','ClassRoom', function($http,
         return schedules;
 	},
 	
+	removeSchedule:function(schedule){
+		index=this.assignedSchedules.indexOf(schedule);
+		if(index != -1)
+			this.assignedSchedules.splice(index,1);
+		this.schedulesAreNotAssigned.push(schedule);
+	},
+	
+	addSchedule:function(schedule){
+		index=this.schedulesAreNotAssigned.indexOf(schedule);
+		if(index != -1)
+			this.schedulesAreNotAssigned.splice(index,1);
+		this.assignedSchedules.push(schedule);
+	},
+	
     getDescription: function() {
       return 'Semestre '+ this.semester +' del año '+ this.year;
     }

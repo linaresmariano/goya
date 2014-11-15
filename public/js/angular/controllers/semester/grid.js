@@ -86,7 +86,9 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 						otherCourse=$scope.scheduleShow.schedule.removeCourseAndReturn(indexCourse);
 						$scope.removeSchedule($scope.scheduleShow.schedule);
 						$scope.addSchedule($scope.scheduleShow.schedule);
-						$scope.addSchedule($scope.scheduleShow.schedule.clone(otherCourse,parseInt(idNewSchedule)));
+						cloneSchedule=$scope.scheduleShow.schedule.clone(otherCourse,parseInt(idNewSchedule));
+						$scope.addSchedule(cloneSchedule);
+						$scope.semester.addSchedule(cloneSchedule);
 					}});
 	}
 	
@@ -104,6 +106,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 										$scope.addSchedule(schedules[0]);
 										for(k=1;k < schedules.length;k++){
 												$scope.removeSchedule(schedules[k]);
+												$scope.semester.removeSchedule(schedules[k]);
 										}
 								}})
 					return true;
@@ -148,6 +151,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 							success:function(data){
 								copiedEventObject.schedule.update(date.getDay(),time.hour,time.minutes);
 								$scope.addSchedule(copiedEventObject.schedule);
+								$scope.semester.addSchedule(copiedEventObject.schedule);
 								$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
 							}});
 	};
@@ -260,6 +264,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 					data: { idCourseSchedule:$scope.scheduleShow.schedule.id,},
 					success:function(data){
 						$scope.removeSchedule($scope.scheduleShow.schedule);
+						$scope.semester.removeSchedule($scope.scheduleShow.schedule);
 						$scope.addScheduleNotAssigned($scope.scheduleShow.schedule);
 						$('#myModal').modal('hide');
 					}});
