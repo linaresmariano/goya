@@ -10,6 +10,8 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
 
   }
 
+  $scope.showExportXLS = false
+
   var weekday = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
 
   $scope.scheduleView = function(schedule) {
@@ -102,6 +104,17 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
     var cred = subject.credits
 
     return cred ? cred : '-'
+  }
+
+  $scope.exportOffer = function () {
+    console.log("holaaa")
+    var blob = new Blob([document.getElementById('printable').innerHTML], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+    })
+
+    var title = $scope.currentCareer+"-Cuadro-Oferta-"+$scope.number+"-"+$scope.year+".xls"
+
+    saveAs(blob, title)
   }
 
 })

@@ -4,6 +4,7 @@ block content
   link(rel='stylesheet', href='/stylesheets/report/offer.css')
   script(src='/js/lib/jquery.printThis.js')
   script(src='/js/angular/controllers/report/offer.js')
+  script(src="https://rawgithub.com/eligrey/FileSaver.js/master/FileSaver.js" type="text/javascript")
 
   .container(ng-controller='offerCtrl', ng-init='init(#{JSON.stringify(semester)})')
 
@@ -15,61 +16,63 @@ block content
       p#title(contenteditable="true") Departamento: Ciencia y Tecnología
       p#title(contenteditable="true") Carrera: Tecnicatura en Programación Informática
 
-      table#offer
-        col(style="width:3%")
-        col(style="width:3%")
-        col(style="width:3%")
-        col(style="width:3%")
-        col(style="width:3%")
-        col(style="width:10%")
-        col(style="width:3%")
-        col(style="width:45%")
-        col(style="width:15%")
-        col(style="width:3%")
-        col(style="width:2%")
-        col(style="width:3%")
-        col(style="width:2%")
-        col(style="width:2%")
+      div#printable
+        table#offer
+          col(style="width:3%")
+          col(style="width:3%")
+          col(style="width:3%")
+          col(style="width:3%")
+          col(style="width:3%")
+          col(style="width:10%")
+          col(style="width:3%")
+          col(style="width:45%")
+          col(style="width:15%")
+          col(style="width:3%")
+          col(style="width:2%")
+          col(style="width:3%")
+          col(style="width:2%")
+          col(style="width:2%")
 
-        thead
-          tr
-            th(contenteditable="true") Área
-            th(contenteditable="true") Núcleo
-            th(contenteditable="true") Período
-            th(contenteditable="true") Modalidad
-            th(contenteditable="true") Código Asigna-tura
-            th(contenteditable="true") Nombre Asignatura
-            th(contenteditable="true") Créditos
-            th(contenteditable="true") Días y Horarios {{year}}
-            th(contenteditable="true") Docente/s (Apellido y nombre completo)
-            th(contenteditable="true") Ins-cri-tos
-            th(contenteditable="true") Cupo
-            th(contenteditable="true") Aulas requeridas
-            th(contenteditable="true") Grupo Carreras
-            th(contenteditable="true") Nueva Asigna-tura Indicar para que Plan de Estudios se oferta
-        tbody
-          tr(ng-repeat='course in courses')
-            td(contenteditable="true") {{getArea(course.subject.area) || '-'}}
-            td(contenteditable="true") {{getCore(course.subject.core) || '-'}}
-            td(contenteditable="true") {{course.subject.period || '-'}}
-            td(contenteditable="true") {{getModality(course.modality) || '-'}}
-            td(contenteditable="true") {{course.subject.ocode || '-'}}
-            td(contenteditable="true") {{course.subject.name}}
-            td(contenteditable="true") {{getCredits(course.subject)}}
-            td(contenteditable="true" ng-show="isCurrentCareer(course.subject)")
-              div(ng-repeat='schedule in course.schedules')
-                {{scheduleView(schedule)}}
-            td(contenteditable="true" ng-show="isCurrentCareer(course.subject)")
-              {{course.semesterTeachers[0].teacher.name || 'A designar'}}
-            td(contenteditable="true" ng-show="!isCurrentCareer(course.subject)" colspan='2')
-              {{segunOfertaDe(course.subject)}}
-            td(contenteditable="true") {{getEnrolled(course)}}
-            td(contenteditable="true") {{getCapacity(course)}}
-            td(contenteditable="true")
-              div(ng-repeat='schedule in course.schedules')
-                {{classroomView(schedule)}}
-            td(contenteditable="true") {{getCareerGroup(course.subject)}}
-            td(contenteditable="true") No
+          thead
+            tr
+              th(contenteditable="true") Área
+              th(contenteditable="true") Núcleo
+              th(contenteditable="true") Período
+              th(contenteditable="true") Modalidad
+              th(contenteditable="true") Código Asigna-tura
+              th(contenteditable="true") Nombre Asignatura
+              th(contenteditable="true") Créditos
+              th(contenteditable="true") Días y Horarios {{year}}
+              th(contenteditable="true") Docente/s (Apellido y nombre completo)
+              th(contenteditable="true") Ins-cri-tos
+              th(contenteditable="true") Cupo
+              th(contenteditable="true") Aulas requeridas
+              th(contenteditable="true") Grupo Carreras
+              th(contenteditable="true") Nueva Asigna-tura Indicar para que Plan de Estudios se oferta
+          tbody
+            tr(ng-repeat='course in courses')
+              td(contenteditable="true") {{getArea(course.subject.area) || '-'}}
+              td(contenteditable="true") {{getCore(course.subject.core) || '-'}}
+              td(contenteditable="true") {{course.subject.period || '-'}}
+              td(contenteditable="true") {{getModality(course.modality) || '-'}}
+              td(contenteditable="true") {{course.subject.ocode || '-'}}
+              td(contenteditable="true") {{course.subject.name}}
+              td(contenteditable="true") {{getCredits(course.subject)}}
+              td(contenteditable="true" ng-show="isCurrentCareer(course.subject)")
+                div(ng-repeat='schedule in course.schedules')
+                  {{scheduleView(schedule)}}
+              td(contenteditable="true" ng-show="isCurrentCareer(course.subject)")
+                {{course.semesterTeachers[0].teacher.name || 'A designar'}}
+              td(contenteditable="true" ng-show="!isCurrentCareer(course.subject)" colspan='2')
+                {{segunOfertaDe(course.subject)}}
+              td(contenteditable="true") {{getEnrolled(course)}}
+              td(contenteditable="true") {{getCapacity(course)}}
+              td(contenteditable="true")
+                div(ng-repeat='schedule in course.schedules')
+                  {{classroomView(schedule)}}
+              td(contenteditable="true") {{getCareerGroup(course.subject)}}
+              td(contenteditable="true") No
 
     br
     button.btn.btn-success(onclick="$('#report').printThis()") Imprimir
+    button.btn.btn-success(ng-click="exportOffer()" ng-show="showExportXLS") Export XLS
