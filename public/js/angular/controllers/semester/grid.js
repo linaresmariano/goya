@@ -74,11 +74,10 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	}
 	//Para manejar el evento que agrega un horario a la grilla
     $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-       		if(esHorarioInvalido(event.start.getHours()) ||
-		                 esHorarioInvalido(event.end.getHours())){		 
+       		if(scheduleIsValid(event.start.getHours()) ||
+		                 scheduleIsValid(event.end.getHours())){		 
 				revertFunc();				
 			}else{
-			
 				seconds=Math.abs(minuteDelta+event.schedule.minutes + (event.schedule.hour * 60) )*60;
 				hour=Math.abs(parseInt(seconds/3600));
 				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
@@ -86,8 +85,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 				if(unifySchedules(event.start.getDay(),hour,minutes,event)){
 					$scope.removeScheduleNotAssigned(event.schedule);
 					return;
-				}
-					
+				}	
 				sendData({url:"/updateCourse",
 							data: {
 							id:event.id, hour:hour, day:event.start.getDay(),minutes:minutes},
@@ -139,7 +137,6 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 			//Para abrir un dialogo
 			element.attr('data-toggle','modal');
 			element.attr('data-target','#myModal');
-			
 			//Para las validaciones que se muestran en los header
 			checkAll(event.schedule,element);
 			
@@ -147,11 +144,9 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 				element.addClass('hideToPrint');
 			}
 			element.droppable({	drop: function( eventUI, ui ) {
-										//chequeo para ver si es un aula o un profesor que se dropea con
-										//el curso
-										classroom=getModel(ui.draggable,"ng-model");
-										
+										//chequeo para ver si es un aula o un profesor que se dropea con el curso
 										if(ui.draggable.attr('class').indexOf("dragg-class-room") !=-1){
+											classroom=getModel(ui.draggable,"ng-model");
 											assignedClassRoom(classroom,event);
 										}else{
 											teacher = getModel(ui.draggable,"ng-model");
@@ -236,7 +231,6 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	//Agrega un schedule como no asignado
     $scope.addScheduleNotAssigned = function(schedule) {
       	$scope.infoCoursesNotAssigned.push({
-								//Datos necesarios del modelo
 								schedule:schedule
 							});
     };
@@ -418,8 +412,6 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 		return teacher.existTeacher($scope.scheduleShow.schedule.patch.noVisibleTeachers);
 	}
 	
-	$scope.newPatchExtras={};
-	
 	$scope.updatePatch = function() {
 		sendData({	url:"/patch/update",
 					data: { extraHour:$scope.newPatchExtras.extraHour, extraDuration: $scope.newPatchExtras.extraDuration,idPatch:$scope.scheduleShow.schedule.patch.id},
@@ -490,12 +482,10 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 
 	//Modelos relacionados con la vista
 	$scope.courseTeacher={};
-	
 	$scope.scheduleShow;
-	
 	$scope.teacherShow;
-	
 	$scope.error;
+	$scope.newPatchExtras={};
 		
 	//Informacion de los cursos no asignados
 	$scope.infoCoursesNotAssigned=[ ];
@@ -518,8 +508,8 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	/* event sources array*/
     $scope.eventSources = [$scope.events];
 	
-	function esHorarioInvalido(hora){
-	   if((hora >= 0 && hora<8) || hora>22  ){
+	function scheduleIsValid(hour){
+	   if((hour >= 0 && hour<8) || hour>22  ){
 			return true;
 	   }
 	   return false;
