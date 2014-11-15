@@ -72,63 +72,55 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 					return false;
 				}
 	}
-	//Para manejar el evento que agrega un horario a la grilla
+	//Para manejar el cambio de un horario en la grilla
     $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
        		if(scheduleIsValid(event.start.getHours()) ||
 		                 scheduleIsValid(event.end.getHours())){		 
 				revertFunc();				
 			}else{
-				seconds=Math.abs(minuteDelta+event.schedule.minutes + (event.schedule.hour * 60) )*60;
-				hour=Math.abs(parseInt(seconds/3600));
-				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
-				
+				time=event.schedule.getStartTimeToChangeSchedule(minuteDelta);
 				if(unifySchedules(event.start.getDay(),hour,minutes,event)){
 					$scope.removeScheduleNotAssigned(event.schedule);
 					return;
 				}	
 				sendData({url:"/updateCourse",
 							data: {
-							id:event.id, hour:hour, day:event.start.getDay(),minutes:minutes},
+							id:event.id, hour:time.hour, day:event.start.getDay(),minutes:time.minutes},
 							revertFunc:revertFunc,
 							success:function(data){
-								event.schedule.update(event.start.getDay(),hour,minutes);
+								event.schedule.update(event.start.getDay(),time.hour,time.minutes);
 							}});
 			}
     };
-	//Para manejar el cambio de un horario en la grilla
+	//Para manejar el evento que agrega un horario a la grilla
 	$scope.drop= function(date, allDay) { 
 				// retrieve the dropped element's stored Event Object
 				var originalEventObject = $(this).data('eventObject');
 				// we need to copy it, so that multiple events don't have a reference to the same object
 				var copiedEventObject = getModel($(this),"dragg-model");
 				
-				seconds=Math.abs(date.getMinutes() + (date.getHours() * 60) - ((getMinutes(copiedEventObject.schedule.getExtraHour()) +(getHour(copiedEventObject.schedule.getExtraHour())*60)) || 0))*60;
-				hour=Math.abs(parseInt(seconds/3600));
-				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
-				if(unifySchedules(date.getDay(),hour,minutes,copiedEventObject)){
+				time=copiedEventObject.schedule.getStartTimeToAddSchedule(date);
+				if(unifySchedules(date.getDay(),time.hour,time.minutes,copiedEventObject)){
 					$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
 					return;
 				}
 				sendData({	url:"/updateCourse",
-							data: { id:copiedEventObject.schedule.id, hour:hour,day:date.getDay(),minutes:minutes},
+							data: { id:copiedEventObject.schedule.id, hour:time.hour,day:date.getDay(),minutes:time.minutes},
 							success:function(data){
-								copiedEventObject.schedule.update(date.getDay(),hour,minutes);
+								copiedEventObject.schedule.update(date.getDay(),time.hour,time.minutes);
 								$scope.addSchedule(copiedEventObject.schedule);
 								$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
 							}});
 	};
 	
     $scope.eventResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-	
-		seconds=Math.abs(minuteDelta+event.schedule.durationMinutes + (event.schedule.durationHour * 60) )*60;
-		hourDuration=Math.abs(parseInt(seconds/3600));
-		minutesDuration=Math.abs(parseInt((seconds-(3600*hourDuration))/60));	
 		
+		time=event.schedule.getDurationTimeToResizeSchedule(minuteDelta);
 		sendData({url:"/updateEndCourse",
-				data: {id: event.id,durationHour:hourDuration,durationMinutes: minutesDuration},
+				data: {id: event.id,durationHour:time.hour,durationMinutes: time.minutes},
 				revertFunc:revertFunc,
 				success:function(data){
-					event.schedule.updateDuration(hourDuration,minutesDuration);
+					event.schedule.updateDuration(time.hour,time.minutes);
 				}});
     };
 	
@@ -189,29 +181,14 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 						$scope.addSchedule(event.schedule);
 					}});
 	}
-	
-	function getMinutes(floatNumber){
-		sign=floatNumber >= 0 ? 1 : -1 ;
-		return (floatNumber+"").split(".").length == 1 ? 0 : ((floatNumber+"").split(".")[1]-2)*10*sign;
-	}
-	
-	function getHour(floatNumber){
-		return parseInt(floatNumber) ;
-	}
-
     //Agrega un schedule al calendario
     $scope.addSchedule = function(schedule) {
-	
-		extraHour=getHour(schedule.patch.extraHour);
-		extraMinutes=getMinutes(schedule.patch.extraHour);
-		
-		extraHourDuration=getHour(schedule.patch.extraDuration);
-		extraMinutesDuration=getMinutes(schedule.patch.extraDuration);
+		time=schedule.getStartAndEndTimes();
       	$scope.events.push({
 								id: schedule.id,
 								title:schedule.getTitle(),
-								start: new Date(y, m-1, d+schedule.day, schedule.hour+extraHour,schedule.minutes+extraMinutes),
-								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.durationHour+extraHour+extraHourDuration, schedule.minutes+schedule.durationMinutes+extraMinutes+extraMinutesDuration),
+								start: new Date(y, m-1, d+schedule.day, time.startHour,time.startMinutes),
+								end: new Date(y, m-1, d+schedule.day, time.endHour,time.endMinutes),
 								allDay: false,
 								backgroundColor: schedule.courses[0].color,
 								borderColor: 'black',
