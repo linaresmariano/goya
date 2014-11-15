@@ -53,6 +53,7 @@ app.factory('CourseSchedule', ['$http','SemesterTeacher','Patch', function($http
 		schedule.courses=[newCourses];
 		schedule.id=newId;
 		schedule.semesterTeachers=[];
+		schedule.semesterClassRoom=undefined;
 		return schedule;
 	},
 	
