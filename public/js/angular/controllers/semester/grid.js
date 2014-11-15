@@ -13,7 +13,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
   // Colores para los filtros
   $scope.colors = subjectService.colors
 
-  $scope.showFilters = false
+  $scope.showFilters = true
   $scope.showSearchCourse = false
   $scope.showSearchClassroom = false
   $scope.showSearchTeacher = false
@@ -22,7 +22,10 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
     
     console.log("TOTAL: "+ ($scope.events.length + $scope.notShowedEvents.length))
 
-    $scope.events = $scope.events.concat($scope.notShowedEvents)
+    $scope.notShowedEvents.forEach(function(notShowed) {
+        $scope.addSchedule(notShowed.schedule);
+    })
+
     $scope.notShowedEvents = []
 
     if(filterColor) {
