@@ -20,12 +20,15 @@ var Sequelize = require('sequelize');
 var db = require('./models');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 
 var app = express();
 
 app.use(express.cookieParser());
-app.use(express.session({secret: 'w345fawf4qw4sdrse5'}));
+app.use(express.session({ secret: "fido", store: new RedisStore}));
+
 
 //app.use(function(req, res, next) {
  // res.locals.session = req.session;
@@ -34,6 +37,7 @@ app.use(express.session({secret: 'w345fawf4qw4sdrse5'}));
 
 app.use(require('connect-flash')());
 app.use(function (req, res, next) {
+  req.session={};
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
