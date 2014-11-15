@@ -509,32 +509,12 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
     $scope.eventSources = [$scope.events];
 	
 	function scheduleIsValid(hour){
-	   if((hour >= 0 && hour<8) || hour>22  ){
-			return true;
-	   }
-	   return false;
+	   return (hour >= 0 && hour<8) || hour > 22  
 	}
 	
 	//Funciones para las validaciones
 	var messages=[];
 	var typeMessage={ok:0,danger:1,warning:2};
-	
-	function checkAmountTeachers(schedule,element,message){
-		if(schedule.getTeachers().length == 0){
-			messages[schedule.id]=messages[schedule.id]+'* Este curso no tiene profesores\n'
-			$(element).find('.fc-event-time').css('background','#E70000');
-			$(element).find('.fc-event-time').css('opacity','1');
-			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
-			return typeMessage.danger;
-		}else if(schedule.semesterTeachers.length == 0){
-			messages[schedule.id]=messages[schedule.id]+'* Este horario no tiene profesores\n';
-			$(element).find('.fc-event-time').css('background','yellow');
-			$(element).find('.fc-event-time').css('opacity','1');
-			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
-			return typeMessage.warning;
-		}
-		return typeMessage.ok;
-	}
 	
 	function amountEnrolled(courses){
 		amount=0;
@@ -567,6 +547,19 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	function markOk(element){
 		$(element).find('.fc-event-time').css('background','black');
 		$(element).find('.fc-event-time').css('opacity','0.3');
+	}
+	
+	function checkAmountTeachers(schedule,element,message){
+		if(schedule.getTeachers().length == 0){
+			messages[schedule.id]=messages[schedule.id]+'* Este curso no tiene profesores\n'
+			markError(element,schedule);
+			return typeMessage.danger;
+		}else if(schedule.semesterTeachers.length == 0){
+			messages[schedule.id]=messages[schedule.id]+'* Este horario no tiene profesores\n';
+			markWarning(element,schedule);
+			return typeMessage.warning;
+		}
+		return typeMessage.ok;
 	}
 	
 	function checkAmountEnrolled(schedule,element){
@@ -631,6 +624,5 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 		if(allResults){
 			markOk(element);
 		}
-		
 	}
 }
