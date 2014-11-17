@@ -34,9 +34,7 @@ exports.offer = function(req, res) {
             include: [{model: db.Teacher, as: 'Teacher', require: false}]},
               {model: db.SemesterTeacher, as: 'SemesterTeachers', require: false,
                 include: [{model: db.Teacher, as: 'Teacher', require:false}]}]
-      },
-      {model: db.SemesterTeacher, as: 'SemesterTeachers', require:false},
-      {model: db.SemesterClassRoom, as: 'SemesterClassRooms', require:false}]
+      }]
   })
   .success(function(semester) {
     if(check(semester,'El semestre no existe,debe crearlo.',res))return;
