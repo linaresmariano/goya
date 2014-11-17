@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
       validate: {
         len: {
             args: [1, 25],
-            msg: 'La numero del  aula debe tenes entre 1 y 25 caracteres'
+            msg: 'La número del aula debe tener entre 1 y 25 caracteres'
         },
         notEmpty:true,
 		notNull:true
@@ -25,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
       validate: {
         len: {
             args: [4, 200],
-            msg: 'La descripcion del  aula debe tenes entre 4 y 200 caracteres'
+            msg: 'La descripción del aula debe tener entre 4 y 200 caracteres'
         },
          notEmpty:true,
 		notNull:true
@@ -91,7 +91,7 @@ module.exports = function(sequelize, DataTypes) {
 				    if(myTableRows.length > 0){
 						console.log(myTableRows);
 						console.log(schedule);
-						success({error:'El aulas esta siendo usada en ese horario!'});
+						success({error:'El aula está siendo usada en este horario!'});
 					}else{
 						success();
 					}
