@@ -16,21 +16,37 @@ block content
       p#title(contenteditable="true") Carrera: Tecnicatura en Programación Informática
 
       table#offer
+        col(style="width:3%")
+        col(style="width:3%")
+        col(style="width:3%")
+        col(style="width:3%")
+        col(style="width:3%")
+        col(style="width:10%")
+        col(style="width:3%")
+        col(style="width:45%")
+        col(style="width:15%")
+        col(style="width:3%")
+        col(style="width:2%")
+        col(style="width:3%")
+        col(style="width:2%")
+        col(style="width:2%")
+
         thead
-          tr: th Área
-              th Núcleo
-              th Período
-              th Modalidad
-              th.col-md-1 Código Asignatura
-              th Nombre Asignatura
-              th Créditos
-              th.col-md-2 Días y Horarios {{year}}
-              th.col-md-2 Docente/s (Apellido y nombre completo)
-              th Inscritos
-              th Cupo
-              th Aulas requeridas
-              th Grupo Carreras
-              th.col-md-1 Nueva Asignatura Indicar para que Plan de Estudios se oferta
+          tr
+            th(contenteditable="true") Área
+            th(contenteditable="true") Núcleo
+            th(contenteditable="true") Período
+            th(contenteditable="true") Modalidad
+            th(contenteditable="true") Código Asigna-tura
+            th(contenteditable="true") Nombre Asignatura
+            th(contenteditable="true") Créditos
+            th(contenteditable="true") Días y Horarios {{year}}
+            th(contenteditable="true") Docente/s (Apellido y nombre completo)
+            th(contenteditable="true") Ins-cri-tos
+            th(contenteditable="true") Cupo
+            th(contenteditable="true") Aulas requeridas
+            th(contenteditable="true") Grupo Carreras
+            th(contenteditable="true") Nueva Asigna-tura Indicar para que Plan de Estudios se oferta
         tbody
           tr(ng-repeat='course in courses')
             td(contenteditable="true") {{getArea(course.subject.area) || '-'}}
