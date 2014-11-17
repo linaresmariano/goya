@@ -13,7 +13,15 @@ html(ng-app="APP")
 		script(src='/js/bootstrap/ui-bootstrap-tpls-0.9.0.js')
 		script(src='/js/angular/controllers/controllers.js')
 		script(src='/js/angular/services/services.js')
+		script(src='/js/angular/models/teacher.js')
+		script(src='/js/angular/models/semesterClassRoom.js')
+		script(src='/js/angular/models/classRoom.js')
+		script(src='/js/angular/models/semesterTeacher.js')
+		script(src='/js/angular/models/patch.js')
+		script(src='/js/angular/models/course.js')
+		script(src='/js/angular/models/courseSchedule.js')
 		script(src='/js/angular/models/semester.js')
+		script(src='/js/angular/controllers/semester/grid.js')
 		script(src='/js/flash.js')
 
 	body(ng-controller='WebController')
@@ -59,15 +67,6 @@ html(ng-app="APP")
 					.pull-right 
 						div(ng-if="number != -1 && year != -1")
 							div(style="margin:15px;margin-right:32px;color:white") Bienvenido al semestre {{number}} del {{year}}
-		if feedbackpanel != undefined				
-			.container
-				.alert(class="alert-#{feedbackpanel.type} alert-dismissible",role='alert')
-					button.close(type='button', data-dismiss='alert')
-						span(aria-hidden='true') ×
-						span.sr-only Close
-					strong  
-						div !{feedbackpanel.msj}
-
 		div!= messages()
 		
 		block content

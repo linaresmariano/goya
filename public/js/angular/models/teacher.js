@@ -11,7 +11,7 @@ app.factory('Teacher', ['$http', function($http) {
         semesterTeachers=[];
         this.semesterTeachers.forEach(function(semesterTeacher) {
             if(semesterTeacher.semester.year == year && semesterTeacher.semester.semester == semester
-                && hasCourses(semesterTeacher)){
+                && semesterTeacher.teacherCourses.length != 0  ||  semesterTeacher.instructorCourses.length != 0){
                 semesterTeachers.push(semesterTeacher)
             }
         });

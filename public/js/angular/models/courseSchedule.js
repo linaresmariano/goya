@@ -15,6 +15,14 @@ app.factory('CourseSchedule', ['$http','SemesterTeacher','Patch', function($http
 	return semesterTeacherModels;
   }
 
+  function getMinutes(floatNumber){
+    sign=floatNumber >= 0 ? 1 : -1 ;
+    return (floatNumber+"").split(".").length == 1 ? 0 : ((floatNumber+"").split(".")[1]-2)*10*sign;
+  }
+	
+  function getHour(floatNumber){
+    return parseInt(floatNumber) ;
+  }
 
   CourseSchedule.prototype = {
 	unifyReferencesCourses:function(courses){
@@ -26,6 +34,10 @@ app.factory('CourseSchedule', ['$http','SemesterTeacher','Patch', function($http
 				}
 			}
 		}
+	},
+	
+	semesterSemesterTeacher:function(index){
+		this.semesterTeachers.splice(index, 1);
 	},
 	
 	getExtraDuration:function(){
@@ -183,6 +195,36 @@ app.factory('CourseSchedule', ['$http','SemesterTeacher','Patch', function($http
 	
 	getVisibility:function(){
 		this.patch.visibility;
+	},
+	//Retorna un nuevo horario para ser agregado a la grilla
+	getStartTimeToAddSchedule:function(date){
+		seconds=Math.abs(date.getMinutes() + (date.getHours() * 60) - ((getMinutes(this.getExtraHour()) +(getHour(this.getExtraHour())*60)) || 0))*60;
+		hour=Math.abs(parseInt(seconds/3600));
+		minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
+		return {seconds:seconds,hour:hour,minutes:minutes};
+	},
+	//Retorna un nuevo horario ,el cual fue modificado desde la grilla
+	getStartTimeToChangeSchedule:function(minuteDelta){
+		seconds=Math.abs(minuteDelta+this.minutes + (this.hour * 60) )*60;
+		hour=Math.abs(parseInt(seconds/3600));
+		minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
+		return {seconds:seconds,hour:hour,minutes:minutes};
+	},
+	//Retorna un nuevo horario,el cual fue modificado desde la grilla
+	getDurationTimeToResizeSchedule:function(minuteDelta){
+		seconds=Math.abs(minuteDelta+this.durationMinutes + (this.durationHour * 60) )*60;
+		hour=Math.abs(parseInt(seconds/3600));
+		minutes=Math.abs(parseInt((seconds-(3600*hour))/60));	
+		return {seconds:seconds,hour:hour,minutes:minutes};
+	},
+	//Retorna un nuevo horario de inicio y fin para agregarlo a la grilla
+	getStartAndEndTimes:function(){
+		extraHour=getHour(this.patch.extraHour);
+		extraMinutes=getMinutes(this.patch.extraHour);
+		extraHourDuration=getHour(this.patch.extraDuration);
+		extraMinutesDuration=getMinutes(this.patch.extraDuration);
+		return {startHour: this.hour+extraHour,startMinutes:this.minutes+extraMinutes,
+					endHour:this.hour+this.durationHour+extraHour+extraHourDuration, endMinutes:this.minutes+this.durationMinutes+extraMinutes+extraMinutesDuration}
 	}
   };
   return CourseSchedule;

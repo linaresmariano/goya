@@ -4,12 +4,11 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
 var user = require('./routes/user');
 var classroom = require('./routes/classroom');
 var schedule = require('./routes/schedule');
 var patch = require('./routes/patch');
-var cursos = require('./routes/course');
+var course = require('./routes/course');
 var subject = require('./routes/subject');
 var teacher = require('./routes/teacher');
 var report = require('./routes/report');
@@ -20,20 +19,18 @@ var Sequelize = require('sequelize');
 var db = require('./models');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 
 var app = express();
 
 app.use(express.cookieParser());
-app.use(express.session({secret: 'w345fawf4qw4sdrse5'}));
-
-//app.use(function(req, res, next) {
- // res.locals.session = req.session;
- // next();
-//});
+app.use(express.session({ secret: "fido", store: new RedisStore}));
 
 app.use(require('connect-flash')());
 app.use(function (req, res, next) {
+  req.session={};
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
@@ -91,7 +88,7 @@ if (isDevEnv) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+app.get('/', semester.list);
 
 //semester
 app.get('/semester/new', semester.new);
@@ -110,20 +107,17 @@ app.get('/semester/last', semester.last);
 app.get('/semester/grid/:year/:semester', semester.grid);
 
 //courses
-app.get('/courses', cursos.index);
-app.get('/course/new', cursos.new);
-app.get('/course/edit/:id', cursos.edit);
-app.post('/course/create', cursos.create);
-app.post('/course/update/:id', cursos.update);
-app.put('/updateCourse', cursos.updateCourseSchedule);
-app.put('/updateEndCourse', cursos.updateEnd);
-app.put('/assignedClassRoom', cursos.assignedClassRoom);
-app.put('/course/assignedTeacher', cursos.assignedTeacher);
-app.put('/course/assignedInstructor', cursos.assignedInstructor);
-app.put('/course/deallocateTeacher', cursos.deallocateTeacher);
-app.put('/course/deallocateInstructor', cursos.deallocateInstructor);
-app.get('/course/list/:year/:semester', cursos.list);
-app.put('/course/remove', cursos.remove);
+app.get('/courses', course.index);
+app.get('/course/new', course.new);
+app.get('/course/edit/:id', course.edit);
+app.post('/course/create', course.create);
+app.post('/course/update/:id', course.update);
+app.put('/course/assignedTeacher', course.assignedTeacher);
+app.put('/course/assignedInstructor', course.assignedInstructor);
+app.put('/course/deallocateTeacher', course.deallocateTeacher);
+app.put('/course/deallocateInstructor', course.deallocateInstructor);
+app.get('/course/list/:year/:semester', course.list);
+app.put('/course/remove', course.remove);
 
 //classRooms
 app.get('/classroom/new', classroom.new);
@@ -152,20 +146,18 @@ app.put('/teacher/remove', teacher.remove);
 
 //schedules
 app.put('/schedule/assignedTeacher', schedule.assignedTeacher);
+app.put('/schedule/assignedClassRoom', schedule.assignedClassRoom);
 app.put('/schedule/deallocateClassroom', schedule.deallocateClassroom);
 app.put('/schedule/deallocateTeacher', schedule.deallocateTeacher);
 app.put('/schedule/deallocateSchedule', schedule.deallocateSchedule);
 app.put('/schedule/unify', schedule.unify);
 app.put('/schedule/separateSchedule', schedule.separateSchedule);
 app.put('/schedule/delete', schedule.delete);
+app.put('/schedule/update', schedule.update);
+app.put('/schedule/updateEnd', schedule.updateEnd);
 
 //reports
 app.get('/report/offer/:year/:semester', report.offer);
-
-//http.createServer(app).listen(app.get('port'), function(){
-//  console.log('Express server listening on port ' + app.get('port'));
-//});
-
 
 db
  .sequelize

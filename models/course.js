@@ -18,7 +18,6 @@ module.exports = function(sequelize, DataTypes) {
     },
     color: DataTypes.STRING
   }, {
-
     classMethods: {
       associate: function(models) {
         Course.hasMany(models.CourseSchedule, { as: 'schedules',through:'schedule_has_courses'});

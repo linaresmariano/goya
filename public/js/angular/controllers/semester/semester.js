@@ -10,7 +10,7 @@ app.controller('semesterCtrl', function ($scope, Semester) {
     }
 
     if(semester) {
-      $scope.semester = semester
+      $scope.semester = semester;
     } else {
       $scope.semester = {}
       $scope.semester.year = new Date().getFullYear()
