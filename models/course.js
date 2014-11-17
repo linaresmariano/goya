@@ -40,17 +40,19 @@ module.exports = function(sequelize, DataTypes) {
 		deallocateTeacher:function(idCourse,idTeacher,success){
 			this.findWithTeachers(idCourse).success(function(course){
 				course.deallocateATypeOfTeacher(idTeacher,course.semesterTeachers,function(teacher){
-					course.removeSemesterTeacher(teacher);
+					course.removeSemesterTeacher(teacher).success(function(){
+					    success();
+					});
 				});
-				success();
 			});
 		},
 		deallocateInstructor:function(idCourse,idTeacher,success){
 			this.findWithTeachers(idCourse).success(function(course){
 				course.deallocateATypeOfTeacher(idTeacher,course.semesterInstructors,function(teacher){
-					course.removeSemesterInstructor(teacher);
+					course.removeSemesterInstructor(teacher).success(function(){
+					    success();
+					});
 				});
-				success();
 			});
 		}
 		
