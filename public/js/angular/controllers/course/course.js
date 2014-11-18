@@ -101,15 +101,7 @@ app.controller('courseCtrl', function ($scope, $q, $http, localStorageService, s
   
   $scope.scheduleTypes=['Teorica/Practica','Teorica','Practica'];
 
-  $scope.colors = [
-    {name: 'Verde', id: 'green', font: 'black'},
-    {name: 'Amarillo', id: 'yellow', font: 'black'},
-    {name: 'Naranja', id: 'orange', font: 'black'},
-    {name: 'Marrón', id: 'brown', font: 'white'},
-    {name: 'Rojo', id: 'red', font: 'white'},
-    {name: 'Azul', id: 'blue', font: 'white'},
-    {name: 'Rosa', id: 'pink', font: 'black'}
-  ]
+  $scope.colors = subjectService.colors
 
   function getById(list, id) {
     for(var i = 0; i < list.length; i++) {
