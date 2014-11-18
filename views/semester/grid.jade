@@ -14,6 +14,7 @@ block content
 							.size-menu-height
 								div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
 									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course item-grid list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.schedule.courses[0].subject.nick}} {{courseNotAssigned.schedule.type}} {{courseNotAssigned.schedule.getCommissions()}}
+
 						div(class="panel panel-default size-menu ")
 							div.panel-heading Aulas
 								button.btn.btn-default.btn-xs.pull-right
@@ -21,6 +22,8 @@ block content
 							.size-menu-height
 								div(style="position:relative" ng-repeat="classRoom in semester.classRooms | orderBy:'number' track by $index")
 									div.dragg-class-room.size-menu.item-grid(ng-model="classRoom" dragg-class-room).list-group-item {{classRoom.number}}
+
+						// Menu Profesores
 						div.panel.panel-default.size-menu
 							div.panel-heading Profesores
 								button.btn.btn-default.btn-xs.pull-right
@@ -30,6 +33,15 @@ block content
 									div(ng-init="teacher.hasCurrentSemesterTeachers=hasCurrentSemesterTeachers(teacher)",data-target='#modal-teacher',data-toggle='modal',class="list-group-item size-menu item-grid",class="dragg-teacher ",dragg-teacher,ng-model="teacher"){{teacher.name}}
 										span(ng-if="!teacher.hasCurrentSemesterTeachers",ng-model="teacher.hasCurrentSemesterTeachers")
 											span(class="pull-right glyphicon glyphicon-warning-sign notify-danger",title="Este profesor no fue asignado a ningun curso") 
+
+						// Menu Filtros
+						div.panel.panel-default.size-menu(ng-show="showFilters")
+							div.panel-heading Filtros
+							div
+								select(ng-model='filterColor' ng-options='color.name for color in colors' ng-change='changeFilterColor(filterColor)')
+									option(value='') Filtrar por color
+									
+
 			.col-md-10.col-md-10
 					div
 						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')

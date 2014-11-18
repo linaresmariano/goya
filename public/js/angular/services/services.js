@@ -22,4 +22,14 @@ app.service('subjectService', function($http) {
     {id:2, name:'Virtual'}
   ]
 
+  this.colors = [
+    {name: 'Verde', id: 'green', font: 'black'},
+    {name: 'Amarillo', id: 'yellow', font: 'black'},
+    {name: 'Naranja', id: 'orange', font: 'black'},
+    {name: 'Marrón', id: 'brown', font: 'white'},
+    {name: 'Rojo', id: 'red', font: 'white'},
+    {name: 'Azul', id: 'blue', font: 'white'},
+    {name: 'Rosa', id: 'pink', font: 'black'}
+  ]
+
 })

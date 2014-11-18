@@ -1,13 +1,46 @@
-function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester,SemesterClassRoom){
-	//Fecha por defecto para mostrar la misma semana en la grilla
-    var date = new Date();
-    var d = 26;
-    var m = 1;
-    var y = 1000;
+function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester,SemesterClassRoom, subjectService){
 
-    /* Eventos para agrgar la grilla*/
-    $scope.events = [
-    ];
+  //Fecha por defecto para mostrar la misma semana en la grilla
+  var date = new Date();
+  var d = 26;
+  var m = 1;
+  var y = 1000;
+
+  /* Eventos para agrgar la grilla*/
+  $scope.events = []
+  $scope.notShowedEvents = []
+
+  // Colores para los filtros
+  $scope.colors = subjectService.colors
+
+  $scope.showFilters = false
+
+  $scope.changeFilterColor = function(filterColor) {
+    
+    console.log("TOTAL: "+ ($scope.events.length + $scope.notShowedEvents.length))
+
+    $scope.events = $scope.events.concat($scope.notShowedEvents)
+    $scope.notShowedEvents = []
+
+    if(filterColor) {
+
+      $scope.events.forEach(function(event) {
+        if(event.backgroundColor != filterColor.id) {
+          $scope.notShowedEvents.push(event)
+        }
+      })
+
+      $scope.notShowedEvents.forEach(function(notShowed) {
+        $scope.removeSchedule(notShowed.schedule)
+      })
+
+    }
+
+    console.log("DEBERIAN MOSTRARSE: "+ $scope.events.length)
+    console.log("SE OCULTAN: "+ $scope.notShowedEvents.length)
+
+  }
+
 	//Hace una peticion ajax
 	function sendData(info){
 		var deferred = $q.defer();
