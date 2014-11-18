@@ -105,65 +105,55 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 					return false;
 				}
 	}
-	//Para manejar el evento que agrega un horario a la grilla
+	//Para manejar el cambio de un horario en la grilla
     $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-       		if(esHorarioInvalido(event.start.getHours()) ||
-		                 esHorarioInvalido(event.end.getHours())){		 
+       		if(scheduleIsValid(event.start.getHours()) ||
+		                 scheduleIsValid(event.end.getHours())){		 
 				revertFunc();				
 			}else{
-			
-				seconds=Math.abs(minuteDelta+event.schedule.minutes + (event.schedule.hour * 60) )*60;
-				hour=Math.abs(parseInt(seconds/3600));
-				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
-				
+				time=event.schedule.getStartTimeToChangeSchedule(minuteDelta);
 				if(unifySchedules(event.start.getDay(),hour,minutes,event)){
 					$scope.removeScheduleNotAssigned(event.schedule);
 					return;
-				}
-					
-				sendData({url:"/updateCourse",
+				}	
+				sendData({url:"/schedule/update",
 							data: {
-							id:event.id, hour:hour, day:event.start.getDay(),minutes:minutes},
+							id:event.id, hour:time.hour, day:event.start.getDay(),minutes:time.minutes},
 							revertFunc:revertFunc,
 							success:function(data){
-								event.schedule.update(event.start.getDay(),hour,minutes);
+								event.schedule.update(event.start.getDay(),time.hour,time.minutes);
 							}});
 			}
     };
-	//Para manejar el cambio de un horario en la grilla
+	//Para manejar el evento que agrega un horario a la grilla
 	$scope.drop= function(date, allDay) { 
 				// retrieve the dropped element's stored Event Object
 				var originalEventObject = $(this).data('eventObject');
 				// we need to copy it, so that multiple events don't have a reference to the same object
 				var copiedEventObject = getModel($(this),"dragg-model");
 				
-				seconds=Math.abs(date.getMinutes() + (date.getHours() * 60) - ((getMinutes(copiedEventObject.schedule.getExtraHour()) +(getHour(copiedEventObject.schedule.getExtraHour())*60)) || 0))*60;
-				hour=Math.abs(parseInt(seconds/3600));
-				minutes=Math.abs(parseInt((seconds-(3600*hour))/60));
-				if(unifySchedules(date.getDay(),hour,minutes,copiedEventObject)){
+				time=copiedEventObject.schedule.getStartTimeToAddSchedule(date);
+				if(unifySchedules(date.getDay(),time.hour,time.minutes,copiedEventObject)){
 					$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
 					return;
 				}
-				sendData({	url:"/updateCourse",
-							data: { id:copiedEventObject.schedule.id, hour:hour,day:date.getDay(),minutes:minutes},
+				sendData({	url:"/schedule/update",
+							data: { id:copiedEventObject.schedule.id, hour:time.hour,day:date.getDay(),minutes:time.minutes},
 							success:function(data){
-								copiedEventObject.schedule.update(date.getDay(),hour,minutes);
+								copiedEventObject.schedule.update(date.getDay(),time.hour,time.minutes);
 								$scope.addSchedule(copiedEventObject.schedule);
 								$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
 							}});
 	};
 	
     $scope.eventResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-	
-		seconds=Math.abs(minuteDelta+event.schedule.durationMinutes + (event.schedule.durationHour * 60) )*60;
-		hourDuration=Math.abs(parseInt(seconds/3600));
-		minutesDuration=Math.abs(parseInt((seconds-(3600*hourDuration))/60));	
 		
-		sendData({url:"/updateEndCourse",
-				data: {id: event.id,durationHour:hourDuration,durationMinutes: minutesDuration},
+		time=event.schedule.getDurationTimeToResizeSchedule(minuteDelta);
+		sendData({url:"/schedule/updateEnd",
+				data: {id: event.id,durationHour:time.hour,durationMinutes: time.minutes},
 				revertFunc:revertFunc,
 				success:function(data){
-					event.schedule.updateDuration(hourDuration,minutesDuration);
+					event.schedule.updateDuration(time.hour,time.minutes);
 				}});
     };
 	
@@ -172,7 +162,6 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 			//Para abrir un dialogo
 			element.attr('data-toggle','modal');
 			element.attr('data-target','#myModal');
-			
 			//Para las validaciones que se muestran en los header
 			checkAll(event.schedule,element);
 			
@@ -180,11 +169,9 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 				element.addClass('hideToPrint');
 			}
 			element.droppable({	drop: function( eventUI, ui ) {
-										//chequeo para ver si es un aula o un profesor que se dropea con
-										//el curso
-										classroom=getModel(ui.draggable,"ng-model");
-										
+										//chequeo para ver si es un aula o un profesor que se dropea con el curso
 										if(ui.draggable.attr('class').indexOf("dragg-class-room") !=-1){
+											classroom=getModel(ui.draggable,"ng-model");
 											assignedClassRoom(classroom,event);
 										}else{
 											teacher = getModel(ui.draggable,"ng-model");
@@ -219,7 +206,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	}
 	
 	function assignedClassRoom(classroom,event){
-		sendData({	url:"/assignedClassRoom",
+		sendData({	url:"/schedule/assignedClassRoom",
 					data: { idClassRoom:classroom.id,idCourseSchedule:event.schedule.id,year:$scope.semester.year,semester:$scope.semester.semester},
 					success:function(data){
 						event.schedule.semesterClassRoom=new SemesterClassRoom(classroom.newSemesterClassRoom());
@@ -227,29 +214,14 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 						$scope.addSchedule(event.schedule);
 					}});
 	}
-	
-	function getMinutes(floatNumber){
-		sign=floatNumber >= 0 ? 1 : -1 ;
-		return (floatNumber+"").split(".").length == 1 ? 0 : ((floatNumber+"").split(".")[1]-2)*10*sign;
-	}
-	
-	function getHour(floatNumber){
-		return parseInt(floatNumber) ;
-	}
-
     //Agrega un schedule al calendario
     $scope.addSchedule = function(schedule) {
-	
-		extraHour=getHour(schedule.patch.extraHour);
-		extraMinutes=getMinutes(schedule.patch.extraHour);
-		
-		extraHourDuration=getHour(schedule.patch.extraDuration);
-		extraMinutesDuration=getMinutes(schedule.patch.extraDuration);
+		time=schedule.getStartAndEndTimes();
       	$scope.events.push({
 								id: schedule.id,
 								title:schedule.getTitle(),
-								start: new Date(y, m-1, d+schedule.day, schedule.hour+extraHour,schedule.minutes+extraMinutes),
-								end: new Date(y, m-1, d+schedule.day, schedule.hour+schedule.durationHour+extraHour+extraHourDuration, schedule.minutes+schedule.durationMinutes+extraMinutes+extraMinutesDuration),
+								start: new Date(y, m-1, d+schedule.day, time.startHour,time.startMinutes),
+								end: new Date(y, m-1, d+schedule.day, time.endHour,time.endMinutes),
 								allDay: false,
 								backgroundColor: schedule.courses[0].color,
 								borderColor: 'black',
@@ -269,7 +241,6 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	//Agrega un schedule como no asignado
     $scope.addScheduleNotAssigned = function(schedule) {
       	$scope.infoCoursesNotAssigned.push({
-								//Datos necesarios del modelo
 								schedule:schedule
 							});
     };
@@ -451,8 +422,6 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 		return teacher.existTeacher($scope.scheduleShow.schedule.patch.noVisibleTeachers);
 	}
 	
-	$scope.newPatchExtras={};
-	
 	$scope.updatePatch = function() {
 		sendData({	url:"/patch/update",
 					data: { extraHour:$scope.newPatchExtras.extraHour, extraDuration: $scope.newPatchExtras.extraDuration,idPatch:$scope.scheduleShow.schedule.patch.id},
@@ -523,12 +492,10 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 
 	//Modelos relacionados con la vista
 	$scope.courseTeacher={};
-	
 	$scope.scheduleShow;
-	
 	$scope.teacherShow;
-	
 	$scope.error;
+	$scope.newPatchExtras={};
 		
 	//Informacion de los cursos no asignados
 	$scope.infoCoursesNotAssigned=[ ];
@@ -538,7 +505,8 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 						year:semesterJSON.year , 
 						semester:semesterJSON.semester,
 						teachers:semesterJSON.teachers,
-						classRooms:semesterJSON.classRooms },semesterJSON.courses);
+						classRooms:semesterJSON.classRooms,
+						courses:semesterJSON.courses});
 						
 	$scope.semester.schedulesAreNotAssigned.forEach(function(schedule) {
 		$scope.addScheduleNotAssigned(schedule);
@@ -551,33 +519,13 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	/* event sources array*/
     $scope.eventSources = [$scope.events];
 	
-	function esHorarioInvalido(hora){
-	   if((hora >= 0 && hora<8) || hora>22  ){
-			return true;
-	   }
-	   return false;
+	function scheduleIsValid(hour){
+	   return (hour >= 0 && hour<8) || hour > 22  
 	}
 	
 	//Funciones para las validaciones
 	var messages=[];
 	var typeMessage={ok:0,danger:1,warning:2};
-	
-	function checkAmountTeachers(schedule,element,message){
-		if(schedule.getTeachers().length == 0){
-			messages[schedule.id]=messages[schedule.id]+'* Este curso no tiene profesores\n'
-			$(element).find('.fc-event-time').css('background','#E70000');
-			$(element).find('.fc-event-time').css('opacity','1');
-			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
-			return typeMessage.danger;
-		}else if(schedule.semesterTeachers.length == 0){
-			messages[schedule.id]=messages[schedule.id]+'* Este horario no tiene profesores\n';
-			$(element).find('.fc-event-time').css('background','yellow');
-			$(element).find('.fc-event-time').css('opacity','1');
-			$(element).find('.fc-event-time').attr('title',messages[schedule.id]);
-			return typeMessage.warning;
-		}
-		return typeMessage.ok;
-	}
 	
 	function amountEnrolled(courses){
 		amount=0;
@@ -610,6 +558,19 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	function markOk(element){
 		$(element).find('.fc-event-time').css('background','black');
 		$(element).find('.fc-event-time').css('opacity','0.3');
+	}
+	
+	function checkAmountTeachers(schedule,element,message){
+		if(schedule.getTeachers().length == 0){
+			messages[schedule.id]=messages[schedule.id]+'* Este curso no tiene profesores\n'
+			markError(element,schedule);
+			return typeMessage.danger;
+		}else if(schedule.semesterTeachers.length == 0){
+			messages[schedule.id]=messages[schedule.id]+'* Este horario no tiene profesores\n';
+			markWarning(element,schedule);
+			return typeMessage.warning;
+		}
+		return typeMessage.ok;
 	}
 	
 	function checkAmountEnrolled(schedule,element){
@@ -674,6 +635,5 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 		if(allResults){
 			markOk(element);
 		}
-		
 	}
 }

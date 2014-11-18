@@ -20,6 +20,8 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
+	deletedAt: 'destroyTime',
+	paranoid: true,
     classMethods: {
       associate: function(models) {
         this.hasMany(models.SemesterTeacher, { as: 'SemesterTeachers'});

@@ -51,9 +51,8 @@ exports.create = function(req, res) {
         if(idClon) {
 
           db.Semester.cloneFromTo(idClon, semester).success(function(semesterCloned) {
-
-            res.redirect('/')
             req.flash(typeMessage.SUCCESS, "El semestre se ha guardado correctamente")
+            res.redirect('/')
 
           }).error(function(err) {
             showErrors(req, err)
@@ -61,9 +60,8 @@ exports.create = function(req, res) {
           })
 
         } else {
-
-          res.redirect('/')
           req.flash(typeMessage.SUCCESS, "El semestre se ha guardado correctamente")
+          res.redirect('/')
 
         }
 
@@ -120,4 +118,17 @@ exports.grid = function(req, res) {
   })
 }
 
+
+exports.list = function(req, res){
+
+  db.Semester.findAll({
+		order:' year DESC ,semester DESC'
+	}).success(function(semesters) {
+    res.render('semester/list', {
+      title: 'Semestres',
+      semesters: semesters
+    })
+  })
+
+};
 
