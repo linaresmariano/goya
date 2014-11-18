@@ -7,17 +7,19 @@ block content
 		.row
 			.col-md-2.col-md-2
 					div
-						div#menu-courses(class="panel panel-default size-menu ")
+						// Menu Cursos
+						div.panel.panel-default.size-menu#menu-courses
 							div.panel-heading Horarios de cursos
-								button.btn.btn-default.btn-xs.pull-right
+								button.btn.btn-default.btn-xs.pull-right(ng-show='showSearchCourse')
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div(ng-repeat="courseNotAssigned in infoCoursesNotAssigned track by $index")
-									div(data-target='#myModal',data-toggle='modal',ng-click='showCoursesNotAssigned($index)',class="dragg-course item-grid list-group-item",draggable-course,dragg-model="courseNotAssigned"){{courseNotAssigned.schedule.courses[0].subject.nick}} {{courseNotAssigned.schedule.type}} {{courseNotAssigned.schedule.getCommissions()}}
+									div.dragg-course.item-grid.list-group-item(data-target='#myModal' data-toggle='modal' ng-click='showCoursesNotAssigned($index)' draggable-course dragg-model="courseNotAssigned"){{courseNotAssigned.schedule.courses[0].subject.nick}} {{courseNotAssigned.schedule.type}} {{courseNotAssigned.schedule.getCommissions()}}
 
-						div(class="panel panel-default size-menu ")
+						// Menu Aulas
+						div.panel.panel-default.size-menu
 							div.panel-heading Aulas
-								button.btn.btn-default.btn-xs.pull-right
+								button.btn.btn-default.btn-xs.pull-right(ng-show='showSearchClassroom')
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div(style="position:relative" ng-repeat="classRoom in semester.classRooms | orderBy:'number' track by $index")
@@ -26,13 +28,13 @@ block content
 						// Menu Profesores
 						div.panel.panel-default.size-menu
 							div.panel-heading Profesores
-								button.btn.btn-default.btn-xs.pull-right
+								button.btn.btn-default.btn-xs.pull-right(ng-show='showSearchTeacher')
 									span.glyphicon.glyphicon-search
 							.size-menu-height
 								div.scroll-menu(style="position:relative" ng-repeat="teacher in semester.teachers | orderBy:'name' track by $index")
-									div(ng-init="teacher.hasCurrentSemesterTeachers=hasCurrentSemesterTeachers(teacher)",data-target='#modal-teacher',data-toggle='modal',class="list-group-item size-menu item-grid",class="dragg-teacher ",dragg-teacher,ng-model="teacher"){{teacher.name}}
-										span(ng-if="!teacher.hasCurrentSemesterTeachers",ng-model="teacher.hasCurrentSemesterTeachers")
-											span(class="pull-right glyphicon glyphicon-warning-sign notify-danger",title="Este profesor no fue asignado a ningun curso") 
+									div.dragg-teacher.list-group-item.size-menu.item-grid(ng-init="teacher.hasCurrentSemesterTeachers=hasCurrentSemesterTeachers(teacher)" data-target='#modal-teacher' dragg-teacher data-toggle='modal' ng-model="teacher"){{teacher.name}}
+										span(ng-if="!teacher.hasCurrentSemesterTeachers" ng-model="teacher.hasCurrentSemesterTeachers")
+											span.pull-right.glyphicon.glyphicon-warning-sign.notify-danger(title="Este profesor no fué asignado a ningun curso") 
 
 						// Menu Filtros
 						div.panel.panel-default.size-menu(ng-show="showFilters")
@@ -40,17 +42,18 @@ block content
 							div
 								select(ng-model='filterColor' ng-options='color.name for color in colors' ng-change='changeFilterColor(filterColor)')
 									option(value='') Filtrar por color
-									
+	
 
+			// Grilla
 			.col-md-10.col-md-10
-					div
-						.calendar(ng-model='eventSources', calendar='myCalendar', config='uiConfig.calendar', ui-calendar='uiConfig.calendar', id='grid')
+				div.calendar(ng-model='eventSources' calendar='myCalendar' config='uiConfig.calendar' ui-calendar='uiConfig.calendar' id='grid')
+
 		//Modal de cursos 
-		#myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+		#myModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 			.modal-dialog
 				.modal-content
 					.modal-header.header-color-blue
-						button.close(type='button', data-dismiss='modal')
+						button.close(type='button' data-dismiss='modal')
 							span(aria-hidden='true') ×
 							span.sr-only Close
 						h4#myModalLabel.modal-title {{scheduleShow ? scheduleShow.schedule.courses[0].subject.name : ''}} - {{scheduleShow ?  scheduleShow.schedule.type : ''}}  {{ scheduleShow ? scheduleShow.schedule.getCommissions() : ''}}
@@ -58,40 +61,40 @@ block content
 						.row.panel.panel-default
 							.panel-heading Comisiones del horario
 							div.list-group-item(ng-repeat="course in scheduleShow.schedule.courses track by $index")
-								div c{{course.commission}}
-									a.btn.btn-xs.btn-info.pull-right.button-option(href="../../../course/edit/{{course.id}}",title="Editar comisión")
+								div C{{course.commission}}
+									a.btn.btn-xs.btn-info.pull-right.button-option(href="../../../course/edit/{{course.id}}" title="Editar comisión")
 										span.glyphicon.glyphicon-edit
-									button.btn.btn-xs.btn-danger.pull-right.button-option(title="Quitar comisión",ng-click="separateSchedules($index)",ng-show='scheduleShow.schedule.courses.length > 1')
+									button.btn.btn-xs.btn-danger.pull-right.button-option(title="Quitar comisión" ng-click="separateSchedules($index)" ng-show='scheduleShow.schedule.courses.length > 1')
 										span.glyphicon.glyphicon-remove
 						.row.list-group(ng-show='hasClassroom()')
 							div.list-group-item 
 								b Aula
 								&nbsp; {{scheduleShow.schedule.semesterClassRoom.classRoom.number}}
-								button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateClassroom()")
+								button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="deallocateClassroom()")
 										span.glyphicon.glyphicon-remove
 						.row.list-group
 							div.list-group-item 
 								b Ocultar
-									input.pull-right(type="checkbox",ng-click="hideSchedule()",ng-checked="!scheduleShow.schedule.patch.visibility")
+									input.pull-right(type="checkbox" ng-click="hideSchedule()" ng-checked="!scheduleShow.schedule.patch.visibility")
 						.row.panel.panel-default
 							.panel-heading Profesores a cargo del curso
 							div.list-group-item(ng-repeat="semesterTeacher in scheduleShow.schedule.getTeachers() track by $index")
 								div{{semesterTeacher.teacher.name}} 
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseTeacher(semesterTeacher.teacher.id,semesterTeacher)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="deallocateCourseTeacher(semesterTeacher.teacher.id,semesterTeacher)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores no a cargo del curso
 							div.list-group-item(ng-repeat="semesterTeacher in scheduleShow.schedule.getInstructors() track by $index")
 								div	{{semesterTeacher.teacher.name}}
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateCourseInstructor(semesterTeacher.teacher.id,semesterTeacher)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="deallocateCourseInstructor(semesterTeacher.teacher.id,semesterTeacher)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores asignados a este horario
 							div.list-group-item(ng-repeat="semesterTeacher in scheduleShow.schedule.semesterTeachers track by $index")
 								div	{{semesterTeacher.teacher.name}}
-									button.btn.btn-xs.btn-danger.pull-right(type="button",ng-click="deallocateScheduleTeacher(semesterTeacher.teacher.id,$index)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="deallocateScheduleTeacher(semesterTeacher.teacher.id,$index)")
 										span.glyphicon.glyphicon-remove
-									button.btn.btn-xs.btn-default.pull-right.button-option(type="button",ng-click="hideTeacher(semesterTeacher.teacher)")
+									button.btn.btn-xs.btn-default.pull-right.button-option(type="button" ng-click="hideTeacher(semesterTeacher.teacher)")
 										div(ng-if="!isHideTeacher(semesterTeacher.teacher)")
 											span.glyphicon.glyphicon-eye-close
 										div(ng-if="isHideTeacher(semesterTeacher.teacher)")
@@ -106,25 +109,25 @@ block content
 										.col-lg-6
 											.form-group
 												label(for='extraHour') Horario de inicio extra
-												input#extraHour.form-control(type="number",ng-model="newPatchExtras.extraHour",ng-value="scheduleShow.schedule.patch.extraHour",step="0.5", name="extraHour")
+												input#extraHour.form-control(type="number" ng-model="newPatchExtras.extraHour" ng-value="scheduleShow.schedule.patch.extraHour" step="0.5" name="extraHour")
 										.col-lg-6
 											.form-group
 												label(for='extraDuration') Horas de duracion extra
-												input#extraDuration.form-control(type="number",ng-model="newPatchExtras.extraDuration",ng-value="scheduleShow.schedule.patch.extraDuration",step="0.5", name="extraDuration")
-											button.pull-right.padding-bottom-button(type="submit",class="btn btn-success") Guardar
+												input#extraDuration.form-control(type="number" ng-model="newPatchExtras.extraDuration" ng-value="scheduleShow.schedule.patch.extraDuration" step="0.5" name="extraDuration")
+											button.pull-right.padding-bottom-button.btn.btn-success(type="submit") Guardar
 					.modal-footer
-						button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
-						button.btn.btn-danger(type='button',ng-click="remove()",ng-show='hasSchedule()') Eliminar
+						button.btn.btn-default(type='button' data-dismiss='modal') Cerrar
+						button.btn.btn-danger(type='button' ng-click="remove()" ng-show='hasSchedule()') Eliminar
 						
 		//Modal para asignar un profesor a un curso
-		#assingTeacherCourse.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+		#assingTeacherCourse.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 			.modal-dialog(ng-init="isInCharge=2")
 				.modal-content
 					.modal-header.header-color-blue
-						button.close(type='button', data-dismiss='modal')
+						button.close(type='button' data-dismiss='modal')
 							span(aria-hidden='true') ×
 							span.sr-only Close
-						h4#myModalLabel.modal-title ¿Como deseas asignar a este profesor?
+						h4#myModalLabel.modal-title ¿Cómo deseas asignar a este profesor?
 					.modal-body 
 						row.form-control
 							.col-lg-4
@@ -141,11 +144,11 @@ block content
 						button.btn.btn-primary(type='button' ng-click="assignedTeacherToCourse(isInCharge)") Aceptar
 						
 		//Modal para mostrar resultados de validaciones 
-		#errorNotify.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+		#errorNotify.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 			.modal-dialog(ng-init="isInCharge=2")
 				.modal-content
 					.modal-header.header-color-red
-						button.close(type='button', data-dismiss='modal')
+						button.close(type='button' data-dismiss='modal')
 							span(aria-hidden='true') ×
 							span.sr-only Close
 						h4#myModalLabel.modal-title Notificación

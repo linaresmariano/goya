@@ -14,6 +14,9 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
   $scope.colors = subjectService.colors
 
   $scope.showFilters = false
+  $scope.showSearchCourse = false
+  $scope.showSearchClassroom = false
+  $scope.showSearchTeacher = false
 
   $scope.changeFilterColor = function(filterColor) {
     
