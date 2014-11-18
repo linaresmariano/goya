@@ -100,21 +100,24 @@ block content
 										div(ng-if="isHideTeacher(semesterTeacher.teacher)")
 											span.glyphicon.glyphicon-eye-open
 						.row.panel.panel-default
-							.panel-heading  Opciones avanzadas	- Solo aplican en la grilla
+							.panel-heading  Opciones avanzadas - Solo aplican en la grilla
+								a(data-toggle="collapse" href="#collapseAdvancedOptions")
 									button.btn.btn-xs.btn-default.pull-right(type="button")
 										span.glyphicon.glyphicon-plus
-							row
-								.content-row
-									form(ng-submit="updatePatch()")
-										.col-lg-6
-											.form-group
-												label(for='extraHour') Horario de inicio extra
-												input#extraHour.form-control(type="number" ng-model="newPatchExtras.extraHour" ng-value="scheduleShow.schedule.patch.extraHour" step="0.5" name="extraHour")
-										.col-lg-6
-											.form-group
-												label(for='extraDuration') Horas de duracion extra
-												input#extraDuration.form-control(type="number" ng-model="newPatchExtras.extraDuration" ng-value="scheduleShow.schedule.patch.extraDuration" step="0.5" name="extraDuration")
-											button.pull-right.padding-bottom-button.btn.btn-success(type="submit") Guardar
+							div.panel-collapse.collapse(id="collapseAdvancedOptions")
+								div.panel-body
+									row
+										.content-row
+											form(ng-submit="updatePatch()")
+												.col-lg-6
+													.form-group
+														label(for='extraHour') Horario de inicio extra
+														input#extraHour.form-control(type="number" ng-model="newPatchExtras.extraHour" ng-value="scheduleShow.schedule.patch.extraHour" step="0.5" name="extraHour")
+												.col-lg-6
+													.form-group
+														label(for='extraDuration') Horas de duracion extra
+														input#extraDuration.form-control(type="number" ng-model="newPatchExtras.extraDuration" ng-value="scheduleShow.schedule.patch.extraDuration" step="0.5" name="extraDuration")
+													button.pull-right.padding-bottom-button.btn.btn-success(type="submit") Guardar
 					.modal-footer
 						button.btn.btn-default(type='button' data-dismiss='modal') Cerrar
 						button.btn.btn-danger(type='button' ng-click="remove()" ng-show='hasSchedule()') Eliminar
