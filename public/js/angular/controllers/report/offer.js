@@ -43,7 +43,13 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
   }
 
   $scope.getCore = function(index) {
-    return subjectService.cores[index].name
+    var core = subjectService.cores[index].name
+
+    if(core == 'Complementaria') {
+      core = 'Comple-mentaria'
+    }
+
+    return core
   }
 
   $scope.getModality = function(index) {
