@@ -224,21 +224,25 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 						$scope.addSchedule(event.schedule);
 					}});
 	}
-    //Agrega un schedule al calendario
-    $scope.addSchedule = function(schedule) {
-		time=schedule.getStartAndEndTimes();
-      	$scope.events.push({
-								id: schedule.id,
-								title:schedule.getTitle(),
-								start: new Date(y, m-1, d+schedule.day, time.startHour,time.startMinutes),
-								end: new Date(y, m-1, d+schedule.day, time.endHour,time.endMinutes),
-								allDay: false,
-								backgroundColor: schedule.courses[0].color,
-								borderColor: 'black',
-								//Datos necesarios del modelo
-								schedule:schedule
-							});
-    };
+
+  //Agrega un schedule al calendario
+  $scope.addSchedule = function(schedule) {
+    var time = schedule.getStartAndEndTimes(),
+    color = schedule.courses[0].color
+
+    $scope.events.push({
+      id: schedule.id,
+      title:schedule.getTitle(),
+      start: new Date(y, m-1, d+schedule.day, time.startHour,time.startMinutes),
+      end: new Date(y, m-1, d+schedule.day, time.endHour,time.endMinutes),
+      allDay: false,
+      backgroundColor: color,
+      textColor: subjectService.getColorById(color).font,
+      borderColor: 'black',
+      //Datos necesarios del modelo
+      schedule: schedule
+    })
+  }
 	
 	function getModel(elm,modelName){
 			return angular.element(elm).scope().$eval($(elm).attr(modelName));

@@ -23,7 +23,7 @@ app.service('subjectService', function($http) {
   ]
 
   this.colors = [
-    {name: 'Verde', id: 'green', font: 'black'},
+    {name: 'Verde', id: 'green', font: 'white'},
     {name: 'Amarillo', id: 'yellow', font: 'black'},
     {name: 'Naranja', id: 'orange', font: 'black'},
     {name: 'Marrón', id: 'brown', font: 'white'},
@@ -31,5 +31,17 @@ app.service('subjectService', function($http) {
     {name: 'Azul', id: 'blue', font: 'white'},
     {name: 'Rosa', id: 'pink', font: 'black'}
   ]
+
+  this.getColorById = function(id) {
+    var list = this.colors
+
+    for(var i = 0; i < list.length; i++) {
+      if(list[i].id == id) {
+        return list[i]
+      }
+    }
+
+    return this.colors[0]
+  }
 
 })
