@@ -24,12 +24,12 @@ app.service('subjectService', function($http) {
 
   this.colors = [
     {name: 'Verde', id: 'green', font: 'white'},
-    {name: 'Amarillo', id: 'yellow', font: 'black'},
-    {name: 'Naranja', id: 'orange', font: 'black'},
+    {name: 'Amarillo', id: 'yellow', font: 'DimGray'},
+    {name: 'Naranja', id: 'orange', font: 'DimGray'},
     {name: 'Marrón', id: 'brown', font: 'white'},
     {name: 'Rojo', id: 'red', font: 'white'},
     {name: 'Azul', id: 'blue', font: 'white'},
-    {name: 'Rosa', id: 'pink', font: 'black'}
+    {name: 'Rosa', id: 'pink', font: 'DimGray'}
   ]
 
   this.getColorById = function(id) {
