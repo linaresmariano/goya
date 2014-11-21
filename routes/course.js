@@ -209,18 +209,9 @@ exports.assignedTeacher = function(req, res) {
  	var year = req.body.year;
     var semester = req.body.semester;
 	
-	var teacherAssignedToACourses=function(courses){
-		
-		if(courses.length != 0){
-			db.Semester.teacherAssignedToACourse(idTeacher,courses[0].id,semester,year,function(result) {
-				courses.splice(0,1);
-				teacherAssignedToACourses(courses);
-			});
-		}else{
-			res.send('ok');
-		}
-	}
-	teacherAssignedToACourses(idsCourse);
+	db.Semester.teacherAssignedToACourses(idsCourse,idTeacher,year,semester,function(){
+		res.send('ok');
+	});
   	//Asigna un teacher a un curso
 }
 
@@ -231,20 +222,10 @@ exports.assignedInstructor = function(req, res) {
     var idsCourse = req.body.idCourse;
 	var year = req.body.year;
     var semester = req.body.semester;
-	 //Asigna un instructor a un curso
-	//Por recursoion
-	var instructorAssignedToACourses=function(courses){
-		
-		if(courses.length != 0){
-			db.Semester.instructorAssignedToACourse(idTeacher,courses[0].id,semester,year,function(result) {
-				courses.splice(0,1);
-				instructorAssignedToACourses(courses);
-			});
-		}else{
-			res.send('ok');
-		}
-	}
-	instructorAssignedToACourses(idsCourse);
+	
+	db.Semester.instructorAssignedToACourses(idsCourse,idTeacher,year,semester,function(){
+		res.send('ok');
+	});
 }
 
 

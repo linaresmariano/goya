@@ -53,6 +53,29 @@ module.exports = function(sequelize, DataTypes) {
 				});
 			});
 		},
+		
+		teacherAssignedToACourses:function(idsCourse,idTeacher,year,semester,success){
+			if(idsCourse.length != 0){
+				this.teacherAssignedToACourse(idTeacher,idsCourse[0].id,semester,year,function(result) {
+					idsCourse.splice(0,1);
+					Semester.teacherAssignedToACourses(idsCourse,idTeacher,year,semester,success);
+				});
+			}else{
+				success();
+			}
+		},
+		
+		instructorAssignedToACourses:function(idsCourse,idTeacher,year,semester,success){
+			if(idsCourse.length != 0){
+				this.instructorAssignedToACourse(idTeacher,idsCourse[0].id,semester,year,function(result) {
+					idsCourse.splice(0,1);
+					Semester.instructorAssignedToACourses(idsCourse,idTeacher,year,semester,success);
+				});
+			}else{
+				success();
+			}
+		},
+		
 		teacherAssignedToACourse:function(idTeacher,idCourse,semester,year,success){
 			var Course=Semester.models.Course;
 			Semester.getSemester(year,semester).success(function(semester){
