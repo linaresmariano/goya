@@ -323,45 +323,41 @@ chainer.add(subjectORGA.save());
 chainer.add(subjectTVDIG.save());
 chainer.add(subjectING1.save());
 
-
-
-module.exports=function(callBakcFuncSuccess){
+module.exports=function(callBakcFuncSucces){
 	chainer.run().complete( function(err, result) {
-
-		chainer1 = new db.Sequelize.Utils.QueryChainer
-		chainer1.add(semester.setCourses([courseEPERS]));
-		chainer1.add(semester.setCourses([courseORGA]));
-		chainer1.add(semester.setCourses([courseTVD]));
-		chainer1.add(semester.setCourses([courseORGA2]));
-
-
-		chainer1.add(courseEPERS.setSubject(subjectEPERS));
-		chainer1.add(courseORGA.setSubject(subjectORGA));
-		chainer1.add(courseORGA2.setSubject(subjectORGA));
-		chainer1.add(courseTVD.setSubject(subjectTVDIG));
-
-		chainer1.add(subjectEPERS.setCareer(tpi));
-		chainer1.add(subjectORGA.setCareer(tpi));
-		chainer1.add(subjectTVDIG.setCareer(tpi));
-		chainer1.add(subjectING1.setCareer(diplo));
-
-		chainer1.add(courseSchedule1.setPatch(patchSchedule1));
-		chainer1.add(courseSchedule2.setPatch(patchSchedule2));
-		chainer1.add(courseSchedule3.setPatch(patchSchedule3));
-		chainer1.add(courseSchedule4.setPatch(patchSchedule4));
-		chainer1.add(courseSchedule5.setPatch(patchSchedule5));
-		chainer1.add(courseSchedule6.setPatch(patchSchedule6));
-		chainer1.add(courseSchedule7.setPatch(patchSchedule7));
-
-		chainer1.add(courseEPERS.setSchedules([courseSchedule1]));
-		chainer1.add(courseORGA.setSchedules([courseSchedule2,courseSchedule3,courseSchedule4]));
-		chainer1.add(courseORGA2.setSchedules([courseSchedule7]));
-		chainer1.add(courseTVD.setSchedules([courseSchedule5,courseSchedule6]));
+        semester.addCourse(courseEPERS).success(function(){
+		semester.addCourse(courseORGA).success(function(){
+		semester.addCourse(courseTVD).success(function(){
+		semester.addCourse(courseORGA2).success(function(){
 		
-		chainer1.run().complete( function(err, result) {
-			callBakcFuncSuccess();
-		});
-					
+		courseEPERS.setSubject(subjectEPERS).success(function(){
+		courseORGA.setSubject(subjectORGA).success(function(){
+		courseORGA2.setSubject(subjectORGA).success(function(){
+		courseTVD.setSubject(subjectTVDIG).success(function(){
+		
+		subjectEPERS.setCareer(tpi).success(function(){
+		subjectORGA.setCareer(tpi).success(function(){
+		subjectTVDIG.setCareer(tpi).success(function(){
+		subjectING1.setCareer(diplo).success(function(){
+
+		
+		courseSchedule1.setPatch(patchSchedule1).success(function(){
+		courseSchedule2.setPatch(patchSchedule2).success(function(){
+		courseSchedule3.setPatch(patchSchedule3).success(function(){
+		courseSchedule4.setPatch(patchSchedule4).success(function(){
+		courseSchedule5.setPatch(patchSchedule5).success(function(){
+		courseSchedule6.setPatch(patchSchedule6).success(function(){
+		courseSchedule7.setPatch(patchSchedule7).success(function(){
+		
+		courseEPERS.addSchedule(courseSchedule1).success(function(){
+		courseORGA.setSchedules([courseSchedule2,courseSchedule3,courseSchedule4]).success(function(){
+		courseORGA2.addSchedule(courseSchedule7).success(function(){
+		courseTVD.addSchedule(courseSchedule5,courseSchedule6).success(function(){
+		
+			callBakcFuncSucces();
+		
+		});});});});});});});});});});});});});});});});});});});});});});});
+	
 	});
 }
 
