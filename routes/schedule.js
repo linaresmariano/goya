@@ -9,17 +9,7 @@ exports.assignedTeacher = function(req, res) {
     var semester = req.body.semester;
 	//Asigna un teacher a un horario de un curso para un semestre
 	db.Semester.teacherAssignedToASchedule(idTeacher,idCourseSchedule,semester,year,function(result) {
-			//La idea de este chequeo es mostrar mensajes de error o otro tipo de mensajes
-			if(result == undefined){
-				res.json({success:true}); // para probar {succes:false,type:'Error Fatal',message:'Un Ejemplo de error'}
-			}else{
-				if(result.success){
-					res.json({success:true,message:result.message});
-				}else{
-					res.json({success:false,type:result.type,message:result.message});
-				}
-			}
-			
+			res.send('ok');
 	});
 }
 
@@ -153,7 +143,6 @@ exports.update= function(req, res) {
 		schedule.minutes=parseInt(req.body.minutes);
 		
 		db.ClassRoom.checkClassroomUsed(idclassRoom,schedule,year,semester,function(msj){
-			if(!msj){
 				    schedule.updateAttributes({
 					  day: req.body.day,
 					  hour: req.body.hour,
@@ -161,9 +150,6 @@ exports.update= function(req, res) {
 					}).success(function() {
 					  res.send('ok')
 					})
-			}else{
-				res.send(msj);
-			}
 		});
 		
 	  })
@@ -184,16 +170,12 @@ exports.updateEnd = function(req, res) {
 			schedule.durationHour=parseInt(req.body.durationHour);
 			schedule.durationMinutes=parseInt(req.body.durationMinutes);
 			db.ClassRoom.checkClassroomUsed(idclassRoom,schedule,year,semester,function(msj){
-				if(!msj){
 					schedule.updateAttributes({
 						durationHour: req.body.durationHour,
 						durationMinutes: req.body.durationMinutes,
 						}).success(function() {	
 							res.send('ok')
 						})
-				}else{
-					res.send(msj);
-				}
 			});
 	})
 }
@@ -208,12 +190,8 @@ exports.assignedClassRoom = function(req, res) {
   db.CourseSchedule.find({where: {'id':idCourseSchedule},
           include: [{model: db.PatchSchedule, as: 'Patch', require: false}]}).success(function(schedule){
 	db.ClassRoom.checkClassroomUsed(idClassRoom,schedule,year,semester,function(msj){
-		if(!msj){
 			db.CourseSchedule.assignedClassRoom(idClassRoom, idCourseSchedule, year, semester);
 			res.send('ok')
-		}else{
-			res.send(msj);
-		}
 	});
   }) 
 }

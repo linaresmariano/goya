@@ -205,7 +205,7 @@ exports.assignedTeacher = function(req, res) {
 
  	
 	var idTeacher= req.body.idTeacher;
-    var idCourse = req.body.idCourse;
+    var idsCourse = req.body.idCourse;
  	var year = req.body.year;
     var semester = req.body.semester;
 	
@@ -220,7 +220,7 @@ exports.assignedTeacher = function(req, res) {
 			res.send('ok');
 		}
 	}
-	teacherAssignedToACourses(idCourse);
+	teacherAssignedToACourses(idsCourse);
   	//Asigna un teacher a un curso
 }
 
@@ -228,7 +228,7 @@ exports.assignedInstructor = function(req, res) {
 
  	
 	var idTeacher= req.body.idTeacher;
-    var idCourse = req.body.idCourse;
+    var idsCourse = req.body.idCourse;
 	var year = req.body.year;
     var semester = req.body.semester;
 	 //Asigna un instructor a un curso
@@ -244,7 +244,7 @@ exports.assignedInstructor = function(req, res) {
 			res.send('ok');
 		}
 	}
-	instructorAssignedToACourses(idCourse);
+	instructorAssignedToACourses(idsCourse);
 }
 
 
