@@ -12,10 +12,10 @@ exports.testAssignedTeacher = function (test) {
 				
                     test.equal(semesterTeachers.length,1,"SemesterTeacher length should be " + 1);
 					
-					//semesterTeachers[0].getTeacher().success(function(teacher){
-					   // test.equal(teacher.id,idTeacher,"teacher.id  should be " + 1);
+					semesterTeachers[0].getTeacher().success(function(teacher){
+					    test.equal(teacher.id,idTeacher,"teacher.id  should be " + 1);
 						test.done();
-					//})
+					})
 					
 				});
 

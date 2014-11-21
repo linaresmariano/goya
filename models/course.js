@@ -99,9 +99,9 @@ module.exports = function(sequelize, DataTypes) {
 				//Si no existe el semesterTeacher lo crea y lo asigna
 				if(semesterTeacher == undefined){
 					Teacher.newSemesterTeacher(idTeacher,function(newSemesterTeacher) {
-											course.addSemesterTeacher(newSemesterTeacher);	
-											semester.addSemesterTeacher(newSemesterTeacher).success(
+											course.addSemesterTeacher(newSemesterTeacher).success(
 												function(result){
+													semester.addSemesterTeacher(newSemesterTeacher);
 													success(undefined);	
 												}
 											)										
