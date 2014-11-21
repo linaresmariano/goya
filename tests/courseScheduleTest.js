@@ -38,4 +38,14 @@ exports.testDeallocateTeacher = function (test) {
     });
 }
 
+exports.testDeallocate = function (test) {
+    var idSchedule=7;
+    db.CourseSchedule.deallocate(idSchedule,function(){
+        db.CourseSchedule.find(idSchedule).success(function(schedule) {
+            test.equal(schedule.hour,-1,"schedule.hour should be " + -1);
+			test.done();
+		});
+    });
+}
+
 
