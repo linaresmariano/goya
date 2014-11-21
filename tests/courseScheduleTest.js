@@ -24,4 +24,18 @@ exports.testAssignedTeacher = function (test) {
     })		
 }
 
+exports.testDeallocateTeacher = function (test) {
+    var idSchedule=1;
+	var idTeacher=1;
+    db.CourseSchedule.deallocateTeacher(idSchedule,idTeacher,function(){
+        db.CourseSchedule.find(idSchedule).success(function(schedule) {
+			schedule.getSemesterTeachers().success(function(semesterTeachers){
+                test.equal(semesterTeachers.length,0,"SemesterTeacher length should be " + 0);
+				test.done();
+
+			});
+		});
+    });
+}
+
 

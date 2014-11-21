@@ -118,21 +118,9 @@ exports.deallocateTeacher = function(req, res){
 	var idCourseSchedule = req.body.idCourseSchedule;
 	var idTeacher= req.body.idTeacher;
 							
-	db.CourseSchedule.find({
-		where:{id:idCourseSchedule},
-		include: [ {model: db.SemesterTeacher, as: 'SemesterTeachers',require:false,
-												include: [ 	{model: db.Teacher, as: 'Teacher',require:false}]}]
-	}).success(function(courseSchedule) {				
-		for(n=0;n < courseSchedule.semesterTeachers.length;n++){
-			console.log(courseSchedule.semesterTeachers[n]);	
-			if(courseSchedule.semesterTeachers[n].teacher.id == idTeacher){
-				courseSchedule.removeSemesterTeacher(courseSchedule.semesterTeachers[n]);
-				
-				break;
-			}
-		}
-		res.send('ok')
-	  })
+	db.CourseSchedule.deallocateTeacher(idCourseSchedule,idTeacher,function(){
+		res.send('ok');
+	});
 };
 
 

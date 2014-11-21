@@ -54,6 +54,28 @@ module.exports = function(sequelize, DataTypes) {
           succes();
         })
       },
+	  
+	  deallocateTeacher:function(idCourseSchedule,idTeacher,success){
+			var SemesterTeacher=this.models.SemesterTeacher;
+			var Teacher=this.models.Teacher;
+			this.find({
+				where:{id:idCourseSchedule},
+				include: [ {model: SemesterTeacher, as: 'SemesterTeachers',require:false,
+														include: [ 	{model: Teacher, as: 'Teacher',require:false}]}]
+			}).success(function(courseSchedule) {				
+				for(n=0;n < courseSchedule.semesterTeachers.length;n++){
+					console.log(courseSchedule.semesterTeachers[n]);	
+					if(courseSchedule.semesterTeachers[n].teacher.id == idTeacher){
+						courseSchedule.removeSemesterTeacher(courseSchedule.semesterTeachers[n]).success(function(){
+							success();
+						});
+						
+						break;
+					}
+				}
+
+			  })
+	  },
 
       assignedClassRoom: function(idClassRoom, idCourseSchedule, year, semester) {
         CourseSchedule.find(idCourseSchedule).success(function(schedule) {
