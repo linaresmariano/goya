@@ -129,14 +129,19 @@ module.exports = function(sequelize, DataTypes) {
         //Si no existe el semesterTeacher lo crea y lo asigna
         if(semesterTeacher == undefined){
           Teacher.newSemesterTeacher(idTeacher, function(newSemesterTeacher) {
-            schedule.addSemesterTeacher(newSemesterTeacher);
-            semester.addSemesterTeacher(newSemesterTeacher);
-            success(undefined);
-        	});
+            schedule.addSemesterTeacher(newSemesterTeacher).success(
+              function(result){
+				semester.addSemesterTeacher(newSemesterTeacher);
+				success();
+			});
+            
+          });
         } else {
           //Si el semesterTeacher existe,simplemente lo asigna
-          this.addSemesterTeacher(semesterTeacher);	
-          success(undefined);
+          this.addSemesterTeacher(semesterTeacher).success(
+              function(result){
+				success();
+			});
         }
       },
 
