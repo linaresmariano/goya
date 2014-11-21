@@ -323,38 +323,45 @@ chainer.add(subjectORGA.save());
 chainer.add(subjectTVDIG.save());
 chainer.add(subjectING1.save());
 
-module.exports=function(callBakcFuncSucces){
-	chainer.run().complete( function(err, result) {
-        semester.setCourses([courseEPERS]);
-		semester.setCourses([courseORGA]);
-		semester.setCourses([courseTVD]);
-		semester.setCourses([courseORGA2]);
-		
-		courseEPERS.setSubject(subjectEPERS);
-		courseORGA.setSubject(subjectORGA);
-		courseORGA2.setSubject(subjectORGA);
-		courseTVD.setSubject(subjectTVDIG);
-		
-		subjectEPERS.setCareer(tpi);
-		subjectORGA.setCareer(tpi);
-		subjectTVDIG.setCareer(tpi);
-		subjectING1.setCareer(diplo);
 
+
+module.exports=function(callBakcFuncSuccess){
+	chainer.run().complete( function(err, result) {
+
+		chainer1 = new db.Sequelize.Utils.QueryChainer
+		chainer1.add(semester.setCourses([courseEPERS]));
+		chainer1.add(semester.setCourses([courseORGA]));
+		chainer1.add(semester.setCourses([courseTVD]));
+		chainer1.add(semester.setCourses([courseORGA2]));
+
+
+		chainer1.add(courseEPERS.setSubject(subjectEPERS));
+		chainer1.add(courseORGA.setSubject(subjectORGA));
+		chainer1.add(courseORGA2.setSubject(subjectORGA));
+		chainer1.add(courseTVD.setSubject(subjectTVDIG));
+
+		chainer1.add(subjectEPERS.setCareer(tpi));
+		chainer1.add(subjectORGA.setCareer(tpi));
+		chainer1.add(subjectTVDIG.setCareer(tpi));
+		chainer1.add(subjectING1.setCareer(diplo));
+
+		chainer1.add(courseSchedule1.setPatch(patchSchedule1));
+		chainer1.add(courseSchedule2.setPatch(patchSchedule2));
+		chainer1.add(courseSchedule3.setPatch(patchSchedule3));
+		chainer1.add(courseSchedule4.setPatch(patchSchedule4));
+		chainer1.add(courseSchedule5.setPatch(patchSchedule5));
+		chainer1.add(courseSchedule6.setPatch(patchSchedule6));
+		chainer1.add(courseSchedule7.setPatch(patchSchedule7));
+
+		chainer1.add(courseEPERS.setSchedules([courseSchedule1]));
+		chainer1.add(courseORGA.setSchedules([courseSchedule2,courseSchedule3,courseSchedule4]));
+		chainer1.add(courseORGA2.setSchedules([courseSchedule7]));
+		chainer1.add(courseTVD.setSchedules([courseSchedule5,courseSchedule6]));
 		
-		courseSchedule1.setPatch(patchSchedule1);
-		courseSchedule2.setPatch(patchSchedule2);
-		courseSchedule3.setPatch(patchSchedule3);
-		courseSchedule4.setPatch(patchSchedule4);
-		courseSchedule5.setPatch(patchSchedule5);
-		courseSchedule6.setPatch(patchSchedule6);
-		courseSchedule7.setPatch(patchSchedule7);
-		
-		courseEPERS.setSchedules([courseSchedule1]);
-		courseORGA.setSchedules([courseSchedule2,courseSchedule3,courseSchedule4]);
-		courseORGA2.setSchedules([courseSchedule7]);
-		courseTVD.setSchedules([courseSchedule5,courseSchedule6]);
-			
-			callBakcFuncSucces();
+		chainer1.run().complete( function(err, result) {
+			callBakcFuncSuccess();
+		});
+					
 	});
 }
 
