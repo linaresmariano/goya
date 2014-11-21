@@ -50,7 +50,6 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 	//Hace una peticion ajax
 	function sendData(info){
 		var deferred = $q.defer();
-		var promise=deferred.promise;
 		$http({url:info.url,
 				method:'put',
 						data: info.data}).
@@ -66,9 +65,13 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 						}).
 						error(function(err){
 							if(info.revertFunc)
-								deferred.resolve(function(){info.revertFunc()});
+								deferred.resolve(info.revertFunc);
 							alert('Error al conectarse con el servidor');
 					})
+				var promise=deferred.promise;
+				promise.then(function(revertFunc) {
+							revertFunc();
+						});
 	}
 	//Para manejar el evento click sobre un evento de la grilla
     $scope.eventClick = function( event, allDay, jsEvent, view ){
