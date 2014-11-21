@@ -305,7 +305,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 
 		var dataTeacher = {
 			idTeacher: $scope.courseTeacher.teacher.id,
-			idCourse: schedule.courses,
+			idsCourse: schedule.courses,
 			year: $scope.semester.year,
 			semester: $scope.semester.semester
 		};

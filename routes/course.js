@@ -205,7 +205,7 @@ exports.assignedTeacher = function(req, res) {
 
  	
 	var idTeacher= req.body.idTeacher;
-    var idsCourse = req.body.idCourse;
+    var idsCourse = req.body.idsCourse;
  	var year = req.body.year;
     var semester = req.body.semester;
 	
@@ -219,7 +219,7 @@ exports.assignedInstructor = function(req, res) {
 
  	
 	var idTeacher= req.body.idTeacher;
-    var idsCourse = req.body.idCourse;
+    var idsCourse = req.body.idsCourse;
 	var year = req.body.year;
     var semester = req.body.semester;
 	
