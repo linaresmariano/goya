@@ -330,6 +330,8 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 							$scope.courseTeacher.teacher.teacher.hasCurrentSemesterTeachers=true;
 							$scope.assignedTeacherToSchedule();
 						}});
+		}else{
+			$scope.assignedTeacherToSchedule();
 		}
 		// Hide modal
 		$('#assingTeacherCourse').modal('hide');
