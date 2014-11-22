@@ -101,8 +101,9 @@ module.exports = function(sequelize, DataTypes) {
 					Teacher.newSemesterTeacher(idTeacher,function(newSemesterTeacher) {
 											course.addSemesterTeacher(newSemesterTeacher).success(
 												function(result){
-													semester.addSemesterTeacher(newSemesterTeacher);
-													success(undefined);	
+													semester.addSemesterTeacher(newSemesterTeacher).success(function(){
+														success();
+													})
 												}
 											)										
 									});
@@ -128,8 +129,9 @@ module.exports = function(sequelize, DataTypes) {
 	
             course.addSemesterInstructor(newSemesterTeacher).success(
               function(result){
-				semester.addSemesterTeacher(newSemesterTeacher);
-                success(undefined);	
+				semester.addSemesterTeacher(newSemesterTeacher).success(function(){
+					success();	
+				})
               }
             )
 
