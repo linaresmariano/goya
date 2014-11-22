@@ -319,8 +319,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 							success:function(){
 								schedule.addSemesterTeacherToCourses($scope.courseTeacher.teacher);
 								$scope.courseTeacher.teacher.teacher.hasCurrentSemesterTeachers=true;
-								$scope.removeSchedule(schedule);
-								$scope.addSchedule(schedule);
+								$scope.assignedTeacherToSchedule();
 							}});
 			}
 		} else if(isInCharge == 1) {
@@ -329,12 +328,9 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
 						success:function(data){
 							schedule.addSemesterInstructorToCourses($scope.courseTeacher.teacher);
 							$scope.courseTeacher.teacher.teacher.hasCurrentSemesterTeachers=true;
-							$scope.removeSchedule(schedule);
-							$scope.addSchedule(schedule);
+							$scope.assignedTeacherToSchedule();
 						}});
 		}
-		// Siempre asignamos como profesor del horario
-		$scope.assignedTeacherToSchedule();
 		// Hide modal
 		$('#assingTeacherCourse').modal('hide');
 	};
