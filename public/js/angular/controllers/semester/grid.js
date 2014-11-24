@@ -48,117 +48,154 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule,SemesterTeacher,Semester
   }
 
 	//Hace una peticion ajax
-	function sendData(info){
-		var deferred = $q.defer();
-		$http({url:info.url,
-				method:'put',
-						data: info.data}).
-						success(function(data){
-							if(data.error){
-								$scope.error=data.error;
-								if(info.revertFunc)
-									info.revertFunc();
-								$('#errorNotify').modal('toggle');
-							}else{
-								info.success(data);
-							}
-						}).
-						error(function(err){
-							if(info.revertFunc)
-								deferred.resolve(info.revertFunc);
-							alert('Error al conectarse con el servidor');
-					})
-				var promise=deferred.promise;
-				promise.then(function(revertFunc) {
-							revertFunc();
-						});
-	}
-	//Para manejar el evento click sobre un evento de la grilla
-    $scope.eventClick = function( event, allDay, jsEvent, view ){
-		//Para mostrar el curso
-		$scope.scheduleShow=event;
-		$scope.newPatchExtras.extraDuration=$scope.scheduleShow.schedule.getExtraDuration();
-		$scope.newPatchExtras.extraHour=$scope.scheduleShow.schedule.getExtraHour();
-		
-    };
-	//Separa un horario que pertenezca a dos cursos
-	$scope.separateSchedules=function(indexCourse){
-		sendData({	url:"/schedule/separateSchedule",
-					data: { idSchedule:$scope.scheduleShow.schedule.id, idCourse:$scope.scheduleShow.schedule.courses[indexCourse].id},
-					success:function(idNewSchedule){
-						otherCourse=$scope.scheduleShow.schedule.removeCourseAndReturn(indexCourse);
-						$scope.removeSchedule($scope.scheduleShow.schedule);
-						$scope.addSchedule($scope.scheduleShow.schedule);
-						cloneSchedule=$scope.scheduleShow.schedule.clone(otherCourse,parseInt(idNewSchedule));
-						$scope.addSchedule(cloneSchedule);
-						$scope.semester.addSchedule(cloneSchedule);
-					}});
-	}
-	
-	// Unifica horarios si es necesario,ademas retorna true si lo hace y false si no lo hace*
-	function unifySchedules(day,hour,minutes,event){
-				var schedules=$scope.semester.getSchedulesAtTheSameTime(day,hour,minutes,event.schedule);
-				if(schedules.length != 0){
-					schedules.push(event.schedule);
-					var newSchedule=$scope.semester.unifySchedules(schedules);
-					sendData({	url:"/schedule/unify",
-									data: {schedules:JSON.parse(JSON.stringify(schedules))},
-									success:function(data){
-										event.schedule.update(day,hour,minutes);
-										$scope.removeSchedule(schedules[0]);
-										$scope.addSchedule(schedules[0]);
-										for(k=1;k < schedules.length;k++){
-												$scope.removeSchedule(schedules[k]);
-												$scope.semester.removeSchedule(schedules[k]);
-										}
-								}})
-					return true;
-				}else{
-					return false;
-				}
-	}
-	//Para manejar el cambio de un horario en la grilla
-    $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-       		if(scheduleIsValid(event.start.getHours()) ||
-		                 scheduleIsValid(event.end.getHours())){		 
-				revertFunc();				
-			}else{
-				time=event.schedule.getStartTimeToChangeSchedule(minuteDelta);
-				if(unifySchedules(event.start.getDay(),hour,minutes,event)){
-					$scope.removeScheduleNotAssigned(event.schedule);
-					return;
-				}	
-				sendData({url:"/schedule/update",
-							data: {
-							id:event.id, hour:time.hour, day:event.start.getDay(),minutes:time.minutes},
-							revertFunc:revertFunc,
-							success:function(data){
-								event.schedule.update(event.start.getDay(),time.hour,time.minutes);
-							}});
+	function sendData(info) {
+		var deferred = $q.defer()
+
+		$http({
+			url:info.url,
+			method:'put',
+			data: info.data
+		})
+
+		.success(function(data) {
+			if(data.error) {
+				$scope.error = data.error
+				if(info.revertFunc) info.revertFunc()
+				$('#errorNotify').modal('toggle')
+			} else {
+				info.success(data)
 			}
-    };
-	//Para manejar el evento que agrega un horario a la grilla
-	$scope.drop= function(date, allDay) { 
-				// retrieve the dropped element's stored Event Object
-				var originalEventObject = $(this).data('eventObject');
-				// we need to copy it, so that multiple events don't have a reference to the same object
-				var copiedEventObject = getModel($(this),"dragg-model");
-				
-				time=copiedEventObject.schedule.getStartTimeToAddSchedule(date);
-				if(unifySchedules(date.getDay(),time.hour,time.minutes,copiedEventObject)){
-					$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
-					return;
+		})
+
+		.error(function(err) {
+			if(info.revertFunc) deferred.resolve(info.revertFunc)
+			alert('Error al conectarse con el servidor')
+		})
+		
+		var promise = deferred.promise
+
+		promise.then(function(revertFunc) {
+			revertFunc()
+		})
+	}
+
+	//Para manejar el evento click sobre un evento de la grilla
+	$scope.eventClick = function(event, allDay, jsEvent, view) {
+		//Para mostrar el curso
+		$scope.scheduleShow = event
+		$scope.newPatchExtras.extraDuration = $scope.scheduleShow.schedule.getExtraDuration()
+		$scope.newPatchExtras.extraHour = $scope.scheduleShow.schedule.getExtraHour()
+	}
+
+	//Separa un horario que pertenezca a dos cursos
+	$scope.separateSchedules = function(indexCourse) {
+		sendData({
+			url: "/schedule/separateSchedule",
+			data: {
+				idSchedule: $scope.scheduleShow.schedule.id,
+				idCourse: $scope.scheduleShow.schedule.courses[indexCourse].id
+			},
+			
+			success: function(idNewSchedule) {
+				otherCourse = $scope.scheduleShow.schedule.removeCourseAndReturn(indexCourse)
+				$scope.removeSchedule($scope.scheduleShow.schedule)
+				$scope.addSchedule($scope.scheduleShow.schedule)
+				cloneSchedule = $scope.scheduleShow.schedule.clone(otherCourse,parseInt(idNewSchedule))
+				$scope.addSchedule(cloneSchedule)
+				$scope.semester.addSchedule(cloneSchedule)
+			}
+		})
+	}
+
+	// Unifica horarios si es necesario,ademas retorna true si lo hace y false si no lo hace*
+	function unifySchedules(day, hour, minutes, event) {
+		var schedules = $scope.semester.getSchedulesAtTheSameTime(day,hour,minutes,event.schedule)
+
+		if(schedules.length != 0) {
+			schedules.push(event.schedule)
+			var newSchedule = $scope.semester.unifySchedules(schedules)
+
+			sendData({
+				url: "/schedule/unify",
+				data: {schedules: JSON.parse(JSON.stringify(schedules))},
+				success: function(data) {
+					event.schedule.update(day, hour, minutes)
+					$scope.removeSchedule(schedules[0])
+					$scope.addSchedule(schedules[0])
+
+					for(k=1;k < schedules.length;k++) {
+						$scope.removeSchedule(schedules[k])
+						$scope.semester.removeSchedule(schedules[k])
+					}
 				}
-				sendData({	url:"/schedule/update",
-							data: { id:copiedEventObject.schedule.id, hour:time.hour,day:date.getDay(),minutes:time.minutes},
-							success:function(data){
-								copiedEventObject.schedule.update(date.getDay(),time.hour,time.minutes);
-								$scope.addSchedule(copiedEventObject.schedule);
-								$scope.semester.addSchedule(copiedEventObject.schedule);
-								$scope.removeScheduleNotAssigned(copiedEventObject.schedule);
-							}});
-	};
-	
+			})
+
+			return true
+		} else {
+			return false
+		}
+	}
+
+	//Para manejar el cambio de un horario en la grilla
+	$scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+		if(scheduleIsValid(event.start.getHours()) || scheduleIsValid(event.end.getHours())) {
+				revertFunc()
+		} else {
+			time = event.schedule.getStartTimeToChangeSchedule(minuteDelta)
+			
+			if(unifySchedules(event.start.getDay(), hour, minutes, event)) {
+				$scope.removeScheduleNotAssigned(event.schedule)
+				return
+			}	
+			
+			sendData({
+				url:"/schedule/update",
+				data: {
+					id: event.id,
+					hour: time.hour,
+					day: event.start.getDay(),
+					minutes: time.minutes
+				},
+				revertFunc: revertFunc,
+				success: function(data) {
+					event.schedule.update(event.start.getDay(), time.hour, time.minutes)
+				}
+			})
+		}
+	}
+
+	// Para manejar el evento que agrega un horario a la grilla
+	$scope.drop = function(date, allDay) { 
+		// Retrieve the dropped element's stored Event Object
+		var originalEventObject = $(this).data('eventObject')
+
+		// we need to copy it, so that multiple events don't have a reference to the same object
+		var copiedEventObject = getModel($(this), "dragg-model")
+
+		time = copiedEventObject.schedule.getStartTimeToAddSchedule(date)
+
+		if(unifySchedules(date.getDay(), time.hour, time.minutes, copiedEventObject)) {
+			$scope.removeScheduleNotAssigned(copiedEventObject.schedule)
+			return
+		}
+
+		sendData({
+			url: "/schedule/update",
+			data: {
+				id: copiedEventObject.schedule.id,
+				hour: time.hour,
+				day: date.getDay(),
+				minutes: time.minutes
+			},
+			success: function(data) {
+				copiedEventObject.schedule.update(date.getDay(), time.hour, time.minutes)
+				$scope.addSchedule(copiedEventObject.schedule)
+				$scope.semester.addSchedule(copiedEventObject.schedule)
+				$scope.removeScheduleNotAssigned(copiedEventObject.schedule)
+			}
+		})
+	}
+
     $scope.eventResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
 		
 		time=event.schedule.getDurationTimeToResizeSchedule(minuteDelta);
