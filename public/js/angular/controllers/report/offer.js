@@ -74,8 +74,8 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
 
     if(subject.dictateCareers) {
       for (var i = 0; i < subject.dictateCareers.length; i++) {
-        if(result) result += "-";
-        result += subject.dictateCareers[i].group;
+        if(result) result += "-"
+        result += subject.dictateCareers[i].group
       }
     }
 
