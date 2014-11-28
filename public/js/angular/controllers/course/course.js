@@ -36,10 +36,10 @@ app.controller('courseCtrl', function ($scope, $q, $http, localStorageService, s
   $scope.days = [
     {name:'Lunes',id:0},
     {name:'Martes',id:1},
-    {name:'Miercoles',id:2},
+    {name:'Miércoles',id:2},
     {name:'Jueves',id:3},
     {name:'Viernes',id:4},
-    {name:'Sabado',id:5}
+    {name:'Sábado',id:5}
   ];
 
   $scope.remove = function(schedule, index) {
@@ -99,7 +99,7 @@ app.controller('courseCtrl', function ($scope, $q, $http, localStorageService, s
     return false;
   }
   
-  $scope.scheduleTypes=['Teorica/Practica','Teorica','Practica'];
+  $scope.scheduleTypes=['Teórica/Práctica','Teórica','Práctica'];
 
   $scope.colors = subjectService.colors
 

@@ -117,7 +117,7 @@ var patchSchedule7 = db.PatchSchedule.build({
 
 //Schedules								
 var courseSchedule1 = db.CourseSchedule.build({
-  type: 'Teorica/Practica',
+  type: 'Teórica/Práctica',
   day: 5,
   hour: 9,
   minutes: 0,
@@ -126,7 +126,7 @@ var courseSchedule1 = db.CourseSchedule.build({
 });
 
 var courseSchedule2 = db.CourseSchedule.build({
-  type: 'Practica',
+  type: 'Práctica',
   day: -1,
   hour: -1,
   minutes: 0,
@@ -135,7 +135,7 @@ var courseSchedule2 = db.CourseSchedule.build({
 });
 
 var courseSchedule3 = db.CourseSchedule.build({
-  type: 'Teorica',
+  type: 'Teórica',
   day: 1,
   hour: 10,
   minutes: 0,
@@ -144,7 +144,7 @@ var courseSchedule3 = db.CourseSchedule.build({
 });
 
 var courseSchedule4 = db.CourseSchedule.build({
-  type: 'Teorica/Practica',
+  type: 'Teórica/Práctica',
   day: 2,
   hour: 17,
   minutes: 0,
@@ -153,7 +153,7 @@ var courseSchedule4 = db.CourseSchedule.build({
 });
 
 var courseSchedule5 = db.CourseSchedule.build({
-  type: 'Practica',
+  type: 'Práctica',
   day: -1,
   hour: -1,
   minutes: 0,
@@ -162,7 +162,7 @@ var courseSchedule5 = db.CourseSchedule.build({
 });
 
 var courseSchedule6 = db.CourseSchedule.build({
-  type: 'Teorica',
+  type: 'Teórica',
   day: -1,
   hour: -1,
   minutes: 0,
@@ -171,7 +171,7 @@ var courseSchedule6 = db.CourseSchedule.build({
 });
 
 var courseSchedule7 = db.CourseSchedule.build({
-  type: 'Teorica',
+  type: 'Teórica',
   day: -1,
   hour: -1,
   minutes: 0,
