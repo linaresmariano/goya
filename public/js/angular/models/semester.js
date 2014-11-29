@@ -156,6 +156,11 @@ app.factory('Semester', ['$http', 'Course', 'Teacher', 'ClassRoom', function($ht
 
     getDescription: function() {
       return 'Semestre ' + this.semester + ' del año ' + this.year;
+    },
+
+    checkCurrentSemesterTeacherOf: function(teacher) {
+      teacher = this.getTeacherOfList(teacher);
+      teacher.hasCurrentSemesterTeachers = this.isAssignedInstructor(teacher) || this.isAssignedTeacher(teacher);
     }
   };
 

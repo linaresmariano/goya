@@ -540,7 +540,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule, SemesterTeacher, Semest
       },
       success: function() {
         $scope.scheduleShow.schedule.deallocateTeacherOfCourses(idTeacher)
-        $scope.semester.getTeacherOfList(semesterTeacher.teacher).hasCurrentSemesterTeachers = $scope.semester.isAssignedTeacher(semesterTeacher.teacher) || $scope.semester.isAssignedInstructor(semesterTeacher.teacher)
+        $scope.semester.checkCurrentSemesterTeacherOf(semesterTeacher.teacher);
         $scope.removeSchedule($scope.scheduleShow.schedule)
         $scope.addSchedule($scope.scheduleShow.schedule)
       }
@@ -561,7 +561,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule, SemesterTeacher, Semest
       },
       success: function() {
         $scope.scheduleShow.schedule.deallocateInstructorOfCourses(idTeacher)
-        $scope.semester.getTeacherOfList(semesterTeacher.teacher).hasCurrentSemesterTeachers = $scope.semester.isAssignedInstructor(semesterTeacher.teacher) || $scope.semester.isAssignedTeacher(semesterTeacher.teacher)
+        $scope.semester.checkCurrentSemesterTeacherOf(semesterTeacher.teacher);
       }
     })
   }
