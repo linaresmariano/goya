@@ -1,10 +1,11 @@
-app.factory('CourseSchedule', ['$http', 'SemesterTeacher', 'Patch', function($http, SemesterTeacher, Patch) {
+app.factory('CourseSchedule', ['$http', 'SemesterTeacher', 'Patch', 'SemesterClassRoom', function($http, SemesterTeacher, Patch, SemesterClassRoom) {
   function CourseSchedule(data) {
     if (data) {
       angular.extend(this, data)
     }
-    this.semesterTeachers = createSemesterTeacherModels(this.semesterTeachers);
+    this.semesterTeachers = createSemesterTeacherModels(!this.semesterTeachers ? [] : this.semesterTeachers);
     this.patch = new Patch(this.patch);
+	this.semesterClassRoom = this.semesterClassRoom ? new SemesterClassRoom(this.semesterClassRoom) : undefined;
   };
 
   function createSemesterTeacherModels(semesterTeachers) {
@@ -26,6 +27,7 @@ app.factory('CourseSchedule', ['$http', 'SemesterTeacher', 'Patch', function($ht
 
   CourseSchedule.prototype = {
     unifyReferencesCourses: function(courses) {
+	  if(!this.courses)return;
       for (h = 0; h < this.courses.length; h++) {
         for (x = 0; x < courses.length; x++) {
           if (this.courses[h].id == courses[x].id) {

@@ -4,8 +4,8 @@ app.factory('Course', ['$http', 'CourseSchedule', 'SemesterTeacher', function($h
       angular.extend(this, data)
     }
     this.schedules = createScheduleModels(this.schedules);
-    this.semesterTeachers = createSemesterTeacherModels(this.semesterTeachers);
-    this.semesterInstructors = createSemesterTeacherModels(this.semesterInstructors);
+    this.semesterTeachers = createSemesterTeacherModels(!this.semesterTeachers ? [] : this.semesterTeachers);
+    this.semesterInstructors = createSemesterTeacherModels(!this.semesterInstructors ? [] : this.semesterInstructors);
   };
 
   function createSemesterTeacherModels(semesterTeachers) {

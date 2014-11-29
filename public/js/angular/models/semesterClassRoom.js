@@ -7,7 +7,10 @@ app.factory('SemesterClassRoom', ['$http', 'ClassRoom', function($http, ClassRoo
   };
 
   SemesterClassRoom.prototype = {
-
+    getDescription:function(){
+      return 'Aula ' + this.classRoom.number + '\n Capacidad: ' + this.capacity
+	          + '\n Computadoras: ' + this.numberOfComputers + '\n Tiene proyector: ' + (this.hasProyector ? 'Si' : 'No');
+    }
   };
   return SemesterClassRoom;
 }]);
