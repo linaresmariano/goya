@@ -21,6 +21,13 @@ module.exports = function(sequelize, DataTypes) {
         PatchSchedule.hasOne(models.CourseSchedule, {
           as: 'CourseSchedule'
         });
+      },
+      clonePatch: function(patch) {
+        return PatchSchedule.build({
+          visibility: patch.visibility,
+          extraHour: patch.extraHour,
+          extraDuration: patch.extraDuration,
+        })
       }
     }
   })

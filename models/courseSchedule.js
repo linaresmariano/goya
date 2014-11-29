@@ -42,6 +42,68 @@ module.exports = function(sequelize, DataTypes) {
         });
       },
 
+      separateSchedule: function(idSchedule, idCourse, success) {
+        this.find({
+          where: {
+            'id': idSchedule
+          },
+          include: [{
+            model: CourseSchedule.models.PatchSchedule,
+            as: 'Patch',
+            require: false
+          }]
+        }).success(function(schedule) {
+
+          CourseSchedule.models.Course.find(idCourse).success(function(course) {
+            schedule.removeCourse(course);
+
+            var scheduleToSave = CourseSchedule.scheduleToSave(schedule);
+
+            scheduleToSave.save().success(function(savedSchedule) {
+              savedSchedule.addCourse(course);
+              CourseSchedule.models.PatchSchedule.clonePatch(schedule.patch).save().success(function(newPatch) {
+                savedSchedule.setPatch(newPatch);
+                success(savedSchedule.id + '');
+              });
+            });
+          });
+        });
+      },
+
+      scheduleToSave: function(schedule) {
+        return this.build({
+          type: schedule.type,
+          day: schedule.day,
+          hour: schedule.hour,
+          minutes: schedule.minutes,
+          durationHour: schedule.durationHour,
+          durationMinutes: schedule.durationMinutes
+        })
+      },
+
+      unify: function(schedule, firstSchedule) {
+        var scheduleParam = schedule;
+        this.find(scheduleParam.id).success(function(schedule) {
+          var scheduleFind = schedule;
+          schedule.destroy().success(function() {
+            CourseSchedule.find(firstSchedule.id).success(function(firstSchedule) {
+              for (x = 0; x < scheduleParam.courses.length; x++) {
+                addCourse = function(courseParam, firstSchedule) {
+                  CourseSchedule.models.Course.find(courseParam.id).success(function(course) {
+                    scheduleFind.removeCourse(course);
+                    course.removeSchedule(scheduleFind);
+                    firstSchedule.addCourse(course);
+                  });
+
+                }
+                addCourse(scheduleParam.courses[x], firstSchedule);
+              }
+            });
+          })
+
+        })
+      },
+
       newSchedule: function(course, day, hour, durationHour, type) {
         CourseSchedule.create({
           type: type,
@@ -116,10 +178,7 @@ module.exports = function(sequelize, DataTypes) {
         CourseSchedule.find(idCourseSchedule).success(function(schedule) {
 
           CourseSchedule.models.SemesterClassRoom.find({
-            where: 'ClassRoom.id = ' + idClassRoom + ' AND Semester.year = ' + year 
-			       + ' AND Semester.semester = ' + semester 
-				   + ' AND ClassRoom.capacity = semesterclassrooms.capacity AND  ClassRoom.numberOfComputers = semesterclassrooms.numberOfComputers ' 
-				   + ' AND ClassRoom.hasProyector = semesterclassrooms.hasProyector AND  ClassRoom.numberOfComputers = semesterclassrooms.numberOfComputers',
+            where: 'ClassRoom.id = ' + idClassRoom + ' AND Semester.year = ' + year + ' AND Semester.semester = ' + semester + ' AND ClassRoom.capacity = semesterclassrooms.capacity AND  ClassRoom.numberOfComputers = semesterclassrooms.numberOfComputers ' + ' AND ClassRoom.hasProyector = semesterclassrooms.hasProyector AND  ClassRoom.numberOfComputers = semesterclassrooms.numberOfComputers',
             include: [{
               model: CourseSchedule.models.ClassRoom,
               as: 'ClassRoom',
