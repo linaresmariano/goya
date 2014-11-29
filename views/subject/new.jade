@@ -11,7 +11,7 @@ block content
 
     form(action="{{isEditing() ? '../update/'+subject.id : '../subject/create'}}", method="post")
 
-      legend Nueva Materia
+      legend {{isEditing() ? 'Editar' : 'Nueva'}} Materia
       div.col-md-6
 
         .form-group

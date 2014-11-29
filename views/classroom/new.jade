@@ -9,7 +9,7 @@ block content
 		div!= messages()
 
 		form(action="{{isEditing() ? '../update/'+classroom.id : '../classroom/create'}}" method="post")
-			legend Nueva Aula
+			legend {{isEditing() ? 'Editar' : 'Nueva'}} Aula
 			div.col-md-4
 				.form-group
 					label(for='name') Nombre 

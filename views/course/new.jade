@@ -10,7 +10,7 @@ block content
 
 		form(action="{{isEditing() ? '../update/'+course.id : '/course/create'}}" method="post")
 
-			legend Nuevo curso para el semestre {{number}} de {{year}}
+			legend {{isEditing() ? 'Editar' : 'Nuevo'}} curso para el semestre {{number}} de {{year}}
 
 			div.col-md-6
 				.form-group

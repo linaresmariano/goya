@@ -9,7 +9,7 @@ block content
 		div!= messages()
 
 		form(action="{{isEditing() ? '../update/'+teacher.id : '../teacher/create'}}" method="post")
-			legend Nuevo Profesor
+			legend {{isEditing() ? 'Editar' : 'Nuevo'}} Profesor
 
 			div.col-md-4
 				.form-group
