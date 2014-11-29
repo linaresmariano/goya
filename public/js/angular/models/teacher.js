@@ -7,28 +7,30 @@ app.factory('Teacher', ['$http', function($http) {
   };
 
   Teacher.prototype = {
-	hasCurrentSemesterTeachers:function(year,semester){
-        semesterTeachers=[];
-        this.semesterTeachers.forEach(function(semesterTeacher) {
-            if(semesterTeacher.semester.year == year && semesterTeacher.semester.semester == semester
-                && semesterTeacher.teacherCourses.length != 0  ||  semesterTeacher.instructorCourses.length != 0){
-                semesterTeachers.push(semesterTeacher)
-            }
-        });
-        return semesterTeachers.length == 0 ? false : true;
-	},
-	
-	existTeacher:function(teachers){
-		for(n=0;n < teachers.length;n++){
-			if(teachers[n].id == this.id ){
-				return true;
-			}
-		}
-		return false;
-	},
-	newSemesterTeacher:function(){
-		return {id:this.id,teacher:this};
-	}
+    hasCurrentSemesterTeachers: function(year, semester) {
+      semesterTeachers = [];
+      this.semesterTeachers.forEach(function(semesterTeacher) {
+        if (semesterTeacher.semester.year == year && semesterTeacher.semester.semester == semester && semesterTeacher.teacherCourses.length != 0 || semesterTeacher.instructorCourses.length != 0) {
+          semesterTeachers.push(semesterTeacher)
+        }
+      });
+      return semesterTeachers.length == 0 ? false : true;
+    },
+
+    existTeacher: function(teachers) {
+      for (n = 0; n < teachers.length; n++) {
+        if (teachers[n].id == this.id) {
+          return true;
+        }
+      }
+      return false;
+    },
+    newSemesterTeacher: function() {
+      return {
+        id: this.id,
+        teacher: this
+      };
+    }
   };
   return Teacher;
 }]);

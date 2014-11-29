@@ -1,8 +1,6 @@
-
 /**
  * Module dependencies.
  */
-
 var express = require('express');
 var user = require('./routes/user');
 var classroom = require('./routes/classroom');
@@ -26,37 +24,42 @@ var RedisStore = require('connect-redis')(session);
 var app = express();
 
 app.use(express.cookieParser());
-app.use(express.session({ secret: "fido" /*, store: new RedisStore*/}));
+app.use(express.session({
+  secret: "fido" /*, store: new RedisStore*/
+}));
 
 app.use(require('connect-flash')());
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
 
-global.showFeedbackPanel = function(res,msj,type){ 
-	res.locals.feedbackpanel={msj:msj,type:type}; 
-}; 
+global.showFeedbackPanel = function(res, msj, type) {
+  res.locals.feedbackpanel = {
+    msj: msj,
+    type: type
+  };
+};
 
-global.check=function(value,message,res){
-	if(!value || value == null){
-        res.render('error', {
-          title: 'Error',
-		  message: message
-        })
-		return true;
-	}
-	return false;
+global.check = function(value, message, res) {
+  if (!value || value == null) {
+    res.render('error', {
+      title: 'Error',
+      message: message
+    })
+    return true;
+  }
+  return false;
 }
 
-global.showErrors=function(req,err){
-	errors=[];
-	for(key in err){
-		for(h=0;h<err[key].length;h++){
-			errors.push(err[key][h]);
-		}
-	}
-	req.flash(typeMessage.ERROR, errors);
+global.showErrors = function(req, err) {
+  errors = [];
+  for (key in err) {
+    for (h = 0; h < err[key].length; h++) {
+      errors.push(err[key][h]);
+    }
+  }
+  req.flash(typeMessage.ERROR, errors);
 }
 
 global.typeMessage = {
@@ -159,34 +162,28 @@ app.put('/schedule/updateEnd', schedule.updateEnd);
 app.get('/report/offer/:year/:semester', report.offer);
 
 db
- .sequelize
-  .sync({ force: isDevEnv })
+  .sequelize
+  .sync({
+    force: isDevEnv
+  })
   .complete(function(err) {
     if (err) {
       throw err[0]
     } else {
-      http.createServer(app).listen(app.get('port'), function(){
+      http.createServer(app).listen(app.get('port'), function() {
         console.log('Express server listening on port ' + app.get('port'))
       })
     }
-}).success(function() {
+  }).success(function() {
 
-  if (isDevEnv) {
-    // Para cargar datos de pruebas
-    require('./extras/initialDataDB')
-  }
+    if (isDevEnv) {
+      // Para cargar datos de pruebas
+      require('./extras/initialDataDB')
+    }
 
-})
+  })
 
 //Manejo de errores inesperados
 process.on('uncaughtException', function(err) {
-	console.log(err);
+  console.log(err);
 });
-
-
-
-
-
-
-
-

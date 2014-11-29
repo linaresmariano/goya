@@ -16,17 +16,22 @@ exports.new = function(req, res) {
 
 }
 
-exports.last = function(req, res){
-	
+exports.last = function(req, res) {
+
   db.Semester.findAll({
-		order:' year DESC ,semester DESC',
-		limit: 1
-	}).success(function(semesters) {
-		if(semesters.length > 0){
-			res.json({ semester: { year: semesters[0].year , number: semesters[0].semester } });
-		}else{
-			res.json({});
-		}
+    order: ' year DESC ,semester DESC',
+    limit: 1
+  }).success(function(semesters) {
+    if (semesters.length > 0) {
+      res.json({
+        semester: {
+          year: semesters[0].year,
+          number: semesters[0].semester
+        }
+      });
+    } else {
+      res.json({});
+    }
   })
 
 };
@@ -38,8 +43,8 @@ exports.create = function(req, res) {
   var year = req.body.year;
 
   db.Semester.getSemester(year, semester).success(function(semesters) {
-	
-    if(!semesters) {
+
+    if (!semesters) {
 
       db.Semester.create({
         year: year,
@@ -48,7 +53,7 @@ exports.create = function(req, res) {
 
         var idClon = req.body.idSemesterToClone
 
-        if(idClon) {
+        if (idClon) {
 
           db.Semester.cloneFromTo(idClon, semester).success(function(semesterCloned) {
             req.flash(typeMessage.SUCCESS, "El semestre se ha guardado correctamente")
@@ -72,7 +77,7 @@ exports.create = function(req, res) {
 
     } else {
 
-      req.flash(typeMessage.ERROR, "El semestre "+semester+" del año "+year+" ya existe")
+      req.flash(typeMessage.ERROR, "El semestre " + semester + " del año " + year + " ya existe")
       res.redirect('back');
 
     }
@@ -88,17 +93,28 @@ exports.grid = function(req, res) {
 
   // buscar los del "semester"
   db.Semester.findByYearAndSemesterIncludingAll(year, semester).success(function(semester) {
-	if(check(semester,'El semestre no existe,debe crearlo.',res))return;
-  
+    if (check(semester, 'El semestre no existe,debe crearlo.', res)) return;
+
     db.ClassRoom.findAll().success(function(classRooms) {
 
-      db.Teacher.findAll({       
-        include: [{model: db.SemesterTeacher, as: 'SemesterTeachers', require: false,
-          include: [
-            {model: db.Semester, as: 'Semester', require: false},
-            {model: db.Course, as: 'teacherCourses', require: false},
-            {model: db.Course, as: 'instructorCourses', require: false}
-          ]
+      db.Teacher.findAll({
+        include: [{
+          model: db.SemesterTeacher,
+          as: 'SemesterTeachers',
+          require: false,
+          include: [{
+            model: db.Semester,
+            as: 'Semester',
+            require: false
+          }, {
+            model: db.Course,
+            as: 'teacherCourses',
+            require: false
+          }, {
+            model: db.Course,
+            as: 'instructorCourses',
+            require: false
+          }]
         }]
 
       }).success(function(teachers) {
@@ -119,11 +135,11 @@ exports.grid = function(req, res) {
 }
 
 
-exports.list = function(req, res){
+exports.list = function(req, res) {
 
   db.Semester.findAll({
-		order:' year DESC ,semester DESC'
-	}).success(function(semesters) {
+    order: ' year DESC ,semester DESC'
+  }).success(function(semesters) {
     res.render('semester/list', {
       title: 'Semestres',
       semesters: semesters
@@ -131,4 +147,3 @@ exports.list = function(req, res){
   })
 
 };
-

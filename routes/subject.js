@@ -4,7 +4,7 @@ var db = require('../models')
 exports.new = function(req, res) {
 
   db.Career.findAll().success(function(careers) {
-    
+
     res.render('subject/new', {
       title: 'Crear Materia',
       careers: careers
@@ -33,8 +33,12 @@ exports.create = function(req, res) {
   }).success(function(subject) {
 
     // Si tiene carreras asociadas, persistirlas
-    if(dictates) {
-      db.Career.findAll({ where: { id: dictates } }).success(function(careers) {
+    if (dictates) {
+      db.Career.findAll({
+        where: {
+          id: dictates
+        }
+      }).success(function(careers) {
         subject.setDictateCareers(careers).success(function(associatedCareers) {
 
           showFeedbackPanel(res, 'Materia creada correctamente', typeMessage.SUCCESS)
@@ -52,24 +56,24 @@ exports.create = function(req, res) {
       exports.new(req, res)
 
     }
-    
+
   }).error(function(err) {
     res.redirect('back')
-    showErrors(req,err);
+    showErrors(req, err);
   })
 
 }
 
 
-exports.list = function(req, res){
-	
-	db.Subject.findAll().success(function(subjects) {
-	
-		res.render('subject/list', {
-          title: 'Materias',
-          subjects:subjects
-		})
-	})
+exports.list = function(req, res) {
+
+  db.Subject.findAll().success(function(subjects) {
+
+    res.render('subject/list', {
+      title: 'Materias',
+      subjects: subjects
+    })
+  })
 
 }
 
@@ -79,8 +83,14 @@ exports.edit = function(req, res) {
   var id = req.params.id
 
   db.Subject.find({
-    include: [ {model: db.Career, as: 'dictateCareers', require:false} ],
-    where:{ 'id': id }
+    include: [{
+      model: db.Career,
+      as: 'dictateCareers',
+      require: false
+    }],
+    where: {
+      'id': id
+    }
   }).success(function(subject) {
 
     check(subject, 'La materia no existe, debe crearla.', res)
@@ -94,7 +104,7 @@ exports.edit = function(req, res) {
 
     })
   })
-  
+
 }
 
 
@@ -118,8 +128,12 @@ exports.update = function(req, res) {
       }).success(function(subjectUpdated) {
 
         // Si tiene carreras asociadas, persistirlas
-        if(dictates) {
-          db.Career.findAll({ where: { id: dictates } }).success(function(careers) {
+        if (dictates) {
+          db.Career.findAll({
+            where: {
+              id: dictates
+            }
+          }).success(function(careers) {
             subjectUpdated.setDictateCareers(careers).success(function(associatedCareers) {
 
               res.redirect('subject/list')
@@ -129,7 +143,7 @@ exports.update = function(req, res) {
           }).error(function(err) {
 
             req.flash(typeMessage.ERROR, 'La materia no tiene carreras asiciadas');
-			exports.new(req, res)
+            exports.new(req, res)
           })
 
         } else {
@@ -139,22 +153,22 @@ exports.update = function(req, res) {
 
         }
 
-      }).error(function(err){
-		showErrors(req,err);
-		res.redirect('back');
-	  })
+      }).error(function(err) {
+        showErrors(req, err);
+        res.redirect('back');
+      })
     }
   })
-  
+
 }
 
 
-exports.remove = function(req, res){
+exports.remove = function(req, res) {
 
   var id = req.body.id
 
   db.Subject.find(id).success(function(subject) {
-    if(subject) {
+    if (subject) {
       subject.destroy().success(function(u) {
         res.send('ok');
       })
@@ -162,4 +176,3 @@ exports.remove = function(req, res){
   })
 
 }
-

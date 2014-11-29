@@ -7,18 +7,19 @@ app.factory('ClassRoom', ['$http', function($http) {
   };
 
   ClassRoom.prototype = {
-	newSemesterClassRoom:function(){
-		return {
-				id:this.id,
-				description: this.description,
-				capacity: this.capacity,
-				numberOfComputers: this.numberOfComputers,
-				hasProyector: this.hasProyector,
-				classRoom:{	name: this.name,
-							number: this.number 
-							}
-			}
-	}
+    newSemesterClassRoom: function() {
+      return {
+        id: this.id,
+        description: this.description,
+        capacity: this.capacity,
+        numberOfComputers: this.numberOfComputers,
+        hasProyector: this.hasProyector,
+        classRoom: {
+          name: this.name,
+          number: this.number
+        }
+      }
+    }
   };
   return ClassRoom;
 }]);

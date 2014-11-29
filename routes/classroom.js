@@ -28,24 +28,41 @@ exports.grid = function(req, res) {
 
   // buscar los del "semester"
   db.Semester.find({
-     where: {
-              'year': year ,
-			  'semester':semester
-            },
-	include: [ {	model: db.Course, as: 'Courses' ,require:false,
-						include: [ 	{model: db.CourseSchedule, as: 'schedules',require:false,
-										include: [ 	{model: db.PatchSchedule, as: 'Patch',require:false},
-													{model: db.SemesterClassRoom, as: 'SemesterClassRoom',require:false,
-														include: [ 	{model: db.ClassRoom, as: 'ClassRoom',require:false}]}]},
-]
-						}]
-  }).success(function(semester) {	
-		if(check(semester,'El semestre no existe,debe crearlo.',res))return;
-		res.render('classroom/grid', {
-			title: 'Aulas',
-			semester: semester 
-		})
-		
+    where: {
+      'year': year,
+      'semester': semester
+    },
+    include: [{
+      model: db.Course,
+      as: 'Courses',
+      require: false,
+      include: [{
+        model: db.CourseSchedule,
+        as: 'schedules',
+        require: false,
+        include: [{
+          model: db.PatchSchedule,
+          as: 'Patch',
+          require: false
+        }, {
+          model: db.SemesterClassRoom,
+          as: 'SemesterClassRoom',
+          require: false,
+          include: [{
+            model: db.ClassRoom,
+            as: 'ClassRoom',
+            require: false
+          }]
+        }]
+      }, ]
+    }]
+  }).success(function(semester) {
+    if (check(semester, 'El semestre no existe,debe crearlo.', res)) return;
+    res.render('classroom/grid', {
+      title: 'Aulas',
+      semester: semester
+    })
+
   })
 
 }
@@ -74,23 +91,23 @@ exports.create = function(req, res) {
     numberOfComputers: numberOfComputers
 
   }).success(function(classRoom) {
-	req.flash(typeMessage.SUCCESS, 'Aula creada correctamente');
+    req.flash(typeMessage.SUCCESS, 'Aula creada correctamente');
     res.render('classroom/new', {
       title: 'Crear Materia'
     })
 
   }).error(function(err) {
-	showErrors(req,err);
+    showErrors(req, err);
     res.render('classroom/new', {
       title: 'Crear un aula',
       classroom: req.body
     })
-    
+
   })
 }
 
 
-exports.list = function(req, res){
+exports.list = function(req, res) {
 
   var year = req.params.year
   var semester = req.params.semester
@@ -131,7 +148,7 @@ exports.update = function(req, res) {
         numberOfComputers: numberOfComputers
       }).success(function(classroomUpdated) {
 
-        res.redirect('classroom/list/'+year+'/'+semester)
+        res.redirect('classroom/list/' + year + '/' + semester)
         req.flash(typeMessage.SUCCESS, "El aula se ha guardado correctamente")
 
       }).error(function(err) {
@@ -142,19 +159,19 @@ exports.update = function(req, res) {
 
     }
   }).error(function(err) {
-	showErrors(req,err);
-    res.redirect('classroom/list/'+year+'/'+semester)
+    showErrors(req, err);
+    res.redirect('classroom/list/' + year + '/' + semester)
   })
-  
+
 }
 
 
-exports.remove = function(req, res){
+exports.remove = function(req, res) {
 
   var id = req.body.id
 
   db.ClassRoom.find(id).success(function(classroom) {
-    if(classroom) {
+    if (classroom) {
       classroom.destroy().success(function(u) {
         res.send('ok');
       })
@@ -162,4 +179,3 @@ exports.remove = function(req, res){
   })
 
 }
-
