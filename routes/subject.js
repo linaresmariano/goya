@@ -112,7 +112,6 @@ exports.update = function(req, res) {
 
   var id = req.params.id
   var dictates = req.body.dictates
-  console.log(req.body.careerId)
 
   db.Subject.find(id).success(function(subject) {
     if (subject) { // if the record exists in the db

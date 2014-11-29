@@ -42,7 +42,6 @@ exports.edit = function(req, res) {
 
 exports.create = function(req, res) {
   var idSubject = req.body.idSubject
-  console.log(req.body)
 
   var year = req.body.year
   var semester = req.body.semester
@@ -95,7 +94,6 @@ exports.create = function(req, res) {
 
 
 exports.update = function(req, res) {
-  console.log(req.body)
 
   var id = req.params.id
   var year = req.body.year

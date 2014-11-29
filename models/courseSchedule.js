@@ -100,7 +100,6 @@ module.exports = function(sequelize, DataTypes) {
           }]
         }).success(function(courseSchedule) {
           for (n = 0; n < courseSchedule.semesterTeachers.length; n++) {
-            console.log(courseSchedule.semesterTeachers[n]);
             if (courseSchedule.semesterTeachers[n].teacher.id == idTeacher) {
               courseSchedule.removeSemesterTeacher(courseSchedule.semesterTeachers[n]).success(function() {
                 success();
@@ -153,18 +152,15 @@ module.exports = function(sequelize, DataTypes) {
                       'semester': semester
                     }
                   }).success(function(semester) {
-                    console.log(year + "    " + semester);
                     semester.addSemesterClassRoom(newSemesterClassRoom);
                   });
 
                 });
 
               })
-              console.log('la clase es nula');
 
             } else {
 
-              console.log('la clase no es nula');
               schedule.setSemesterClassRoom(semesterClassRoom);
 
             }

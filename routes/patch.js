@@ -23,7 +23,7 @@ exports.update = function(req, res) {
 exports.updateVisibility = function(req, res) {
   var idPatch = req.body.idPatch;
   var visibility = req.body.visibility;
-  console.log(visibility);
+
   db.PatchSchedule.find(idPatch).success(function(patchSchedule) {
     patchSchedule.visibility = visibility;
     patchSchedule.save().success(function() {
