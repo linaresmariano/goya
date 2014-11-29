@@ -289,7 +289,8 @@ module.exports = function(sequelize, DataTypes) {
 
           if (original.semesterTeachers) {
             original.semesterTeachers.forEach(function(semesterTeacher) {
-              schedule.assignedTeacher(semesterTeacher.teacher.id, semester, function(x) {})
+			  if(!semesterTeacher.teacher.destroyTime)
+                schedule.assignedTeacher(semesterTeacher.teacher.id, semester, function(x) {})
             })
           }
 

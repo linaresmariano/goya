@@ -211,13 +211,15 @@ module.exports = function(sequelize, DataTypes) {
 
           if (original.semesterTeachers) {
             original.semesterTeachers.forEach(function(semesterTeacher) {
-              course.assignedTeacher(semesterTeacher.teacher.id, semester, function(x) {})
+			  if(!semesterTeacher.teacher.destroyTime)
+                course.assignedTeacher(semesterTeacher.teacher.id, semester, function(x) {})
             })
           }
 
           if (original.semesterInstructors) {
             original.semesterInstructors.forEach(function(semesterTeacher) {
-              course.assignedInstructor(semesterTeacher.teacher.id, semester, function(x) {})
+			  if(!semesterTeacher.teacher.destroyTime)
+                course.assignedInstructor(semesterTeacher.teacher.id, semester, function(x) {})
             })
           }
 
