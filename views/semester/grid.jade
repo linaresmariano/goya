@@ -80,13 +80,13 @@ block content
 							.panel-heading Profesores a cargo del curso
 							div.list-group-item(ng-repeat="semesterTeacher in scheduleShow.schedule.getTeachers() track by $index")
 								div{{semesterTeacher.teacher.name}} 
-									button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="deallocateCourseTeacher(semesterTeacher.teacher.id,semesterTeacher)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="deallocateTeacherOfCourse(semesterTeacher.teacher.id,semesterTeacher)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores no a cargo del curso
 							div.list-group-item(ng-repeat="semesterTeacher in scheduleShow.schedule.getInstructors() track by $index")
 								div	{{semesterTeacher.teacher.name}}
-									button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="deallocateCourseInstructor(semesterTeacher.teacher.id,semesterTeacher)")
+									button.btn.btn-xs.btn-danger.pull-right(type="button" ng-click="deallocateInstructorOfCourse(semesterTeacher.teacher.id,semesterTeacher)")
 										span.glyphicon.glyphicon-remove
 						.row.panel.panel-default
 							.panel-heading Profesores asignados a este horario

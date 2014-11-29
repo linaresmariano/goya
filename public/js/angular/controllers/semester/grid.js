@@ -165,7 +165,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule, SemesterTeacher, Semest
     })
   }
 
-  /***********************CONFIGURACINO INICIAL DE LA GRILLA****************************/
+  /***********************CONFIGURACION INICIAL DE LA GRILLA****************************/
   $scope.uiConfig = {
     calendar: {
       header: {
@@ -275,8 +275,6 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule, SemesterTeacher, Semest
     }
     //Para filtrar los schedules en la grilla
   $scope.changeFilterColor = function(filterColor) {
-
-    console.log("TOTAL: " + ($scope.events.length + $scope.notShowedEvents.length))
 
     $scope.notShowedEvents.forEach(function(notShowed) {
       $scope.addSchedule(notShowed.schedule);
@@ -528,9 +526,9 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule, SemesterTeacher, Semest
     })
   }
 
-  $scope.deallocateCourseTeacher = function(idTeacher, semesterTeacher) {
+  $scope.deallocateTeacherOfCourse = function(idTeacher, semesterTeacher) {
     if (semesterTeacher.existSemesterTeacherInSchedulesOfCourses($scope.scheduleShow.schedule.courses, $scope.events)) {
-      alert('El profesor esta asignado en algun horario de este curso,asegurese de quitarlo')
+      alert('El profesor está asignado en algún horario de este curso, asegúrese de quitarlo')
       return
     }
 
@@ -549,7 +547,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule, SemesterTeacher, Semest
     })
   }
 
-  $scope.deallocateCourseInstructor = function(idTeacher, semesterTeacher) {
+  $scope.deallocateInstructorOfCourse = function(idTeacher, semesterTeacher) {
     if (semesterTeacher.existSemesterTeacherInSchedulesOfCourses($scope.scheduleShow.schedule.courses, $scope.events)) {
       alert('El profesor está asignado en algún horario de este curso, asegúrese de quitarlo')
       return
@@ -558,7 +556,7 @@ function CalendarCtrl($scope, $http, $q, CourseSchedule, SemesterTeacher, Semest
     sendData({
       url: "/course/deallocateInstructor",
       data: {
-        idCourse: JSON.parse(JSON.stringify($scope.scheduleShow.schedule.courses)),
+        courses: $scope.scheduleShow.schedule.courses,
         idTeacher: idTeacher
       },
       success: function() {

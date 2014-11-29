@@ -173,7 +173,7 @@ exports.deallocateTeacher = function(req, res) {
 };
 
 exports.deallocateInstructor = function(req, res) {
-  var courses = req.body.idCourse;
+  var courses = req.body.courses;
   var idTeacher = req.body.idTeacher;
 
   for (m = 0; m < courses.length; m++) {
