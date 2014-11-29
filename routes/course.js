@@ -184,7 +184,6 @@ exports.deallocateInstructor = function(req, res){
 
 exports.list = function(req, res){
 
-	
 	var year = req.params.year;
 	var semester = req.params.semester;
 	
@@ -203,7 +202,6 @@ exports.list = function(req, res){
 
 exports.assignedTeacher = function(req, res) {
 
- 	
 	var idTeacher= req.body.idTeacher;
     var idsCourse = req.body.idsCourse;
  	var year = req.body.year;
@@ -217,7 +215,6 @@ exports.assignedTeacher = function(req, res) {
 
 exports.assignedInstructor = function(req, res) {
 
- 	
 	var idTeacher= req.body.idTeacher;
     var idsCourse = req.body.idsCourse;
 	var year = req.body.year;

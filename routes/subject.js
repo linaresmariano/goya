@@ -42,10 +42,8 @@ exports.create = function(req, res) {
 
         })
       }).error(function(err) {
-        // showFeedbackPanel(res,err.name[0],typeMessage.ERROR)
-        // exports.new(req, res)
         res.redirect('back')
-        req.flash(typeMessage.ERROR, err.name[0])
+        req.flash(typeMessage.ERROR, 'La materia no tiene carreras asiciadas');
       })
 
     } else {
@@ -56,8 +54,6 @@ exports.create = function(req, res) {
     }
     
   }).error(function(err) {
-    // showFeedbackPanel(res,err.name[0],typeMessage.ERROR)
-    // exports.new(req, res)
     res.redirect('back')
     showErrors(req,err);
   })
@@ -132,8 +128,8 @@ exports.update = function(req, res) {
             })
           }).error(function(err) {
 
-            req.flash(typeMessage.ERROR, err.name[0])
-
+            req.flash(typeMessage.ERROR, 'La materia no tiene carreras asiciadas');
+			exports.new(req, res)
           })
 
         } else {
