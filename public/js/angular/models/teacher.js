@@ -9,12 +9,20 @@ app.factory('Teacher', ['$http', function($http) {
   Teacher.prototype = {
     hasCurrentSemesterTeachers: function(year, semester) {
       semesterTeachers = [];
-      this.semesterTeachers.forEach(function(semesterTeacher) {
-        if (semesterTeacher.semester.year == year && semesterTeacher.semester.semester == semester && semesterTeacher.teacherCourses.length != 0 || semesterTeacher.instructorCourses.length != 0) {
-          semesterTeachers.push(semesterTeacher)
+      for (n = 0; n < this.semesterTeachers.length; n++) {
+        if (this.semesterOf(this.semesterTeachers[n], year, semester) && this.isTeacherOrInstructor(this.semesterTeachers[n])) {
+          semesterTeachers.push(this.semesterTeachers[n])
         }
-      });
+      };
       return semesterTeachers.length == 0 ? false : true;
+    },
+
+    semesterOf: function(semesterTeacher, year, semester) {
+      return semesterTeacher.semester.year == year && semesterTeacher.semester.semester == semester;
+    },
+
+    isTeacherOrInstructor: function(semesterTeacher) {
+      return semesterTeacher.teacherCourses.length != 0 || semesterTeacher.instructorCourses.length != 0;
     },
 
     existTeacher: function(teachers) {

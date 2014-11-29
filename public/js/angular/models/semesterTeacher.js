@@ -17,8 +17,8 @@ app.factory('SemesterTeacher', ['$http', 'Teacher', function($http, Teacher) {
     },
 
     existSemesterTeacherInSchedulesOfCourses: function(courses, events) {
-      for (rrr = 0; rrr < events.length; rrr++) {
-        if (events[rrr].schedule.existSemesterTeacherInSchedules(courses, this)) return true;
+      for (r = 0; r < events.length; r++) {
+        if (events[r].schedule.existSemesterTeacherInSchedules(courses, this)) return true;
       }
       return false;
     },
