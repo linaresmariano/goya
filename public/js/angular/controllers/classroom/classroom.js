@@ -1,9 +1,8 @@
-
-app.controller('classroomCtrl', function ($scope, localStorageService, subjectService) {
+app.controller('classroomCtrl', function($scope, localStorageService, subjectService) {
 
   $scope.init = function(classroom) {
 
-    if(classroom) {
+    if (classroom) {
       $scope.classroom = classroom
     } else {
       $scope.classroom = {}

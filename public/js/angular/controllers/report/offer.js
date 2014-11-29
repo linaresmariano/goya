@@ -1,4 +1,4 @@
-app.controller('offerCtrl', function ($scope, localStorageService, subjectService) {
+app.controller('offerCtrl', function($scope, localStorageService, subjectService) {
 
   $scope.init = function(semester) {
 
@@ -16,18 +16,18 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
 
   $scope.scheduleView = function(schedule) {
     //para calcular la hora final,teniendo en cuenta las media horas
-    seconds=Math.abs(schedule.durationMinutes +schedule.minutes +(schedule.hour*60)+ (schedule.durationHour * 60) )*60;
-    hourDuration=Math.abs(parseInt(seconds/3600));
-    minutesDuration=Math.abs(parseInt((seconds-(3600*hourDuration))/60));
+    seconds = Math.abs(schedule.durationMinutes + schedule.minutes + (schedule.hour * 60) + (schedule.durationHour * 60)) * 60;
+    hourDuration = Math.abs(parseInt(seconds / 3600));
+    minutesDuration = Math.abs(parseInt((seconds - (3600 * hourDuration)) / 60));
 
     return schedule.hour > 0 ?
-      weekday[schedule.day]+" "+schedule.hour+":"+addZero(schedule.minutes)+" a "+addZero(hourDuration)+":"+addZero(minutesDuration) :
+      weekday[schedule.day] + " " + schedule.hour + ":" + addZero(schedule.minutes) + " a " + addZero(hourDuration) + ":" + addZero(minutesDuration) :
       ""
   }
 
   function addZero(number) {
-    if( number == 0){
-      return number+"0";
+    if (number == 0) {
+      return number + "0";
     };
     return number;
   }
@@ -45,7 +45,7 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
   $scope.getCore = function(index) {
     var core = subjectService.cores[index].name
 
-    if(core == 'Complementaria') {
+    if (core == 'Complementaria') {
       core = 'Comple-mentaria'
     }
 
@@ -57,7 +57,7 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
   }
 
   function shouldDisplayCourse(course, index, ar) {
-    if(course.schedules.length == 0) {
+    if (course.schedules.length == 0) {
       return false
     }
 
@@ -72,9 +72,9 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
   $scope.getCareerGroup = function(subject) {
     var result = ""
 
-    if(subject.dictateCareers) {
+    if (subject.dictateCareers) {
       for (var i = 0; i < subject.dictateCareers.length; i++) {
-        if(result) result += "-"
+        if (result) result += "-"
         result += subject.dictateCareers[i].group
       }
     }
@@ -83,7 +83,7 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
   }
 
   $scope.segunOfertaDe = function(subject) {
-    return subject.career ? 'Según oferta de '+ subject.career.nick : ''
+    return subject.career ? 'Según oferta de ' + subject.career.nick : ''
   }
 
   $scope.isCurrentCareer = function(subject) {
@@ -91,7 +91,7 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
   }
 
   $scope.getEnrolled = function(course) {
-    if($scope.isCurrentCareer(course.subject)) {
+    if ($scope.isCurrentCareer(course.subject)) {
       return course.enrolled || '-'
     }
 
@@ -99,7 +99,7 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
   }
 
   $scope.getCapacity = function(course) {
-    if($scope.isCurrentCareer(course.subject)) {
+    if ($scope.isCurrentCareer(course.subject)) {
       return course.capacity || '-'
     }
 
@@ -112,13 +112,13 @@ app.controller('offerCtrl', function ($scope, localStorageService, subjectServic
     return cred ? cred : '-'
   }
 
-  $scope.exportOffer = function () {
+  $scope.exportOffer = function() {
     console.log("holaaa")
     var blob = new Blob([document.getElementById('printable').innerHTML], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
     })
 
-    var title = $scope.currentCareer+"-Cuadro-Oferta-"+$scope.number+"-"+$scope.year+".xls"
+    var title = $scope.currentCareer + "-Cuadro-Oferta-" + $scope.number + "-" + $scope.year + ".xls"
 
     saveAs(blob, title)
   }
