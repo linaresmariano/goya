@@ -47,3 +47,22 @@ exports.testDeallocate = function(test) {
     });
   });
 }
+
+exports.testScheduleToSave = function(test) {
+  var schedule = {
+    type: 'Teorica',
+    day: 1,
+    hour: 14,
+    minutes: 0,
+    durationHour: 3,
+    durationMinutes: 0
+  };
+  scheduleToSave = db.CourseSchedule.scheduleToSave(schedule);
+  test.equal(scheduleToSave.type, schedule.type, "scheduleToSave.type  should be schedule.type");
+  test.equal(scheduleToSave.day, schedule.day, "scheduleToSave.day  should be schedule.day");
+  test.equal(scheduleToSave.hour, schedule.hour, "scheduleToSave.hour  should be schedule.hour");
+  test.equal(scheduleToSave.minutes, schedule.minutes, "scheduleToSave.minutes  should be schedule.minutes");
+  test.equal(scheduleToSave.durationHour, schedule.durationHour, "scheduleToSave.durationHour  should be schedule.durationHour");
+  test.equal(scheduleToSave.durationMinutes, schedule.durationMinutes, "scheduleToSave.durationMinutes  should be schedule.durationMinutes");
+  test.done();
+}

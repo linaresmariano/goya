@@ -16,46 +16,9 @@ exports.assignedTeacher = function(req, res) {
 exports.separateSchedule = function(req, res) {
   var idSchedule = req.body.idSchedule;
   var idCourse = req.body.idCourse;
-  db.CourseSchedule.find({
-    where: {
-      'id': idSchedule
-    },
-    include: [{
-      model: db.PatchSchedule,
-      as: 'Patch',
-      require: false
-    }]
-  }).success(function(schedule) {
-
-    db.Course.find(idCourse).success(function(course) {
-      schedule.removeCourse(course);
-
-      var scheduleToSave = db.CourseSchedule.build({
-        type: schedule.type,
-        day: schedule.day,
-        hour: schedule.hour,
-        minutes: schedule.minutes,
-        durationHour: schedule.durationHour,
-        durationMinutes: schedule.durationMinutes
-      })
-
-      scheduleToSave.save().success(function(newSchedule) {
-        newSchedule.addCourse(course);
-        clonePatch(schedule.patch).save().success(function(newPatch) {
-          newSchedule.setPatch(newPatch);
-          res.send(newSchedule.id + '')
-        });
-      });
-    });
+  db.CourseSchedule.separateSchedule(idSchedule, idCourse, function(idSchedule) {
+    res.send(idSchedule);
   });
-}
-
-function clonePatch(patch) {
-  return db.PatchSchedule.build({
-    visibility: patch.visibility,
-    extraHour: patch.extraHour,
-    extraDuration: patch.extraDuration,
-  })
 }
 
 exports.unify = function(req, res) {
@@ -63,31 +26,7 @@ exports.unify = function(req, res) {
   var firstSchedule = schedules[0];
   schedules.splice(0, 1)
   for (i = 0; i < schedules.length; i++) {
-
-    var unify = function(schedule) {
-      var scheduleParam = schedule;
-      db.CourseSchedule.find(scheduleParam.id).success(function(schedule) {
-        var scheduleFind = schedule;
-        schedule.destroy().success(function() {
-          db.CourseSchedule.find(firstSchedule.id).success(function(firstSchedule) {
-            for (x = 0; x < scheduleParam.courses.length; x++) {
-              addCourse = function(courseParam, firstSchedule) {
-                db.Course.find(courseParam.id).success(function(course) {
-                  scheduleFind.removeCourse(course);
-                  course.removeSchedule(scheduleFind);
-                  firstSchedule.addCourse(course);
-                });
-
-              }
-              addCourse(scheduleParam.courses[x], firstSchedule);
-            }
-          });
-        })
-
-      })
-    }
-
-    unify(schedules[i]);
+    db.CourseSchedule.unify(schedules[i], firstSchedule);
   }
   res.send('ok');
 };
