@@ -7,22 +7,27 @@ TIP Sistema GOYA
 Instalar base de datos MYSQL y crear usuario 'root' con password 'root'
 
       sudo apt-get install mysql-server
-      
-Crear base de datos goya 
 
+
+Entrar a mysql y crear base de datos goya 
+      
+      mysql --user=root --password=root
       create database goya;
 
 
-Luego clonar el proyecto, y ejecutar
+Instalar node y npm, necesarios para instalar y levantar el server
+
+      sudo apt-get update && sudo apt-get install npm
+
+
+Luego, clonar el proyecto y ejecutar en la carpeta raíz del proyecto
 
       npm install
-
 
 
 Para levantar el server
 
       node app.js
-
 
 
 O levantarlo con foreman
