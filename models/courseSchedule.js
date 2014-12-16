@@ -178,7 +178,7 @@ module.exports = function(sequelize, DataTypes) {
         CourseSchedule.find(idCourseSchedule).success(function(schedule) {
 
           CourseSchedule.models.SemesterClassRoom.find({
-            where: 'ClassRoom.id = ' + idClassRoom + ' AND Semester.year = ' + year + ' AND Semester.semester = ' + semester + ' AND ClassRoom.capacity = semesterclassrooms.capacity AND  ClassRoom.numberOfComputers = semesterclassrooms.numberOfComputers ' + ' AND ClassRoom.hasProyector = semesterclassrooms.hasProyector AND  ClassRoom.numberOfComputers = semesterclassrooms.numberOfComputers',
+            where: 'ClassRoom.id = ' + idClassRoom + ' AND Semester.year = ' + year + ' AND Semester.semester = ' + semester + ' AND ClassRoom.capacity = SemesterClassRooms.capacity AND  ClassRoom.numberOfComputers = SemesterClassRooms.numberOfComputers ' + ' AND ClassRoom.hasProyector = SemesterClassRooms.hasProyector AND  ClassRoom.numberOfComputers = SemesterClassRooms.numberOfComputers',
             include: [{
               model: CourseSchedule.models.ClassRoom,
               as: 'ClassRoom',
