@@ -1,7 +1,8 @@
 extends ../layout
 
 block content
-  link(rel='stylesheet', href='/stylesheets/report/offer.css')
+  link(rel='stylesheet' href='/stylesheets/report/offer.css')
+  link(rel='stylesheet' href='/stylesheets/fullcalendar/fullcalendar.print.css' media='print')
   script(src='/js/lib/jquery.printThis.js')
   script(src='/js/angular/controllers/report/offer.js')
   script(src="https://rawgithub.com/eligrey/FileSaver.js/master/FileSaver.js" type="text/javascript")
@@ -58,12 +59,12 @@ block content
               td(contenteditable="true") {{course.subject.ocode || '-'}}
               td(contenteditable="true") {{course.subject.name}}
               td(contenteditable="true") {{getCredits(course.subject)}}
-              td(contenteditable="true" ng-show="isCurrentCareer(course.subject)")
+              td(contenteditable="true" ng-show="isCurrentCareer(course.subject)" ng-class='{hideToPrint: !isCurrentCareer(course.subject)}')
                 div(ng-repeat='schedule in course.schedules')
                   {{scheduleView(schedule)}}
-              td(contenteditable="true" ng-show="isCurrentCareer(course.subject)")
+              td(contenteditable="true" ng-show="isCurrentCareer(course.subject)" ng-class='{hideToPrint: !isCurrentCareer(course.subject)}')
                 {{course.semesterTeachers[0].teacher.name || 'A designar'}}
-              td(contenteditable="true" ng-show="!isCurrentCareer(course.subject)" colspan='2')
+              td(contenteditable="true" ng-show="!isCurrentCareer(course.subject)" colspan='2' ng-class='{hideToPrint: isCurrentCareer(course.subject)}')
                 {{segunOfertaDe(course.subject)}}
               td(contenteditable="true") {{getEnrolled(course)}}
               td(contenteditable="true") {{getCapacity(course)}}
