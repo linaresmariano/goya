@@ -193,36 +193,36 @@ var teacherRONY = db.Teacher.build({
 //ClassRooms
 
 var classRoom37B = db.ClassRoom.build({
-  name: "Fidel",
-  number: "37b",
-  description: "Un aula con pcs",
+  name: "Aula 37B",
+  number: "37B",
+  description: "Buen pizarrón, oscurecimiento",
   capacity: 13,
   numberOfComputers: 30,
   hasProyector: true
 });
 
 var classRoom60 = db.ClassRoom.build({
-  name: "Mariano",
+  name: "Aula 60",
   number: "60",
-  description: "Un aula con pcs nueva",
+  description: "Buen pizarrón",
   capacity: 500,
   numberOfComputers: 30,
   hasProyector: true
 });
 
 var classRoomcyt = db.ClassRoom.build({
-  name: "cyt",
-  number: "1",
-  description: "Un aula con pcs nueva",
+  name: "Aula CyT-1",
+  number: "CyT-1",
+  description: "Columna en el medio. Pizarrón chico",
   capacity: 30,
   numberOfComputers: 30,
   hasProyector: true
 });
 
 var classRoom45 = db.ClassRoom.build({
-  name: "45",
+  name: "Aula 45",
   number: "45",
-  description: "Un aula sin pcs nueva",
+  description: "Un aula sin pcs",
   capacity: 30,
   numberOfComputers: 0,
   hasProyector: true
